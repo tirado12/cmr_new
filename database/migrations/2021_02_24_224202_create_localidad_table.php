@@ -18,7 +18,7 @@ class CreateLocalidadTable extends Migration
             $table->string('nombre');
             $table->string('tipo')->nullable();
             $table->unsignedBigInteger('municipio_id');
-            $table->foreign('municipio_id')->references('clave')->on('municipio');
+            $table->foreign('municipio_id')->references('id_municipio')->on('municipio');
             $table->timestamps();
         });
     }

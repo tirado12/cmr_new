@@ -23,7 +23,7 @@ class CreateClienteTable extends Migration
             $table->string('anio_inicio',4);
             $table->string('anio_fin',4);
             $table->unsignedBigInteger('municipio_id');
-            $table->foreign('municipio_id')->references('clave')->on('municipio');
+            $table->foreign('municipio_id')->references('id_municipio')->on('municipio');
             $table->timestamps();
         });
     }

@@ -15,12 +15,12 @@ class CreateFuenteFinanciamientoClienteTable extends Migration
     {
         Schema::create('fuente_financiamiento_cliente', function (Blueprint $table) {
             $table->id('id_fuente_financ_cliente');
-            $table->integer('monto_proyectado');
-            $table->integer('monto_comprometido');
+            $table->double('monto_proyectado');
+            $table->double('monto_comprometido');
             $table->unsignedBigInteger('cliente_id');
             $table->foreign('cliente_id')->references('id_cliente')->on('cliente');
             $table->unsignedBigInteger('fuente_financiamiento_id');
-            $table->foreign('fuente_financiamiento_id')->references('clave')->on('fuente_financiamiento');
+            $table->foreign('fuente_financiamiento_id')->references('id_fuente_financiamiento')->on('fuente_financiamiento');
             $table->timestamps();
         });
     }

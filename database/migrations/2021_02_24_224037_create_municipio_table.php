@@ -14,12 +14,12 @@ class CreateMunicipioTable extends Migration
     public function up()
     {
         Schema::create('municipio', function (Blueprint $table) {
-            $table->id('clave');
+            $table->id('id_municipio');
             $table->string('nombre', 100);
             $table->string('rfc', 13)->nullable();
             $table->string ('direccion')->nullable();            
             $table->unsignedBigInteger('distrito_id');
-            $table->foreign('distrito_id')->references('clave')->on('distrito');
+            $table->foreign('distrito_id')->references('id_distrito')->on('distrito');
             $table->timestamps();
         });
     }

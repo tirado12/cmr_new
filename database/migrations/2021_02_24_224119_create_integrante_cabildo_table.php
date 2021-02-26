@@ -20,7 +20,7 @@ class CreateIntegranteCabildoTable extends Migration
             $table->string('correo')->nullable();
             $table->string('rfc')->nullable();
             $table->unsignedBigInteger('municipio_id');
-            $table->foreign('municipio_id')->references('clave')->on('municipio');
+            $table->foreign('municipio_id')->references('id_municipio')->on('municipio');
             $table->timestamps();
         });
     }

@@ -14,7 +14,7 @@ class CreateFuenteFinanciamientoTable extends Migration
     public function up()
     {
         Schema::create('fuente_financiamiento', function (Blueprint $table) {
-            $table->id('clave');
+            $table->id('id_fuente_financiamiento');
             $table->string('nombre_largo');
             $table->string('nombre_corto');
             $table->timestamps();
