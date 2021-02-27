@@ -14,7 +14,7 @@ class CreateFacturaTable extends Migration
     public function up()
     {
         Schema::create('factura', function (Blueprint $table) {
-            $table->id();
+            $table->id('id_factura');
             $table->string('folio_fiscal', 36);
             $table->text('concepto');
             $table->date('fecha');
