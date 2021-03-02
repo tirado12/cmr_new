@@ -5,7 +5,7 @@ use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 use phpDocumentor\Reflection\Types\Nullable;
 
-class CreateObraContratoTable extends Migration
+class CreateObrasContratoTable extends Migration
 {
     /**
      * Run the migrations.
@@ -14,7 +14,7 @@ class CreateObraContratoTable extends Migration
      */
     public function up()
     {
-        Schema::create('obra_contrato', function (Blueprint $table) {
+        Schema::create('obras_contrato', function (Blueprint $table) {
             $table->id('id_obra_contrato');
             $table->string('contrato')->nullable();
             $table->integer('oficio_justificativo_convenio_modificatorio')->nullable();
@@ -37,7 +37,7 @@ class CreateObraContratoTable extends Migration
             $table->integer('notas_botacoras')->nullable();
             $table->integer('modalidad_asignacion')->nullable();
             $table->unsignedBigInteger('contratista_id')->nullable();
-            $table->foreign('contratista_id')->references('id_contratista')->on('contratista');
+            $table->foreign('contratista_id')->references('id_contratista')->on('contratistas');
             $table->timestamps();
         });
     }
@@ -49,6 +49,6 @@ class CreateObraContratoTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('obra_contrato');
+        Schema::dropIfExists('obras_contrato');
     }
 }

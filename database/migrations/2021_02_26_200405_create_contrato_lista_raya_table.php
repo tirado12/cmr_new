@@ -21,7 +21,7 @@ class CreateContratoListaRayaTable extends Migration
             $table->double('isr');
             $table->double('mano_obra');
             $table->unsignedBigInteger('obra_administracion_id');
-            $table->foreign('obra_administracion_id')->references('id_obra_administracion')->on('obra_administracion');
+            $table->foreign('obra_administracion_id')->references('id_obra_administracion')->on('obras_administracion');
             $table->timestamps();
         });
     }

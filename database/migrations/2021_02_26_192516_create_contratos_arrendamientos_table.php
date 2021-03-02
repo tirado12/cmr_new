@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateContratoArrendamientoTable extends Migration
+class CreateContratosArrendamientosTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,16 +13,16 @@ class CreateContratoArrendamientoTable extends Migration
      */
     public function up()
     {
-        Schema::create('contrato_arrendamiento', function (Blueprint $table) {
+        Schema::create('contratos_arrendamientos', function (Blueprint $table) {
             $table->id('id_contrato_arrendamiento');
             $table->date('fecha_inicio');
             $table->date('fecha_fin');
             $table->date('fecha_contrato');
             $table->double('monto_contratado');
             $table->unsignedBigInteger('obra_administracion_id');
-            $table->foreign('obra_administracion_id')->references('id_obra_administracion')->on('obra_administracion');
+            $table->foreign('obra_administracion_id')->references('id_obra_administracion')->on('obras_administracion');
             $table->unsignedBigInteger('proveedor_id');
-            $table->foreign('proveedor_id')->references('id_proveedor')->on('proveedor');
+            $table->foreign('proveedor_id')->references('id_proveedor')->on('proveedores');
             $table->timestamps();
         });
     }
@@ -34,6 +34,6 @@ class CreateContratoArrendamientoTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('contrato_arrendamiento');
+        Schema::dropIfExists('contratos_arrendamientos');
     }
 }

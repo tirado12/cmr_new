@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateObraTable extends Migration
+class CreateObrasTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,7 +13,7 @@ class CreateObraTable extends Migration
      */
     public function up()
     {
-        Schema::create('obra', function (Blueprint $table) {
+        Schema::create('obras', function (Blueprint $table) {
             $table->id('id_obra');
             $table->integer('numero_obra')->nullable();
             $table->text('nombre_obra')->nullable();
@@ -39,7 +39,7 @@ class CreateObraTable extends Migration
             $table->date('acta_aprobacion_autorizacion')->nullable();
             $table->date('acta_excepcion_licitacion')->nullable();
             $table->unsignedBigInteger('fuente_financiamiento_cliente_id')->nullable();
-            $table->foreign('fuente_financiamiento_cliente_id')->references('id_fuente_financ_cliente')->on('fuente_financiamiento_cliente');
+            $table->foreign('fuente_financiamiento_cliente_id')->references('id_fuente_financ_cliente')->on('fuentes_clientes');
             $table->timestamps();
         });
     }
@@ -51,6 +51,6 @@ class CreateObraTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('obra');
+        Schema::dropIfExists('obras');
     }
 }

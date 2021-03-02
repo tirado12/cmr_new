@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateEstimacionTable extends Migration
+class CreateEstimacionesTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,7 +13,7 @@ class CreateEstimacionTable extends Migration
      */
     public function up()
     {
-        Schema::create('estimacion', function (Blueprint $table) {
+        Schema::create('estimaciones', function (Blueprint $table) {
             $table->integer('numero_estimacion')->nullable();
             $table->integer('total_estimacion')->nullable();
             $table->double('supervicion_obra')->nullable();
@@ -33,7 +33,7 @@ class CreateEstimacionTable extends Migration
             $table->integer('croquis_ilustrativo_estimacion')->nullable();
             $table->integer('reporte_fotografico_estimacion')->nullable();
             $table->unsignedBigInteger('obra_contrato_id')->nullable();
-            $table->foreign('obra_contrato_id')->references('id_obra_contrato')->on('obra_contrato');
+            $table->foreign('obra_contrato_id')->references('id_obra_contrato')->on('obras_contrato');
             $table->timestamps();
         });
     }
@@ -45,6 +45,6 @@ class CreateEstimacionTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('estimacion');
+        Schema::dropIfExists('estimaciones');
     }
 }

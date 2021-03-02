@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateFuenteFinanciamientoClienteTable extends Migration
+class CreateFuentesClientesTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,14 +13,14 @@ class CreateFuenteFinanciamientoClienteTable extends Migration
      */
     public function up()
     {
-        Schema::create('fuente_financiamiento_cliente', function (Blueprint $table) {
+        Schema::create('fuentes_clientes', function (Blueprint $table) {
             $table->id('id_fuente_financ_cliente');
             $table->double('monto_proyectado');
             $table->double('monto_comprometido');
             $table->unsignedBigInteger('cliente_id');
-            $table->foreign('cliente_id')->references('id_cliente')->on('cliente');
+            $table->foreign('cliente_id')->references('id_cliente')->on('clientes');
             $table->unsignedBigInteger('fuente_financiamiento_id');
-            $table->foreign('fuente_financiamiento_id')->references('id_fuente_financiamiento')->on('fuente_financiamiento');
+            $table->foreign('fuente_financiamiento_id')->references('id_fuente_financiamiento')->on('fuentes_financiamientos');
             $table->timestamps();
         });
     }
@@ -32,6 +32,6 @@ class CreateFuenteFinanciamientoClienteTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('fuente_financiamiento_cliente');
+        Schema::dropIfExists('fuentes_clientes');
     }
 }

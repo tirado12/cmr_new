@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateIntegranteCabildoTable extends Migration
+class CreateLocalidadesTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,14 +13,12 @@ class CreateIntegranteCabildoTable extends Migration
      */
     public function up()
     {
-        Schema::create('integrante_cabildo', function (Blueprint $table) {
+        Schema::create('localidades', function (Blueprint $table) {
+            $table->id('clave');
             $table->string('nombre');
-            $table->string('cargo');
-            $table->string('telefono')->nullable();
-            $table->string('correo')->nullable();
-            $table->string('rfc')->nullable();
+            $table->string('tipo')->nullable();
             $table->unsignedBigInteger('municipio_id');
-            $table->foreign('municipio_id')->references('id_municipio')->on('municipio');
+            $table->foreign('municipio_id')->references('id_municipio')->on('municipios');
             $table->timestamps();
         });
     }
@@ -32,6 +30,6 @@ class CreateIntegranteCabildoTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('integrante_cabildo');
+        Schema::dropIfExists('localidades');
     }
 }

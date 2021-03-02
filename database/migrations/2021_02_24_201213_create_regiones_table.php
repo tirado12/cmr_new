@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateFuenteFinanciamientoTable extends Migration
+class CreateRegionesTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,10 +13,11 @@ class CreateFuenteFinanciamientoTable extends Migration
      */
     public function up()
     {
-        Schema::create('fuente_financiamiento', function (Blueprint $table) {
-            $table->id('id_fuente_financiamiento');
-            $table->string('nombre_largo');
-            $table->string('nombre_corto');
+        Schema::create('regiones', function (Blueprint $table) {
+            $table->id('id_region');
+            $table->string('nombre', 20);
+            $table->unsignedBigInteger('estado_id');
+            $table->foreign('estado_id')->references('id_estado')->on('estados');
             $table->timestamps();
         });
     }
@@ -28,6 +29,6 @@ class CreateFuenteFinanciamientoTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('fuente_financiamiento');
+        Schema::dropIfExists('regiones');
     }
 }

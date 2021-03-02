@@ -27,7 +27,7 @@ class CreateLicitacionInvitacionTable extends Migration
             $table->integer('propuesta_licitantes_economica')->nullable();
             $table->integer('propuesta_licitantes_tecnica')->nullable();
             $table->unsignedBigInteger('obra_contrato_id')->nullable();
-            $table->foreign('obra_contrato_id')->references('id_obra_contrato')->on('obra_contrato');
+            $table->foreign('obra_contrato_id')->references('id_obra_contrato')->on('obras_contrato');
             $table->timestamps();
         });
     }
