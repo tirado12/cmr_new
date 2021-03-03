@@ -36,3 +36,7 @@
 =======
 >>>>>>> test1
 >>>>>>> b42b060f43558ae464424ad5cd916c715618a2fd
+2021-03-03 16:06:08,905 INFO Set uid to user 0 succeeded
+2021-03-03 16:06:08,961 INFO supervisord started with pid 18
+2021-03-03 16:06:09,965 INFO spawned: 'php' with pid 20
+2021-03-03 16:06:10,968 INFO success: php entered RUNNING state, process has stayed up for > than 1 seconds (startsecs)
