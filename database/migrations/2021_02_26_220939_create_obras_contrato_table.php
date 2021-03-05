@@ -36,6 +36,8 @@ class CreateObrasContratoTable extends Migration
             $table->integer('saba_finiquito')->nullable();
             $table->integer('notas_botacoras')->nullable();
             $table->integer('modalidad_asignacion')->nullable();
+            $table->text('nombre_localidad')->nullable();
+            $table->text('tipo_localidad')->nullable();
             $table->unsignedBigInteger('contratista_id')->nullable();
             $table->foreign('contratista_id')->references('id_contratista')->on('contratistas');
             $table->timestamps();
