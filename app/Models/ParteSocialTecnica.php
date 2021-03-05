@@ -10,4 +10,30 @@ class ParteSocialTecnica extends Model
     use HasFactory;
 
     protected $table = "parte_social_tecnica";
+
+    protected $fillable = [
+        'acta_integreacion_consejo',
+        'acta_seleccion_obras',
+        'acta_priorizacion_obras',
+        'convenio_mezcla',
+        'acta_integracion_comite',
+        'convenio_concertacion',
+        'acta_aprobacion_obra',
+        'acta_excep_licitacion',
+        'estudio_factibilidad',
+        'oficio_aprovacion_obra',
+        'anexos_oficio_notificacion',
+        'cedula_informacion_basica',
+        'generalidades_inversion',
+        'tenencia_tierra',
+        'dictamen_impacto_ambiental',
+        'presupuesto_obra',
+        'generadores_obra',
+        'planos_proyecto',
+        'especificaciones_generales_particulares',
+        'dro',
+        'programa_obra_inversion',
+        'croquis_macro',
+        'croquis_micro',
+    ];
 }

@@ -9,4 +9,13 @@ class IntegrantesCabildo extends Model
 {
     use HasFactory;
     protected $table = 'integrantes_cabildo';
+
+    protected $fillable = [
+        'nombre',
+        'cargo',
+        'telefono',
+        'correo',
+        'rfc',
+        'municipío_id'
+    ];
 }

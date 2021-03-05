@@ -11,4 +11,15 @@ class ContratoListaRaya extends Model
 
 
     protected $table = "contrato_lista_raya";
+
+    protected $fillable = [
+        'fecha_inicio',
+        'fecha_fin',
+        'total',
+        'numero_lista_raya',
+        'isr',
+        'mano_obra',
+        'obra_administracion_id'
+        
+    ];
 }

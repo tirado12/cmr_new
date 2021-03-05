@@ -8,4 +8,9 @@ use Illuminate\Database\Eloquent\Model;
 class FuentesFinanciamiento extends Model
 {
     use HasFactory;
+
+    protected $fillable = [
+        'nombre_largo',
+        'nombre_corto'
+    ];
 }
