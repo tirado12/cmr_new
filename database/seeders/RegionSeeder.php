@@ -4,7 +4,9 @@ namespace Database\Seeders;
 
 use App\Models\Estado;
 use App\Models\Region;
+use App\Models\User;
 use Illuminate\Database\Seeder;
+use Illuminate\Support\Facades\Crypt;
 
 class RegionSeeder extends Seeder
 {
@@ -24,5 +26,11 @@ class RegionSeeder extends Seeder
         $region6 = new Region();$region6->nombre = 'Sierra Norte';$region6->estado_id = 20;$region6->save();
         $region7 = new Region();$region7->nombre = 'Sierra Sur';$region7->estado_id = 20;$region7->save();
         $region8 = new Region();$region8->nombre = 'Valles Centrales';$region8->estado_id = 20;$region8->save();
+        $user = new User();
+        $user->name = "Jose";
+        $user->email = "josesee@gmail.com";
+        $user->password = Crypt::encrypt('121092102');
+        $user->save();
+
     }
 }

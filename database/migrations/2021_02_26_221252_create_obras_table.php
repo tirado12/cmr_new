@@ -27,7 +27,7 @@ class CreateObrasTable extends Migration
             $table->date('fecha_inicio_real')->nullable();
             $table->date('fecha_final_real')->nullable();
             $table->boolean('modalidad_ejecucion')->nullable();
-            $table->string('situcion')->nullable();
+            $table->string('situacion')->nullable();
             $table->integer('avance_fisico')->nullable();
             $table->integer('avance_tecnico')->nullable();
             $table->integer('avance_economico')->nullable();

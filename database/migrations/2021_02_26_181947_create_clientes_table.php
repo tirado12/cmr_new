@@ -19,7 +19,6 @@ class CreateClientesTable extends Migration
             $table->date('acta_priorizacion')->nullable();
             $table->boolean('prodim')->nullable();
             $table->boolean('gastos_indirectos')->nullable();
-            $table->string('anio',4);
             $table->string('anio_inicio',4);
             $table->string('anio_fin',4);
             $table->text('logo', 255);
