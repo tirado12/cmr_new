@@ -13,8 +13,8 @@ class ClienteController extends Controller
     //
 
     public function getCliente($id){
-        $cliente = Cliente::where('id_cliente', $id)->first();
-        return response()->json($cliente,200);
+        $cliente = Cliente::where('id_cliente', $id)->join('municipios', 'municipios.id_municipio', '=', 'clientes.municipio_id')->join('distritos',  'distrito_id','=', 'distritos.id_distrito')->select('id_cliente', 'rfc', 'direccion', 'distritos.nombre as nombre_distrito', 'municipios.nombre as nombre_municipio', 'anio_inicio', 'anio_fin', 'logo')->get();
+        return $cliente;
     }
 
     public function getUsuario($user, $password){
@@ -23,14 +23,14 @@ class ClienteController extends Controller
             $password_dc = Crypt::decrypt($user->password);
             $correcta = strcmp($password_dc, $password) == 0;
             if($correcta == null) {
-                return 0;
+                return null;
             }else {
-                $cliente = Cliente::where('user_id', $user->id)->join('municipios', 'municipios.id_municipio', '=', 'clientes.municipio_id')->get();
+                $cliente = Cliente::where('user_id', $user->id)->join('users', 'users.id', '=', 'clientes.user_id')->select('id_cliente', 'remember_token')->get();
                 return $cliente;
             }
             
         }else {
-            return 0;
+            return null;
         }
     }
 

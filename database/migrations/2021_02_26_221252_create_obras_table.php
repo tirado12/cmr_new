@@ -38,8 +38,6 @@ class CreateObrasTable extends Migration
             $table->date('convenio_concertacion')->nullable();
             $table->date('acta_aprobacion_autorizacion')->nullable();
             $table->date('acta_excepcion_licitacion')->nullable();
-            $table->unsignedBigInteger('fuente_financiamiento_cliente_id')->nullable();
-            $table->foreign('fuente_financiamiento_cliente_id')->references('id_fuente_financ_cliente')->on('fuentes_clientes');
             $table->timestamps();
         });
     }

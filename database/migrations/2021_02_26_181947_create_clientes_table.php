@@ -15,10 +15,6 @@ class CreateClientesTable extends Migration
     {
         Schema::create('clientes', function (Blueprint $table) {
             $table->id('id_cliente');
-            $table->date('acta_integracion_consejo')->nullable();
-            $table->date('acta_priorizacion')->nullable();
-            $table->boolean('prodim')->nullable();
-            $table->boolean('gastos_indirectos')->nullable();
             $table->string('anio_inicio',4);
             $table->string('anio_fin',4);
             $table->text('logo', 255);
