@@ -24,13 +24,15 @@ class CreateParteSocialTecnicaTable extends Migration
             $table->integer('acta_aprobacion_obra')->nullable();
             $table->integer('acta_excep_licitacion')->nullable();
             $table->integer('estudio_factibilidad')->nullable();
-            $table->integer('oficio_aprovacion_obra')->nullable();
+            $table->integer('oficio_aprobacion_obra')->nullable();
             $table->integer('anexos_oficio_notificacion')->nullable();
             $table->integer('cedula_informacion_basica')->nullable();
             $table->integer('generalidades_inversion')->nullable();
             $table->integer('tenencia_tierra')->nullable();
             $table->integer('dictamen_impacto_ambiental')->nullable();
             $table->integer('presupuesto_obra')->nullable();
+            $table->integer('catalogo_conceptos')->nullable();
+            $table->integer('explosion_insumos')->nullable();
             $table->integer('generadores_obra')->nullable();
             $table->integer('planos_proyecto')->nullable();
             $table->integer('especificaciones_generales_particulares')->nullable();

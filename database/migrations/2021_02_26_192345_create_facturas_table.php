@@ -18,6 +18,7 @@ class CreateFacturasTable extends Migration
             $table->string('folio_fiscal', 36);
             $table->text('concepto');
             $table->date('fecha');
+            $table->double('total');
             $table->unsignedBigInteger('proveedor_id');
             $table->foreign('proveedor_id')->references('id_proveedor')->on('proveedores');
             $table->unsignedBigInteger('obra_administracion_id');

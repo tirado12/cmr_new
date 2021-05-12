@@ -17,6 +17,7 @@ class CreateObrasContratoTable extends Migration
         Schema::create('obras_contrato', function (Blueprint $table) {
             $table->id('id_obra_contrato');
             $table->string('contrato')->nullable();
+            $table->integer('contrato_tipo')->nullable();
             $table->integer('oficio_justificativo_convenio_modificatorio')->nullable();
             $table->integer('analisis_p_u')->nullable();
             $table->integer('catalogo_conceptos')->nullable();

@@ -28,10 +28,14 @@ Route::get('getUsuario/{user},{password}', [ClienteController::class, 'getUsuari
 
 Route::get('getCliente/{id}', [ClienteController::class, 'getCliente']);
 
+Route::get('getUsuarioToken/{token}', [ClienteController::class, 'getUsuarioToken']);
+
 Route::get('getMunicipio/{id}', [MunicipioController::class, 'getMunicipio']);
 
 Route::get('getFuentesCliente/{municipio},{anio}', [FuenteClienteController::class, 'getFuentesCliente']);
 
 Route::get('getObrasCliente/{municipio},{anio}', [ObraController::class, 'getObrasCliente']);
+
+Route::get('getProdim/{municipio},{anio}', [ObraController::class, 'getProdim']);
 
 Route::get('getObraExpediente/{obra}',[ObraModalidadEjecucionController::class, 'getObraExpediente']);
