@@ -1,7 +1,26 @@
 <?php
 
 use App\Http\Controllers\ClienteController;
+use App\Http\Controllers\ContratistaController;
+use App\Http\Controllers\ContratoArrendamientoController;
+use App\Http\Controllers\ContratoFacturasController;
+use App\Http\Controllers\ConvenioModificatorioController;
+use App\Http\Controllers\EstimacionController;
+use App\Http\Controllers\FacturaController;
+use App\Http\Controllers\FuenteClienteController;
+use App\Http\Controllers\FuenteFinanciamientoController;
+use App\Http\Controllers\IntegranteCabildoController;
+use App\Http\Controllers\LicitacionInvitacionController;
+use App\Http\Controllers\ListaRayaController;
+use App\Http\Controllers\LocalidadController;
 use App\Http\Controllers\MunicipioController;
+use App\Http\Controllers\ObraAdministracionController;
+use App\Http\Controllers\ObraContratoController;
+use App\Http\Controllers\ObraController;
+use App\Http\Controllers\ObraModalidadEjecucionController;
+use App\Http\Controllers\ParteSocialTecnicaController;
+use App\Http\Controllers\ProveedorController;
+
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -19,7 +38,25 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-Route::get('data', [ClienteController::class, 'index']);
+Route::resource('cliente', ClienteController::class)->except(['getCliente']);
+Route::resource('contratista', ContratistaController::class);
+Route::resource('contratoArre', ContratoArrendamientoController::class);
+Route::resource('contraroFa', ContratoFacturasController::class);
+Route::resource('convenioMo', ConvenioModificatorioController::class);
+Route::resource('estimacion', EstimacionController::class);
+Route::resource('facturas', FacturaController::class);
+Route::resource('fuenteCli', FuenteClienteController::class);
+Route::resource('fuenteFinan', FuenteFinanciamientoController::class);
+Route::resource('cabildo', IntegranteCabildoController::class);
+Route::resource('invitacion', LicitacionInvitacionController::class);
+Route::resource('listaRaya', ListaRayaController::class);
+Route::resource('localidad', LocalidadController::class);
+Route::resource('municipio', MunicipioController::class)->except(['getMunicipio']);
+Route::resource('obraAdm', ObraAdministracionController::class);
+Route::resource('obraContrato', ObraContratoController::class);
+Route::resource('obra', ObraController::class);
+Route::resource('obraModalidad', ObraModalidadEjecucionController::class);
+Route::resource('parteSocial', ParteSocialTecnicaController::class);
+Route::resource('proveedor', ProveedorController::class);
 
-Route::get('municipio/show/{id_municipio}', [MunicipioController::class, 'show']);
 
