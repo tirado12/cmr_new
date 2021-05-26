@@ -19,7 +19,7 @@ public function sendMessage($mensaje, $id_user) {
         "url" => "https://yoursite.com"
     ));
     $fields = array(
-        'app_id' => "115b1113-5262-4812-85e2-8b61ece194ed",
+        'app_id' => "c1bfe080-0e68-4974-97e2-914afc5b7501",
         'include_player_ids' => array(
             $id_user
         ),
@@ -38,7 +38,7 @@ public function sendMessage($mensaje, $id_user) {
     curl_setopt($ch, CURLOPT_URL, "https://onesignal.com/api/v1/notifications");
     curl_setopt($ch, CURLOPT_HTTPHEADER, array(
         'Content-Type: application/json; charset=utf-8',
-        'Authorization: Basic MzIyZDViYjctYzExNC00MWEyLWE1MWItYzFkNWY2YTNkNjc1'
+        'Authorization: Basic OWQzZThjY2ItOWE0Zi00YWRkLWIzNTUtNDFhOGY2MjY0MDVl'
     ));
     curl_setopt($ch, CURLOPT_RETURNTRANSFER, TRUE);
     curl_setopt($ch, CURLOPT_HEADER, FALSE);

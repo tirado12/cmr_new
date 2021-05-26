@@ -27,7 +27,7 @@ class ObraController extends Controller
             "url" => "https://yoursite.com"
         ));
         $fields = array(
-            'app_id' => "5eb5a37e-b458-11e3-ac11-000c2940e62c",
+            'app_id' => "c1bfe080-0e68-4974-97e2-914afc5b7501",
             'included_segments' => array(
                 'Subscribed Users'
             ),
@@ -46,7 +46,7 @@ class ObraController extends Controller
         curl_setopt($ch, CURLOPT_URL, "https://onesignal.com/api/v1/notifications");
         curl_setopt($ch, CURLOPT_HTTPHEADER, array(
             'Content-Type: application/json; charset=utf-8',
-            'Authorization: Basic NGEwMGZmMjItY2NkNy0xMWUzLTk5ZDUtMDAwYzI5NDBlNjJj'
+            'Authorization: Basic OWQzZThjY2ItOWE0Zi00YWRkLWIzNTUtNDFhOGY2MjY0MDVl'
         ));
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, TRUE);
         curl_setopt($ch, CURLOPT_HEADER, FALSE);
@@ -62,7 +62,7 @@ class ObraController extends Controller
     
     public function getObrasCliente($cliente_id, $anio){
         $response = new CustomNotification();
-        $response1 =  $response->sendMessage('HOLA MUNDO JAJAJA', '27509efd-38a5-4b47-b399-e085fa6ae71a');
+        $response1 =  $response->sendMessage('HOLA MUNDO JAJAJA', '0b3fda2a-3f3d-4ffb-99ce-f91fa37ed078');
         $return["allresponses"] = $response1;
         $return = json_encode($return);
         
