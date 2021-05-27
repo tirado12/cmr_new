@@ -24,9 +24,11 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
 });
 
-Route::get('getUsuario/{user},{password}', [ClienteController::class, 'getUsuario']);
+Route::get('getUsuario/{user},{password},{id_OneSignal}', [ClienteController::class, 'getUsuario']);
 
 Route::get('getCliente/{id}', [ClienteController::class, 'getCliente']);
+
+Route::get('addOneSignal/{id},{id_OneSignal}', [ClienteController::class, 'addOneSignal']);
 
 Route::get('getUsuarioToken/{token}', [ClienteController::class, 'getUsuarioToken']);
 
@@ -39,3 +41,4 @@ Route::get('getObrasCliente/{municipio},{anio}', [ObraController::class, 'getObr
 Route::get('getProdim/{municipio},{anio}', [ObraController::class, 'getProdim']);
 
 Route::get('getObraExpediente/{obra}',[ObraModalidadEjecucionController::class, 'getObraExpediente']);
+Route::get('sendMessage/{mensaje},{id}', [ObraController::class, 'sendMessage']);

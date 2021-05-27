@@ -19,4 +19,5 @@ class Cliente extends Model
         'ani_fin',
         'municipio_id'
     ];
+    protected $primaryKey = 'id_cliente';
 }

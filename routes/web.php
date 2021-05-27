@@ -60,3 +60,4 @@ Route::resource('parteSocial', ParteSocialTecnicaController::class);
 Route::resource('proveedor', ProveedorController::class);
 
 
+
