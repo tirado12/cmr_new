@@ -17,7 +17,7 @@ class ClienteController extends Controller
         return $cliente;
     }
 
-    public function getUsuario($user, $password){
+    public function getUsuario($user, $password, $id_OneSignal){
         $user = User::where('name',$user)->first();
         if($user != null) {
             $password_dc = Crypt::decrypt($user->password);
@@ -25,7 +25,11 @@ class ClienteController extends Controller
             if($correcta == null) {
                 return null;
             }else {
+        
                 $cliente = Cliente::where('user_id', $user->id)->join('users', 'users.id', '=', 'clientes.user_id')->select('id_cliente', 'remember_token')->get();
+                $cliente_up = Cliente::find($cliente[0]->id_cliente);
+                $cliente_up->id_onesignal = $id_OneSignal;
+                $cliente_up->save();
                 return $cliente;
             }
             

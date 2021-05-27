@@ -9,6 +9,8 @@ use Illuminate\Support\Facades\DB;
 class ObraController extends Controller
 {
     //
+<<<<<<< HEAD
+=======
     function sendMessage() {
         $content      = array(
             "en" => 'English Message'
@@ -59,10 +61,29 @@ class ObraController extends Controller
         
         return $response;
     }
+>>>>>>> 01e41b5c6b3280f52aeb49a1a0f537b936c60580
     
     public function getObrasCliente($cliente_id, $anio){
+
+        $obras = DB::table('fuentes_clientes')
+            ->orWhere(function($query) use($cliente_id, $anio) {
+                $query->where('cliente_id', $cliente_id)
+                    ->where('ejercicio',$anio);
+            })
+            ->join('obras_fuentes', 'obras_fuentes.fuente_financiamiento_cliente_id', '=', 'fuentes_clientes.id_fuente_financ_cliente')
+            ->join('obras', 'obras.id_obra', '=', 'obras_fuentes.obra_id')
+            ->select('obras.nombre_obra','obras.monto_contratado','obras.monto_modificado','obras.avance_tecnico', 'acta_integracion_consejo', 'acta_priorizacion', 'adendum_priorizacion', 'obras.modalidad_ejecucion', 'obras.id_obra')
+            ->get();
+        return $obras;
+    }
+
+    public function sendMessage($mensaje, $id){
         $response = new CustomNotification();
+<<<<<<< HEAD
+        $response1 =  $response->sendMessage($mensaje, $id);
+=======
         $response1 =  $response->sendMessage('HOLA MUNDO JAJAJA', '0b3fda2a-3f3d-4ffb-99ce-f91fa37ed078');
+>>>>>>> 01e41b5c6b3280f52aeb49a1a0f537b936c60580
         $return["allresponses"] = $response1;
         $return = json_encode($return);
         
@@ -74,16 +95,6 @@ class ObraController extends Controller
         print("\n\nJSON received:\n");
         print($return);
         print("\n");
-        $obras = DB::table('fuentes_clientes')
-            ->orWhere(function($query) use($cliente_id, $anio) {
-                $query->where('cliente_id', $cliente_id)
-                    ->where('ejercicio',$anio);
-            })
-            ->join('obras_fuentes', 'obras_fuentes.fuente_financiamiento_cliente_id', '=', 'fuentes_clientes.id_fuente_financ_cliente')
-            ->join('obras', 'obras.id_obra', '=', 'obras_fuentes.obra_id')
-            ->select('obras.nombre_obra','obras.monto_contratado','obras.monto_modificado','obras.avance_tecnico', 'acta_integracion_consejo', 'acta_priorizacion', 'adendum_priorizacion', 'obras.modalidad_ejecucion', 'obras.id_obra')
-            ->get();
-        return $obras;
     }
     public function getProdim($cliente_id, $anio){
 

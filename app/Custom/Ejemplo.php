@@ -3,7 +3,11 @@ class Ejemplo
 {
 public function sendMessage($mensaje, $id_user) {
     $content      = array(
-        "en" => $mensaje
+        "en" => $mensaje,
+    );
+
+    $heading      = array(
+        "en" => $mensaje,
     );
     $hashes_array = array();
     array_push($hashes_array, array(
@@ -27,7 +31,8 @@ public function sendMessage($mensaje, $id_user) {
             "foo" => "bar"
         ),
         'contents' => $content,
-        'web_buttons' => $hashes_array
+        'web_buttons' => $hashes_array,
+        'headings' => $heading
     );
     
     $fields = json_encode($fields);
