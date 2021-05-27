@@ -9,6 +9,59 @@ use Illuminate\Support\Facades\DB;
 class ObraController extends Controller
 {
     //
+<<<<<<< HEAD
+=======
+    function sendMessage() {
+        $content      = array(
+            "en" => 'English Message'
+        );
+        $hashes_array = array();
+        array_push($hashes_array, array(
+            "id" => "like-button",
+            "text" => "Like",
+            "icon" => "http://i.imgur.com/N8SN8ZS.png",
+            "url" => "https://yoursite.com"
+        ));
+        array_push($hashes_array, array(
+            "id" => "like-button-2",
+            "text" => "Like2",
+            "icon" => "http://i.imgur.com/N8SN8ZS.png",
+            "url" => "https://yoursite.com"
+        ));
+        $fields = array(
+            'app_id' => "c1bfe080-0e68-4974-97e2-914afc5b7501",
+            'included_segments' => array(
+                'Subscribed Users'
+            ),
+            'data' => array(
+                "foo" => "bar"
+            ),
+            'contents' => $content,
+            'web_buttons' => $hashes_array
+        );
+        
+        $fields = json_encode($fields);
+        print("\nJSON sent:\n");
+        print($fields);
+        
+        $ch = curl_init();
+        curl_setopt($ch, CURLOPT_URL, "https://onesignal.com/api/v1/notifications");
+        curl_setopt($ch, CURLOPT_HTTPHEADER, array(
+            'Content-Type: application/json; charset=utf-8',
+            'Authorization: Basic OWQzZThjY2ItOWE0Zi00YWRkLWIzNTUtNDFhOGY2MjY0MDVl'
+        ));
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, TRUE);
+        curl_setopt($ch, CURLOPT_HEADER, FALSE);
+        curl_setopt($ch, CURLOPT_POST, TRUE);
+        curl_setopt($ch, CURLOPT_POSTFIELDS, $fields);
+        curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, FALSE);
+        
+        $response = curl_exec($ch);
+        curl_close($ch);
+        
+        return $response;
+    }
+>>>>>>> 01e41b5c6b3280f52aeb49a1a0f537b936c60580
     
     public function getObrasCliente($cliente_id, $anio){
 
@@ -26,7 +79,11 @@ class ObraController extends Controller
 
     public function sendMessage($mensaje, $id){
         $response = new CustomNotification();
+<<<<<<< HEAD
         $response1 =  $response->sendMessage($mensaje, $id);
+=======
+        $response1 =  $response->sendMessage('HOLA MUNDO JAJAJA', '0b3fda2a-3f3d-4ffb-99ce-f91fa37ed078');
+>>>>>>> 01e41b5c6b3280f52aeb49a1a0f537b936c60580
         $return["allresponses"] = $response1;
         $return = json_encode($return);
         

@@ -5,6 +5,7 @@ namespace Database\Seeders;
 use App\Models\Estado;
 use App\Models\Region;
 use App\Models\User;
+
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\Crypt;
 use Illuminate\Support\Str;
@@ -35,5 +36,6 @@ class RegionSeeder extends Seeder
         $user->remember_token = Str::random(100);
         $user->save();
 
+      
     }
 }
