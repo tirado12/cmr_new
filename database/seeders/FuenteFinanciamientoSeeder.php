@@ -1,7 +1,7 @@
 <?php
 
 namespace Database\Seeders;
-use App\Models\Cliente;
+
 use App\Models\FuentesFinanciamiento;
 use Illuminate\Database\Seeder;
 
@@ -52,13 +52,7 @@ class FuenteFinanciamientoSeeder extends Seeder
         $fuente_financiamiento7->nombre_largo = "Recursos Fiscales y Propios";
         $fuente_financiamiento7->save();
 
-        $cliente= new Cliente();
-        $cliente ->anio_inicio = 2020;
-        $cliente ->anio_fin = 2022;
-        $cliente ->logo = "modifica_el_logo";
-        $cliente ->user_id = 1;
-        $cliente ->municipio_id = 10;
-        $cliente->save();
+        
 
     }
 }
