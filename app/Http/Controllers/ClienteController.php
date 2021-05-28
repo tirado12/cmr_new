@@ -7,6 +7,7 @@ use App\Models\User;
 use CreateEstadoTable;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Crypt;
+use Illuminate\Support\Facades\Hash;
 
 class ClienteController extends Controller
 {
@@ -20,9 +21,10 @@ class ClienteController extends Controller
     public function getUsuario($user, $password, $id_OneSignal){
         $user = User::where('name',$user)->first();
         if($user != null) {
-            $password_dc = Crypt::decrypt($user->password);
-            $correcta = strcmp($password_dc, $password) == 0;
-            if($correcta == null) {
+            //$password_dc = Crypt::decrypt($user->password);
+            //$correcta = strcmp($password_dc, $password) == 0;
+        if (Hash::check($password, $user->password)) {
+            if($password == null) {
                 return null;
             }else {
         
@@ -32,7 +34,7 @@ class ClienteController extends Controller
                 $cliente_up->save();
                 return $cliente;
             }
-            
+        }
         }else {
             return null;
         }
