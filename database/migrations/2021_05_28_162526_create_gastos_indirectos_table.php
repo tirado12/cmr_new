@@ -17,8 +17,6 @@ class CreateGastosIndirectosTable extends Migration
             $table->id('id_indirectos');
             $table->integer('clave');
             $table->string('nombre');
-            $table->unsignedBigInteger('cliente_id');
-            $table->foreign('cliente_id')->references('id_cliente')->on('clientes');
             $table->timestamps();
         });
     }

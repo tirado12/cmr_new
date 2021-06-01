@@ -17,6 +17,8 @@ class CreateFuentesProdimTable extends Migration
             $table->id('id_fuente_prodim');
             $table->unsignedBigInteger('prodim_id');
             $table->foreign('prodim_id')->references('id_prodim')->on('prodim_catalogo');
+            $table->unsignedBigInteger('fuente_financiamiento_cliente_id')->nullable();
+            $table->foreign('fuente_financiamiento_cliente_id')->references('id_fuente_financ_cliente')->on('fuentes_clientes');
             $table->integer('monto')->nullable();
             $table->timestamps();
         });

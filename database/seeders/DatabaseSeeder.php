@@ -21,7 +21,7 @@ class DatabaseSeeder extends Seeder
             DistritoSeeder::class,
             MunicipioSeeder::class,
             FuenteFinanciamientoSeeder::class,
-            RoleSeeder::class,
+            //RoleSeeder::class,
             UserSeeder::class
         ]);
     }

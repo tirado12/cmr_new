@@ -17,6 +17,8 @@ class CreateFuentesGastosIndirectosTable extends Migration
             $table->id();
             $table->unsignedBigInteger('indirectos_id');
             $table->foreign('indirectos_id')->references('id_indirectos')->on('gastos_indirectos');
+            $table->unsignedBigInteger('fuente_cliente_id')->nullable();
+            $table->foreign('fuente_cliente_id')->references('id_fuente_financ_cliente')->on('fuentes_clientes');
             $table->integer('monto')->nullable();
             $table->timestamps();
         });

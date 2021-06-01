@@ -2,9 +2,11 @@
 
 use App\Http\Controllers\ClienteController;
 use App\Http\Controllers\FuenteClienteController;
+use App\Http\Controllers\GastosIndirectosFuentesController;
 use App\Http\Controllers\MunicipioController;
 use App\Http\Controllers\ObraController;
 use App\Http\Controllers\ObraModalidadEjecucionController;
+use App\Http\Controllers\ProdimFuentesController;
 use App\Http\Controllers\UserController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -39,6 +41,11 @@ Route::get('getFuentesCliente/{municipio},{anio}', [FuenteClienteController::cla
 Route::get('getObrasCliente/{municipio},{anio}', [ObraController::class, 'getObrasCliente']);
 
 Route::get('getProdim/{municipio},{anio}', [ObraController::class, 'getProdim']);
+
+Route::get('getDesgloseProdim/{municipio},{anio}', [ProdimFuentesController::class, 'getDesgloseProdim']);
+
+Route::get('getDesgloseGI/{municipio},{anio}', [GastosIndirectosFuentesController::class, 'getDesgloseGI']);
+
 
 Route::get('getObraExpediente/{obra}',[ObraModalidadEjecucionController::class, 'getObraExpediente']);
 Route::get('sendMessage/{mensaje},{id}', [ObraController::class, 'sendMessage']);
