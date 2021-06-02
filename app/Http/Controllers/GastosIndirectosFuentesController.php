@@ -20,8 +20,13 @@ class GastosIndirectosFuentesController extends Controller
             ->select('indirectos_id', 'monto')
             ->get();
         $fuente = DB::table('gastos_indirectos')
-            ->select('nombre')
+            ->select('id_indirectos','nombre')
             ->get();
-        return [$fuente,$fuente_gi];
+
+        $resources = array(
+                'catalogo' => $fuente,
+                'montos' => $fuente_gi
+                );
+                return [$resources];
     }
 }

@@ -20,8 +20,13 @@ class ProdimFuentesController extends Controller
             ->select('prodim_id', 'monto')
             ->get();
         $fuente = DB::table('prodim_catalogo')
-            ->select('nombre')
+            ->select('id_prodim','nombre')
             ->get();
-        return [$fuente,$fuente_prodim];
+            $resources = array(
+                'catalogo' => $fuente,
+                'montos' => $fuente_prodim
+                );
+    
+            return [$resources];
     }
 }
