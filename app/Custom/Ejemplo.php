@@ -1,13 +1,13 @@
 <?PHP namespace App\Custom;
 class Ejemplo
 {
-public function sendMessage($mensaje, $id_user) {
+public function sendMessage($mensaje, $id_user,$titulo) {
     $content      = array(
         "en" => $mensaje,
     );
 
     $heading      = array(
-        "en" => $mensaje,
+        "en" => $titulo,
     );
     $hashes_array = array();
     array_push($hashes_array, array(

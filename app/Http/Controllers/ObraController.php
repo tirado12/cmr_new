@@ -26,9 +26,10 @@ class ObraController extends Controller
         return $obras;
     }
 
-    public function sendMessage($mensaje, $id){
+    public function sendMessage($mensaje, $id, $titulo){
+        
         $response = new CustomNotification();
-        $response1 =  $response->sendMessage($mensaje, $id);
+        $response1 =  $response->sendMessage($mensaje, $id, $titulo);
         $return["allresponses"] = $response1;
         $return = json_encode($return);
         
