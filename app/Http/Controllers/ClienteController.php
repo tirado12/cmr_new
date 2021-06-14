@@ -27,7 +27,6 @@ class ClienteController extends Controller
             if($password == null) {
                 return null;
             }else {
-        
                 $cliente = Cliente::where('user_id', $user->id)->join('users', 'users.id', '=', 'clientes.user_id')->select('id_cliente', 'remember_token')->get();
                 $cliente_up = Cliente::find($cliente[0]->id_cliente);
                 $cliente_up->id_onesignal = $id_OneSignal;

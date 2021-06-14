@@ -58,4 +58,4 @@ Route::get('getDesgloseGI/{municipio},{anio}', [GastosIndirectosFuentesControlle
 
 
 Route::get('getObraExpediente/{obra}',[ObraModalidadEjecucionController::class, 'getObraExpediente']);
-Route::get('sendMessage/{mensaje},{id}', [ObraController::class, 'sendMessage']);
+Route::get('sendMessage/{mensaje},{id},{titulo}', [ObraController::class, 'sendMessage']);
