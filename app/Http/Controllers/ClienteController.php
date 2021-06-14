@@ -41,7 +41,7 @@ class ClienteController extends Controller
     }
     public function getUsuarioToken($token){
         $user = User::where('remember_token',$token)->first();
-        if($user != null) {0;
+        if($user != null) {
             $cliente = Cliente::where('user_id', $user->id)->join('users', 'users.id', '=', 'clientes.user_id')->select('id_cliente', 'remember_token')->get();
             return $cliente;
         }else {
