@@ -8,5 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 class Prodim extends Model
 {
     use HasFactory;
-    protected $table = "prodim_catalogo";
+    protected $primaryKey = 'id_prodim';
+
+    protected $table = "prodim";
 }

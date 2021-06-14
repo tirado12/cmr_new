@@ -14,7 +14,7 @@ class CreateFuentesGastosIndirectosTable extends Migration
     public function up()
     {
         Schema::create('fuentes_gastos_indirectos', function (Blueprint $table) {
-            $table->id();
+            $table->id('id_fuentes_gastos_indirectos');
             $table->unsignedBigInteger('indirectos_id');
             $table->foreign('indirectos_id')->references('id_indirectos')->on('gastos_indirectos');
             $table->unsignedBigInteger('fuente_cliente_id')->nullable();

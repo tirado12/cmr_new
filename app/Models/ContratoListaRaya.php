@@ -8,6 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 class ContratoListaRaya extends Model
 {
     use HasFactory;
+    
 
 
     protected $table = "contrato_lista_raya";

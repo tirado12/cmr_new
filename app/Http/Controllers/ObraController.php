@@ -40,14 +40,15 @@ class ObraController extends Controller
         print("\n");
     }
     public function getProdim($cliente_id, $anio){
-
         $obras = DB::table('fuentes_clientes')
-            ->orWhere(function($query) use($cliente_id, $anio) {
-                $query->where('cliente_id', $cliente_id)
-                    ->where('ejercicio',$anio);
-            })
-            ->select('prodim','gastos_indirectos')
-            ->get();
+        ->orWhere(function($query) use($cliente_id, $anio) {
+            $query->where('cliente_id', $cliente_id)
+                ->where('ejercicio',$anio)
+                ->where('fuente_financiamiento_id',2);
+        })
+        ->select('prodim','gastos_indirectos')
+        ->get();
         return $obras;
+        
     }    
 }

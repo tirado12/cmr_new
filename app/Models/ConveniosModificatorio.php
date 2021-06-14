@@ -8,6 +8,8 @@ use Illuminate\Database\Eloquent\Model;
 class ConveniosModificatorio extends Model
 {
     use HasFactory;
+    
+    protected $table = "convenios_modificatorios";
 
     protected $fillable = [
         'numero_convenio_modificatorio',

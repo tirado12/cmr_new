@@ -14,12 +14,12 @@ class CreateObrasFuente extends Migration
     public function up()
     {
         Schema::create('obras_fuentes', function (Blueprint $table) {
-            $table->timestamps();
             $table->unsignedBigInteger('fuente_financiamiento_cliente_id')->nullable();
             $table->foreign('fuente_financiamiento_cliente_id')->references('id_fuente_financ_cliente')->on('fuentes_clientes');
             $table->unsignedBigInteger('obra_id');
             $table->foreign('obra_id')->references('id_obra')->on('obras');
             $table->double('monto')->nullable();
+            $table->timestamps();
         });
     }
 

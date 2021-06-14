@@ -14,7 +14,7 @@ class CreateLicitacionInvitacionTable extends Migration
     public function up()
     {
         Schema::create('licitacion_invitacion', function (Blueprint $table) {
-            $table->id();
+            $table->id('id_licitacion_invitacion');
             $table->integer('padron_contratistas')->nullable();
             $table->integer('bases_licitacion')->nullable();
             $table->integer('constancia_visita')->nullable();

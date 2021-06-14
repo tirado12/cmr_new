@@ -8,6 +8,8 @@ use Illuminate\Database\Eloquent\Model;
 class Cliente extends Model
 {
     use HasFactory;
+    protected $primaryKey = 'id_cliente';
+    protected $table = "clientes";
 
     protected $fillable=[
         'acta_integracion_consejo',
@@ -19,5 +21,4 @@ class Cliente extends Model
         'ani_fin',
         'municipio_id'
     ];
-    protected $primaryKey = 'id_cliente';
 }

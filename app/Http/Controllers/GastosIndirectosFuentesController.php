@@ -17,16 +17,10 @@ class GastosIndirectosFuentesController extends Controller
                     ->where('fuente_financiamiento_id',2);
             })
             ->join('fuentes_gastos_indirectos', 'fuentes_gastos_indirectos.fuente_cliente_id', '=', 'id_fuente_financ_cliente')
-            ->select('indirectos_id', 'monto')
-            ->get();
-        $fuente = DB::table('gastos_indirectos')
-            ->select('id_indirectos','nombre')
+            ->join('gastos_indirectos','gastos_indirectos.id_indirectos','=','indirectos_id')
+            ->select('nombre','monto')
             ->get();
 
-        $resources = array(
-                'catalogo' => $fuente,
-                'montos' => $fuente_gi
-                );
-                return [$resources];
+        return $fuente_gi;
     }
 }

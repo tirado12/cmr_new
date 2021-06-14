@@ -8,6 +8,10 @@ use App\Http\Controllers\ObraController;
 use App\Http\Controllers\ObraModalidadEjecucionController;
 use App\Http\Controllers\ProdimFuentesController;
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\ProdimController;
+use App\Http\Controllers\RftController;
+use App\Http\Controllers\MidsController;
+use App\Http\Controllers\SispladeController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -42,7 +46,13 @@ Route::get('getObrasCliente/{municipio},{anio}', [ObraController::class, 'getObr
 
 Route::get('getProdim/{municipio},{anio}', [ObraController::class, 'getProdim']);
 
-Route::get('getDesgloseProdim/{municipio},{anio}', [ProdimFuentesController::class, 'getDesgloseProdim']);
+Route::get('getDesgloseProdim/{municipio},{anio}', [ProdimController::class, 'getDesgloseProdim']);
+
+Route::get('getSisplade/{municipio},{anio}', [SispladeController::class, 'getSisplade']);
+
+Route::get('getMids/{municipio},{anio}', [MidsController::class, 'getMids']);
+
+Route::get('getRFT/{municipio},{anio}', [RftController::class, 'getRFT']);
 
 Route::get('getDesgloseGI/{municipio},{anio}', [GastosIndirectosFuentesController::class, 'getDesgloseGI']);
 

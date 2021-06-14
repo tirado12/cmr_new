@@ -8,6 +8,9 @@ use Illuminate\Database\Eloquent\Model;
 class Contratista extends Model
 {
     use HasFactory;
+    protected $primaryKey = 'id_contratista';
+    protected $table = "contratistas";
+    
 
     protected $fillable = [
         'rfc',

@@ -8,5 +8,8 @@ use Illuminate\Database\Eloquent\Model;
 class GastosIndirectos extends Model
 {
     use HasFactory;
+    protected $primaryKey = 'id_indirectos';
+    protected $table = "gastos_indirectos";
+
     protected $table = "gastos_indirectos";
 }
