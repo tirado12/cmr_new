@@ -19,7 +19,7 @@ class RftController extends Controller
             ->join('obras', 'obras.id_obra', '=', 'obras_fuentes.obra_id')
             ->join('rft', 'rft.obras_id', '=', 'obras.id_obra')
             ->orderBy('numero_obra')
-            ->select('nombre_obra','primer_trimestre','segundo_trimestre','tercer_trimestre','cuarto_trimestre', 'numero_obra')
+            ->select('nombre_corto as nombre_obra','primer_trimestre','segundo_trimestre','tercer_trimestre','cuarto_trimestre', 'numero_obra')
             ->distinct()
             ->get();
         
