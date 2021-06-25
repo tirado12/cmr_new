@@ -14,7 +14,7 @@ class ClienteController extends Controller
     //
 
     public function getCliente($id){
-        $cliente = Cliente::where('id_cliente', $id)->join('municipios', 'municipios.id_municipio', '=', 'clientes.municipio_id')->join('distritos',  'distrito_id','=', 'distritos.id_distrito')->select('id_cliente', 'rfc', 'direccion', 'distritos.nombre as nombre_distrito', 'municipios.nombre as nombre_municipio', 'anio_inicio', 'anio_fin', 'logo')->get();
+        $cliente = Cliente::where('id_cliente', $id)->join('municipios', 'municipios.id_municipio', '=', 'clientes.municipio_id')->join('distritos',  'distrito_id','=', 'distritos.id_distrito')->select('id_cliente', 'rfc', 'direccion', 'distritos.nombre as nombre_distrito', 'municipios.nombre as nombre_municipio','municipios.id_municipio as clave', 'anio_inicio', 'anio_fin', 'logo')->get();
         return $cliente;
     }
 

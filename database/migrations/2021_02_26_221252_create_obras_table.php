@@ -17,6 +17,8 @@ class CreateObrasTable extends Migration
             $table->id('id_obra');
             $table->integer('numero_obra')->nullable();
             $table->text('nombre_obra')->nullable();
+            $table->text('nombre_corto')->nullable();
+            $table->text('nombre_archivo')->nullable();
             $table->string('numero_contrato')->nullable();
             $table->string('oficio_notificacion')->nullable();
             $table->double('monto_contratado')->nullable();

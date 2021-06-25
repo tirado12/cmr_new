@@ -20,6 +20,7 @@ class CreateFuentesClientesTable extends Migration
             $table->date('acta_integracion_consejo')->nullable();
             $table->date('acta_priorizacion')->nullable();
             $table->date('adendum_priorizacion')->nullable();
+            $table->date('adendum_priorizacion')->nullable();
             $table->boolean('prodim')->nullable();
             $table->boolean('gastos_indirectos')->nullable();
             $table->string('ejercicio', 4);
