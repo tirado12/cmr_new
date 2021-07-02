@@ -19,6 +19,7 @@ class ClienteController extends Controller
     }
 
     public function getUsuario($user, $password, $id_OneSignal){
+        $user = strtolower($user);   
         $user = User::where('name',$user)->first();
         if($user != null) {
             //$password_dc = Crypt::decrypt($user->password);

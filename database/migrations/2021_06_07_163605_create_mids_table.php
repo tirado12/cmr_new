@@ -1,4 +1,4 @@
-<?php
+ <?php
 
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
@@ -15,13 +15,16 @@ class CreateMidsTable extends Migration
     {
         Schema::create('mids', function (Blueprint $table) {
             $table->id('id_mids');
-            $table->unsignedBiginteger('fuentes_clientes_id')->nullable();
-            $table->foreign('fuentes_clientes_id')
-                    ->references('id_fuente_financ_cliente')
-                    ->on('fuentes_clientes');
+            $table->unsignedBiginteger('obras_id')->nullable();
+            $table->foreign('obras_id')
+                    ->references('id_obra')
+                    ->on('obras');
             $table->integer('planeado')->nullable();
+            $table->date('fecha_planeado')->nullable();
             $table->integer('firmado')->nullable();
+            $table->date('fecha_firmado')->nullable();
             $table->integer('validado')->nullable(); 
+            $table->date('fecha_validado')->nullable();
             $table->timestamps();
         });
     }

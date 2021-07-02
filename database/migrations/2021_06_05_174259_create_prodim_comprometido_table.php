@@ -24,6 +24,7 @@ class CreateProdimComprometidoTable extends Migration
             $table->foreign('prodim_id')
                     ->references('id_prodim')
                     ->on('prodim');
+            $table->date('fecha_comprometido')->nullable();
             $table->double('monto')->nullable();
 
             $table->timestamps();

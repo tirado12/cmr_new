@@ -20,7 +20,7 @@ class ObraController extends Controller
             ->join('obras_fuentes', 'obras_fuentes.fuente_financiamiento_cliente_id', '=', 'fuentes_clientes.id_fuente_financ_cliente')
             ->join('obras', 'obras.id_obra', '=', 'obras_fuentes.obra_id')
             ->orderBy('numero_obra')
-            ->select('obras.nombre_corto as nombre_obra', 'nombre_archivo ' ,'obras.monto_contratado','obras.monto_modificado','obras.avance_tecnico', 'acta_integracion_consejo', 'acta_priorizacion', 'adendum_priorizacion', 'obras.modalidad_ejecucion', 'obras.id_obra')
+            ->select('obras.nombre_corto as nombre_obra', 'nombre_archivo' ,'obras.monto_contratado','obras.monto_modificado','obras.avance_tecnico', 'acta_integracion_consejo', 'acta_priorizacion', 'adendum_priorizacion', 'obras.modalidad_ejecucion', 'obras.id_obra')
             ->distinct()
             ->get();
         return $obras;
@@ -43,7 +43,7 @@ class ObraController extends Controller
         print("\n");
     }
     public function getProdim($cliente_id, $anio){
-        $obras = DB::table('fuentes_clientes')
+        $prodim = DB::table('fuentes_clientes')
         ->orWhere(function($query) use($cliente_id, $anio) {
             $query->where('cliente_id', $cliente_id)
                 ->where('ejercicio',$anio)
@@ -51,7 +51,24 @@ class ObraController extends Controller
         })
         ->select('prodim','gastos_indirectos')
         ->get();
-        return $obras;
+
+        $obras = DB::table('fuentes_clientes')
+            ->orWhere(function($query) use($cliente_id, $anio) {
+                $query->where('cliente_id', $cliente_id)
+                    ->where('ejercicio',$anio);
+            })
+            ->join('obras_fuentes', 'obras_fuentes.fuente_financiamiento_cliente_id', '=', 'fuentes_clientes.id_fuente_financ_cliente')
+            ->join('obras', 'obras.id_obra', '=', 'obras_fuentes.obra_id')
+            ->orderBy('id_obra')
+            ->select('id_obra', 'nombre_corto')
+            ->distinct()
+            ->get();
+
+        $resources = array(
+            'prodim' => $prodim,
+            'obras' => $obras,
+        );
+        return [$resources];
         
     }    
 }
