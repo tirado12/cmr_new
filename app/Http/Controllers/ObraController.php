@@ -16,11 +16,12 @@ class ObraController extends Controller
             ->orWhere(function($query) use($cliente_id, $anio) {
                 $query->where('cliente_id', $cliente_id)
                     ->where('ejercicio',$anio);
+                    
             })
             ->join('obras_fuentes', 'obras_fuentes.fuente_financiamiento_cliente_id', '=', 'fuentes_clientes.id_fuente_financ_cliente')
             ->join('obras', 'obras.id_obra', '=', 'obras_fuentes.obra_id')
             ->orderBy('numero_obra')
-            ->select('obras.nombre_corto as nombre_obra', 'nombre_archivo' ,'obras.monto_contratado','obras.monto_modificado','obras.avance_tecnico', 'acta_integracion_consejo', 'acta_priorizacion', 'adendum_priorizacion', 'obras.modalidad_ejecucion', 'obras.id_obra')
+            ->select('obras.nombre_corto as nombre_obra', 'nombre_archivo' ,'obras.monto_contratado','obras.monto_modificado',\DB::raw('round((obras.avance_tecnico + obras.avance_economico + obras.avance_fisico) / 3, 0) AS avance_tecnico'), 'acta_integracion_consejo', 'acta_priorizacion', 'adendum_priorizacion', 'obras.modalidad_ejecucion', 'obras.id_obra')
             ->distinct()
             ->get();
         return $obras;
