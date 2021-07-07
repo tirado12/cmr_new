@@ -24,7 +24,25 @@ class ObraController extends Controller
             ->select('obras.nombre_corto as nombre_obra', 'nombre_archivo' ,'obras.monto_contratado','obras.monto_modificado',\DB::raw('round((obras.avance_tecnico + obras.avance_economico + obras.avance_fisico) / 3, 0) AS avance_tecnico'), 'acta_integracion_consejo', 'acta_priorizacion', 'adendum_priorizacion', 'obras.modalidad_ejecucion', 'obras.id_obra')
             ->distinct()
             ->get();
-        return $obras;
+        $desglose = DB::table('fuentes_clientes')
+            ->orWhere(function($query) use($cliente_id, $anio) {
+                $query->where('cliente_id', $cliente_id)
+                    ->where('ejercicio',$anio);
+                    
+            })
+            ->join('obras_fuentes', 'obras_fuentes.fuente_financiamiento_cliente_id', '=', 'fuentes_clientes.id_fuente_financ_cliente')
+            ->join('obras', 'obras.id_obra', '=', 'obras_fuentes.obra_id')
+            ->join('desglose_pagos_obra', 'desglose_pagos_obra.id_obra','=', 'obras_fuentes.obra_id')
+            ->join('observaciones_desglose', 'observaciones_desglose.id_obra','=', 'obras_fuentes.obra_id')
+            ->orderBy('numero_obra')
+            ->select('id_obra', 'fecha_recepcion' ,'fecha_validacion','fecha_pago','fecha_observaciones', 'fecha_validacion','fecha_solventacion','estado_solventacion','estado_observaciones')
+            ->distinct()
+            ->get();
+        $resources = array(
+            'obras' => $obras,
+            'desglose' => $desglose,
+        );
+        return [$resources];
     }
 
     public function sendMessage($mensaje, $id, $titulo){
