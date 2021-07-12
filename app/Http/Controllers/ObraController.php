@@ -38,20 +38,7 @@ class ObraController extends Controller
             ->groupBy('id_obra')
             ->get();
         
-        $anticipo = DB::table('fuentes_clientes')
-            ->orWhere(function($query) use($cliente_id, $anio) {
-                $query->where('cliente_id', $cliente_id)
-                    ->where('ejercicio',$anio);
-                    
-            })
-            ->join('obras_fuentes', 'obras_fuentes.fuente_financiamiento_cliente_id', '=', 'fuentes_clientes.id_fuente_financ_cliente')
-            ->join('obras', 'obras.id_obra', '=', 'obras_fuentes.obra_id')
-            ->join('desglose_pagos_obra', 'desglose_pagos_obra.obras_id', '=', 'obras.id_obra')
-            ->join('observaciones_desglose', 'observaciones_desglose.desglose_pagos_id','=', 'desglose_pagos_obra.id_desglose_pagos')
-            
-            ->select('id_obra', \DB::raw('count(desglose_pagos_obra.obras_id) as user_count'))
-            ->groupBy('id_obra')
-            ->get();
+        
         $resources = array(
                 'desglose' => $desglose,
                 'obras' => $obras,
