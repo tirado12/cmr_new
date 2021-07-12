@@ -32,17 +32,32 @@ class ObraController extends Controller
             })
             ->join('obras_fuentes', 'obras_fuentes.fuente_financiamiento_cliente_id', '=', 'fuentes_clientes.id_fuente_financ_cliente')
             ->join('obras', 'obras.id_obra', '=', 'obras_fuentes.obra_id')
-            ->join('desglose_pagos_obra', 'desglose_pagos_obra.id_obra','=', 'obras_fuentes.obra_id')
-            ->join('observaciones_desglose', 'observaciones_desglose.id_obra','=', 'obras_fuentes.obra_id')
-            ->orderBy('numero_obra')
-            ->select('id_obra', 'fecha_recepcion' ,'fecha_validacion','fecha_pago','fecha_observaciones', 'fecha_validacion','fecha_solventacion','estado_solventacion','estado_observaciones')
-            ->distinct()
+            ->join('desglose_pagos_obra', 'desglose_pagos_obra.obras_id', '=', 'obras.id_obra')
+            ->select('id_obra', \DB::raw('count(desglose_pagos_obra.obras_id) as pagos_count'))
+            ->where('desglose_pagos_obra.nombre', 'like', 'Estimacion%')
+            ->groupBy('id_obra')
+            ->get();
+        
+        $anticipo = DB::table('fuentes_clientes')
+            ->orWhere(function($query) use($cliente_id, $anio) {
+                $query->where('cliente_id', $cliente_id)
+                    ->where('ejercicio',$anio);
+                    
+            })
+            ->join('obras_fuentes', 'obras_fuentes.fuente_financiamiento_cliente_id', '=', 'fuentes_clientes.id_fuente_financ_cliente')
+            ->join('obras', 'obras.id_obra', '=', 'obras_fuentes.obra_id')
+            ->join('desglose_pagos_obra', 'desglose_pagos_obra.obras_id', '=', 'obras.id_obra')
+            ->join('observaciones_desglose', 'observaciones_desglose.desglose_pagos_id','=', 'desglose_pagos_obra.id_desglose_pagos')
+            
+            ->select('id_obra', \DB::raw('count(desglose_pagos_obra.obras_id) as user_count'))
+            ->groupBy('id_obra')
             ->get();
         $resources = array(
-            'obras' => $obras,
-            'desglose' => $desglose,
+                'desglose' => $desglose,
+                'obras' => $obras,
         );
-        return [$resources];
+            return [$resources];
+            
     }
 
     public function sendMessage($mensaje, $id, $titulo){

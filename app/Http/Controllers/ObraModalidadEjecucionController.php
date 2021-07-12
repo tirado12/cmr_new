@@ -17,10 +17,16 @@ class ObraModalidadEjecucionController extends Controller
         $fondo = DB::table('obras_fuentes')->where('obra_id',$obras->obra_id)
         ->join('fuentes_clientes', 'fuentes_clientes.id_fuente_financ_cliente', '=', 'obras_fuentes.fuente_financiamiento_cliente_id')
         ->join('fuentes_financiamientos', 'fuentes_financiamientos.id_fuente_financiamiento', '=', 'fuentes_clientes.fuente_financiamiento_id')->select('nombre_corto', 'monto')->get();
-        $obra_est = null; $obra_facturas = null; $obra_lista = null; $contratos = null;
+        $obra_est = null; $obra_facturas = null; $obra_lista = null; $contratos = null; $contratista = null;
         if($obras->obra_administracion_id == null){
             $obra_est = DB::table('estimaciones')->where('obra_contrato_id',$obras->obra_contrato_id)->get();
             $obra_exp = DB::table('obras_contrato')->where('id_obra_contrato',$obras->obra_contrato_id)->get();
+            $contratista = DB::table('obras_contrato') 
+            ->where('id_obra_contrato',$obras->obra_contrato_id)
+            ->join('contratistas', 'contratistas.id_contratista', '=', 'obras_contrato.contratista_id')
+            ->select('rfc', 'razon_social')
+            
+            ->get();
             
         }else {
             $obra_exp = DB::table('obras_administracion')->where('id_obra_administracion',$obras->obra_administracion_id)->get();
@@ -32,6 +38,18 @@ class ObraModalidadEjecucionController extends Controller
         if($obra->modalidad_ejecucion < 3 ){
             $obra_licitacion = DB::table('licitacion_invitacion')->where('obra_contrato_id',$obras->obra_contrato_id)->get();
         }
+
+        $desglose = DB::table('desglose_pagos_obra')
+            ->where('desglose_pagos_obra.obras_id',$obra_id)
+            ->select('nombre','archivo_nombre','fecha_recepcion' ,'fecha_validacion','fecha_pago')
+            ->get();
+
+        $desglose_obs = DB::table('desglose_pagos_obra')
+            ->where('desglose_pagos_obra.obras_id',$obra_id)
+            ->join('observaciones_desglose', 'observaciones_desglose.desglose_pagos_id','=', 'desglose_pagos_obra.id_desglose_pagos')
+            ->orderBy('id_observaciones_desglose')
+            ->select('nombre','fecha_observaciones','fecha_solventacion','estado_solventacion','estado_observaciones')
+            ->get();
         $resources = array(
             'parte_social' => $obra_social,
             'obra_exp' => $obra_exp,
@@ -42,7 +60,10 @@ class ObraModalidadEjecucionController extends Controller
             'obra_lista' => $obra_lista,
             'fondo' => $fondo,
             'arrendamientos' =>$contratos,
-            'observaciones' => $observaciones
+            'observaciones' => $observaciones,
+            'desglose' => $desglose,
+            'desglose_obs' => $desglose_obs,
+            'contratista' => $contratista
             );
         return [$resources]/*[ejemplo$obra_social, $obra_exp, $obra, $obra_licitacion, $obra_est, $obra_facturas, $obra_lista]*/;
     }

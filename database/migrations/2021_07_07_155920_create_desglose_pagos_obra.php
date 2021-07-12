@@ -19,10 +19,11 @@ class CreateDesglosePagosObra extends Migration
             $table->foreign('obras_id')
                     ->references('id_obra')
                     ->on('obras');
-            $table->date('fecha_recepcion');
-            $table->date('fecha_validacion');
-            $table->date('fecha_pago');
-            $table->string('nombre');
+            $table->date('fecha_recepcion')->nullable();
+            $table->date('fecha_validacion')->nullable();
+            $table->date('fecha_pago')->nullable();
+            $table->string('archivo_nombre')->nullable();
+            $table->string('nombre')->nullable();
             $table->timestamps();
         });
     }

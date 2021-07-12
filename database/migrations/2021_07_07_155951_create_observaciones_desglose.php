@@ -19,10 +19,10 @@ class CreateObservacionesDesglose extends Migration
             $table->foreign('desglose_pagos_id')
                     ->references('id_desglose_pagos')
                     ->on('desglose_pagos_obra');
-            $table->date('fecha_observaciones');
-            $table->date('fecha_solventacion');
-            $table->integer('estado_observaciones');
-            $table->integer('estado_solventacion');
+            $table->date('fecha_observaciones')->nullable();
+            $table->date('fecha_solventacion')->nullable();
+            $table->integer('estado_observaciones')->nullable();
+            $table->integer('estado_solventacion')->nullable();
             $table->timestamps();
         });
     }
