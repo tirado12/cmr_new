@@ -32,7 +32,7 @@
                 </header>
                 {{-- main --}}
                 <main class="flex-1 overflow-x-hidden overflow-y-auto bg-gray-100 ">
-                    <div class="container mx-auto px-6 py-8">
+                    <div class="container max-w-7xl mx-auto px-2 sm:px-6 lg:px-8 py-8">
                         {{-- contenido --}}
                         @yield('contenido')
                         

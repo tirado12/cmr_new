@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\User;
 use Spatie\Permission\Models\Role;
+use Illuminate\Support\Facades\DB;
 
 class UsersController extends Controller
 {
@@ -18,8 +19,10 @@ class UsersController extends Controller
     {
         //$roles=User::with('roles')->paginate(10);
          $roles=User::with('roles')->get();
+         $roles_list=Role::all();
+
         // return $roles[1]->roles[0]->name;
-        return view('admin.users.index',compact('roles'));
+        return view('admin.users.index',compact('roles','roles_list'));
         //return $roles[0]->roles[0]->name;
     }
 

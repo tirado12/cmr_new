@@ -1,4 +1,4 @@
-<div class="p-6 w-58  bg-gray-900 h-screen"   x-show="sidebar"  @click.away="sidebar = false" role="menu"
+<div class="p-6 w-58  bg-blue-cmr1 h-screen"   x-show="sidebar"  @click.away="sidebar = false" role="menu"
                     x-transition:enter="transition ease-out duration-300"
                     x-transition:enter-start="opacity-0 transform scale-90"
                     x-transition:enter-end="opacity-100 transform scale-100"
@@ -10,8 +10,8 @@
                         
                         <div class="flex-1 flex items-center justify-center sm:items-stretch mb-4">
                             <div class="flex-shrink-0 flex items-center">
-                                <img class="block lg:hidden h-6 w-auto" src="https://tailwindui.com/img/logos/workflow-mark-indigo-500.svg" alt="Workflow">
-                                <img class="hidden lg:block h-6 w-auto" src="https://tailwindui.com/img/logos/workflow-logo-indigo-500-mark-white-text.svg" alt="Workflow">
+                                <img class="block lg:hidden h-10 w-auto" src="{{asset('image/CMR logo blanco.png')}}" alt="Workflow">
+                                <img class="hidden lg:block h-10 w-auto" src="{{asset('image/CMR logo blanco.png')}}" alt="Workflow">
                             </div>
                             
                             </div>

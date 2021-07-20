@@ -14,7 +14,6 @@ class UserController extends Controller
         $this->middleware('guest:admin')->except('logout');
     }
     public function index(){
-
         return view('admin.adminlogin');
     }
     public function store(Request $request) {

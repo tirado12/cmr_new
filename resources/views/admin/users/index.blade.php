@@ -3,6 +3,7 @@
 @section('contenido')
         <link rel="stylesheet" href="{{ asset('css/datatable.css') }}">
         <link rel="stylesheet" href="{{ asset('css/jquery.dataTables.min.css') }}">
+        <link rel="stylesheet" href="{{ asset('css/style_alert.css') }}">
         <!--Responsive Extension Datatables CSS-->
         <link href="https://cdn.datatables.net/responsive/2.2.3/css/responsive.dataTables.min.css" rel="stylesheet">
         <link rel="stylesheet" href="https://cdn.datatables.net/buttons/1.6.4/css/buttons.dataTables.min.css">
@@ -16,7 +17,7 @@
 
 <div class="flex flex-col mt-6">
     <div class="-my-2 py-2 overflow-x-auto sm:-mx-6 sm:px-6 lg:-mx-8 lg:px-8">
-    <button class="bg-green-500 mb-4 text-white active:bg-green-600 font-bold uppercase text-sm px-6 py-3 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150" type="button" onclick="toggleModal('modal-id')">
+    <button class="bg-orange-800 mb-4 text-white active:bg-orange-800 font-bold uppercase text-sm px-6 py-3 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150" type="button" onclick="toggleModal('modal-id')">
     Agregar
     </button>
         <!-- div de tabla -->
@@ -30,7 +31,7 @@
       <tr>
           <th>Usuario</th>
           <th>Roles</th>
-          <th></th>
+          <th class="flex justify-center">Acción</th>
           
       </tr>
   </thead>
@@ -40,34 +41,42 @@
           
           <td>
             <div class="flex items-center">
-              <div class="ml-4">
+              <div>
                   <div class="text-sm leading-5 font-medium text-gray-900">{{$roles[$index]->name}}</div>
                   <div class="text-sm leading-5 text-gray-500">{{$roles[$index]->email}}</div>
               </div>
           </div>
           </td>
-          <td>{{ $roles[$index]->roles[0]->name }}</td>
+          <td>
+            <div class="text-sm leading-5 font-medium text-gray-900">
+            {{ $roles[$index]->roles[0]->name }}
+            </div>
+            
+          </td>
           <td>
             <div class="flex justify-center">
             <form action="{{ route('admin.users.destroy', $user->id) }}" method="POST" class="form-eliminar" >
-              <a type="button"  href="{{ route('admin.users.edit', $user->id)}}" class="bg-white text-blue-500 p-2 rounded hover:text-white hover:bg-blue-500 rounded-lg border-2 h-10 w-10"><i class="fas fa-edit"></i></a>
+              <div>
+              <a type="button"  href="{{ route('admin.users.edit', $user->id)}}" class="bg-white text-blue-500 p-2 rounded rounded-lg">Editar</a>
               
-                  @csrf
-                  @method('DELETE')
-              <button type="submit" class="bg-white text-red-500 p-2 rounded hover:text-white hover:bg-red-500 rounded-lg border-2 h-10 w-10"><i class="fas fa-trash-alt"></i></button>
+              @csrf
+              @method('DELETE')
+          <button type="submit" class="bg-white text-red-500 p-2 rounded rounded-lg">Eliminar</button>
+              </div>
+              
               </form>
             </div>
           </td>
       </tr>
       @endforeach
   </tbody>
-  <tfoot>
+  <!--<tfoot>
       <tr>
         <th>Usuario</th>
         <th>Rol</th>
         <th></th>
       </tr>
-  </tfoot>
+  </tfoot>-->
 </table>
 </div>
 
@@ -109,8 +118,10 @@
             <div class="col-span-8" >
                   <label for="country" class="block text-sm font-medium text-gray-700">Lista de roles *</label>
                   <select id="roles" name="roles" class="mt-1 block w-full py-2 px-3 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
-                      <option value="Administrador">Administrador</option>
-                      <option value="Usuario">Usuario</option>
+                    @foreach($roles_list as $rol)
+                      <option value="Administrador">{{ $rol->name }}</option>
+                    @endforeach
+                      
                   </select>
                 </div>
           </div>
@@ -133,6 +144,7 @@
     </div>
   </div>
 </div>
+
 <div class="hidden opacity-25 fixed inset-0 z-40 bg-black" id="modal-id-backdrop"></div>
 <script src="//cdn.jsdelivr.net/npm/sweetalert2@10"></script>
 <script type="text/javascript" charset="utf8" src="https://code.jquery.com/jquery-3.5.1.js"></script>  
@@ -151,11 +163,15 @@
   $(".form-eliminar").submit(function(e){
     e.preventDefault();
     Swal.fire({
+      customClass: {
+  title: 'swal_title_modificado',
+  cancelButton: 'swal_button_cancel_modificado'
+},
   title: '¿Seguro que desea eliminar este usuario?',
   text: "¡Aviso, esta acción es irreversible!",
   icon: 'warning',
   showCancelButton: true,
-  confirmButtonColor: '#3085d6',
+  confirmButtonColor: '#10b981',
   cancelButtonColor: '#d33',
   confirmButtonText: 'Borrar',
   cancelButtonText: 'Cancelar'
