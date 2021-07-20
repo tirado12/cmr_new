@@ -6,9 +6,83 @@ use App\Custom\Ejemplo as CustomNotification;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
+
 class ObraController extends Controller
 {
-    //
+    /**
+     * Display a listing of the resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function index()
+    {
+        return "obra";
+    }
+
+    /**
+     * Show the form for creating a new resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function create()
+    {
+        //
+    }
+
+    /**
+     * Store a newly created resource in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
+     */
+    public function store(Request $request)
+    {
+      
+    }
+    /**
+     * Display the specified resource.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function show($id)
+    {
+        //
+    }
+     /**
+     * Show the form for editing the specified resource.
+     *
+     * @param  User  $users
+     * @return \Illuminate\Http\Response
+     */
+    public function edit()
+    {
+       
+    }
+
+    /**
+     * Update the specified resource in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function update(Request $request)
+    {
+       
+    }
+
+    /**
+     * Remove the specified resource from storage.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function destroy()
+    {
+        
+    }
+    // =================== Funciones API ==================== //
     
     public function getObrasCliente($cliente_id, $anio){
 
@@ -21,7 +95,7 @@ class ObraController extends Controller
             ->join('obras_fuentes', 'obras_fuentes.fuente_financiamiento_cliente_id', '=', 'fuentes_clientes.id_fuente_financ_cliente')
             ->join('obras', 'obras.id_obra', '=', 'obras_fuentes.obra_id')
             ->orderBy('numero_obra')
-            ->select('obras.nombre_corto as nombre_obra', 'nombre_archivo' ,'obras.monto_contratado','obras.monto_modificado',\DB::raw('round((obras.avance_tecnico + obras.avance_economico + obras.avance_fisico) / 3, 0) AS avance_tecnico'), 'acta_integracion_consejo', 'acta_priorizacion', 'adendum_priorizacion', 'obras.modalidad_ejecucion', 'obras.id_obra')
+            ->select('obras.nombre_corto as nombre_obra', 'nombre_archivo' ,'obras.monto_contratado','obras.monto_modificado', DB::raw('round((obras.avance_tecnico + obras.avance_economico + obras.avance_fisico) / 3, 0) AS avance_tecnico'), 'acta_integracion_consejo', 'acta_priorizacion', 'adendum_priorizacion', 'obras.modalidad_ejecucion', 'obras.id_obra')
             ->distinct()
             ->get();
         $desglose = DB::table('fuentes_clientes')
@@ -33,7 +107,7 @@ class ObraController extends Controller
             ->join('obras_fuentes', 'obras_fuentes.fuente_financiamiento_cliente_id', '=', 'fuentes_clientes.id_fuente_financ_cliente')
             ->join('obras', 'obras.id_obra', '=', 'obras_fuentes.obra_id')
             ->join('desglose_pagos_obra', 'desglose_pagos_obra.obras_id', '=', 'obras.id_obra')
-            ->select('id_obra', \DB::raw('count(desglose_pagos_obra.obras_id) as pagos_count'))
+            ->select('id_obra', DB::raw('count(desglose_pagos_obra.obras_id) as pagos_count'))
             ->where('desglose_pagos_obra.nombre', 'like', 'Estimacion%')
             ->groupBy('id_obra')
             ->get();
