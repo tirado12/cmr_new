@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use App\Models\Municipio;
 use Illuminate\Http\Request;
 use PhpParser\Node\Stmt\Echo_;
+use App\Models\Distrito;
+use Illuminate\Support\Facades\Log;
 
 class MunicipioController extends Controller
 {
@@ -16,7 +18,14 @@ class MunicipioController extends Controller
      */
     public function index()
     {
-        return "municipio";
+        $municipio = Municipio::with('distrito')->get();
+        
+        $distrito = Distrito::join('regiones', 'regiones.id_region', '=', 'distritos.region_id')
+        ->select('id_distrito','distritos.nombre', 'regiones.nombre as nombre_region')
+        ->orderBy('id_distrito')
+        ->get();
+         //$roles_list=Role::all();
+        return view('municipio.index',compact('municipio','distrito'));
     }
 
     /**
@@ -37,6 +46,19 @@ class MunicipioController extends Controller
      */
     public function store(Request $request)
     {
+        $request->validate([
+            'nombre' => 'required',
+            '' => 'required',
+            'password' => 'required',
+            'roles' => 'required'
+        ]);
+        User::create([
+        'name' => $request->name,
+        'email' => $request->email,
+        'password' => bcrypt($request->password)
+        ])->assignRole($request->roles);
+        
+        return redirect()->route('admin.users.index');
       
     }
     /**
@@ -55,9 +77,10 @@ class MunicipioController extends Controller
      * @param  User  $users
      * @return \Illuminate\Http\Response
      */
-    public function edit()
+    public function edit(Municipio $municipio)
     {
-       
+        $distrito=Distrito::all();
+        return view('municipio.edit',compact('municipio','distrito'));
     }
 
     /**
@@ -67,9 +90,19 @@ class MunicipioController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request)
+    public function update(Request $request, Municipio $municipio)
     {
-       
+        
+        $request->validate([
+            'nombre' => 'required',
+            'distrito_id' => 'required',
+            'rfc' => 'required',
+            'direccion' => 'required'
+        ]);
+
+        $municipio->update($request->all());
+        
+        return redirect()->route('municipio.index');
     }
 
     /**
@@ -82,6 +115,8 @@ class MunicipioController extends Controller
     {
         
     }
+
+    
     // ======================= Funciones API ====================== //
 
     public function getMunicipio($id_municipio){
