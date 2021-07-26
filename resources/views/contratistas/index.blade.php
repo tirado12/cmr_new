@@ -1,5 +1,5 @@
 @extends('layouts.plantilla')
-@section('title','Usuarios')
+@section('title','Contratistas')
 @section('contenido')
         <link rel="stylesheet" href="{{ asset('css/datatable.css') }}">
         <link rel="stylesheet" href="{{ asset('css/jquery.dataTables.min.css') }}">
@@ -12,7 +12,7 @@
   <svg class="h-7 w-7" fill="none" viewBox="0 0 24 24" stroke="currentColor">
     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z" />
   </svg>
-<h1 class="text-xl font-bold ml-2">Lista de Usuarios</h1>
+<h1 class="text-xl font-bold ml-2">Lista de Contratistas</h1>
 </div>
 
 <div class="flex flex-col mt-6">
@@ -29,35 +29,43 @@
 <table id="example" class="table table-striped bg-white" style="width:100%;">
   <thead>
       <tr>
-          <th>Usuario</th>
-          <th>Roles</th>
+          
+          <th>Contratista</th>
+          <th>Telefono</th>
+          <th>Correo</th>
           <th class="flex justify-center">Acción</th>
           
       </tr>
   </thead>
   <tbody> 
-    @foreach($roles as $index=>$user)
+    @foreach($contratistas as $contratista)
       <tr>
           
           <td>
             <div class="flex items-center">
               <div>
-                  <div class="text-sm leading-5 font-medium text-gray-900">{{$roles[$index]->name}}</div>
-                  <div class="text-sm leading-5 text-gray-500">{{$roles[$index]->email}}</div>
+                  <div class="text-sm leading-5 font-medium text-gray-900">{{$contratista->razon_social}}</div>
+                  <div class="text-sm leading-5 text-gray-500">{{$contratista->rfc}}</div>
               </div>
           </div>
           </td>
           <td>
             <div class="text-sm leading-5 font-medium text-gray-900">
-            {{ $roles[$index]->roles[0]->name }}
+            {{ $contratista->telefono }}
+            </div>
+            
+          </td>
+          <td>
+            <div class="text-sm leading-5 font-medium text-gray-900">
+            {{ $contratista->correo }}
             </div>
             
           </td>
           <td>
             <div class="flex justify-center">
-            <form action="{{ route('admin.users.destroy', $user->id) }}" method="POST" class="form-eliminar" >
+            <form action="{{ route('contratistas.destroy', $contratista->id_contratista) }}" method="POST" class="form-eliminar" >
               <div>
-              <a type="button"  href="{{ route('admin.users.edit', $user->id)}}" class="bg-white text-blue-500 p-2 rounded rounded-lg">Editar</a>
+              <a type="button"  href="{{ route('contratistas.edit', $contratista->id_contratista)}}" class="bg-white text-blue-500 p-2 rounded rounded-lg">Editar</a>
               
               @csrf
               @method('DELETE')
@@ -88,7 +96,7 @@
       <!--header-->
       <div class="flex items-start justify-between p-5 border-b border-solid border-blueGray-200 rounded-t">
         <h4 class="text-xl font-semibold">
-          Agregar Nuevo Usuario
+          Agregar Nuevo Contratista
         </h4>
         <button class="p-1 ml-auto bg-transparent border-0 text-black opacity-5 float-right text-3xl leading-none font-semibold outline-none focus:outline-none" onclick="toggleModal('modal-id')">
           <span class="bg-transparent text-black opacity-5 h-6 w-6 text-2xl block outline-none focus:outline-none">
@@ -97,33 +105,39 @@
         </button>
       </div>
       <!--body-->
-      <form action="{{ route('admin.users.store', $user->id) }}" method="POST">
+      <form action="{{ route('contratistas.store', $contratista->id_contratista) }}" method="POST">
         @csrf
         @method('POST')
       <div class="relative p-6 flex-auto">
-        
           <div class="grid grid-cols-8 gap-8">
             <div class="col-span-8 ">
-              <label for="first_name" class="block text-sm font-medium text-gray-700">Usuario *</label>
-              <input type="text" name="name" id="name" autocomplete="given-name" class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md">
+              <label for="first_name" class="block text-sm font-medium text-gray-700">RFC *</label>
+              <input type="text" name="rfc" id="rfc" class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md" required maxlength="13">
             </div>
             <div class="col-span-8">
-              <label for="email_address" class="block text-sm font-medium text-gray-700">Correo *</label>
-              <input type="text" name="email" id="email" autocomplete="email" class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md">
+              <label for="razon_social" class="block text-sm font-medium text-gray-700">Razón social *</label>
+              <input type="text" name="razon_social" id="razon_social" class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md" required>
             </div>
             <div class="col-span-8">
-              <label for="password" class="block text-sm font-medium text-gray-700">Contraseña *</label>
-              <input type="password" name="password" id="password" autocomplete="password" class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md">
+              <label for="representante_legal" class="block text-sm font-medium text-gray-700">Representante legal *</label>
+              <input type="text" name="representante_legal" id="representante_legal" class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md" required>
             </div>
-            <div class="col-span-8" >
-                  <label for="country" class="block text-sm font-medium text-gray-700">Lista de roles *</label>
-                  <select id="roles" name="roles" class="mt-1 block w-full py-2 px-3 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
-                    @foreach($roles_list as $rol)
-                      <option value="Administrador">{{ $rol->name }}</option>
-                    @endforeach
-                      
-                  </select>
-                </div>
+            <div class="col-span-8">
+                <label for="domicilio" class="block text-sm font-medium text-gray-700">Domicilio *</label>
+                <input type="text" name="domicilio" id="domicilio" class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md" required>
+            </div>
+            <div class="col-span-8">
+                <label for="telefono" class="block text-sm font-medium text-gray-700">Telefono *</label>
+                <input type="tel" name="telefono" id="telefono" class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md" required>
+            </div>
+            <div class="col-span-8">
+                <label for="correo" class="block text-sm font-medium text-gray-700">Correo *</label>
+                <input type="email" name="correo" id="correo" class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md" required>
+            </div>
+            <div class="col-span-8">
+                <label for="numero_padron_contratista" class="block text-sm font-medium text-gray-700">Numero de padron *</label>
+                <input type="text" name="numero_padron_contratista" id="numero_padron_contratista" class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md" required>
+            </div>
           </div>
         
       </div>
@@ -153,7 +167,7 @@
   <script>
     Swal.fire(
       '¡Eliminado!',
-      'El usuario ha sido eliminado.',
+      'El contratista ha sido eliminado.',
       'success'
     )
   </script>
@@ -167,7 +181,7 @@
   title: 'swal_title_modificado',
   cancelButton: 'swal_button_cancel_modificado'
 },
-  title: '¿Seguro que desea eliminar este usuario?',
+  title: '¿Seguro que desea eliminar este contratista?',
   text: "¡Aviso, esta acción es irreversible!",
   icon: 'warning',
   showCancelButton: true,
@@ -204,14 +218,13 @@
   $(document).ready(function() {
     
     $('#example').DataTable({
-        "autoWidth" : false,
+        "autoWidth" : true,
         "responsive" : true,
         language: {
     url: 'https://cdn.datatables.net/plug-ins/1.10.24/i18n/Spanish.json'
 }
         
-    }).columns.adjust()
-    .responsive.recalc();
+    }).columns.adjust();
 });
 </script>
 

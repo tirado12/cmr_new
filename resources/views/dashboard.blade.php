@@ -6,18 +6,17 @@
 <div class="mt-8">
 </div>
 
-<div class="flex items-center justify-center border-2 rounded-xl p-8">
-        
-    <div class="grid grid-cols-1 gap-4 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-4 xl:grid-cols-4 p-4">
+<div class="flex items-center justify-center h-80 rounded-lg ">
+    <div class="flex items-center justify-center">
+    <div class="grid grid-cols-1 sm:gap-6 md:gap-6 lg:gap-2 xl:gap-8 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-4 xl:grid-cols-4">
         
         <!-- 1 card -->
-        <div class="bg-white py-6 px-6 rounded-3xl w-64 my-4 shadow-lg hover:shadow-xl border-transparent border-2 hover:border-gray-100">
-            
-            <div class="-mb-4 -mt-12 text-white rounded-full h-16 w-16 flex items-center justify-center shadow-xl bg-pink-500 ">
+        <div class=" bg-white py-6 px-6 rounded-3xl w-56 my-4 shadow-xl border">
+            <div class="-mb-4 -mt-12 text-white flex items-center  rounded-full h-16 w-16 flex justify-center shadow-xl bg-pink-500 left-4 -top-6">
                 <!-- svg  -->
                 <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 14v3m4-3v3m4-3v3M3 21h18M3 10h18M3 7l9-4 9 4M4 10h16v11H4V10z" />
-                  </svg>
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 18h.01M8 21h8a2 2 0 002-2V5a2 2 0 00-2-2H8a2 2 0 00-2 2v14a2 2 0 002 2z" />
+                </svg>
             </div>
             <div class="mt-8">
                 <p class="text-xl font-semibold my-2">Clientes</p>
@@ -37,7 +36,6 @@
                      <p>1 Weeks Left</p> 
                 </div>
                 <div class="border-t-2"></div>
-
                 <div class="flex justify-between">
                     <div class="my-2">
                         <p class="font-semibold text-base mb-2">Team Member</p>
@@ -61,44 +59,47 @@
         </div>
 
         <!-- 2 card -->
-        <div class="bg-white py-6 px-6 rounded-3xl w-64 my-4 shadow-lg hover:shadow-xl border-transparent border-2 hover:border-gray-100">
-            <div class="-mb-4 -mt-12 text-white rounded-full h-16 w-16 flex items-center justify-center shadow-xl bg-green-500">
+        <div class=" bg-white py-6 px-6 rounded-3xl w-56 my-4 shadow-xl border">
+            <div class="-mb-4 -mt-12 text-white flex items-center  rounded-full h-16 w-16 flex justify-center shadow-xl bg-pink-500 left-4 -top-6">
                 <!-- svg  -->
                 <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 13v-1m4 1v-3m4 3V8M8 21l4-4 4 4M3 4h18M4 4h16v12a1 1 0 01-1 1H5a1 1 0 01-1-1V4z" />
-                  </svg>
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 18h.01M8 21h8a2 2 0 002-2V5a2 2 0 00-2-2H8a2 2 0 00-2 2v14a2 2 0 002 2z" />
+                </svg>
             </div>
             <div class="mt-8">
-                <p class="text-xl font-semibold my-2">Gubernamental</p>
+                <p class="text-xl font-semibold my-2">Clientes</p>
                 <div class="flex space-x-2 text-gray-400 text-sm">
                     <!-- svg  -->
                     <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
                     </svg>
-                     <p>Core UI Team</p> 
+                     <p>Marketing Team</p> 
                 </div>
                 <div class="flex space-x-2 text-gray-400 text-sm my-3">
                     <!-- svg  -->
                     <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
                     </svg>
-                     <p>3 Weeks Left</p> 
+                     <p>1 Weeks Left</p> 
                 </div>
-                <div class="border-t-2 "></div>
-
+                <div class="border-t-2"></div>
                 <div class="flex justify-between">
                     <div class="my-2">
                         <p class="font-semibold text-base mb-2">Team Member</p>
                         <div class="flex space-x-2">
                             <img src="https://images.pexels.com/photos/614810/pexels-photo-614810.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500" 
                             class="w-6 h-6 rounded-full"/>
+                             <img src="https://upload.wikimedia.org/wikipedia/commons/e/ec/Woman_7.jpg" 
+                            class="w-6 h-6 rounded-full"/>
+                             <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRxSqK0tVELGWDYAiUY1oRrfnGJCKSKv95OGUtm9eKG9HQLn769YDujQi1QFat32xl-BiY&usqp=CAU" 
+                            class="w-6 h-6 rounded-full"/>
                         </div>
                     </div>
                      <div class="my-2">
                         <p class="font-semibold text-base mb-2">Progress</p>
                         <div class="text-base text-gray-400 font-semibold">
-                            <p>76%</p>
+                            <p>34%</p>
                         </div>
                     </div>
                 </div>
@@ -106,15 +107,15 @@
         </div>
 
         <!-- 3 card -->
-        <div class="bg-white py-6 px-6 rounded-3xl w-64 my-4 shadow-lg hover:shadow-xl border-transparent border-2 hover:border-gray-100">
-            <div class="-mb-4 -mt-12 text-white rounded-full h-16 w-16 flex items-center justify-center shadow-xl bg-blue-500">
+        <div class=" bg-white py-6 px-6 rounded-3xl w-56 my-4 shadow-xl border">
+            <div class="-mb-4 -mt-12 text-white flex items-center  rounded-full h-16 w-16 flex justify-center shadow-xl bg-pink-500 left-4 -top-6">
                 <!-- svg  -->
                 <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 4a2 2 0 114 0v1a1 1 0 001 1h3a1 1 0 011 1v3a1 1 0 01-1 1h-1a2 2 0 100 4h1a1 1 0 011 1v3a1 1 0 01-1 1h-3a1 1 0 01-1-1v-1a2 2 0 10-4 0v1a1 1 0 01-1 1H7a1 1 0 01-1-1v-3a1 1 0 00-1-1H4a2 2 0 110-4h1a1 1 0 001-1V7a1 1 0 011-1h3a1 1 0 001-1V4z" />
-                  </svg>
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 18h.01M8 21h8a2 2 0 002-2V5a2 2 0 00-2-2H8a2 2 0 00-2 2v14a2 2 0 002 2z" />
+                </svg>
             </div>
             <div class="mt-8">
-                <p class="text-xl font-semibold my-2">Infraestructura</p>
+                <p class="text-xl font-semibold my-2">Clientes</p>
                 <div class="flex space-x-2 text-gray-400 text-sm">
                     <!-- svg  -->
                     <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -128,26 +129,25 @@
                     <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
                     </svg>
-                     <p>2 Days Left</p> 
+                     <p>1 Weeks Left</p> 
                 </div>
-                <div class="border-t-2 "></div>
-
+                <div class="border-t-2"></div>
                 <div class="flex justify-between">
                     <div class="my-2">
                         <p class="font-semibold text-base mb-2">Team Member</p>
                         <div class="flex space-x-2">
                             <img src="https://images.pexels.com/photos/614810/pexels-photo-614810.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500" 
                             class="w-6 h-6 rounded-full"/>
-                            <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRxSqK0tVELGWDYAiUY1oRrfnGJCKSKv95OGUtm9eKG9HQLn769YDujQi1QFat32xl-BiY&usqp=CAU" 
+                             <img src="https://upload.wikimedia.org/wikipedia/commons/e/ec/Woman_7.jpg" 
                             class="w-6 h-6 rounded-full"/>
-                            <img src="https://upload.wikimedia.org/wikipedia/commons/e/ec/Woman_7.jpg" 
+                             <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRxSqK0tVELGWDYAiUY1oRrfnGJCKSKv95OGUtm9eKG9HQLn769YDujQi1QFat32xl-BiY&usqp=CAU" 
                             class="w-6 h-6 rounded-full"/>
                         </div>
                     </div>
                      <div class="my-2">
                         <p class="font-semibold text-base mb-2">Progress</p>
                         <div class="text-base text-gray-400 font-semibold">
-                            <p>4%</p>
+                            <p>34%</p>
                         </div>
                     </div>
                 </div>
@@ -155,17 +155,15 @@
         </div>
 
         <!-- 4 card -->
-        
-        <div class="bg-white py-6 px-6 rounded-3xl w-64 my-4 shadow-lg hover:shadow-xl border-transparent border-2 hover:border-gray-100">
-            <div class="-mb-4 -mt-12 text-white rounded-full h-16 w-16 flex items-center justify-center shadow-xl bg-yellow-500 ">
+        <div class=" bg-white py-6 px-6 rounded-3xl w-56 my-4 shadow-xl border">
+            <div class="-mb-4 -mt-12 text-white flex items-center  rounded-full h-16 w-16 flex justify-center shadow-xl bg-pink-500 left-4 -top-6">
                 <!-- svg  -->
                 <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 3.055A9.001 9.001 0 1020.945 13H11V3.055z" />
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.488 9H15V3.512A9.025 9.025 0 0120.488 9z" />
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 18h.01M8 21h8a2 2 0 002-2V5a2 2 0 00-2-2H8a2 2 0 00-2 2v14a2 2 0 002 2z" />
                 </svg>
             </div>
             <div class="mt-8">
-                <p class="text-xl font-semibold my-2">Usuarios</p>
+                <p class="text-xl font-semibold my-2">Clientes</p>
                 <div class="flex space-x-2 text-gray-400 text-sm">
                     <!-- svg  -->
                     <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -179,30 +177,32 @@
                     <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
                     </svg>
-                     <p>1 Month Left</p> 
+                     <p>1 Weeks Left</p> 
                 </div>
-                <div class="border-t-2 "></div>
-
+                <div class="border-t-2"></div>
                 <div class="flex justify-between">
                     <div class="my-2">
                         <p class="font-semibold text-base mb-2">Team Member</p>
                         <div class="flex space-x-2">
-                           <img src="https://images.pexels.com/photos/614810/pexels-photo-614810.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500" 
+                            <img src="https://images.pexels.com/photos/614810/pexels-photo-614810.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500" 
                             class="w-6 h-6 rounded-full"/>
-                            <img src="https://upload.wikimedia.org/wikipedia/commons/e/ec/Woman_7.jpg" 
+                             <img src="https://upload.wikimedia.org/wikipedia/commons/e/ec/Woman_7.jpg" 
+                            class="w-6 h-6 rounded-full"/>
+                             <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRxSqK0tVELGWDYAiUY1oRrfnGJCKSKv95OGUtm9eKG9HQLn769YDujQi1QFat32xl-BiY&usqp=CAU" 
                             class="w-6 h-6 rounded-full"/>
                         </div>
                     </div>
                      <div class="my-2">
                         <p class="font-semibold text-base mb-2">Progress</p>
                         <div class="text-base text-gray-400 font-semibold">
-                            <p>90%</p>
+                            <p>34%</p>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
         
+    </div>
     </div>
 </div>
 

@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Proveedor;
 use Illuminate\Http\Request;
 
 class ProveedorController extends Controller
@@ -14,7 +15,9 @@ class ProveedorController extends Controller
      */
     public function index()
     {
-        return "Proveedor";
+        $proveedores = Proveedor::all();
+        return view('proveedores.index',compact('proveedores'));
+        //return $proveedores;
     }
 
     /**
@@ -35,7 +38,15 @@ class ProveedorController extends Controller
      */
     public function store(Request $request)
     {
-      
+        $request->validate([
+            'rfc' => 'required',
+            'razon_social' => 'required'
+        ]);
+        Proveedor::create([
+            'rfc' => $request->rfc,
+            'razon_social'=>$request->razon_social
+        ]);
+        return redirect()->route('proveedor.index');
     }
     /**
      * Display the specified resource.
@@ -43,7 +54,7 @@ class ProveedorController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show($proveedor)
     {
         //
     }
@@ -53,9 +64,10 @@ class ProveedorController extends Controller
      * @param  User  $users
      * @return \Illuminate\Http\Response
      */
-    public function edit()
+    public function edit(Proveedor $proveedor)
     {
-       
+       return view('proveedores.edit',compact('proveedor'));
+       //return $proveedor;
     }
 
     /**
@@ -65,9 +77,14 @@ class ProveedorController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request)
+    public function update(Request $request, Proveedor $proveedor)
     {
-       
+        $request->validate([
+            'rfc' => 'required',
+            'razon_social' => 'required'
+        ]);
+        $proveedor->update($request->all());
+        return redirect()->route('proveedor.index');
     }
 
     /**
@@ -76,8 +93,9 @@ class ProveedorController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy()
+    public function destroy(Proveedor $proveedor)
     {
-        
+        $proveedor->delete();
+        return redirect()->route('proveedor.index')->with('eliminar','ok');
     }
 }
