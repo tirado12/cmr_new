@@ -19,6 +19,7 @@ class UsersController extends Controller
     {
         //$roles=User::with('roles')->paginate(10);
          $roles=User::with('roles')->get();
+         
          $roles_list=Role::all();
 
         // return $roles[1]->roles[0]->name;

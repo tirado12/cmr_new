@@ -18,4 +18,8 @@ class Municipio extends Model
         'direccion',
         'distrito_id'
     ];
+
+    public function distrito(){
+        return $this->hasOne(Distrito::class, 'id_distrito', 'distrito_id'); //arg1 - Model, arg2 - foreign key
+    }
 }

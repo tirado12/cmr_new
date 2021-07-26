@@ -6,3 +6,7 @@
     background-color: transparent !important;
     color: rgb(221, 51, 51)!important;
 }
+
+table.dataTable.dtr-inline.collapsed>tbody>tr[role="row"]>td:first-child:before, table.dataTable.dtr-inline.collapsed>tbody>tr[role="row"]>th:first-child:before {
+    display: none!important;
+}
