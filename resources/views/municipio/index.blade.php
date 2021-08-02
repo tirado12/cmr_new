@@ -110,7 +110,7 @@
       
       <div class="relative p-6 flex-auto">
         
-          <div class="grid grid-cols-8 gap-8">
+          <div class="grid grid-cols-8 gap-6">
             <div class="col-span-8 ">
               <label for="first_name" class="text-base font-medium text-gray-700">Nombre: </label>
               <label id="nombre_municipio" class="text-base font-bold text-gray-900"></label>
@@ -194,8 +194,8 @@
     $('#nombre_municipio').html(municipio.nombre); 
     $('#rfc_municipio').html(municipio.rfc); 
     $('#direccion_municipio').html(municipio.direccion); 
-    $('#distrito_municipio').html(municipio.distrito.nombre); 
-    $('#region_municipio').html(distrito[municipio.distrito_id - 1].nombre_region); 
+    $('#distrito_municipio').html(municipio.distrito.nombre + ' - ' + municipio.distrito.id_distrito); 
+    $('#region_municipio').html(distrito[municipio.distrito_id - 1].nombre_region + ' - ' + distrito[municipio.distrito_id - 1].id_region); 
     document.getElementById(modalID).classList.toggle("hidden");
     document.getElementById(modalID + "-backdrop").classList.toggle("hidden");
   }

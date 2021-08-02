@@ -3,10 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\Models\Cliente;
+use App\Models\Municipio;
 use App\Models\User;
-use CreateEstadoTable;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Crypt;
 use Illuminate\Support\Facades\Hash;
 
 class ClienteController extends Controller
@@ -18,7 +17,10 @@ class ClienteController extends Controller
      */
     public function index()
     {
-        return "clientes";
+        $clientes = Cliente::with('municipio')->get();
+        $municipios = Municipio::all();
+        
+        return view('cliente.index', compact('clientes', 'municipios'));
     }
 
     /**
@@ -26,7 +28,7 @@ class ClienteController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create()
+    public function create(Request $request)
     {
         //
     }
@@ -39,7 +41,38 @@ class ClienteController extends Controller
      */
     public function store(Request $request)
     {
-      
+        //obtenemos el campo file definido en el formulario
+        if (!empty($request->file('file'))) {
+            $file = $request->file('file');
+            //Move Uploaded File
+            $destinationPath = './uploads';
+            $file->move($destinationPath, $file->getClientOriginalName());
+            $destinationPath = 'http://127.0.0.1:8000/uploads/' . $file->getClientOriginalName();
+            $request['logo'] = $destinationPath;
+        }
+        
+        
+        $request->validate([
+            'user' => 'required',
+            'email' => 'required',
+            'anio_inicio' => 'required',
+            'anio_fin' => 'required',
+            'logo' => 'required',
+            'municipio_id' => 'required',
+            'password' => ['required', 'min:8', 'regex:/^.*(?=.{3,})(?=.*[a-zA-Z])(?=.*[0-9])(?=.*[\d\x])(?=.*[!$#%]).*$/', 'confirmed'],
+        ])->with('otro', 'ot');
+        
+        
+        Cliente::create([
+            'user' => $request->user,
+            'email' => $request->email,
+            'anio_inicio' => $request->anio_inicio,
+            'anio_fin' => $request->anio_fin,
+            'logo' => $request->logo,
+            'municipio_id' => $request->municipio_id,
+            'password' => bcrypt($request->password)
+        ]);
+        return redirect()->route('clientes.index')->withInput();
     }
     /**
      * Display the specified resource.
@@ -51,15 +84,16 @@ class ClienteController extends Controller
     {
         //
     }
-     /**
+    /**
      * Show the form for editing the specified resource.
      *
      * @param  User  $users
      * @return \Illuminate\Http\Response
      */
-    public function edit(User $user)
+    public function edit(Cliente $cliente)
     {
-       
+        $municipios = Municipio::all();
+        return view('cliente.edit', compact('cliente', 'municipios'));
     }
 
     /**
@@ -69,9 +103,47 @@ class ClienteController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, User $user)
+    public function update(Request $request, Cliente $cliente)
     {
-       
+        if (empty($request['password'])) {
+            $request['password'] = $cliente->password;
+        } else {
+            $request['password'] = bcrypt($request['password']);
+        }
+        //obtenemos el campo file definido en el formulario
+        if (!empty($request->file('file'))) {
+            $file = $request->file('file');
+            //Move Uploaded File
+            $destinationPath = './uploads';
+            $file->move($destinationPath, $file->getClientOriginalName());
+            $destinationPath = 'http://127.0.0.1:8000/uploads/' . $file->getClientOriginalName();
+            $request['logo'] = $destinationPath;
+        }else{
+            $request['logo'] = $cliente->logo;
+        }
+        
+        $request->validate([
+            'user' => 'required',
+            'email' => 'required|email',
+            'anio_inicio' => 'required',
+            'anio_fin' => 'required',
+            'logo' => 'required',
+            'municipio_id' => 'required',
+            'password' => 'required',
+        ]);
+
+        $cliente->user = $request['user'];
+        $cliente->email = $request['email'];
+        $cliente->anio_inicio = $request['anio_inicio'];
+        $cliente->anio_fin = $request['anio_fin'];
+        $cliente->logo = $request['logo'];
+        $cliente->municipio_id = $request['municipio_id'];
+        $cliente->password = $request['password'];
+
+        $cliente->update();
+
+        return redirect()->route('clientes.index');
+
     }
 
     /**
@@ -82,43 +154,74 @@ class ClienteController extends Controller
      */
     public function destroy(User $user)
     {
-        
+
     }
 
-    // ============================= Funciones API ============================= //
+    /**
+     * Display a listing of the resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
 
-    public function getCliente($id){
-        $cliente = Cliente::where('id_cliente', $id)->join('municipios', 'municipios.id_municipio', '=', 'clientes.municipio_id')->join('distritos',  'distrito_id','=', 'distritos.id_distrito')->select('id_cliente', 'rfc', 'direccion', 'distritos.nombre as nombre_distrito', 'municipios.nombre as nombre_municipio','municipios.id_municipio as clave', 'anio_inicio', 'anio_fin', 'logo')->get();
+    public function userCliente(Request $request)
+    {
+        $cliente = Cliente::where('user', $request->user)->count();  
+        
         return $cliente;
     }
 
-    public function getUsuario($user, $password, $id_OneSignal){
-        $user = strtolower($user);   
-        $user = User::where('name',$user)->first();
-        if($user != null) {
+    public function emailCliente(Request $request)
+    {
+        $cliente = Cliente::where('email', $request->email)->count();  
+        return $cliente;
+    }
+
+
+    // ============================= Funciones API ============================= //
+
+    public function getCliente($id)
+    {
+        $cliente = Cliente::find($id)
+            ->join('municipios', 'municipios.id_municipio', '=', 'clientes.municipio_id')
+            ->join('distritos', 'distrito_id', '=', 'distritos.id_distrito')
+            ->select('id_cliente', 'rfc', 'direccion', 'distritos.nombre as nombre_distrito', 'municipios.nombre as nombre_municipio', 'municipios.id_municipio as clave', 'anio_inicio', 'anio_fin', 'logo')
+            ->get();
+        return $cliente;
+    }
+
+    public function getUsuario($user, $password, $id_OneSignal)
+    {
+        $user = strtolower($user);
+        $user = Cliente::where('user', $user)->first();
+
+        if ($user != null) {
             //$password_dc = Crypt::decrypt($user->password);
             //$correcta = strcmp($password_dc, $password) == 0;
-        if (Hash::check($password, $user->password)) {
-            if($password == null) {
-                return null;
-            }else {
-                $cliente = Cliente::where('user_id', $user->id)->join('users', 'users.id', '=', 'clientes.user_id')->select('id_cliente', 'remember_token')->get();
-                $cliente_up = Cliente::find($cliente[0]->id_cliente);
-                $cliente_up->id_onesignal = $id_OneSignal;
-                $cliente_up->save();
-                return $cliente;
+            if (Hash::check($password, $user->password)) {
+                if ($password == null) {
+                    return null;
+                } else {
+
+                    $cliente = Cliente::find($user->id_cliente)
+                        ->select('id_cliente', 'remember_token')->get();
+                    return $cliente;
+                    $cliente_up = Cliente::find($cliente->id_cliente);
+                    $cliente_up->id_onesignal = $id_OneSignal;
+                    $cliente_up->save();
+                    return $cliente;
+                }
             }
-        }
-        }else {
+        } else {
             return null;
         }
     }
-    public function getUsuarioToken($token){
-        $user = User::where('remember_token',$token)->first();
-        if($user != null) {
-            $cliente = Cliente::where('user_id', $user->id)->join('users', 'users.id', '=', 'clientes.user_id')->select('id_cliente', 'remember_token')->get();
+    public function getUsuarioToken($token)
+    {
+        $user = Cliente::where('remember_token', $token)->first();
+        if ($user != null) {
+            $cliente = Cliente::find($user->id_cliente)->select('id_cliente', 'remember_token')->get();
             return $cliente;
-        }else {
+        } else {
             return null;
         }
     }

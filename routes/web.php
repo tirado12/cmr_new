@@ -57,6 +57,8 @@ require __DIR__.'/auth.php';
 
 Route::resource('users', UsersController::class)->names('admin.users');
 Route::resource('clientes', ClienteController::class)->except(['getCliente','getUsuario','getUsuarioToken'])->names('clientes');
+Route::get('userCliente', [ClienteController::class, 'userCliente']);
+Route::get('emailCliente', [ClienteController::class, 'emailCliente']);
 Route::resource('comprometidoDesglose', ComprometidoDesgloseController::class)->names('comprometidoDesglose');
 Route::resource('contratistas', ContratistaController::class)->names('contratistas');
 Route::resource('contratoArrendamiento', ContratoArrendamientoController::class)->names('contratoArrendamiento');

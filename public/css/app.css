@@ -11761,6 +11761,10 @@ select {
   line-height: 1;
 }
 
+.leading-2 {
+  line-height: .50rem;
+}
+
 .leading-3 {
   line-height: .75rem;
 }

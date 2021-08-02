@@ -21,7 +21,7 @@ class MunicipioController extends Controller
         $municipio = Municipio::with('distrito')->get();
         
         $distrito = Distrito::join('regiones', 'regiones.id_region', '=', 'distritos.region_id')
-        ->select('id_distrito','distritos.nombre', 'regiones.nombre as nombre_region')
+        ->select('id_distrito','distritos.nombre', 'regiones.nombre as nombre_region', 'id_region')
         ->orderBy('id_distrito')
         ->get();
          //$roles_list=Role::all();
@@ -46,19 +46,7 @@ class MunicipioController extends Controller
      */
     public function store(Request $request)
     {
-        $request->validate([
-            'nombre' => 'required',
-            '' => 'required',
-            'password' => 'required',
-            'roles' => 'required'
-        ]);
-        User::create([
-        'name' => $request->name,
-        'email' => $request->email,
-        'password' => bcrypt($request->password)
-        ])->assignRole($request->roles);
         
-        return redirect()->route('admin.users.index');
       
     }
     /**
@@ -92,7 +80,6 @@ class MunicipioController extends Controller
      */
     public function update(Request $request, Municipio $municipio)
     {
-        
         $request->validate([
             'nombre' => 'required',
             'distrito_id' => 'required',
