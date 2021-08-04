@@ -15,14 +15,17 @@ class CreateClientesTable extends Migration
     {
         Schema::create('clientes', function (Blueprint $table) {
             $table->id('id_cliente');
+            $table->string('user')->unique();
+            $table->string('email')->unique();
+            $table->text('password');
+            $table->rememberToken()->nullable();
             $table->string('anio_inicio',4);
             $table->string('anio_fin',4);
             $table->text('logo', 255);
-            $table->string('id_onesignal',150);
-            $table->unsignedBigInteger('user_id');
-            $table->foreign('user_id')->references('id')->on('users');
+            $table->string('id_onesignal',150)->nullable();
             $table->unsignedBigInteger('municipio_id');
             $table->foreign('municipio_id')->references('id_municipio')->on('municipios');
+            
             $table->timestamps();
         });
     }

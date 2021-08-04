@@ -10,3 +10,25 @@
 table.dataTable.dtr-inline.collapsed>tbody>tr[role="row"]>td:first-child:before, table.dataTable.dtr-inline.collapsed>tbody>tr[role="row"]>th:first-child:before {
     display: none!important;
 }
+
+.custom-input-file {
+    cursor: pointer;
+    margin: 0 auto 0;
+    min-height: 15px;
+    overflow: hidden;
+    position: relative;
+    
+  }
+  
+  .custom-input-file .input-file {
+   border: 10000px solid transparent;
+   cursor: pointer;
+   font-size: 10000px;
+   margin: 0;
+   opacity: 0;
+   outline: 0 none;
+   padding: 0;
+   position: absolute;
+   right: -1000px;
+   top: -1000px;
+  }

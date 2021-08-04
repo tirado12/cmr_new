@@ -12,13 +12,20 @@ class Cliente extends Model
     protected $table = "clientes";
 
     protected $fillable=[
-        'acta_integracion_consejo',
-        'acta_priorizacion',
-        'prodim',
-        'gastos_indirectos',
-        'anio',
+        'user',
+        'email',
+        'password',
         'anio_inicio',
-        'ani_fin',
+        'anio_fin',
+        'logo',
         'municipio_id'
     ];
+
+    protected $hidden = [
+        'password',
+    ];
+
+    public function municipio(){
+        return $this->hasOne(Municipio::class, 'id_municipio', 'municipio_id'); //arg1 - Model, arg2 - foreign key
+    }
 }
