@@ -6,6 +6,7 @@ use App\Models\Municipio;
 use Illuminate\Http\Request;
 use PhpParser\Node\Stmt\Echo_;
 use App\Models\Distrito;
+use App\Models\User;
 use Illuminate\Support\Facades\Log;
 
 class MunicipioController extends Controller

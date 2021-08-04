@@ -14,6 +14,8 @@ class Obra extends Model
     protected $fillable = [
         'numero_obra',
         'nombre_obra',
+        'nombre_corto',
+        'nombre_archivo',
         'numero_contrato',
         'oficio_notificacion',
         'monto_contratado',

@@ -8,6 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 class IntegrantesCabildo extends Model
 {
     use HasFactory;
+    protected $primaryKey = 'id_integrante';
     
     protected $table = 'integrantes_cabildo';
 
@@ -17,6 +18,6 @@ class IntegrantesCabildo extends Model
         'telefono',
         'correo',
         'rfc',
-        'municipío_id'
+        'municipio_id'
     ];
 }

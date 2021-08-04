@@ -105,7 +105,7 @@
         </button>
       </div>
       <!--body-->
-      <form action="{{ route('contratistas.store', $contratista->id_contratista) }}" method="POST">
+      <form action="{{ route('contratistas.store') }}" method="POST">
         @csrf
         @method('POST')
       <div class="relative p-6 flex-auto">

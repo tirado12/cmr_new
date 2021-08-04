@@ -1,4 +1,4 @@
-<div class="p-6 w-58  bg-blue-cmr1 h-screen"   x-show="sidebar"  @click.away="sidebar = false" role="menu"
+<div class="p-6 w-58  bg-blue-cmr1 min-h-full"   x-show="sidebar"  @click.away="sidebar = false" role="menu"
                     x-transition:enter="transition ease-out duration-300"
                     x-transition:enter-start="opacity-0 transform scale-90"
                     x-transition:enter-end="opacity-100 transform scale-100"

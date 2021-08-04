@@ -97,7 +97,7 @@
         </button>
       </div>
       <!--body-->
-      <form action="" method="POST">
+      <form action="{{ route('proveedor.store') }}" method="POST">
         @csrf
         @method('POST')
       <div class="relative p-6 flex-auto">

@@ -15,7 +15,7 @@ use App\Http\Controllers\FuenteClienteController;
 use App\Http\Controllers\FuenteFinanciamientoController;
 use App\Http\Controllers\GastosIndirectosController;
 use App\Http\Controllers\GastosIndirectosFuentesController;
-use App\Http\Controllers\IntegranteCabildoController;
+use App\Http\Controllers\IntegrantesCabildoController;
 use App\Http\Controllers\LicitacionInvitacionController;
 use App\Http\Controllers\ListaRayaController;
 use App\Http\Controllers\MidsController;
@@ -69,7 +69,7 @@ Route::resource('fuenteCliente', FuenteClienteController::class)->except(['getFu
 Route::resource('fuenteFinanciamiento', FuenteFinanciamientoController::class)->names('fuenteFinanciamiento');
 Route::resource('gastosIndirectos', GastosIndirectosController::class)->names('gastosIndirectos');
 Route::resource('gastosIndirectosFuentes', GastosIndirectosFuentesController::class)->except(['getDesgloseGI'])->names('gastosIndirectosFuentes');
-Route::resource('integranteCabildo', IntegranteCabildoController::class)->names('integranteCabildo');
+Route::resource('integrante', IntegrantesCabildoController::class)->names('cabildo');
 Route::resource('licitacionInvitacion', LicitacionInvitacionController::class)->names('licitacionInvitacion');
 Route::resource('listaRaya', ListaRayaController::class)->names('listaRaya');
 Route::resource('mids', MidsController::class)->names('mids');
