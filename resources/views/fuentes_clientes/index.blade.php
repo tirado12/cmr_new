@@ -81,7 +81,7 @@
             <div class="flex justify-center">
             <form action="{{ route('fuenteCliente.destroy', $index->id_fuente_financ_cliente) }}" method="POST" class="form-eliminar" >
               <div>
-              <a type="button"  href="{{ route('fuenteCliente.edit', $index->id_fuente_financ_cliente)}}" class="bg-white text-sm text-blue-500 font-normal text-ms p-2 rounded rounded-lg">Editar</a>
+              <a type="button"  href="{{ route('fuenteCliente.edit', $index->id_fuente_financ_cliente)}}" class="bg-white text-sm text-blue-500 font-normal text-ms p-2 rounded rounded-lg">Editar</a> 
               <button class="bg-transparent text-blue-500 active:bg-transparent font-normal  text-sm p-2  rounded outline-none focus:outline-none  ease-linear transition-all duration-150" type="button" onclick="toggleModal('modal-id', {{$index}}, {{$cliente}}, {{$fuenteClientes}}, {{$key}})">
                 Detalles
               </button>
@@ -132,43 +132,43 @@
               <label id="nombre_municipio" class="text-base font-bold text-gray-900"></label>
             </div>
             <div class="col-span-8">
-              <label for="monto_proyectado" class=" text-base font-medium text-gray-700">Monto proyectado: </label>
-              <label id="monto_proyectado" class="text-base font-bold text-gray-900 myDIV"></label>
+              <label for="ver_monto_proyectado" class=" text-base font-medium text-gray-700">Monto proyectado: </label>
+              <label id="ver_monto_proyectado" class="text-base font-bold text-gray-900 myDIV"></label>
             </div>
             <div class="col-span-8">
-              <label for="monto_comprometido" class=" text-base font-medium text-gray-700">Monto comprometido: </label>
-              <label id="monto_comprometido" class="text-base font-bold text-gray-900 myDIV"></label>
+              <label for="ver_monto_comprometido" class=" text-base font-medium text-gray-700">Monto comprometido: </label>
+              <label id="ver_monto_comprometido" class="text-base font-bold text-gray-900 myDIV"></label>
             </div>
             <div class="col-span-8">
-              <label for="acta_integracion_consejo" class="text-base font-medium text-gray-700">Acta de integración: </label>
-              <label id="acta_integracion_consejo" class="text-base font-bold text-gray-900"></label>
+              <label for="ver_acta_integracion_consejo" class="text-base font-medium text-gray-700">Acta de integración: </label>
+              <label id="ver_acta_integracion_consejo" class="text-base font-bold text-gray-900"></label>
             </div>
 
             <div class="col-span-8">
-              <label for="acta_priorizacion" class="text-base font-medium text-gray-700">Acta priorización: </label>
-              <label id="acta_priorizacion" class="text-base font-bold text-gray-900"></label>
+              <label for="ver_acta_priorizacion" class="text-base font-medium text-gray-700">Acta priorización: </label>
+              <label id="ver_acta_priorizacion" class="text-base font-bold text-gray-900"></label>
             </div>
             <div class="col-span-8">
-                <label for="adendum_priorizacion" class="text-base font-medium text-gray-700">Adendum priorización: </label>
-                <label id="adendum_priorizacion" class="text-base font-bold text-gray-900"></label>
+                <label for="ver_adendum_priorizacion" class="text-base font-medium text-gray-700">Adendum priorización: </label>
+                <label id="ver_adendum_priorizacion" class="text-base font-bold text-gray-900"></label>
               </div>
             <div class="col-span-8">
-                <label for="ejercicio" class="text-base font-medium text-gray-700">Ejercicio: </label>
-                <label id="ejercicio" class="text-base font-bold text-gray-900"></label>
+                <label for="ver_ejercicio" class="text-base font-medium text-gray-700">Ejercicio: </label>
+                <label id="ver_ejercicio" class="text-base font-bold text-gray-900"></label>
               </div>
             <div class="col-span-8">
                 <label for="fuente_financiamiento" class="text-base font-medium text-gray-700">Fuente de financiamiento: </label>
-                <label id="fuente_financiamiento" class="text-base font-bold text-gray-900"></label>
+                <label id="ver_fuente_financiamiento" class="text-base font-bold text-gray-900"></label>
               </div>
               <div class="col-span-8">
                 <label for="prodim" class="text-base font-medium text-gray-700">Prodim: </label>
-                <span id="prodim" class=" "></span>
+                <span id="ver_prodim" class=" "></span>
               </div>
               <div class="col-span-8">
                 <label for="gastos_indirectos" class="text-base font-medium text-gray-700">Gastos indirectos: </label>
-                <span id="gastos_indirectos" class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full ">Pendiente</span>
+                <span id="ver_gastos_indirectos" class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full ">Pendiente</span>
               </div>
-
+             
           </div>
         
       </div>
@@ -194,7 +194,7 @@
         </button>
       </div>
       <!--body-->
-      <form action="{{ route('fuenteCliente.store') }}" method="POST" onsubmit="validateForm()" id="formulario" name="formulario">
+      <form action="{{ route('fuenteCliente.store') }}" method="POST" id="formulario" name="formulario">
         @csrf
         @method('POST')
       <div class="relative p-6 flex-auto">
@@ -237,6 +237,7 @@
                 <input type="number" name="monto_comprometido" id="monto_comprometido" class="pl-7 mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md" placeholder="0.0" >
               </div>
               <label id="error_monto_comprometido" name="error_monto_comprometido" class="hidden text-base font-normal text-red-500" >Porfavor ingresar una cantidad</label>  
+              <label id="error_monto_menor" name="error_monto_menor" class="hidden text-base font-normal text-red-500" >El monto comprometido no puede ser mayor que el proyectado</label>  
             </div>
             <div class="col-span-4">
                 <label id="label_acta_integracion_consejo" for="acta_integracion_consejo" class="block text-sm font-medium text-gray-700">Acta integracion *</label>
@@ -286,7 +287,7 @@
       <!--footer-->
       <div class=" p-4 border-t border-solid border-blueGray-200 rounded-b">
         
-        <span class="block text-xs">Verifique los campos obligatorios marcados con un ( * )</span>
+        <span class="block text-xs">Verifique los campos obligatorios marcados con un ( * ) </span>
         <div class="text-right">
         <button class="text-red-500 background-transparent font-bold uppercase px-6 py-2 text-sm outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150" type="button" onclick="toggleMod('modal')">
           Cancelar
@@ -383,11 +384,10 @@ function validarCliente() {
 
 //validacion de campos del modal
 $(document).ready(function() {
-  
-
- $("#modal input").keyup(function() {
-  console.log($(this).attr('id'));
+   $("#modal input").keyup(function() {
+  //console.log($(this).attr('id'));
       var monto = $(this).val();
+      
       if(monto != ''){
       $('#error_'+$(this).attr('id')).fadeOut();
       $("#label_"+$(this).attr('id')).removeClass('text-red-500');
@@ -400,8 +400,10 @@ $(document).ready(function() {
       $("#label_"+$(this).attr('id')).addClass('text-red-500');
       $("#label_"+$(this).attr('id')).removeClass('text-gray-700');
       }
+    
     });
 });
+
 //validacion del formulario con el btn guardar
 $().ready(function() {
   $("#formulario").validate({
@@ -438,17 +440,22 @@ $(".btn-AddDate").on("click",function() {
     
 });
   function toggleModal(modalID, index, cliente, fuentes, key){
-      //console.log(fuentes[key].fuente.nombre_corto);
-    $('#nombre_municipio').html(cliente[key].nombre); 
-    $('#monto_proyectado').html(index.monto_proyectado); 
-    $('#monto_comprometido').html(index.monto_comprometido); 
-    $('#acta_integracion_consejo').html(index.acta_integracion_consejo); 
-    $('#acta_priorizacion').html(index.acta_priorizacion); 
-    $('#adendum_priorizacion').html(index.adendum_priorizacion);
-    $('#ejercicio').html(index.ejercicio);
-    $('#fuente_financiamiento').html(fuentes[key].fuente.nombre_corto);
-    styleValue('#prodim', index.prodim);
-    styleValue('#gastos_indirectos', index.gastos_indirectos);
+      cliente.forEach(function(municipio) {
+        if(index.cliente_id == municipio.id_cliente){
+        //console.log( municipio.id_cliente + " " +  municipio.nombre);
+        $('#nombre_municipio').html(municipio.nombre); 
+        }
+        });
+        
+    $('#ver_monto_proyectado').html(index.monto_proyectado); 
+    $('#ver_monto_comprometido').html(index.monto_comprometido); 
+    $('#ver_acta_integracion_consejo').html(index.acta_integracion_consejo); 
+    $('#ver_acta_priorizacion').html(index.acta_priorizacion); 
+    $('#ver_adendum_priorizacion').html(index.adendum_priorizacion);
+    $('#ver_ejercicio').html(index.ejercicio);
+    $('#ver_fuente_financiamiento').html(fuentes[key].fuente.nombre_corto);
+    styleValue('#ver_prodim', index.prodim);
+    styleValue('#ver_gastos_indirectos', index.gastos_indirectos);
     
     document.getElementById(modalID).classList.toggle("hidden");
     document.getElementById(modalID + "-backdrop").classList.toggle("hidden");
@@ -505,7 +512,5 @@ $(document).ready(function() {
     .columns.adjust();
 });
 </script>
-
-
 
 @endsection

@@ -119,40 +119,46 @@
           </button>
         </div>
         <!--body-->
-        <form action="{{ route('cabildo.store') }}" method="POST">
+        <form action="{{ route('cabildo.store') }}" method="POST" id="formulario" name="formulario">
           @csrf
           @method('POST')
         <div class="relative p-6 flex-auto">
             <div class="grid grid-cols-8 gap-8">
               <div class="col-span-8 ">
-                <label for="first_name" class="block text-sm font-medium text-gray-700">Nombre *</label>
+                <label id="label_nombre" for="first_name" class="block text-sm font-medium text-gray-700">Nombre *</label>
                 <input type="text" name="nombre" id="nombre" class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md" required maxlength="13">
+                <label id="error_nombre" name="error_nombre" class="hidden text-base font-normal text-red-500" >Porfavor ingresa un nombre</label>
               </div>
               <div class="col-span-8">
-                <label for="rfc" class="block text-sm font-medium text-gray-700">RFC *</label>
+                <label id="label_rfc" for="rfc" class="block text-sm font-medium text-gray-700">RFC *</label>
                 <input type="text" name="rfc" id="rfc" class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md" required>
+                <label id="error_rfc" name="error_rfc" class="hidden text-base font-normal text-red-500" >Porfavor ingresa al menos un RFC generico con 5 caracteres</label>
               </div>
               <div class="col-span-8">
-                <label for="cargo" class="block text-sm font-medium text-gray-700">Cargo *</label>
+                <label id="label_cargo" for="cargo" class="block text-sm font-medium text-gray-700">Cargo *</label>
                 <input type="text" name="cargo" id="cargo" class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md" required>
+                <label id="error_cargo" name="error_cargo" class="hidden text-base font-normal text-red-500" >Porfavor ingresa un cargo</label>
               </div>
               <div class="col-span-8">
-                  <label for="telefono" class="block text-sm font-medium text-gray-700">Telefono *</label>
+                  <label id="label_telefono" for="telefono" class="block text-sm font-medium text-gray-700">Telefono *</label>
                   <input type="tel" name="telefono" id="telefono" class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md" required>
-              </div>
+                  <label id="error_telefono" name="error_telefono" class="hidden text-base font-normal text-red-500" >Porfavor ingresar un telefono</label>
+                </div>
               
               <div class="col-span-8">
-                  <label for="correo" class="block text-sm font-medium text-gray-700">Correo *</label>
+                  <label id="label_correo" for="correo" class="block text-sm font-medium text-gray-700">Correo *</label>
                   <input type="email" name="correo" id="correo" class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md" required>
-              </div>
+                  <label id="error_correo" name="error_correo" class="hidden text-base font-normal text-red-500" >Porfavor ingresar un correo</label>
+                </div>
               <div class="col-span-8" >
-                <label for="municipio" class="block text-sm font-medium text-gray-700">Municipio *</label>
-                <select id="municipio" name="municipio" class="mt-1 block w-full py-2 px-3 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
+                <label id="label_municipio" for="municipio" class="block text-sm font-medium text-gray-700">Municipio *</label>
+                <select id="municipio" name="municipio" onchange="validarCliente()" class="mt-1 block w-full py-2 px-3 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
+                    <option value="">Elija una opción</option>
                     @foreach($municipios as $municipio)
                     <option value="{{ $municipio->id_municipio }}">{{ $municipio->nombre }}</option>
                      @endforeach
-                    
                 </select>
+                <label id="error_municipio" name="error_municipio" class="hidden text-base font-normal text-red-500" >Seleccione una opción</label>
           </div>
             </div>
           
@@ -165,7 +171,7 @@
           <button class="text-red-500 background-transparent font-bold uppercase px-6 py-2 text-sm outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150" type="button" onclick="toggleModal('modal-id')">
             Cancelar
           </button>
-          <button type="submit" class="bg-green-500 text-white active:bg-green-600 font-bold uppercase text-sm px-6 py-3 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150" onclick="toggleModal('modal-id')">
+          <button type="submit" class="bg-green-500 text-white active:bg-green-600 font-bold uppercase text-sm px-6 py-3 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150" >
             Guardar
           </button>
           </div>
@@ -178,7 +184,8 @@
 
 <div class="hidden opacity-25 fixed inset-0 z-40 bg-black" id="modal-id-backdrop"></div>
 <script src="//cdn.jsdelivr.net/npm/sweetalert2@10"></script>
-<script type="text/javascript" charset="utf8" src="https://code.jquery.com/jquery-3.5.1.js"></script>  
+<script type="text/javascript" charset="utf8" src="https://code.jquery.com/jquery-3.5.1.js"></script> 
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.1/jquery.validate.min.js"></script>  
 <!--Alerta de confirmacion-->
 @if(session('eliminar')=='ok')
   <script>
@@ -198,7 +205,7 @@
   title: 'swal_title_modificado',
   cancelButton: 'swal_button_cancel_modificado'
 },
-  title: '¿Seguro que desea eliminar este contratista?',
+  title: '¿Seguro que desea eliminar este integrante?',
   text: "¡Aviso, esta acción es irreversible!",
   icon: 'warning',
   showCancelButton: true,
@@ -221,6 +228,68 @@
     document.getElementById(modalID).classList.toggle("hidden");
     document.getElementById(modalID + "-backdrop").classList.toggle("hidden");
   }
+
+//validacion de campos del modal
+$(document).ready(function() {
+   $("#modal-id input").keyup(function() {
+  //console.log($(this).attr('id'));
+      var monto = $(this).val();
+      
+      if(monto != ''){
+      $('#error_'+$(this).attr('id')).fadeOut();
+      $("#label_"+$(this).attr('id')).removeClass('text-red-500');
+      $("#label_"+$(this).attr('id')).addClass('text-gray-700');
+      //$('#guardar').removeAttr("disabled");
+      }
+      else{
+      //$("#guardar").attr("disabled", true);
+      $('#error_'+$(this).attr('id')).fadeIn();
+      $("#label_"+$(this).attr('id')).addClass('text-red-500');
+      $("#label_"+$(this).attr('id')).removeClass('text-gray-700');
+      }
+    
+    });
+});
+
+//Validacion de select municipio
+function validarCliente() {
+  var valor = document.getElementById("municipio").value;
+  if(valor != ''){
+    $('#error_municipio').fadeOut();
+    $("#label_municipio").removeClass('text-red-500');
+    $("#label_municipio").addClass('text-gray-700');
+  }else{
+    $('#error_municipio').fadeIn();
+    $("#label_municipio").addClass('text-red-500');
+    $("#label_municipio").removeClass('text-gray-700');
+  }
+}
+
+
+//validacion del formulario con el btn guardar
+$().ready(function() {
+  $("#formulario").validate({
+    onfocusout: false,
+    onclick: false,
+		rules: {
+      nombre: { required: true},
+			rfc: { required: true, minlength: 5},
+      cargo: { required: true},
+      telefono: { required: true},
+      correo: { required: true},
+      municipio: { required: true}
+		},
+    errorPlacement: function(error, element) {
+      if(error != null){
+      $('#error_'+element.attr('id')).fadeIn();
+      }else{
+      $('#error_'+element.attr('id')).fadeOut();
+      }
+     // console.log(element.attr('id'));
+    },
+	}); 
+  
+});
 </script>
 <style>
   

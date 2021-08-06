@@ -71,7 +71,7 @@ Route::resource('fuenteCliente', FuenteClienteController::class)->except(['getFu
 Route::resource('fuenteFinanciamiento', FuenteFinanciamientoController::class)->names('fuenteFinanciamiento');
 Route::resource('gastosIndirectos', GastosIndirectosController::class)->names('gastosIndirectos');
 Route::resource('gastosIndirectosFuentes', GastosIndirectosFuentesController::class)->except(['getDesgloseGI'])->names('gastosIndirectosFuentes');
-Route::resource('integrante', IntegrantesCabildoController::class)->names('cabildo');
+Route::resource('integrantes', IntegrantesCabildoController::class)->names('cabildo');
 Route::resource('licitacionInvitacion', LicitacionInvitacionController::class)->names('licitacionInvitacion');
 Route::resource('listaRaya', ListaRayaController::class)->names('listaRaya');
 Route::resource('mids', MidsController::class)->names('mids');

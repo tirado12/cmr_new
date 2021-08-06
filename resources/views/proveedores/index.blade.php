@@ -97,19 +97,21 @@
         </button>
       </div>
       <!--body-->
-      <form action="{{ route('proveedor.store') }}" method="POST">
+      <form action="{{ route('proveedor.store') }}" method="POST" id="formulario" name="formulario">
         @csrf
         @method('POST')
       <div class="relative p-6 flex-auto">
         
           <div class="grid grid-cols-8 gap-8">
             <div class="col-span-8 ">
-              <label for="rfc" class="block text-sm font-medium text-gray-700">RFC *</label>
+              <label id="label_rfc" for="rfc" class="block text-sm font-medium text-gray-700">RFC *</label>
               <input type="text" name="rfc" id="rfc" autocomplete="given-name" class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md" required>
+              <label id="error_rfc" name="error_rfc" class="hidden text-base font-normal text-red-500" >Introduzca al menos un RFC generico con 5 caracteres</label>
             </div>
             <div class="col-span-8">
-              <label for="razon_social" class="block text-sm font-medium text-gray-700">Razón social *</label>
+              <label id="label_razon_social" for="razon_social" class="block text-sm font-medium text-gray-700">Razón social *</label>
               <input type="text" name="razon_social" id="razon_social" autocomplete="email" class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md" required>
+              <label id="error_razon_social" name="error_razon_social" class="hidden text-base font-normal text-red-500" >Introduzca una razon social</label>
             </div>
            
           </div>
@@ -123,7 +125,7 @@
         <button class="text-red-500 background-transparent font-bold uppercase px-6 py-2 text-sm outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150" type="button" onclick="toggleModal('modal-id')">
           Cancelar
         </button>
-        <button type="submit" class="bg-green-500 text-white active:bg-green-600 font-bold uppercase text-sm px-6 py-3 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150" onclick="toggleModal('modal-id')">
+        <button type="submit" class="bg-green-500 text-white active:bg-green-600 font-bold uppercase text-sm px-6 py-3 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150" >
           Guardar
         </button>
         </div>
@@ -135,7 +137,8 @@
 
 <div class="hidden opacity-25 fixed inset-0 z-40 bg-black" id="modal-id-backdrop"></div>
 <script src="//cdn.jsdelivr.net/npm/sweetalert2@10"></script>
-<script type="text/javascript" charset="utf8" src="https://code.jquery.com/jquery-3.5.1.js"></script>  
+<script type="text/javascript" charset="utf8" src="https://code.jquery.com/jquery-3.5.1.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.1/jquery.validate.min.js"></script>  
 <!--Alerta de confirmacion-->
 @if(session('eliminar')=='ok')
   <script>
@@ -172,23 +175,65 @@
  /* */
 </script>
 
-
 <script type="text/javascript">
   function toggleModal(modalID){
     document.getElementById(modalID).classList.toggle("hidden");
     document.getElementById(modalID + "-backdrop").classList.toggle("hidden");
   }
-</script>
-<style>
+
+//validacion de campos del modal
+$(document).ready(function() {
+   $("#modal-id input").keyup(function() {
+  //console.log($(this).attr('id'));
+      var monto = $(this).val();
+      
+      if(monto != ''){
+      $('#error_'+$(this).attr('id')).fadeOut();
+      $("#label_"+$(this).attr('id')).removeClass('text-red-500');
+      $("#label_"+$(this).attr('id')).addClass('text-gray-700');
+      //$('#guardar').removeAttr("disabled");
+      }
+      else{
+      //$("#guardar").attr("disabled", true);
+      $('#error_'+$(this).attr('id')).fadeIn();
+      $("#label_"+$(this).attr('id')).addClass('text-red-500');
+      $("#label_"+$(this).attr('id')).removeClass('text-gray-700');
+      }
+    
+    });
+});
+
+//validacion del formulario con el btn guardar
+$().ready(function() {
+  $("#formulario").validate({
+    onfocusout: false,
+    onclick: false,
+		rules: {
+      rfc: { required: true, minlength: 5},
+			razon_social: { required: true},
+		
+		},
+    errorPlacement: function(error, element) {
+      if(error != null){
+      $('#error_'+element.attr('id')).fadeIn();
+      }else{
+        $('#error_'+element.attr('id')).fadeOut();
+      }
+     // console.log(element.attr('id'));
+    },
+	}); 
   
-</style>
+});
+</script>
+
+
 
 <script type="text/javascript" src="https://cdn.datatables.net/v/dt/jszip-2.5.0/dt-1.10.22/b-1.6.4/b-flash-1.6.4/b-html5-1.6.4/b-print-1.6.4/datatables.min.js"></script>
 
 
 
 <script>
-  
+  //DATATABLE
   $(document).ready(function() {
     
     $('#example').DataTable({

@@ -24,7 +24,6 @@ class FuenteClienteController extends Controller
         $cliente = Cliente::join('municipios', 'id_municipio', '=', 'municipio_id') //clientes existentes con sus municipios
         ->select('clientes.id_cliente', 'municipios.nombre')
         ->get();
-        //return $fuenteClientes;
         return view('fuentes_clientes.index', compact('fuenteClientes', 'cliente', 'fuentes'));
     }
 

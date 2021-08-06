@@ -21,9 +21,9 @@
                     <div class="">
                     <h6 class="font-bold mb-2 text-white">Acciones Rapidas</h6>
                         <ul>
-                            <a type="button" class="p-4 text-white rounded-md hover:bg-gray-800 w-full cursor-pointer" href="{{ route('dashboard')}}"><i class="fas fa-home"></i> Inicio</a>
+                           <li><a type="button" class="p-4 text-white rounded-md hover:bg-gray-800 w-full cursor-pointer" href="{{ route('dashboard')}}"><i class="fas fa-home"></i> Inicio</a></li>
                             @role('Administrador')
-                            <a type="button" class="p-4 text-white rounded-md hover:bg-gray-800 w-full cursor-pointer" href="{{ route('admin.users.index')}}"><i class="fas fa-users"></i> Usuarios</a>
+                            <li><a type="button" class="p-4 text-white rounded-md hover:bg-gray-800 w-full cursor-pointer" href="{{ route('admin.users.index')}}"><i class="fas fa-users"></i> Usuarios</a></li>
                             @endrole
                         </ul>
                     <h6 class="font-bold mb-2 text-white">Configuracion</h6>

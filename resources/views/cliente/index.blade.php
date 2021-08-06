@@ -250,7 +250,7 @@
         </button>
       </div>
       <!--body-->
-      <form action="{{ route('clientes.store', $cliente->id) }}" method="POST" accept-charset="UTF-8" enctype="multipart/form-data" id="form-ajax">
+      <form action="{{ route('clientes.store') }}" method="POST" accept-charset="UTF-8" enctype="multipart/form-data" id="form-ajax">
         @csrf
         @method('POST')
       <div class="relative p-6 flex-auto">
