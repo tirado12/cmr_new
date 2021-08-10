@@ -41,36 +41,39 @@
 <div class="mt-10 sm:mt-0 shadow-2xl bg-white rounded-lg">
       
       <div class="mt-5 md:mt-0 md:col-span-2">
-        <form action="{{ route('municipio.update', $municipio) }}" method="POST">
+        <form action="{{ route('municipio.update', $municipio) }}" method="POST" id="formulario" name="formulario">
           @csrf
           @method('PUT')
           <div class="shadow overflow-hidden sm:rounded-md">
             <div class="px-4 py-5 bg-white sm:p-6"> 
               <div class="grid grid-cols-6 gap-6">
                 <div class="col-span-6 sm:col-span-3">
-                  <label for="first_name" class="block text-sm font-medium text-gray-700">Nombre *</label>
-                  <input type="text" name="nombre" id="nombre" autocomplete="given-name" class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md" value="{{ $municipio->nombre }}">
+                  <label id="label_nombre" for="first_name" class="block text-sm font-medium text-gray-700">Nombre *</label>
+                  <input type="text" name="nombre" id="nombre" autocomplete="given-name" class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md" value="{{ $municipio->nombre }}" disabled>
+                  <label id="error_nombre" name="error_nombre" class="hidden text-base font-normal text-red-500" >Introduzca un nombre</label>
                 </div>
   
                 <div class="col-span-6 sm:col-span-3">
-                  <label for="email_address" class="block text-sm font-medium text-gray-700">RFC *</label>
+                  <label id="label_rfc" for="rfc" class="block text-sm font-medium text-gray-700">RFC *</label>
                   <input type="text" name="rfc" id="rfc" autocomplete="rfc" class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md" value="{{ $municipio ->rfc }}">
+                  <label id="error_rfc" name="error_rfc" class="hidden text-base font-normal text-red-500" >Introduzca al menos un RFC generico de 5 caracteres</label>
                 </div>
                 <div class="col-span-6 sm:col-span-3">
-                  <label for="email_address" class="block text-sm font-medium text-gray-700">Dirección *</label>
+                  <label id="label_direccion" for="direccion" class="block text-sm font-medium text-gray-700">Dirección *</label>
                   <input type="text" name="direccion" id="direccion" autocomplete="direccion" class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md" value="{{ $municipio ->direccion }}">
+                  <label id="error_direccion" name="error_direccion" class="hidden text-base font-normal text-red-500" >Introduzca una dirección</label>
                 </div>
                 
                   
                 <div class="col-span-6 sm:col-span-3">
-                  <label for="country" class="block text-sm font-medium text-gray-700">Distrito *</label>
-                  <select id="distrito_id" name="distrito_id" class="mt-1 block w-full py-2 px-3 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm" >
+                  <label id="label_distrito_id" for="distrito_id" class="block text-sm font-medium text-gray-700">Distrito *</label>
+                  <select id="distrito_id" name="distrito_id" onchange="validarDistrito()" class="mt-1 block w-full py-2 px-3 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm" >
+                    <option value="">Elija una opción</option>
                     @foreach($distrito as $distrito)
-
                       <option value="{{ $distrito->id_distrito }}" {{ ($distrito->id_distrito == $municipio->distrito_id) ? 'selected' : '' }}> {{ $distrito->nombre }}</option>
-                      
                     @endforeach
                   </select>
+                  <label id="error_distrito_id" name="error_distrito_id" class="hidden text-base font-normal text-red-500" >Elija un distrito</label>
                 </div>
 
                 
@@ -79,7 +82,10 @@
             <div class="px-4 py-3 bg-gray-100 sm:px-6">
               <span class="block text-xs">Por favor verifique que todos los campos marcados con ( * ) no estén vacios.</span>
               <div class="text-right">
-              <button type="submit" class="inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-orange-800 hover:bg-orange-800 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+                <a type="button" href="{{route('municipio.index')}}" class="inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-gray-500 hover:bg-gray-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+                  Regresar
+                </a>
+              <button type="submit" class="ml-4 inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-orange-800 hover:bg-orange-800 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
                 Guardar
               </button>
               
@@ -90,5 +96,68 @@
       </div>
     
   </div>
+
+  <script type="text/javascript" charset="utf8" src="https://code.jquery.com/jquery-3.5.1.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.1/jquery.validate.min.js"></script>  
+
+  <script>
+//Validacion de select distrito
+function validarDistrito() {
+  var valor = document.getElementById("distrito_id").value;
+  if(valor != ''){
+    $('#error_distrito_id').fadeOut();
+    $("#label_distrito_id").removeClass('text-red-500');
+    $("#label_distrito_id").addClass('text-gray-700');
+  }else{
+    $('#error_distrito_id').fadeIn();
+    $("#label_distrito_id").addClass('text-red-500');
+    $("#label_distrito_id").removeClass('text-gray-700');
+  }
+}
+
+//validacion de campos del formulario
+$(document).ready(function() {
+   $("#formulario input").keyup(function() {
+  //console.log($(this).attr('id'));
+      var cadena = $(this).val();
+      
+      if(cadena != ''){
+      $('#error_'+$(this).attr('id')).fadeOut();
+      $("#label_"+$(this).attr('id')).removeClass('text-red-500');
+      $("#label_"+$(this).attr('id')).addClass('text-gray-700');
+      //$('#guardar').removeAttr("disabled");
+      }
+      else{
+      //$("#guardar").attr("disabled", true);
+      $('#error_'+$(this).attr('id')).fadeIn();
+      $("#label_"+$(this).attr('id')).addClass('text-red-500');
+      $("#label_"+$(this).attr('id')).removeClass('text-gray-700');
+      }
+    
+    });
+  });
+    
+//validacion del formulario con el btn guardar
+$().ready(function() {
+  $("#formulario").validate({
+    onfocusout: false,
+    onclick: false,
+		rules: {
+      nombre: { required: true},
+			rfc: { required: true, minlength: 5},
+      direccion: { required: true},
+      distrito_id: { required: true},
+		},
+    errorPlacement: function(error, element) {
+      if(error != null){
+      $('#error_'+element.attr('id')).fadeIn();
+      }else{
+        $('#error_'+element.attr('id')).fadeOut();
+      }
+     // console.log(element.attr('id'));
+    },
+	}); 
+});
+  </script>
   
 @endsection

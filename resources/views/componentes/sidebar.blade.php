@@ -10,8 +10,8 @@
                         
                         <div class="flex-1 flex items-center justify-center sm:items-stretch mb-4">
                             <div class="flex-shrink-0 flex items-center">
-                                <img class="block lg:hidden h-10 w-auto" src="{{asset('image/CMR logo blanco.png')}}" alt="Workflow">
-                                <img class="hidden lg:block h-10 w-auto" src="{{asset('image/CMR logo blanco.png')}}" alt="Workflow">
+                                <a href="{{ route('dashboard')}}"><img class="block lg:hidden h-10 w-auto" src="{{asset('image/CMR logo blanco.png')}}" alt="Workflow"></a>
+                                <a href="{{ route('dashboard')}}"><img class="hidden lg:block h-10 w-auto" src="{{asset('image/CMR logo blanco.png')}}" alt="Workflow"></a>
                             </div>
                             
                             </div>

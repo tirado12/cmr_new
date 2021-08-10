@@ -369,6 +369,7 @@ function toggleMod(modal, fuente){
     document.getElementById(modal + "-backdrop").classList.toggle("hidden");    
 }
 
+//validar selected del cliente
 function validarCliente() {
   var valor = document.getElementById("cliente_id").value;
   if(valor != ''){

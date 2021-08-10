@@ -59,8 +59,8 @@ class ClienteController extends Controller
             'anio_fin' => 'required',
             'logo' => 'required',
             'municipio_id' => 'required',
-            'password' => ['required', 'min:8', 'regex:/^.*(?=.{3,})(?=.*[a-zA-Z])(?=.*[0-9])(?=.*[\d\x])(?=.*[!$#%]).*$/', 'confirmed'],
-        ])->with('otro', 'ot');
+            'password' => ['required', 'min:8', 'regex:/^.*(?=.{3,})(?=.*[a-zA-Z])(?=.*[0-9])(?=.*[\d\x])(?=.*[!$#%]).*$/', 'confirmed']
+        ]);
         
         
         Cliente::create([

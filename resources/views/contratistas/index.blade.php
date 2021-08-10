@@ -138,7 +138,7 @@
             <div class="col-span-8">
                 <label id="label_correo" for="correo" class="block text-sm font-medium text-gray-700">Correo *</label>
                 <input type="email" name="correo" id="correo" class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md" >
-                <label id="error_correo" name="error_correo" class="hidden text-base font-normal text-red-500" >Porfavor ingresar un correo</label>
+                <label id="error_correo" name="error_correo" class="hidden text-base font-normal text-red-500" >Porfavor ingresar un correo valido</label>
               </div>
             <div class="col-span-8">
                 <label id="label_numero_padron_contratista" for="numero_padron_contratista" class="block text-sm font-medium text-gray-700">Numero de padron *</label>
@@ -246,7 +246,7 @@ $().ready(function() {
       representante_legal: { required: true},
       domicilio: { required: true},
       telefono: { required: true},
-      correo: { required: true},
+      correo: { required: true, email: true},
       numero_padron_contratista:{ required: true}
 		},
     errorPlacement: function(error, element) {

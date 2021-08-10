@@ -34,7 +34,7 @@
 <div class="mt-10 sm:mt-0 shadow-2xl bg-white rounded-lg">
       
       <div class="mt-5 md:mt-0 md:col-span-2">
-        <form action="{{ route('admin.users.update', $user) }}" method="POST">
+        <form action="{{ route('admin.users.update', $user) }}" method="POST" id="formulario" name="formulario">
           @csrf
           @method('PUT')
           <div class="shadow overflow-hidden sm:rounded-md">
@@ -43,28 +43,31 @@
                 <div class="col-span-6 sm:col-span-3">
                   <label for="first_name" class="block text-sm font-medium text-gray-700">Usuario *</label>
                   <input type="text" name="name" id="name" autocomplete="given-name" class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md" value="{{ $user->name }}">
+                  <label id="error_name" name="error_name" class="hidden text-base font-normal text-red-500" >Porfavor ingrese un usuario</label>
                 </div>
   
                 <div class="col-span-6 sm:col-span-3">
                   <label for="email_address" class="block text-sm font-medium text-gray-700">Correo *</label>
                   <input type="text" name="email" id="email" autocomplete="email" class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md" value="{{ $user->email }}">
+                  <label id="error_email" name="error_email" class="hidden text-base font-normal text-red-500" >Porfavor ingrese un correo</label>
                 </div>
                 
                   
                 <div class="col-span-6 sm:col-span-3">
                   <label for="country" class="block text-sm font-medium text-gray-700">Lista de roles *</label>
                   <select id="roles" name="roles" class="mt-1 block w-full py-2 px-3 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
+                     
                     @foreach($roles as $rol)
-              
                       <option value="{{ $rol->id }}"> {{ $rol->name }}</option>
-                      
                     @endforeach
                   </select>
+                  <label id="error_roles" name="error_roles" class="hidden text-base font-normal text-red-500" >Porfavor elija un rol</label>
                 </div>
-
+                
                 <div class="col-span-6 sm:col-span-3">
                   <label for="password" class="block text-sm font-medium text-gray-700">Contraseña </label>
                   <input type="password" name="password" id="password" autocomplete="password" class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md">
+                  <label class="text-base font-bold text-gray-500"><input type="checkbox" onclick="myPassword()" class="focus:ring-blue-800 focus:border-blue-800 shadow-sm sm:text-sm border-gray-300 rounded"> Ver contraseña </label>                  
                 </div>
                 
               </div>
@@ -84,4 +87,35 @@
     
   </div>
   
+  <script type="text/javascript" charset="utf8" src="https://code.jquery.com/jquery-3.5.1.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.1/jquery.validate.min.js"></script>  
+  <script type="text/javascript" charset="utf8" src="{{ asset('js/validacion.js') }}"></script>
+
+  <script>
+  
+  //validacion del formulario con el btn guardar
+  $().ready(function() {
+    $("#formulario").validate({
+      onfocusout: false,
+      onclick: false,
+      rules: {
+        name: { required: true },
+        email: { required: true, email: true},
+        roles: { required: true},
+        password: { required: true},
+        
+      },
+      errorPlacement: function(error, element) {
+        if(error != null){
+        $('#error_'+element.attr('id')).fadeIn();
+        }else{
+        $('#error_'+element.attr('id')).fadeOut();
+        }
+       // console.log(element.attr('id'));
+      },
+    }); 
+    
+  });
+
+  </script>
 @endsection

@@ -97,7 +97,7 @@
         </button>
       </div>
       <!--body-->
-      <form action="{{ route('admin.users.store', $user->id) }}" method="POST">
+      <form action="{{ route('admin.users.store', $user->id) }}" method="POST" id="formulario" name="formulario">
         @csrf
         @method('POST')
       <div class="relative p-6 flex-auto">
@@ -106,24 +106,28 @@
             <div class="col-span-8 ">
               <label for="first_name" class="block text-sm font-medium text-gray-700">Usuario *</label>
               <input type="text" name="name" id="name" autocomplete="given-name" class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md">
+              <label id="error_name" name="error_name" class="hidden text-base font-normal text-red-500" >Porfavor ingrese un usuario</label>
             </div>
             <div class="col-span-8">
               <label for="email_address" class="block text-sm font-medium text-gray-700">Correo *</label>
               <input type="text" name="email" id="email" autocomplete="email" class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md">
+              <label id="error_email" name="error_email" class="hidden text-base font-normal text-red-500" >Porfavor ingresar un correo</label>
             </div>
             <div class="col-span-8">
               <label for="password" class="block text-sm font-medium text-gray-700">Contraseña *</label>
               <input type="password" name="password" id="password" autocomplete="password" class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md">
+              <label id="error_password" name="error_password" class="hidden text-base font-normal text-red-500" >Porfavor ingresar una contraseña</label>
             </div>
             <div class="col-span-8" >
                   <label for="country" class="block text-sm font-medium text-gray-700">Lista de roles *</label>
-                  <select id="roles" name="roles" class="mt-1 block w-full py-2 px-3 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
+                  <select id="roles" name="roles" onchange="validarRol()" class="mt-1 block w-full py-2 px-3 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
+                    <option value="">Elija una opción</option>
                     @foreach($roles_list as $rol)
                       <option value="Administrador">{{ $rol->name }}</option>
                     @endforeach
-                      
                   </select>
-                </div>
+                  <label id="error_roles" name="error_roles" class="hidden text-base font-normal text-red-500" >Porfavor seleccione una opción</label>
+             </div>
           </div>
         
       </div>
@@ -135,7 +139,7 @@
         <button class="text-red-500 background-transparent font-bold uppercase px-6 py-2 text-sm outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150" type="button" onclick="toggleModal('modal-id')">
           Cancelar
         </button>
-        <button type="submit" class="bg-green-500 text-white active:bg-green-600 font-bold uppercase text-sm px-6 py-3 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150" onclick="toggleModal('modal-id')">
+        <button type="submit" class="bg-green-500 text-white active:bg-green-600 font-bold uppercase text-sm px-6 py-3 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150">
           Guardar
         </button>
         </div>
@@ -147,7 +151,8 @@
 
 <div class="hidden opacity-25 fixed inset-0 z-40 bg-black" id="modal-id-backdrop"></div>
 <script src="//cdn.jsdelivr.net/npm/sweetalert2@10"></script>
-<script type="text/javascript" charset="utf8" src="https://code.jquery.com/jquery-3.5.1.js"></script>  
+<script type="text/javascript" charset="utf8" src="https://code.jquery.com/jquery-3.5.1.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.1/jquery.validate.min.js"></script>    
 <!--Alerta de confirmacion-->
 @if(session('eliminar')=='ok')
   <script>
@@ -190,10 +195,70 @@
     document.getElementById(modalID).classList.toggle("hidden");
     document.getElementById(modalID + "-backdrop").classList.toggle("hidden");
   }
-</script>
-<style>
   
-</style>
+  //validacion de campos del modal
+$(document).ready(function() {
+   $("#modal-id input").keyup(function() {
+  //console.log($(this).attr('id'));
+      var monto = $(this).val();
+      
+      if(monto != ''){
+      $('#error_'+$(this).attr('id')).fadeOut();
+      $("#label_"+$(this).attr('id')).removeClass('text-red-500');
+      $("#label_"+$(this).attr('id')).addClass('text-gray-700');
+      //$('#guardar').removeAttr("disabled");
+      }
+      else{
+      //$("#guardar").attr("disabled", true);
+      $('#error_'+$(this).attr('id')).fadeIn();
+      $("#label_"+$(this).attr('id')).addClass('text-red-500');
+      $("#label_"+$(this).attr('id')).removeClass('text-gray-700');
+      }
+    
+    });
+});
+
+function validarRol() {
+  var valor = document.getElementById("roles").value;
+  if(valor != ''){
+    $('#error_roles').fadeOut();
+    $("#label_roles").removeClass('text-red-500');
+    $("#label_roles").addClass('text-gray-700');
+  }else{
+    $('#error_roles').fadeIn();
+    $("#label_roles").addClass('text-red-500');
+    $("#label_roles").removeClass('text-gray-700');
+  }
+}
+
+//validacion del formulario con el btn guardar
+$().ready(function() {
+  $("#formulario").validate({
+    onfocusout: false,
+    onclick: false,
+		rules: {
+			name: { required: true},
+      email: { required: true, email: true},
+      password: { required: true},
+      roles: { required: true},
+      
+		},
+    errorPlacement: function(error, element) {
+      if(error != null){
+      $('#error_'+element.attr('id')).fadeIn();
+      }else{
+      $('#error_'+element.attr('id')).fadeOut();
+      }
+     // console.log(element.attr('id'));
+    },
+	}); 
+  
+});
+
+
+
+  </script>
+
 
 <script type="text/javascript" src="https://cdn.datatables.net/v/dt/jszip-2.5.0/dt-1.10.22/b-1.6.4/b-flash-1.6.4/b-html5-1.6.4/b-print-1.6.4/datatables.min.js"></script>
 

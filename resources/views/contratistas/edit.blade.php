@@ -13,42 +13,49 @@
 <div class="mt-10 sm:mt-0 shadow-2xl bg-white rounded-lg">
       
       <div class="mt-5 md:mt-0 md:col-span-2">
-        <form action="{{ route('contratistas.update', $contratista) }}" method="POST">
+        <form action="{{ route('contratistas.update', $contratista) }}" method="POST" id="formulario" name="formulario">
           @csrf
           @method('PUT')
           <div class="shadow overflow-hidden sm:rounded-md">
             <div class="px-4 py-5 bg-white sm:p-6">
               <div class="grid grid-cols-6 gap-6">
                 <div class="col-span-6 sm:col-span-3">
-                  <label for="rfc" class="block text-sm font-medium text-gray-700">RFC *</label>
+                  <label id="label_rfc" for="rfc" class="block text-sm font-medium text-gray-700">RFC *</label>
                   <input type="text" name="rfc" id="rfc" class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md" value="{{ $contratista->rfc }}">
+                  <label id="error_rfc" name="error_rfc" class="hidden text-base font-normal text-red-500" >Se requiere al menos un RFC generico de 5 caracteres</label>
                 </div>
   
                 <div class="col-span-6 sm:col-span-3">
-                  <label for="razon_social" class="block text-sm font-medium text-gray-700">Razón social *</label>
+                  <label id="label_razon_social" for="razon_social" class="block text-sm font-medium text-gray-700">Razón social *</label>
                   <input type="text" name="razon_social" id="razon_social" class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md" value="{{ $contratista->razon_social }}">
+                  <label id="error_razon_social" name="error_razon_social" class="hidden text-base font-normal text-red-500" >Se requiere una razón social</label>
                 </div>
 
                 <div class="col-span-6 sm:col-span-3">
-                    <label for="representante_legal" class="block text-sm font-medium text-gray-700">Representante legal *</label>
+                    <label id="label_representante_legal" for="representante_legal" class="block text-sm font-medium text-gray-700">Representante legal *</label>
                     <input type="text" name="representante_legal" id="representante_legal" class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md" value="{{ $contratista->representante_legal }}">
+                    <label id="error_representante_legal" name="error_representante_legal" class="hidden text-base font-normal text-red-500" >Se requiere un representante legal</label>
                 </div>
                 <div class="col-span-6 sm:col-span-3">
-                    <label for="domicilio" class="block text-sm font-medium text-gray-700">Domicilio *</label>
+                    <label id="label_domicilio" for="domicilio" class="block text-sm font-medium text-gray-700">Domicilio *</label>
                     <input type="text" name="domicilio" id="domicilio" class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md" value="{{ $contratista->domicilio }}">
-                </div>
+                    <label id="error_domicilio" name="error_domicilio" class="hidden text-base font-normal text-red-500" >Se requiere un domicilio</label>
+                  </div>
                 <div class="col-span-6 sm:col-span-3">
-                    <label for="telefono" class="block text-sm font-medium text-gray-700">Telefono *</label>
+                    <label id="label_telefono" for="telefono" class="block text-sm font-medium text-gray-700">Telefono *</label>
                     <input type="tel" name="telefono" id="telefono" class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md" value="{{ $contratista->telefono }}">
-                </div>
+                    <label id="error_telefono" name="error_telefono" class="hidden text-base font-normal text-red-500" >Se requiere un telefono</label>
+                  </div>
                 <div class="col-span-6 sm:col-span-3">
-                    <label for="correo" class="block text-sm font-medium text-gray-700">Correo *</label>
+                    <label id="label_correo" for="correo" class="block text-sm font-medium text-gray-700">Correo *</label>
                     <input type="text" name="correo" id="correo" class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md" value="{{ $contratista->correo }}">
-                </div>
+                    <label id="error_correo" name="error_correo" class="hidden text-base font-normal text-red-500" >Se requiere un correo</label>
+                  </div>
                 <div class="col-span-6 sm:col-span-3">
-                    <label for="numero_padron_contratista" class="block text-sm font-medium text-gray-700">Numero de padron *</label>
+                    <label id="label_numero_padron_contratista" for="numero_padron_contratista" class="block text-sm font-medium text-gray-700">Numero de padron *</label>
                     <input type="text" name="numero_padron_contratista" id="numero_padron_contratista" class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md" value="{{ $contratista->numero_padron_contratista }}">
-                </div>
+                    <label id="error_numero_padron_contratista" name="error_numero_padron_contratista" class="hidden text-base font-normal text-red-500" >Se requiere un numero de padron</label>
+                  </div>
 
                 
               </div>
@@ -56,7 +63,10 @@
             <div class="px-4 py-3 bg-gray-100 sm:px-6">
               <span class="block text-xs">Porfavor verifique que todos los campos marcados con ( * ) esten rellenados</span>
               <div class="text-right">
-              <button type="submit" class="inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-orange-800 hover:bg-orange-800 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+                <a type="button" href="{{route('contratistas.index')}}" class="inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-gray-500 hover:bg-gray-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+                  Regresar
+                </a>
+              <button type="submit" class="ml-4 inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-orange-800 hover:bg-orange-800 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
                 Guardar
               </button>
               
@@ -67,5 +77,56 @@
       </div>
     
   </div>
+  <script type="text/javascript" charset="utf8" src="https://code.jquery.com/jquery-3.5.1.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.1/jquery.validate.min.js"></script>   
+
+<script>
+  
+  //validacion de campos del modal
+  $(document).ready(function() {
+   $("#formulario input").keyup(function() {
+    //console.log($(this).attr('id'));
+      var cadena = $(this).val();
+      
+      if(cadena != ''){
+      $('#error_'+$(this).attr('id')).fadeOut();
+      $("#label_"+$(this).attr('id')).removeClass('text-red-500');
+      $("#label_"+$(this).attr('id')).addClass('text-gray-700');
+      //$('#guardar').removeAttr("disabled");
+      }
+      else{
+      //$("#guardar").attr("disabled", true);
+      $('#error_'+$(this).attr('id')).fadeIn();
+      $("#label_"+$(this).attr('id')).addClass('text-red-500');
+      $("#label_"+$(this).attr('id')).removeClass('text-gray-700');
+      }
+    
+    });
+  });
+//validacion del formulario con el btn guardar
+  $().ready(function() {
+    $("#formulario").validate({
+      onfocusout: false,
+      onclick: false,
+      rules: {
+        rfc: { required: true, minlength: 5},
+        razon_social: { required: true},
+        representante_legal: { required: true},
+        domicilio: { required: true},
+        telefono: { required: true},
+        correo: { required: true, email: true},
+        numero_padron_contratista: { required: true},
+      },
+      errorPlacement: function(error, element) {
+        if(error != null){
+        $('#error_'+element.attr('id')).fadeIn();
+        }else{
+          $('#error_'+element.attr('id')).fadeOut();
+        }
+      // console.log(element.attr('id'));
+      },
+    }); 
+  });
+</script>
   
 @endsection

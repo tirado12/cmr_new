@@ -222,7 +222,6 @@ $().ready(function() {
      // console.log(element.attr('id'));
     },
 	}); 
-  
 });
 </script>
 
