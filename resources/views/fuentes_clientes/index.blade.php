@@ -46,10 +46,9 @@
   <tbody> 
   @foreach($fuenteClientes as $key => $index)
       <tr>
-          
           <td>
             <div class="text-sm leading-5 font-medium text-gray-900">
-              {{  $cliente->find($index->cliente->id_cliente)->nombre }}
+              {{  $cliente->find($index->cliente_id)->nombre }}
             </div>
           
           </td>
@@ -104,6 +103,7 @@
       </tr>
   </tfoot>-->
 </table>
+
 </div>
 
 <!-- inicio modal -->

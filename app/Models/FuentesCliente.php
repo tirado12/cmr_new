@@ -24,10 +24,14 @@ class FuentesCliente extends Model
         'fuente_financiamiento_id'
     ];
 
-    public function cliente(){
-        return $this->hasOne(Cliente::class, 'id_cliente', 'cliente_id'); //arg1 - Model, arg2 - foreign key
+    public function clientes(){
+        return $this->belongsTo(Cliente::class, 'cliente_id'); //arg1 - Model, arg2 - foreign key
     }
     public function fuente(){
-        return $this->hasOne(FuentesFinanciamiento::class, 'id_fuente_financiamiento', 'fuente_financiamiento_id'); //arg1 - Model, arg2 - foreign key
+        return $this->hasMany(FuentesFinanciamiento::class, 'id_fuente_financiamiento', 'fuente_financiamiento_id'); //arg1 - Model, arg2 - foreign key
+    }
+
+    public function sisplade(){
+        return $this->hasMany(Sisplade::class,'fuentes_clientes_id','id_fuente_financ_cliente');
     }
 }

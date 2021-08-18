@@ -3,8 +3,10 @@
 namespace App\Http\Controllers;
 
 use App\Models\Cliente;
+use App\Models\FuentesCliente;
 use App\Models\Municipio;
 use App\Models\User;
+use Facade\FlareClient\Http\Client;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 
@@ -18,8 +20,9 @@ class ClienteController extends Controller
     public function index()
     {
         $clientes = Cliente::with('municipio')->get();
-        $municipios = Municipio::all();
         
+        $municipios = Municipio::all();
+        //return $clientes;
         return view('cliente.index', compact('clientes', 'municipios'));
     }
 

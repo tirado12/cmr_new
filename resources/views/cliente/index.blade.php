@@ -52,6 +52,7 @@
     <!-- fin tabla tailwind, inicio data table -->
 
     <div class="mt-6 contenedor p-8 shadow-2xl bg-white rounded-lg">
+     
       <table id="example" class="table table-striped bg-white" style="width:100%;">
           <thead>
               <tr>
@@ -93,7 +94,7 @@
                       <td>
                           <div class="text-sm leading-5 font-medium text-gray-900">
                               <button class="bg-transparent text-blue-500 active:bg-transparent font-normal  text-sm p-2  rounded outline-none focus:outline-none  ease-linear transition-all duration-150" type="button" onclick="toggleModal_municipio('modal-id', {{$cliente->municipio}})">
-                                {{ $cliente->municipio->nombre }}
+                                {{$municipios->find($cliente->municipio_id)->nombre}}
                               </button>
                           </div>
                       </td>
@@ -430,17 +431,17 @@
     }else{
       $('#periodo_cliente').html(cliente.anio_inicio);
     }
-
-    $('#municipio_cliente').html(cliente.municipio.nombre +' - '+ cliente.municipio.id_municipio);
+    //console.log(cliente.municipio[0].id_municipio)
+    $('#municipio_cliente').html(cliente.municipio[0].nombre +' - '+ cliente.municipio[0].id_municipio);
     $('#logo_cliente').attr("src",cliente.logo);
     document.getElementById(modalID).classList.toggle("hidden");
     document.getElementById(modalID + "-backdrop").classList.toggle("hidden");
   }
   function toggleModal_municipio(modalID, municipio){
     console.log(municipio);
-    $('#nombre_municipio').html( municipio.nombre +' - '+ municipio.id_municipio );
-    $('#rfc_municipio').html(municipio.rfc);
-    $('#direccion_municipio').html(municipio.direccion);
+    $('#nombre_municipio').html( municipio[0].nombre +' - '+ municipio[0].id_municipio );
+    $('#rfc_municipio').html(municipio[0].rfc);
+    $('#direccion_municipio').html(municipio[0].direccion);
 
     document.getElementById(modalID).classList.toggle("hidden");
     document.getElementById(modalID + "-backdrop").classList.toggle("hidden");
@@ -595,8 +596,4 @@
     }).keyup();
 });
 </script>
-
-
-
-
 @endsection

@@ -255,7 +255,7 @@ $().ready(function() {
       }else{
       $('#error_'+element.attr('id')).fadeOut();
       }
-     // console.log(element.attr('id'));
+     
     },
 	}); 
   

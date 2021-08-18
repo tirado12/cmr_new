@@ -135,7 +135,7 @@
     	});      
     });
 
-//validacion de campos del modal
+//validacion de campos del formulario
 $(document).ready(function() {
    $("#formulario input").keyup(function() {
   //console.log($(this).attr('id'));
@@ -159,7 +159,7 @@ $(document).ready(function() {
 //validacion de los selected
     $('.clickable').click(function() {
       var valor = $(this).val();
-      //console.log(valor);
+      
       if(valor != 0){
       $('#error_'+$(this).attr('id')).fadeOut();
       $("#label_"+$(this).attr('id')).removeClass('text-red-500');

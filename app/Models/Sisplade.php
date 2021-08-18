@@ -11,4 +11,9 @@ class Sisplade extends Model
     protected $primaryKey = 'id_sisplade';
 
     protected $table = "sisplade";
+
+    public function fuentesCliente() {
+        return $this->belongsTo(FuentesCliente::class,'fuentes_clientes_id');
+    }
 }
+// user contiene id_profession 
