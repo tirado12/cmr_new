@@ -19,6 +19,7 @@ class FuenteClienteController extends Controller
     public function index()
     {
         $fuenteClientes = FuentesCliente::with('clientes','fuente')->get(); //tabla fuenteClientes segun existentes 
+        
         $fuentes = FuentesFinanciamiento::all(); //todas las fuentes de financiamiento
         //$municipios = Municipio::all(); //todos los municipios
         $cliente = Cliente::join('municipios', 'id_municipio', '=', 'municipio_id') //clientes existentes con sus municipios
@@ -76,7 +77,7 @@ class FuenteClienteController extends Controller
      */
     public function show($id)
     {
-        //
+        return view('fuentes_clientes.vista');
     }
      /**
      * Show the form for editing the specified resource.

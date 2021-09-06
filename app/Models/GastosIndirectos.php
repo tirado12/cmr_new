@@ -11,5 +11,8 @@ class GastosIndirectos extends Model
     protected $primaryKey = 'id_indirectos';
     protected $table = "gastos_indirectos";
 
-    protected $table = "gastos_indirectos";
+    protected $fillable = [
+        'clave',
+        'nombre',
+    ];
 }

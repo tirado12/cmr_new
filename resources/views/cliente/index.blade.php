@@ -421,7 +421,7 @@
     document.getElementById('modal-id' + "-backdrop").classList.toggle("hidden");
 
 });
-  function toggleModal(modalID, cliente){
+  function toggleModal(modalID, cliente){ //Detalles
     $('#nombre_cliente').html(cliente.user);
     $('#email_cliente').html(cliente.email);
     if(cliente.anio_fin != null){
@@ -431,17 +431,17 @@
     }else{
       $('#periodo_cliente').html(cliente.anio_inicio);
     }
-    //console.log(cliente.municipio[0].id_municipio)
-    $('#municipio_cliente').html(cliente.municipio[0].nombre +' - '+ cliente.municipio[0].id_municipio);
+    //console.log(cliente.municipio.nombre)
+    $('#municipio_cliente').html(cliente.municipio.nombre +' - '+ cliente.municipio.id_municipio);
     $('#logo_cliente').attr("src",cliente.logo);
     document.getElementById(modalID).classList.toggle("hidden");
     document.getElementById(modalID + "-backdrop").classList.toggle("hidden");
   }
-  function toggleModal_municipio(modalID, municipio){
-    console.log(municipio);
-    $('#nombre_municipio').html( municipio[0].nombre +' - '+ municipio[0].id_municipio );
-    $('#rfc_municipio').html(municipio[0].rfc);
-    $('#direccion_municipio').html(municipio[0].direccion);
+  function toggleModal_municipio(modalID, municipio){ //clic nombre municipio
+    //console.log(municipio);
+    $('#nombre_municipio').html( municipio.nombre +' - '+ municipio.id_municipio );
+    $('#rfc_municipio').html(municipio.rfc);
+    $('#direccion_municipio').html(municipio.direccion);
 
     document.getElementById(modalID).classList.toggle("hidden");
     document.getElementById(modalID + "-backdrop").classList.toggle("hidden");

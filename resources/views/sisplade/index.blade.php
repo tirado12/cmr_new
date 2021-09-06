@@ -75,9 +75,9 @@
               </td>
               <td>
                 <div class="flex justify-center">
-                <form action="" method="POST" class="form-eliminar" >
+                <form action="{{ route('sisplade.destroy', $item->id_sisplade) }}" method="POST" class="form-eliminar" >
                   <div>
-                  <a type="button"  href="" class="bg-white text-sm text-blue-500 font-normal text-ms p-2 rounded rounded-lg">Editar</a> 
+                  <a type="button"  href="{{ route('sisplade.edit', $item->id_sisplade) }}" class="bg-white text-sm text-blue-500 font-normal text-ms p-2 rounded rounded-lg">Editar</a> 
                   
                   @csrf
                   @method('DELETE')
@@ -228,8 +228,46 @@
 
 <div class="hidden opacity-25 fixed inset-0 z-40 bg-black" id="modal-backdrop"></div>
     <script type="text/javascript" charset="utf8" src="https://code.jquery.com/jquery-3.5.1.js"></script>
+    <script src="//cdn.jsdelivr.net/npm/sweetalert2@10"></script>
     <script type="text/javascript" src="https://cdn.datatables.net/v/dt/jszip-2.5.0/dt-1.10.22/b-1.6.4/b-flash-1.6.4/b-html5-1.6.4/b-print-1.6.4/datatables.min.js"></script>
     
+
+    <!--Alerta de confirmacion-->
+@if(session('eliminar')=='ok')
+<script>
+  Swal.fire(
+    '¡Eliminado!',
+    'El registro ha sido eliminado.',
+    'success'
+  )
+</script>
+@endif
+
+<script>
+  $(".form-eliminar").submit(function(e){
+    e.preventDefault();
+    Swal.fire({
+      customClass: {
+  title: 'swal_title_modificado',
+  cancelButton: 'swal_button_cancel_modificado'
+},
+  title: '¿Seguro que desea eliminar este registro?',
+  text: "¡Aviso, esta acción es irreversible!",
+  icon: 'warning',
+  showCancelButton: true,
+  confirmButtonColor: '#10b981',
+  cancelButtonColor: '#d33',
+  confirmButtonText: 'Borrar',
+  cancelButtonText: 'Cancelar'
+}).then((result) => {
+  if (result.isConfirmed) {
+    this.submit();
+  }
+})
+  });
+ /* */
+</script>
+
     <script>
      function toggleMod(modal, fuente){
     document.getElementById(modal).classList.toggle("hidden");

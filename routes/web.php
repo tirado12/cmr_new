@@ -33,7 +33,6 @@ use App\Http\Controllers\ProveedorController;
 use App\Http\Controllers\RftController;
 use App\Http\Controllers\SispladeController;
 
-
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -88,5 +87,7 @@ Route::resource('prodim', ProdimController::class)->except(['getDesgloseProdim']
 Route::resource('proveedor', ProveedorController::class)->names('proveedor');
 Route::resource('rft', RftController::class)->names('rft');
 Route::resource('sisplade', SispladeController::class)->except(['selectSearch'])->names('sisplade');
+
 Route::get('/autocomplete/{ejercicio},{cliente}',[SispladeController::class,'selectSearch']);
 Route::get('/selectEjercicio/{cliente}',[SispladeController::class,'selectEjercicio']);
+Route::get('/fuentesClientes/{ejercicio},{cliente},{fuente}',[SispladeController::class,'fuentesClientes']);

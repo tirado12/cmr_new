@@ -72,7 +72,7 @@
           </td>
           <td>
             <div class="text-sm leading-5 font-medium text-gray-900">
-                {{$index->fuente->nombre_corto}}
+                {{$fuentes->find($index->fuente_financiamiento_id)->nombre_corto}}
             </div>
             
           </td>
@@ -81,12 +81,12 @@
             <form action="{{ route('fuenteCliente.destroy', $index->id_fuente_financ_cliente) }}" method="POST" class="form-eliminar" >
               <div>
               <a type="button"  href="{{ route('fuenteCliente.edit', $index->id_fuente_financ_cliente)}}" class="bg-white text-sm text-blue-500 font-normal text-ms p-2 rounded rounded-lg">Editar</a> 
-              <button class="bg-transparent text-blue-500 active:bg-transparent font-normal  text-sm p-2  rounded outline-none focus:outline-none  ease-linear transition-all duration-150" type="button" onclick="toggleModal('modal-id', {{$index}}, {{$cliente}}, {{$fuenteClientes}}, {{$key}})">
+              <button class="bg-transparent text-blue-500 active:bg-transparent font-normal  text-sm p-2  rounded outline-none focus:outline-none  ease-linear transition-all duration-150" type="button" onclick="toggleModal('modal-id', {{$index}}, {{$cliente}}, '{{ $fuentes->find($index->fuente_financiamiento_id)->nombre_corto }}', {{$key}})">
                 Detalles
               </button>
               @csrf
               @method('DELETE')
-          <button type="submit" class="bg-white text-red-500 p-2 rounded rounded-lg">Eliminar</button>
+              <button type="submit" class="bg-white text-red-500 p-2 rounded rounded-lg">Eliminar</button>
               </div>
               
               </form>
@@ -281,7 +281,8 @@
                       <option value="3"> No aplica </option>
               </select>
           </div>
-          </div>
+          
+        </div>
         
       </div>
       <!--footer-->
@@ -309,7 +310,7 @@
 <script type="text/javascript" charset="utf8" src="https://code.jquery.com/jquery-3.5.1.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.1/jquery.validate.min.js"></script>  
 <script src="{{ asset('js/jquery.dataTables.min.js') }}"></script>
-	<script src="{{ asset('js/dataTables.responsive.min.js') }}"></script>
+<script src="{{ asset('js/dataTables.responsive.min.js') }}"></script>
 
 @if(session('eliminar')=='ok')
   <script>
@@ -440,7 +441,7 @@ $(".btn-AddDate").on("click",function() {
   document.getElementById('modal-id' + "-backdrop").classList.toggle("hidden");
     
 });
-  function toggleModal(modalID, index, cliente, fuentes, key){
+  function toggleModal(modalID, index, cliente, fuente, key){
       cliente.forEach(function(municipio) {
         if(index.cliente_id == municipio.id_cliente){
         //console.log( municipio.id_cliente + " " +  municipio.nombre);
@@ -454,7 +455,8 @@ $(".btn-AddDate").on("click",function() {
     $('#ver_acta_priorizacion').html(index.acta_priorizacion); 
     $('#ver_adendum_priorizacion').html(index.adendum_priorizacion);
     $('#ver_ejercicio').html(index.ejercicio);
-    $('#ver_fuente_financiamiento').html(fuentes[key].fuente.nombre_corto);
+    $('#ver_fuente_financiamiento').html(fuente);
+    
     styleValue('#ver_prodim', index.prodim);
     styleValue('#ver_gastos_indirectos', index.gastos_indirectos);
     

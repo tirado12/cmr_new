@@ -92,7 +92,24 @@
                     <label id="error_gastos_indirectos" name="error_gastos_indirectos" class="hidden text-base font-normal text-red-500" >se requiere una opción</label>
                 </div>
                 
+                
               </div>
+              <div class="alert flex flex-row items-center justify-center bg-gray-100 p-2 mt-4 mb-4 shadow">
+                <div class="alert-content ml-4">
+                  <p class="font-bold sm:text-sm">Gastos Indirectos</p>
+                </div>
+              </div>
+
+              <div class="grid grid-cols-4">
+                <a type="button" class="bg-white text-green-700 w-52 flex flex-row cursor-pointer">
+
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+                  <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm1-11a1 1 0 10-2 0v2H7a1 1 0 100 2h2v2a1 1 0 102 0v-2h2a1 1 0 100-2h-2V7z" clip-rule="evenodd" />
+                </svg>
+                Agregar Gasto Indirecto
+                </a>
+              </div>
+
             </div>
             <div class="px-4 py-3 bg-gray-100 sm:px-6">
               <span class="block text-xs">Porfavor verifique que todos los campos marcados con ( * ) esten rellenados</span>

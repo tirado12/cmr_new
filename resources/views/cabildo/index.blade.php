@@ -23,6 +23,7 @@
         <!-- div de tabla -->
     </div>
 </div>
+
 <!-- fin tabla tailwind, inicio data table -->
 <div class="contenedor p-8 shadow-2xl bg-white rounded-lg">
 

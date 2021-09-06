@@ -21,6 +21,7 @@
       </svg>
     </span>
   </div>
+
   <div class="alert-content ml-4">
     <div class="alert-title font-semibold text-lg text-blue-800">
       Recuerda
@@ -29,6 +30,7 @@
       <strong>NO</strong> compartir sus datos de acceso, previene la filtración de datos sensibles.
     </div>
   </div>
+  
 </div>
 
 <div class="mt-10 sm:mt-0 shadow-2xl bg-white rounded-lg">

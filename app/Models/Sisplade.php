@@ -11,6 +11,14 @@ class Sisplade extends Model
     protected $primaryKey = 'id_sisplade';
 
     protected $table = "sisplade";
+    protected $fillable = [
+        'fuentes_clientes_id',
+        'capturado',
+        'fecha_capturado',
+        'validado',
+        'fecha_validado'
+
+    ];
 
     public function fuentesCliente() {
         return $this->belongsTo(FuentesCliente::class,'fuentes_clientes_id');

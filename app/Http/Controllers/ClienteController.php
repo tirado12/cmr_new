@@ -55,7 +55,7 @@ class ClienteController extends Controller
         }
         
         
-        $request->validate([
+        $valido= $request->validate([
             'user' => 'required',
             'email' => 'required',
             'anio_inicio' => 'required',
@@ -75,7 +75,12 @@ class ClienteController extends Controller
             'municipio_id' => $request->municipio_id,
             'password' => bcrypt($request->password)
         ]);
-        return redirect()->route('clientes.index')->withInput();
+       // return $valido;
+        if($valido==false){
+            return redirect()->route('clientes.index')->withInput();
+        }else{
+            return redirect()->route('clientes.index');
+        }
     }
     /**
      * Display the specified resource.
@@ -85,7 +90,7 @@ class ClienteController extends Controller
      */
     public function show($id)
     {
-        //
+        return view('cliente.ver');
     }
     /**
      * Show the form for editing the specified resource.

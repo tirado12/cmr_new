@@ -40,7 +40,7 @@
       <tr>
           
           <td>
-            <div class="flex items-center">
+            <div class="flex items-center space-y-4">
               <div>
                   <div class="text-sm leading-5 font-medium text-gray-900">{{$user->name}}</div>
                   <div class="text-sm leading-5 text-gray-500">{{$user->email}}</div>

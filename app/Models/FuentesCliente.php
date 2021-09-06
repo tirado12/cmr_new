@@ -34,4 +34,10 @@ class FuentesCliente extends Model
     public function sisplade(){
         return $this->hasMany(Sisplade::class,'fuentes_clientes_id','id_fuente_financ_cliente');
     }
+
+    public function gastosIndirectos(){
+        return $this->hasMany(GastosIndirectosFuentes::class,'id_fuentes_gastos_indirectos','id_fuente_financ_cliente');
+    }
+
+   
 }
