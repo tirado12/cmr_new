@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Cliente;
 use App\Models\Municipio;
+use App\Models\IntegrantesCabildo;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
@@ -17,6 +18,7 @@ class ClienteController extends Controller
      */
     public function index()
     {
+
         $clientes = Cliente::with('municipio')->get();
         $municipios = Municipio::all();
         
@@ -141,8 +143,11 @@ class ClienteController extends Controller
         $cliente->password = $request['password'];
 
         $cliente->update();
-
-        return redirect()->route('clientes.index');
+        
+        if(auth()->user()->getRoleNames()[0] == 'Administrador')
+            return redirect()->route('clientes.index');
+        else
+            return redirect()->route('clientes.ver', ['id' => $cliente->id_cliente]);
 
     }
 
@@ -224,6 +229,22 @@ class ClienteController extends Controller
         } else {
             return null;
         }
+    }
+
+    function ver($id){
+        
+        $cliente = Cliente::where('id_cliente', $id)
+        ->join('municipios', 'municipios.id_municipio', '=', 'municipio_id')
+        ->join('distritos', 'distritos.id_distrito', '=', 'distrito_id')
+        ->join('regiones', 'regiones.id_region', '=', 'region_id')
+        ->select('municipios.nombre as nombre_municipio', 'distritos.nombre as nombre_distrito', 'regiones.nombre as nombre_region', 'logo', 'rfc', 'direccion', 'email', 'anio_inicio', 'anio_fin', 'id_municipio', 'id_distrito', 'id_region', 'id_cliente')
+        ->first();
+
+        $cabildo = IntegrantesCabildo::where('cliente_id', $id)->get();
+
+        //return $cabildo;
+        
+        return view('cliente.ver', compact('cliente', 'cabildo'));
     }
 
 }

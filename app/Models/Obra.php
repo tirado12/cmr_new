@@ -37,4 +37,5 @@ class Obra extends Model
         'acta_excepcion_licitacion',
         'fuente_financiamiento_cliente_id'
     ];
+
 }

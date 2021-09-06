@@ -19,8 +19,8 @@ class CreateIntegrantesCabildoTable extends Migration
             $table->string('telefono')->nullable();
             $table->string('correo')->nullable();
             $table->string('rfc')->nullable();
-            $table->unsignedBigInteger('municipio_id');
-            $table->foreign('municipio_id')->references('id_municipio')->on('municipios');
+            $table->unsignedBigInteger('cliente_id');
+            $table->foreign('cliente_id')->references('id_cliente')->on('clientes');
             $table->timestamps();
         });
     }

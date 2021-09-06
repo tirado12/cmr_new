@@ -14,15 +14,14 @@
     
     </button>
     </div>
-    
-    <div class="flex-1 flex items-center justify-center sm:items-stretch ">
-    <div class="flex-shrink-0 flex items-center">
+
+    <div class="flex-shrink-0 flex items-center justify-center w-full">
         <img class="block lg:hidden h-10 w-auto" src="{{asset('image/Icono CMR White.png')}}" alt="Workflow">
         <img class="hidden lg:block h-14 w-auto" src="{{asset('image/CMR logo blanco.png')}}" alt="Workflow">
     </div>
     
-    </div>
-    <div class="absolute inset-y-0 right-0 flex items-center pr-2 sm:static sm:inset-auto sm:ml-6 sm:pr-0">
+    
+    <div class="absolute inset-y-0 right-0 flex items-center pr-2 sm:inset-auto sm:pr-0 w-full justify-end">
     <button class="bg-gray-800 p-1 rounded-full text-gray-400 hover:text-white focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-800 focus:ring-white">
         <span class="sr-only">Ver notificaciones</span>
         

@@ -16,7 +16,9 @@ class CreateObrasContratoTable extends Migration
     {
         Schema::create('obras_contrato', function (Blueprint $table) {
             $table->id('id_obra_contrato');
-            $table->string('contrato')->nullable();
+            $table->string('numero_contrato')->nullable();
+            $table->date('fecha_contrato')->nullable();
+            $table->integer('contrato')->nullable();
             $table->integer('contrato_tipo')->nullable();
             $table->integer('oficio_justificativo_convenio_modificatorio')->nullable();
             $table->integer('analisis_p_u')->nullable();
@@ -28,17 +30,20 @@ class CreateObrasContratoTable extends Migration
             $table->integer('oficio_disposicion_inmueble')->nullable();
             $table->integer('oficio_inicio_obra')->nullable();
             $table->string('factura_anticipo')->nullable();
+            $table->integer('exp_factura_anticipo')->nullable();
             $table->string('fianza_anticipo')->nullable();
+            $table->integer('exp_fianza_anticipo')->nullable();
             $table->string('fianza_cumplimiento')->nullable();
+            $table->integer('exp_fianza_cumplimiento')->nullable();
             $table->string('fianza_v_o')->nullable();
+            $table->integer('exp_fianza_v_o')->nullable();
+            $table->integer('presupuesto_definitivo')->nullable();
             $table->integer('aviso_terminacion_obra')->nullable();
             $table->integer('acta_entrega_contratista')->nullable();
             $table->integer('acta_entrega_municipio')->nullable();
             $table->integer('saba_finiquito')->nullable();
-            $table->integer('notas_botacoras')->nullable();
+            $table->integer('acta_extincion')->nullable();
             $table->integer('modalidad_asignacion')->nullable();
-            $table->text('nombre_localidad')->nullable();
-            $table->text('tipo_localidad')->nullable();
             $table->unsignedBigInteger('contratista_id')->nullable();
             $table->foreign('contratista_id')->references('id_contratista')->on('contratistas');
             $table->timestamps();

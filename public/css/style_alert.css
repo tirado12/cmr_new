@@ -30,5 +30,21 @@ table.dataTable.dtr-inline.collapsed>tbody>tr[role="row"]>td:first-child:before,
    padding: 0;
    position: absolute;
    right: -1000px;
-   top: -1000px;
+   top: -11000px;
   }
+
+  .col-nombre {
+      width: 80%;
+  }
+
+  .col-estado {
+      width: 20%;
+  }
+
+.col-estado div {
+    height: 25px;
+}
+
+.up-simbolo, .down-simbolo {
+    height: 20px;
+}

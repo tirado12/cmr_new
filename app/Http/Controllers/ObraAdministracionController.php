@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Models\ObrasAdministracion;
 
 class ObraAdministracionController extends Controller
 {
@@ -14,7 +15,10 @@ class ObraAdministracionController extends Controller
      */
     public function index()
     {
-        return "obra Administracion";
+
+        $obrasAdmin = ObrasAdministracion::all();
+        //return view('obraAdministracion.index',compact('municipio','distrito'));
+        return $obrasAdmin;
     }
 
     /**

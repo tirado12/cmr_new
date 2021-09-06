@@ -18,7 +18,8 @@ class CreateConveniosModificatoriosTable extends Migration
             $table->date('fecha_convenio')->nullable();
             $table->integer('tipo')->nullable();
             $table->double('monto_modificado')->nullable();
-            $table->double('fehca_fin_modificada')->nullable();
+            $table->date('fecha_fin_modificada')->nullable();
+            $table->integer('agregado_expediente')->nullable();
             $table->unsignedBigInteger('obra_contrato_id')->nullable();
             $table->foreign('obra_contrato_id')->references('id_obra_contrato')->on('obras_contrato');
             $table->timestamps();

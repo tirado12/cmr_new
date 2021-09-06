@@ -24,6 +24,7 @@ class CreateEstimacionesTable extends Migration
             $table->date('fecha_final')->nullable();
             $table->date('fecha_estimacion')->nullable();
             $table->string('folio_factura',36)->nullable();
+            $table->integer('factura_estimacion')->nullable();
             $table->integer('caratula_estimacion')->nullable();
             $table->integer('presupuesto_estimacion')->nullable();
             $table->integer('cuerpo_estimacion')->nullable();
@@ -32,8 +33,9 @@ class CreateEstimacionesTable extends Migration
             $table->integer('estado_cuenta_estimacion')->nullable();
             $table->integer('croquis_ilustrativo_estimacion')->nullable();
             $table->integer('reporte_fotografico_estimacion')->nullable();
-            $table->unsignedBigInteger('obra_contrato_id')->nullable();
-            $table->foreign('obra_contrato_id')->references('id_obra_contrato')->on('obras_contrato');
+            $table->integer('notas_bitacora')->nullable();
+            $table->unsignedBigInteger('desglose_pagos_id')->nullable();
+            $table->foreign('desglose_pagos_id')->references('id_desglose_pagos')->on('desglose_pagos_obra');
             $table->timestamps();
         });
     }

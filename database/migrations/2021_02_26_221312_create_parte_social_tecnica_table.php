@@ -23,6 +23,7 @@ class CreateParteSocialTecnicaTable extends Migration
             $table->integer('convenio_concertacion')->nullable();
             $table->integer('acta_aprobacion_obra')->nullable();
             $table->integer('acta_excep_licitacion')->nullable();
+            $table->integer('acta_ejecutar_adjudicacion')->nullable();
             $table->integer('estudio_factibilidad')->nullable();
             $table->integer('oficio_aprobacion_obra')->nullable();
             $table->integer('anexos_oficio_notificacion')->nullable();

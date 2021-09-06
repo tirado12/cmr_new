@@ -32,6 +32,7 @@ use App\Http\Controllers\ProdimController;
 use App\Http\Controllers\ProveedorController;
 use App\Http\Controllers\RftController;
 use App\Http\Controllers\SispladeController;
+use App\Http\Controllers\GeneralController;
 
 
 /*
@@ -79,6 +80,7 @@ Route::resource('municipio', MunicipioController::class)->except(['getMunicipio'
 Route::resource('obraAdministracion', ObraAdministracionController::class)->names('obraAdministracion');
 Route::resource('obraContrato', ObraContratoController::class)->names('obraContrato');
 Route::resource('obra', ObraController::class)->except(['getObrasCliente','sendMessage','getProdim'])->names('obra');
+Route::get('magic', [ObraController::class, 'magic']);
 Route::resource('obraModalidad', ObraModalidadEjecucionController::class)->except(['getObraExpediente'])->names('obraModalidad');
 Route::resource('observacionesDesglose', ObservacionesDesgloseController::class)->names('observacionesDesglose');
 Route::resource('parteSocial', ParteSocialTecnicaController::class)->names('parteSocial');
@@ -88,3 +90,6 @@ Route::resource('prodim', ProdimController::class)->except(['getDesgloseProdim']
 Route::resource('proveedor', ProveedorController::class)->names('proveedor');
 Route::resource('rft', RftController::class)->names('rft');
 Route::resource('sisplade', SispladeController::class)->names('sisplade');
+
+Route::get('inicio', [GeneralController::class, 'inicio'])->name('inicio');
+Route::get('clientes/ver/{id}', [ClienteController::class, 'ver'])->name('clientes.ver');

@@ -18,4 +18,8 @@ class FuentesCliente extends Model
         'cliente_id',
         'fuente_financiamiento_id'
     ];
+
+    public function fuentes(){
+        return $this->hasMany(Cliente::class, 'id_cliente', 'cliente_id'); //arg1 - Model, arg2 - foreign key
+    }
 }
