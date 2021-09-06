@@ -88,6 +88,9 @@ class MunicipioController extends Controller
         ]);
 
         $municipio->update($request->all());
+
+        $ruta = redirect()->getUrlGenerator()->previous(); 
+        return $ruta;
         
         return redirect()->route('municipio.index');
     }
