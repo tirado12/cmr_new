@@ -15,4 +15,9 @@ class FuentesFinanciamiento extends Model
         'nombre_largo',
         'nombre_corto'
     ];
+
+
+    public function fuentesClientes(){
+        return $this->belongsTo(FuentesCliente::class, 'id_fuente_financiamiento'); //arg1 - Model, arg2 - foreign key
+    }
 }

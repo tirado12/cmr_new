@@ -14,6 +14,7 @@ class CreateIntegrantesCabildoTable extends Migration
     public function up()
     {
         Schema::create('integrantes_cabildo', function (Blueprint $table) {
+            $table->id('id_integrante');
             $table->string('nombre');
             $table->string('cargo');
             $table->string('telefono')->nullable();

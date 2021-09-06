@@ -2,8 +2,13 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Cliente;
+use App\Models\FuentesCliente;
+use App\Models\GastosIndirectosFuentes;
+use App\Models\Municipio;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Spatie\Permission\Models\Role;
 
 class GastosIndirectosFuentesController extends Controller
 {
@@ -13,8 +18,18 @@ class GastosIndirectosFuentesController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function index()
-    {
-        return "gastos indirectos fuentes";
+    {     
+        
+        $gastosIndirectos =GastosIndirectosFuentes::join('fuentes_clientes','fuente_cliente_id','id_fuente_financ_cliente')
+        ->join('gastos_indirectos','indirectos_id','id_indirectos')
+        ->join('fuentes_financiamientos','fuente_financiamiento_id','id_fuente_financiamiento')
+        ->join('clientes','cliente_id','id_cliente')
+        ->join('municipios','municipio_id','id_municipio')
+        ->select('fuentes_gastos_indirectos.*','fuentes_clientes.ejercicio','gastos_indirectos.nombre as nombre_indirectos','clientes.anio_inicio','clientes.anio_fin','municipios.nombre','fuentes_financiamientos.nombre_corto')
+        ->get();
+        
+      
+        return view('fuentes_gastos.index',compact('gastosIndirectos'));
     }
 
     /**
@@ -55,7 +70,7 @@ class GastosIndirectosFuentesController extends Controller
      */
     public function edit()
     {
-       
+       return view('fuentes_gastos.edit');
     }
 
     /**

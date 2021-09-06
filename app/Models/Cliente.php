@@ -26,6 +26,11 @@ class Cliente extends Model
     ];
 
     public function municipio(){
-        return $this->hasOne(Municipio::class, 'id_municipio', 'municipio_id'); //arg1 - Model, arg2 - foreign key
+        return $this->belongsTo(Municipio::class, 'municipio_id'); //arg1 - Model, arg2 - foreign key
     }
+    
+    public function fuentesClientes(){
+        return $this->hasMany(FuentesCliente::class,'cliente_id','id_cliente');
+    }
+    
 }

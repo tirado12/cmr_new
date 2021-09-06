@@ -3,9 +3,11 @@
 namespace App\Http\Controllers;
 
 use App\Models\Cliente;
+use App\Models\FuentesCliente;
 use App\Models\Municipio;
 use App\Models\IntegrantesCabildo;
 use App\Models\User;
+use Facade\FlareClient\Http\Client;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 
@@ -20,8 +22,9 @@ class ClienteController extends Controller
     {
 
         $clientes = Cliente::with('municipio')->get();
-        $municipios = Municipio::all();
         
+        $municipios = Municipio::all();
+        //return $clientes;
         return view('cliente.index', compact('clientes', 'municipios'));
     }
 
@@ -54,15 +57,15 @@ class ClienteController extends Controller
         }
         
         
-        $request->validate([
+        $valido= $request->validate([
             'user' => 'required',
             'email' => 'required',
             'anio_inicio' => 'required',
             'anio_fin' => 'required',
             'logo' => 'required',
             'municipio_id' => 'required',
-            'password' => ['required', 'min:8', 'regex:/^.*(?=.{3,})(?=.*[a-zA-Z])(?=.*[0-9])(?=.*[\d\x])(?=.*[!$#%]).*$/', 'confirmed'],
-        ])->with('otro', 'ot');
+            'password' => ['required', 'min:8', 'regex:/^.*(?=.{3,})(?=.*[a-zA-Z])(?=.*[0-9])(?=.*[\d\x])(?=.*[!$#%]).*$/', 'confirmed']
+        ]);
         
         
         Cliente::create([
@@ -74,7 +77,12 @@ class ClienteController extends Controller
             'municipio_id' => $request->municipio_id,
             'password' => bcrypt($request->password)
         ]);
-        return redirect()->route('clientes.index')->withInput();
+       // return $valido;
+        if($valido==false){
+            return redirect()->route('clientes.index')->withInput();
+        }else{
+            return redirect()->route('clientes.index');
+        }
     }
     /**
      * Display the specified resource.
@@ -84,7 +92,7 @@ class ClienteController extends Controller
      */
     public function show($id)
     {
-        //
+        return view('cliente.ver');
     }
     /**
      * Show the form for editing the specified resource.

@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\ProdimCatalogo;
 use Illuminate\Http\Request;
 
 class ProdimCatalogoController extends Controller
@@ -14,6 +15,8 @@ class ProdimCatalogoController extends Controller
      */
     public function index()
     {
+        $catalogo = ProdimCatalogo::all();
+        return view('prodim_catalogo.index', compact('catalogo'));
         return "Prodim catalogo";
     }
 
@@ -35,7 +38,15 @@ class ProdimCatalogoController extends Controller
      */
     public function store(Request $request)
     {
-      
+        $request->validate([
+            'clave' => 'required',
+            'nombre' => 'required',
+        ]);
+        ProdimCatalogo::create([
+            'clave' => $request->clave,
+            'nombre' => $request->nombre,
+        ]);
+        return redirect()->route('prodimCatalogo.index');
     }
     /**
      * Display the specified resource.
@@ -53,9 +64,9 @@ class ProdimCatalogoController extends Controller
      * @param  User  $users
      * @return \Illuminate\Http\Response
      */
-    public function edit()
+    public function edit(ProdimCatalogo $prodimCatalogo)
     {
-       
+       return view('prodim_catalogo.edit', compact('prodimCatalogo'));
     }
 
     /**
@@ -65,9 +76,14 @@ class ProdimCatalogoController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request)
+    public function update(Request $request, ProdimCatalogo $prodimCatalogo)
     {
-       
+        $request->validate([
+            'clave' => 'required',
+            'nombre' => 'required',
+        ]);
+        $prodimCatalogo->update($request->all());
+        return redirect()->route('prodimCatalogo.index');
     }
 
     /**
@@ -76,8 +92,9 @@ class ProdimCatalogoController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy()
+    public function destroy(ProdimCatalogo $prodimCatalogo)
     {
-        
+        $prodimCatalogo->delete();   
+        return redirect()->route('prodimCatalogo.index')->with('eliminar','ok');
     }
 }

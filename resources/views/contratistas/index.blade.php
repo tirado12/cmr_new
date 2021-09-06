@@ -1,5 +1,5 @@
 @extends('layouts.plantilla')
-@section('title','Usuarios')
+@section('title','Contratistas')
 @section('contenido')
         <link rel="stylesheet" href="{{ asset('css/datatable.css') }}">
         <link rel="stylesheet" href="{{ asset('css/jquery.dataTables.min.css') }}">
@@ -12,7 +12,7 @@
   <svg class="h-7 w-7" fill="none" viewBox="0 0 24 24" stroke="currentColor">
     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z" />
   </svg>
-<h1 class="text-xl font-bold ml-2">Lista de Usuarios</h1>
+<h1 class="text-xl font-bold ml-2">Lista de Contratistas</h1>
 </div>
 
 <div class="flex flex-col mt-6">
@@ -29,35 +29,43 @@
 <table id="example" class="table table-striped bg-white" style="width:100%;">
   <thead>
       <tr>
-          <th>Usuario</th>
-          <th>Roles</th>
+          
+          <th>Contratista</th>
+          <th>Telefono</th>
+          <th>Correo</th>
           <th class="flex justify-center">Acción</th>
           
       </tr>
   </thead>
   <tbody> 
-    @foreach($roles as $index=>$user)
+    @foreach($contratistas as $contratista)
       <tr>
           
           <td>
-            <div class="flex items-center space-y-4">
+            <div class="flex items-center">
               <div>
-                  <div class="text-sm leading-5 font-medium text-gray-900">{{$user->name}}</div>
-                  <div class="text-sm leading-5 text-gray-500">{{$user->email}}</div>
+                  <div class="text-sm leading-5 font-medium text-gray-900">{{$contratista->razon_social}}</div>
+                  <div class="text-sm leading-5 text-gray-500">{{$contratista->rfc}}</div>
               </div>
           </div>
           </td>
           <td>
             <div class="text-sm leading-5 font-medium text-gray-900">
-            {{ $user->roles[0]->name }}
+            {{ $contratista->telefono }}
+            </div>
+            
+          </td>
+          <td>
+            <div class="text-sm leading-5 font-medium text-gray-900">
+            {{ $contratista->correo }}
             </div>
             
           </td>
           <td>
             <div class="flex justify-center">
-            <form action="{{ route('admin.users.destroy', $user->id) }}" method="POST" class="form-eliminar" >
+            <form action="{{ route('contratistas.destroy', $contratista->id_contratista) }}" method="POST" class="form-eliminar" >
               <div>
-              <a type="button"  href="{{ route('admin.users.edit', $user->id)}}" class="bg-white text-blue-500 p-2 rounded rounded-lg">Editar</a>
+              <a type="button"  href="{{ route('contratistas.edit', $contratista->id_contratista)}}" class="bg-white text-blue-500 p-2 rounded rounded-lg">Editar</a>
               
               @csrf
               @method('DELETE')
@@ -88,7 +96,7 @@
       <!--header-->
       <div class="flex items-start justify-between p-5 border-b border-solid border-blueGray-200 rounded-t">
         <h4 class="text-xl font-semibold">
-          Agregar Nuevo Usuario
+          Agregar Nuevo Contratista
         </h4>
         <button class="p-1 ml-auto bg-transparent border-0 text-black opacity-5 float-right text-3xl leading-none font-semibold outline-none focus:outline-none" onclick="toggleModal('modal-id')">
           <span class="bg-transparent text-black opacity-5 h-6 w-6 text-2xl block outline-none focus:outline-none">
@@ -97,37 +105,46 @@
         </button>
       </div>
       <!--body-->
-      <form action="{{ route('admin.users.store', $user->id) }}" method="POST" id="formulario" name="formulario">
+      <form action="{{ route('contratistas.store') }}" method="POST" id="formulario" name="formulario">
         @csrf
         @method('POST')
       <div class="relative p-6 flex-auto">
-        
           <div class="grid grid-cols-8 gap-8">
             <div class="col-span-8 ">
-              <label for="first_name" class="block text-sm font-medium text-gray-700">Usuario *</label>
-              <input type="text" name="name" id="name" autocomplete="given-name" class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md">
-              <label id="error_name" name="error_name" class="hidden text-base font-normal text-red-500" >Porfavor ingrese un usuario</label>
+              <label id="label_rfc" for="first_name" class="block text-sm font-medium text-gray-700">RFC *</label>
+              <input type="text" name="rfc" id="rfc" class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md" maxlength="13">
+              <label id="error_rfc" name="error_rfc" class="hidden text-base font-normal text-red-500" >Porfavor ingresar al menos un RFC generico con 5 caracteres</label>
             </div>
             <div class="col-span-8">
-              <label for="email_address" class="block text-sm font-medium text-gray-700">Correo *</label>
-              <input type="text" name="email" id="email" autocomplete="email" class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md">
-              <label id="error_email" name="error_email" class="hidden text-base font-normal text-red-500" >Porfavor ingresar un correo</label>
+              <label id="label_razon_social" for="razon_social" class="block text-sm font-medium text-gray-700">Razón social *</label>
+              <input type="text" name="razon_social" id="razon_social" class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md" >
+              <label id="error_razon_social" name="error_razon_social" class="hidden text-base font-normal text-red-500" >Porfavor ingresar una razón social</label>
             </div>
             <div class="col-span-8">
-              <label for="password" class="block text-sm font-medium text-gray-700">Contraseña *</label>
-              <input type="password" name="password" id="password" autocomplete="password" class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md">
-              <label id="error_password" name="error_password" class="hidden text-base font-normal text-red-500" >Porfavor ingresar una contraseña</label>
+              <label id="label_representante_legal" for="representante_legal" class="block text-sm font-medium text-gray-700">Representante legal *</label>
+              <input type="text" name="representante_legal" id="representante_legal" class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md" >
+              <label id="error_representante_legal" name="error_representante_legal" class="hidden text-base font-normal text-red-500" >Porfavor ingresar un representante legal</label>
             </div>
-            <div class="col-span-8" >
-                  <label for="country" class="block text-sm font-medium text-gray-700">Lista de roles *</label>
-                  <select id="roles" name="roles" onchange="validarRol()" class="mt-1 block w-full py-2 px-3 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
-                    <option value="">Elija una opción</option>
-                    @foreach($roles_list as $rol)
-                      <option value="Administrador">{{ $rol->name }}</option>
-                    @endforeach
-                  </select>
-                  <label id="error_roles" name="error_roles" class="hidden text-base font-normal text-red-500" >Porfavor seleccione una opción</label>
-             </div>
+            <div class="col-span-8">
+                <label id="label_domicilio" for="domicilio" class="block text-sm font-medium text-gray-700">Domicilio *</label>
+                <input type="text" name="domicilio" id="domicilio" class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md" >
+                <label id="error_domicilio" name="error_domicilio" class="hidden text-base font-normal text-red-500" >Porfavor ingresar un domicilio</label>
+              </div>
+            <div class="col-span-8">
+                <label id="label_telefono" for="telefono" class="block text-sm font-medium text-gray-700">Telefono *</label>
+                <input type="tel" name="telefono" id="telefono" class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md" >
+                <label id="error_telefono" name="error_telefono" class="hidden text-base font-normal text-red-500" >Porfavor ingresar un telefono</label>
+              </div>
+            <div class="col-span-8">
+                <label id="label_correo" for="correo" class="block text-sm font-medium text-gray-700">Correo *</label>
+                <input type="email" name="correo" id="correo" class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md" >
+                <label id="error_correo" name="error_correo" class="hidden text-base font-normal text-red-500" >Porfavor ingresar un correo valido</label>
+              </div>
+            <div class="col-span-8">
+                <label id="label_numero_padron_contratista" for="numero_padron_contratista" class="block text-sm font-medium text-gray-700">Numero de padron *</label>
+                <input type="text" name="numero_padron_contratista" id="numero_padron_contratista" class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md" >
+                <label id="error_numero_padron_contratista" name="error_numero_padron_contratista" class="hidden text-base font-normal text-red-500" >Porfavor ingresar un numero de padron</label>
+            </div>
           </div>
         
       </div>
@@ -139,7 +156,7 @@
         <button class="text-red-500 background-transparent font-bold uppercase px-6 py-2 text-sm outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150" type="button" onclick="toggleModal('modal-id')">
           Cancelar
         </button>
-        <button type="submit" class="bg-green-500 text-white active:bg-green-600 font-bold uppercase text-sm px-6 py-3 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150">
+        <button type="submit" class="bg-green-500 text-white active:bg-green-600 font-bold uppercase text-sm px-6 py-3 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150" >
           Guardar
         </button>
         </div>
@@ -152,13 +169,13 @@
 <div class="hidden opacity-25 fixed inset-0 z-40 bg-black" id="modal-id-backdrop"></div>
 <script src="//cdn.jsdelivr.net/npm/sweetalert2@10"></script>
 <script type="text/javascript" charset="utf8" src="https://code.jquery.com/jquery-3.5.1.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.1/jquery.validate.min.js"></script>    
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.1/jquery.validate.min.js"></script>  
 <!--Alerta de confirmacion-->
 @if(session('eliminar')=='ok')
   <script>
     Swal.fire(
       '¡Eliminado!',
-      'El usuario ha sido eliminado.',
+      'El contratista ha sido eliminado.',
       'success'
     )
   </script>
@@ -172,7 +189,7 @@
   title: 'swal_title_modificado',
   cancelButton: 'swal_button_cancel_modificado'
 },
-  title: '¿Seguro que desea eliminar este usuario?',
+  title: '¿Seguro que desea eliminar este contratista?',
   text: "¡Aviso, esta acción es irreversible!",
   icon: 'warning',
   showCancelButton: true,
@@ -195,8 +212,8 @@
     document.getElementById(modalID).classList.toggle("hidden");
     document.getElementById(modalID + "-backdrop").classList.toggle("hidden");
   }
-  
-  //validacion de campos del modal
+
+//validacion de campos del modal
 $(document).ready(function() {
    $("#modal-id input").keyup(function() {
   //console.log($(this).attr('id'));
@@ -218,30 +235,19 @@ $(document).ready(function() {
     });
 });
 
-function validarRol() {
-  var valor = document.getElementById("roles").value;
-  if(valor != ''){
-    $('#error_roles').fadeOut();
-    $("#label_roles").removeClass('text-red-500');
-    $("#label_roles").addClass('text-gray-700');
-  }else{
-    $('#error_roles').fadeIn();
-    $("#label_roles").addClass('text-red-500');
-    $("#label_roles").removeClass('text-gray-700');
-  }
-}
-
-//validacion del formulario con el btn guardar
+  //validacion del formulario con el btn guardar
 $().ready(function() {
   $("#formulario").validate({
     onfocusout: false,
     onclick: false,
 		rules: {
-			name: { required: true},
-      email: { required: true, email: true},
-      password: { required: true},
-      roles: { required: true},
-      
+			rfc: { required: true, minlength: 5},
+      razon_social: { required: true},
+      representante_legal: { required: true},
+      domicilio: { required: true},
+      telefono: { required: true},
+      correo: { required: true, email: true},
+      numero_padron_contratista:{ required: true}
 		},
     errorPlacement: function(error, element) {
       if(error != null){
@@ -249,15 +255,12 @@ $().ready(function() {
       }else{
       $('#error_'+element.attr('id')).fadeOut();
       }
-     // console.log(element.attr('id'));
+     
     },
 	}); 
   
 });
-
-
-
-  </script>
+</script>
 
 
 <script type="text/javascript" src="https://cdn.datatables.net/v/dt/jszip-2.5.0/dt-1.10.22/b-1.6.4/b-flash-1.6.4/b-html5-1.6.4/b-print-1.6.4/datatables.min.js"></script>
@@ -269,14 +272,13 @@ $().ready(function() {
   $(document).ready(function() {
     
     $('#example').DataTable({
-        "autoWidth" : false,
+        "autoWidth" : true,
         "responsive" : true,
         language: {
     url: 'https://cdn.datatables.net/plug-ins/1.10.24/i18n/Spanish.json'
 }
         
-    }).columns.adjust()
-    .responsive.recalc();
+    }).columns.adjust();
 });
 </script>
 

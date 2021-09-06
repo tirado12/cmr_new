@@ -80,6 +80,7 @@ class UsersController extends Controller
     {
         $roles=Role::all();
         return view('admin.users.edit',compact('user','roles'));
+        
     }
 
     /**

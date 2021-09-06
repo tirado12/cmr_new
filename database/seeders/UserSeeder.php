@@ -37,13 +37,13 @@ class UserSeeder extends Seeder
             'remember_token' => Str::random(100)
         ])->assignRole('Administrador');
 
-        $cliente= new Cliente();
+       /* $cliente= new Cliente();
         $cliente ->anio_inicio = 2020;
         $cliente ->anio_fin = 2022;
         $cliente ->logo = "modifica_el_logo";
         $cliente ->id_onesignal = 1;
         $cliente ->user_id = 1;
         $cliente ->municipio_id = 10;
-        $cliente->save();
+        $cliente->save();*/
     }
 }

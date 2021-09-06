@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Contratista;
 use Illuminate\Http\Request;
 
 class ContratistaController extends Controller
@@ -13,7 +14,8 @@ class ContratistaController extends Controller
      */
     public function index()
     {
-        return "contratista";
+        $contratistas = Contratista::all();
+        return view('contratistas.index', compact('contratistas'));
     }
 
     /**
@@ -34,7 +36,27 @@ class ContratistaController extends Controller
      */
     public function store(Request $request)
     {
-      
+        $request->validate([
+            'rfc' => 'required',
+            'razon_social' => 'required',
+            'representante_legal' => 'required',
+            'domicilio' => 'required',
+            'telefono' => 'required',
+            'correo' => 'required',
+            'numero_padron_contratista' => 'required' 
+        ]);
+        //return $request;
+         
+        Contratista::create([
+            'rfc' => $request->rfc,
+            'razon_social' => $request->razon_social,
+            'representante_legal' => $request->representante_legal,
+            'domicilio' => $request->domicilio,
+            'telefono' => $request->telefono,
+            'correo' => $request->correo,
+            'numero_padron_contratista' => $request->numero_padron_contratista,
+            ]);
+            return redirect()->route('contratistas.index');
     }
     /**
      * Display the specified resource.
@@ -52,9 +74,9 @@ class ContratistaController extends Controller
      * @param  User  $users
      * @return \Illuminate\Http\Response
      */
-    public function edit()
+    public function edit(Contratista $contratista)
     {
-       
+        return view('contratistas.edit',compact('contratista'));
     }
 
     /**
@@ -64,9 +86,19 @@ class ContratistaController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request)
+    public function update(Request $request, Contratista $contratista)
     {
-       
+        $request->validate([
+            'rfc' => 'required',
+            'razon_social' => 'required',
+            'representante_legal' => 'required',
+            'domicilio' => 'required',
+            'telefono' => 'required',
+            'correo' => 'required',
+            'numero_padron_contratista' => 'required'
+        ]);
+        $contratista->update($request->all());
+        return redirect()->route('contratistas.index');
     }
 
     /**
@@ -75,8 +107,9 @@ class ContratistaController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy()
+    public function destroy(Contratista $contratista)
     {
-        
+        $contratista->delete();
+        return redirect()->route('contratistas.index')->with('eliminar','ok');
     }
 }

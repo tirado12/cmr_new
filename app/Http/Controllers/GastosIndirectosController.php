@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\GastosIndirectos;
 use Illuminate\Http\Request;
 
 class GastosIndirectosController extends Controller
@@ -14,7 +15,8 @@ class GastosIndirectosController extends Controller
      */
     public function index()
     {
-        return "gastos indirectos";
+        $gastosIndirectos =GastosIndirectos::all();
+        return view('gastos_indirectos.index', compact('gastosIndirectos'));
     }
 
     /**
@@ -35,7 +37,16 @@ class GastosIndirectosController extends Controller
      */
     public function store(Request $request)
     {
-      
+        $request->validate([
+            'clave' => 'required',
+            'nombre' => 'required',            
+        ]);
+        GastosIndirectos::create([
+            'clave' => $request->clave,
+            'nombre' => $request->nombre  
+        ]);
+
+        return redirect()->route('gastosIndirectos.index');
     }
     /**
      * Display the specified resource.
@@ -53,9 +64,9 @@ class GastosIndirectosController extends Controller
      * @param  User  $users
      * @return \Illuminate\Http\Response
      */
-    public function edit()
+    public function edit(GastosIndirectos $gastosIndirecto)
     {
-       
+        return view('gastos_indirectos.edit',compact('gastosIndirecto'));
     }
 
     /**
@@ -65,9 +76,14 @@ class GastosIndirectosController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request)
+    public function update(Request $request, GastosIndirectos $gastosIndirecto)
     {
-       
+        $request->validate([
+            'clave' => 'required',
+            'nombre' => 'required',
+        ]);
+        $gastosIndirecto->update($request->all());
+        return redirect()->route('gastosIndirectos.index');
     }
 
     /**
@@ -76,8 +92,9 @@ class GastosIndirectosController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy()
+    public function destroy(GastosIndirectos $gastosIndirecto)
     {
-        
+        $gastosIndirecto->delete();
+        return redirect()->route('gastosIndirectos.index')->with('eliminar','ok');
     }
 }

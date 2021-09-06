@@ -15,7 +15,7 @@ use App\Http\Controllers\FuenteClienteController;
 use App\Http\Controllers\FuenteFinanciamientoController;
 use App\Http\Controllers\GastosIndirectosController;
 use App\Http\Controllers\GastosIndirectosFuentesController;
-use App\Http\Controllers\IntegranteCabildoController;
+use App\Http\Controllers\IntegrantesCabildoController;
 use App\Http\Controllers\LicitacionInvitacionController;
 use App\Http\Controllers\ListaRayaController;
 use App\Http\Controllers\MidsController;
@@ -33,7 +33,6 @@ use App\Http\Controllers\ProveedorController;
 use App\Http\Controllers\RftController;
 use App\Http\Controllers\SispladeController;
 use App\Http\Controllers\GeneralController;
-
 
 /*
 |--------------------------------------------------------------------------
@@ -72,7 +71,7 @@ Route::resource('fuenteCliente', FuenteClienteController::class)->except(['getFu
 Route::resource('fuenteFinanciamiento', FuenteFinanciamientoController::class)->names('fuenteFinanciamiento');
 Route::resource('gastosIndirectos', GastosIndirectosController::class)->names('gastosIndirectos');
 Route::resource('gastosIndirectosFuentes', GastosIndirectosFuentesController::class)->except(['getDesgloseGI'])->names('gastosIndirectosFuentes');
-Route::resource('integranteCabildo', IntegranteCabildoController::class)->names('integranteCabildo');
+Route::resource('integrantes', IntegrantesCabildoController::class)->names('cabildo');
 Route::resource('licitacionInvitacion', LicitacionInvitacionController::class)->names('licitacionInvitacion');
 Route::resource('listaRaya', ListaRayaController::class)->names('listaRaya');
 Route::resource('mids', MidsController::class)->names('mids');
@@ -93,3 +92,8 @@ Route::resource('sisplade', SispladeController::class)->names('sisplade');
 
 Route::get('inicio', [GeneralController::class, 'inicio'])->name('inicio');
 Route::get('clientes/ver/{id}', [ClienteController::class, 'ver'])->name('clientes.ver');
+Route::resource('sisplade', SispladeController::class)->except(['selectSearch'])->names('sisplade');
+
+Route::get('/autocomplete/{ejercicio},{cliente}',[SispladeController::class,'selectSearch']);
+Route::get('/selectEjercicio/{cliente}',[SispladeController::class,'selectEjercicio']);
+Route::get('/fuentesClientes/{ejercicio},{cliente},{fuente}',[SispladeController::class,'fuentesClientes']);
