@@ -35,7 +35,7 @@
           <th>Cargo</th>
           <th>Telefono</th>
           <th>Correo</th>
-          <th>Municipio</th>
+          <th>Cliente</th>
           <th class="flex justify-center">Acción</th>
           
       </tr>
@@ -154,9 +154,8 @@
               <div class="col-span-8" >
                 <label id="label_municipio" for="municipio" class="block text-sm font-medium text-gray-700">Municipio *</label>
                 <select id="municipio" name="municipio" onchange="validarCliente()" class="mt-1 block w-full py-2 px-3 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
-                    <option value="">Elija una opción</option>
-                    @foreach($municipios as $municipio)
-                    <option value="{{ $municipio->id_municipio }}">{{ $municipio->nombre }}</option>
+                    @foreach($clientes as $cliente)
+                        <option value="{{ $cliente->id_cliente }}">{{ $cliente->municipio->nombre }}</option>
                      @endforeach
                 </select>
                 <label id="error_municipio" name="error_municipio" class="hidden text-base font-normal text-red-500" >Seleccione una opción</label>

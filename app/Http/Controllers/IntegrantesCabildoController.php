@@ -18,13 +18,15 @@ class IntegrantesCabildoController extends Controller
      */
     public function index()
     {
-        $integrantes = IntegrantesCabildo::join('municipios','municipios.id_municipio','=','integrantes_cabildo.municipio_id')
+        $integrantes = IntegrantesCabildo::join('clientes','clientes.id_cliente','=','integrantes_cabildo.cliente_id')
+        ->join('municipios', 'municipios.id_municipio', '=', 'clientes.municipio_id')
         ->select('integrantes_cabildo.*','municipios.nombre as nombre_municipio')
         ->orderBy('nombre_municipio')
         ->get();
         $municipios = Municipio::all();
+        $clientes = Cliente::with('municipio')->get();
         
-       return view('cabildo.index',compact('integrantes','municipios'));
+       return view('cabildo.index',compact('integrantes','municipios', 'clientes'));
     }
 
     /**
