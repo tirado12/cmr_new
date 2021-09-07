@@ -122,7 +122,9 @@
                                 </td>
                                 <td>
                                     <div class="text-base leading-5 font-medium text-gray-900">
-                                        <a type="button"  href="{{ route('integranteCabildo.edit', $integrante->id_integrante) }}" class="text-base text-white bg-blue-500 p-2 rounded-lg px-6">Editar</a>
+                                        <a type="button"
+                                            href="{{ route('cabildo.edit', $integrante->id_integrante) }}"
+                                            class="bg-white text-sm text-blue-500 font-normal text-ms p-2 rounded rounded-lg">Editar</a>
                                     </div>
                                 </td>
                                 
@@ -146,10 +148,7 @@
             
                 <div class="text-right">
                     <a type="button"  href="{{ route('inicio')}}" class="text-base text-white bg-gray-500 p-2 rounded-lg px-6">Regresar</a>
-                    <a type="button"  href="{{ route('inicio')}}" class="text-base text-white bg-blue-500 p-2 rounded-lg px-6">Editar</a>
-                    <button type="submit" class="text-base text-white bg-blue-500 p-2 rounded-lg px-6">
-                    Editar
-                    </button>
+                    
                 </div>
             </div>
             

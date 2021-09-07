@@ -21,7 +21,7 @@
             <div class="px-4 py-5 bg-white sm:p-6"> 
               <div class="grid grid-cols-6 gap-6">
                 <div class="col-span-6 sm:col-span-3">
-                  <label for="first_name" class="block text-sm font-medium text-gray-700">Nombre *</label>
+                  <label for="first_name" class="block text-normal font-base text-gray-500">Nombre *</label>
                   <input type="text" name="nombre" id="nombre" autocomplete="given-name" class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md" value="{{ $integrante->nombre }}">
                   <label id="error_nombre" name="error_nombre" class="hidden text-base font-normal text-red-500" >Introduzca un nombre</label>
                 </div>
@@ -54,10 +54,9 @@
                 <div class="col-span-6 sm:col-span-3">
                   <label for="municipio" class="block text-sm font-medium text-gray-700">Municipio *</label>
                   <select id="municipio" name="municipio" onchange="validarMunicipio()" class="mt-1 block w-full py-2 px-3 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
-                    <option value="">Elija una opción</option>
-                    @foreach($municipios as $municipio)
-                    <option value="{{ $municipio->id_municipio }}" {{ ($municipio->id_municipio == $integrante->municipio_id) ? 'selected' : '' }}> {{ $municipio->nombre }}</option>
-                  @endforeach
+                    @foreach($clientes as $cliente)
+                      <option value="{{ $cliente->id_cliente }}" {{ ($cliente->id_cliente == $integrante->cliente_id) ? 'selected' : '' }}> {{ $cliente->municipio->nombre }}</option>
+                    @endforeach
                   </select>
                   <label id="error_municipio" name="error_municipio" class="hidden text-base font-normal text-red-500" >Elija un municipio</label>
                 </div>
@@ -69,7 +68,7 @@
             <div class="px-4 py-3 bg-gray-100 sm:px-6">
               <span class="block text-xs">Porfavor verifique que todos los campos marcados con ( * ) esten rellenados</span>
               <div class="text-right">
-                <a type="button" href="{{route('cabildo.index')}}" class="inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-gray-500 hover:bg-gray-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+                <a type="button" href="{{redirect()->getUrlGenerator()->previous()}}" class="inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-gray-500 hover:bg-gray-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
                   Regresar
                 </a>
               <button type="submit" class="ml-4 inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-orange-800 hover:bg-orange-800 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">

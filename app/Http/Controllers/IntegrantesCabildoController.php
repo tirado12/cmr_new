@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\IntegrantesCabildo;
 use App\Models\Municipio;
+use App\Models\Cliente;
 use Illuminate\Http\Request;
 use Illuminate\Validation\Rules\In;
 
@@ -80,8 +81,9 @@ class IntegrantesCabildoController extends Controller
      */
     public function edit(IntegrantesCabildo $integrante)
     {
-        $municipios = Municipio::all();
-       return view('cabildo.edit',compact('integrante','municipios'));
+        $clientes = Cliente::with('municipio')->get();
+        
+       return view('cabildo.edit',compact('integrante','clientes'));
         
     }
 
