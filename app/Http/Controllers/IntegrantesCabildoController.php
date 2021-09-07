@@ -53,7 +53,7 @@ class IntegrantesCabildoController extends Controller
             'telefono' => 'required',
             'correo' => 'required',
             'rfc' => 'required',
-            'municipio' => 'required'
+            'cliente' => 'required'
         ]);
         IntegrantesCabildo::create([
             'nombre' => $request->nombre,
@@ -61,9 +61,13 @@ class IntegrantesCabildoController extends Controller
             'telefono' => $request->telefono,
             'correo' => $request->correo,
             'rfc' => $request->rfc,
-            'municipio_id' => $request->municipio
+            'cliente_id' => $request->cliente
         ]);
-        return redirect()->route('cabildo.index');
+        if(auth()->user()->getRoleNames()[0] == 'Administrador')
+            return redirect()->route('cabildo.index');
+        else
+            return redirect()->route('cliente.ver', ['id' => $request->cliente]);
+        
     }
     /**
      * Display the specified resource.
@@ -83,9 +87,20 @@ class IntegrantesCabildoController extends Controller
      */
     public function edit(IntegrantesCabildo $integrante)
     {
-        $clientes = Cliente::with('municipio')->get();
         
-       return view('cabildo.edit',compact('integrante','clientes'));
+
+        if(auth()->user()->getRoleNames()[0] == 'Administrador'){
+            $clientes = Cliente::with('municipio')->get();
+            return view('cabildo.edit',compact('integrante','clientes'));
+        }
+        else{
+            $cliente = Cliente::find($integrante->cliente_id)
+            ->join('municipios', 'municipios.id_municipio', '=', 'clientes.municipio_id')
+            ->first();
+            return view('cabildo.edit',compact('integrante','cliente'));
+        }
+        
+        
         
     }
 
@@ -105,10 +120,13 @@ class IntegrantesCabildoController extends Controller
             'telefono' => 'required',
             'correo' => 'required',
             'rfc' => 'required',
-            'municipio' => 'required'
+            'cliente' => 'required'
         ]);
         $integrante->update($request->all());
-        return redirect()->route('cabildo.index');
+        if(auth()->user()->getRoleNames()[0] == 'Administrador')
+            return redirect()->route('cabildo.index');
+        else
+            return redirect()->route('cliente.ver', ['id' => $request->cliente]);
     }
 
     /**

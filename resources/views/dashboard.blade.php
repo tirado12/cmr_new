@@ -76,7 +76,7 @@
                             method="POST"
                             class="form-eliminar">
                             <div>
-                                <a type="button"  href="{{ route('clientes.ver', $cliente->id_cliente)}}" class="bg-white text-sm text-blue-500 font-normal text-ms p-2 rounded rounded-lg">Ver</a>
+                                <a type="button"  href="{{ route('cliente.ver', $cliente->id_cliente)}}" class="bg-white text-sm text-blue-500 font-normal text-ms p-2 rounded rounded-lg">Ver</a>
                                 <!--@csrf
                                                           @method('DELETE')
                                                       <button type="submit" class="bg-white text-red-500 p-2 rounded rounded-lg">Eliminar</button>

@@ -24685,6 +24685,11 @@ select {
   color: rgba(6, 78, 59, var(--tw-text-opacity));
 }
 
+.text-orange-800 {
+  --tw-text-opacity: 1;
+  color: rgba(239, 108, 0, var(--tw-bg-opacity));
+}
+
 .text-blue-50 {
   --tw-text-opacity: 1;
   color: rgba(239, 246, 255, var(--tw-text-opacity));

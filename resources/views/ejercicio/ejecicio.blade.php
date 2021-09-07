@@ -57,22 +57,18 @@
         
         <div class="mt-6 sm:col-span-1 bg-white rounded-lg">
             <div class="border-b p-4">
-                <label for="first_name" class="text-xl font-medium font-semibold">Ejercicios</label>
+                <label for="first_name" class="text-xl font-medium font-bold">Ejercicios</label>
             </div>
             <div class="p-4">
                 <div class="">
-                    <select name="cliente_id" id="cliente_id" class="block w-full py-2 px-3 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-blue-800 focus:border-blue-800 sm:text-sm">
+                    <select name="" id="" class="block w-full py-2 px-3 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-blue-800 focus:border-blue-800 sm:text-sm">
                         @for ($i = $cliente->anio_inicio; $i <= $cliente->anio_fin; $i++)
-                            @if($i <= date("Y"))
-                                <option value="{{$i}}">{{$i}}</option>
-                            @endif
+                            <option value="{{$i}}">{{$i}}</option>
                         @endfor
                     </select>
-
                 </div>
                 <div class="mt-4 flex justify-center">
-                    <a href="{{route('cliente.ejercicio', [$cliente->id_cliente, $cliente->anio_inicio])}}" id="btn_acceder" type="button" class="text-base text-white bg-green-500 p-2 rounded-lg px-6">Acceder</a>
-                    
+                    <button class="text-base text-white bg-green-500 p-2 rounded-lg px-6">Acceder</button>
                 </div>
             </div>
         </div>
@@ -80,10 +76,10 @@
     <div class="">
 
         <div class="text-base mt-6 shadow-xl bg-white rounded-lg">
-            <div class="border-b p-4 flex justify-between items-center">
-                <span class="inline-block text-xl font-medium font-semibold">Datos del cabildo</span>
+            <div class="border-b p-4 flex justify-between">
+                <label for="first_name" class="text-xl font-medium font-semibold">Datos del cabildo</label>
 
-                <button href="#" class="bg-green-500 text-white active:bg-white text-base px-6 py-2 rounded-lg outline-none focus:outline-none ml-1 ease-linear transition-all duration-150" type="button" onclick="toggleModal('modal-id')">
+                <button class="bg-green-500 text-white active:bg-white text-base px-6 py-2 rounded-lg outline-none focus:outline-none ml-1 ease-linear transition-all duration-150" type="button" onclick="toggleModal('modal-id')">
                     Agregar
                 </button>
             </div>
@@ -262,15 +258,6 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.1/jquery.validate.min.js"></script>  
     <script>
         $(document).ready(function() {
-            $(document).on('change', '#cliente_id', function(event) {
-                $("#btn_acceder").prop("href", location.origin+"/cliente/ejercicio/"+{{$cliente->id_cliente}}+","+$("#cliente_id option:selected").val());
-            });
-
-            $("a").bind("click", function(e){
-                
-                console.log(location.origin);
-                
-            });
             $('#example').DataTable({
                     "autoWidth": true,
                     "responsive": true,

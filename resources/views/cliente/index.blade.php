@@ -631,7 +631,6 @@
                     reader.readAsDataURL(input.files[0]);
                 }
             }
-<<<<<<< HEAD
 
             $("#file").click(function() {
                 $('#preViewImg').addClass('hidden');
@@ -767,21 +766,4 @@
 
 
 
-=======
-          },
-          statusCode: {
-             404: function() {
-                alert('web not found');
-             }
-          },
-          error:function(x,xs,xt){
-              //nos dara el error si es que hay alguno
-              window.open(JSON.stringify(x));
-              //alert('error: ' + JSON.stringify(x) +"\n error string: "+ xs + "\n error throwed: " + xt);
-          }
-       });}
-    }).keyup();
-});
-</script>
->>>>>>> 44312a220fcfa00b79f9695652ecdb36a4e42895
 @endsection

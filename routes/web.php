@@ -90,10 +90,14 @@ Route::resource('proveedor', ProveedorController::class)->names('proveedor');
 Route::resource('rft', RftController::class)->names('rft');
 Route::resource('sisplade', SispladeController::class)->names('sisplade');
 
+//Rutas independientes para el sistema
 Route::get('inicio', [GeneralController::class, 'inicio'])->name('inicio');
-Route::get('clientes/ver/{id}', [ClienteController::class, 'ver'])->name('clientes.ver');
-Route::resource('sisplade', SispladeController::class)->except(['selectSearch'])->names('sisplade');
+Route::get('cliente/ver/{id}', [ClienteController::class, 'ver'])->name('cliente.ver');
+Route::get('cliente/ejercicio/{id},{anio}', [GeneralController::class, 'ejercicio'])->name('cliente.ejercicio');
 
+
+
+Route::resource('sisplade', SispladeController::class)->except(['selectSearch'])->names('sisplade');
 Route::get('/autocomplete/{ejercicio},{cliente}',[SispladeController::class,'selectSearch']);
 Route::get('/selectEjercicio/{cliente}',[SispladeController::class,'selectEjercicio']);
 Route::get('/fuentesClientes/{ejercicio},{cliente},{fuente}',[SispladeController::class,'fuentesClientes']);

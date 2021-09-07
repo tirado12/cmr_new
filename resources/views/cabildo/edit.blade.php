@@ -50,16 +50,22 @@
                     <label id="error_rfc" name="error_rfc" class="hidden text-base font-normal text-red-500" >Introduzca al menos un RFC generico de 5 caracteres</label>
                   </div>
                 
-                  
+                
                 <div class="col-span-6 sm:col-span-3">
-                  <label for="municipio" class="block text-sm font-medium text-gray-700">Municipio *</label>
-                  <select id="municipio" name="municipio" onchange="validarMunicipio()" class="mt-1 block w-full py-2 px-3 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
+                  <label for="cliente" class="block text-sm font-medium text-gray-700">Municipio *</label>
+                  <select id="cliente" name="cliente" onchange="validarMunicipio()" class="mt-1 block w-full py-2 px-3 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
+                    @role('Administrador')
                     @foreach($clientes as $cliente)
                       <option value="{{ $cliente->id_cliente }}" {{ ($cliente->id_cliente == $integrante->cliente_id) ? 'selected' : '' }}> {{ $cliente->municipio->nombre }}</option>
                     @endforeach
+                    @endrole
+                    @role('Usuario')
+                      <option value="{{ $cliente->id_cliente }}" selected> {{ $cliente->nombre }}</option>
+                    @endrole
                   </select>
                   <label id="error_municipio" name="error_municipio" class="hidden text-base font-normal text-red-500" >Elija un municipio</label>
                 </div>
+
 
                 
                 

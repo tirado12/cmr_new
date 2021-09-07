@@ -18,6 +18,10 @@ class IntegrantesCabildo extends Model
         'telefono',
         'correo',
         'rfc',
-        'municipio_id'
+        'cliente_id'
     ];
+
+    public function cliente(){
+        return $this->belongsTo(Cliente::class, 'cliente_id'); //arg1 - Model, arg2 - foreign key
+    }
 }

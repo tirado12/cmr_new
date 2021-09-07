@@ -155,7 +155,7 @@ class ClienteController extends Controller
         if(auth()->user()->getRoleNames()[0] == 'Administrador')
             return redirect()->route('clientes.index');
         else
-            return redirect()->route('clientes.ver', ['id' => $cliente->id_cliente]);
+            return redirect()->route('cliente.ver', ['id' => $cliente->id_cliente]);
 
     }
 

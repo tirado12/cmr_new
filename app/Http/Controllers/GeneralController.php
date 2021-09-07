@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 use App\Models\Cliente;
 use App\Models\Municipio;
+use App\Models\FuentesCliente;
 use Illuminate\Support\Facades\DB;
 
 use Illuminate\Http\Request;
@@ -51,6 +52,15 @@ class GeneralController extends Controller
         
         
         return view('dashboard', compact('clientes', 'obras_anio'));
+    }
+
+    function ejercicio($id, $anio){
+        $fuentes = FuentesCliente::where("cliente_id",$id)
+        ->where('ejercicio',$anio)
+        ->join('fuentes_financiamientos', 'fuentes_financiamientos.id_fuente_financiamiento', '=', 'fuentes_clientes.fuente_financiamiento_id')
+        ->get();
+        return $fuentes;
+        
     }
 
 }
