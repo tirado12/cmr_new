@@ -94,6 +94,7 @@ Route::resource('sisplade', SispladeController::class)->names('sisplade');
 Route::get('inicio', [GeneralController::class, 'inicio'])->name('inicio');
 Route::get('cliente/ver/{id}', [ClienteController::class, 'ver'])->name('cliente.ver');
 Route::get('cliente/ejercicio/{id},{anio}', [GeneralController::class, 'ejercicio'])->name('cliente.ejercicio');
+Route::get('obra/ver/{id}', [ClienteController::class, 'ver'])->name('cliente.ver');
 
 
 
