@@ -8,6 +8,7 @@ use Illuminate\Support\Facades\DB;
 use App\Models\ObraModalidadEjecucion;
 use App\Models\Obra;
 use App\Models\Fuentes;
+use App\Models\ObrasFuentes;
 
 use App\Models\Municipio;
 
@@ -61,7 +62,23 @@ class ObraController extends Controller
     {
 
         $municipios = Municipio::all();
+        
         return view('obra.create',compact('municipios'));
+    }
+
+    public function create_obra($id, $anio)
+    {
+        $obras_count = ObrasFuentes::where("cliente_id",$id)
+        ->where('ejercicio',$anio)
+        ->join('fuentes_clientes', 'fuentes_clientes.id_fuente_financ_cliente', '=', 'fuente_financiamiento_cliente_id')
+        ->join('obras', 'obras.id_obra', '=', 'obra_id')
+        ->select(DB::raw('count(distinct obra_id) as obras_count'))
+        ->first();
+        $obras_count = $obras_count->obras_count;
+        
+        
+        $municipios = Municipio::all();
+        return view('obra.create',compact('municipios', 'obras_count'));
     }
 
     /**
@@ -93,7 +110,7 @@ class ObraController extends Controller
         ->join('clientes', 'clientes.id_cliente', '=', 'cliente_id')
         ->join('municipios', 'municipios.id_municipio', '=', 'municipio_id')
         ->join('distritos', 'distritos.id_distrito', '=', 'distrito_id')
-        ->select('nombre_localidad','municipios.nombre as nombre_municipio', 'distritos.nombre as nombre_distrito', 'numero_contrato', 'fecha_contrato', 'oficio_notificacion', 'monto_contratado', 'monto_modificado', 'fuentes_financiamientos.nombre_corto as nombre_fuente', 'nombre_obra', 'fecha_inicio_programada', 'fecha_final_programada', 'id_obra', 'anticipo_porcentaje')
+        ->select('nombre_localidad','municipios.nombre as nombre_municipio', 'distritos.nombre as nombre_distrito', 'oficio_notificacion', 'monto_contratado', 'monto_modificado', 'fuentes_financiamientos.nombre_corto as nombre_fuente', 'nombre_obra', 'fecha_inicio_programada', 'fecha_final_programada', 'id_obra', 'anticipo_porcentaje')
         ->first();
 
         $obra_contrato = DB::table('obra_modalidad_ejecucion')
@@ -153,6 +170,81 @@ class ObraController extends Controller
         
         
         return view('obra.show',compact('obj_obra', 'convenios', 'estimaciones'));
+    }
+
+    public function ver($id)
+    {
+        $obra = DB::table('obras')
+        ->orWhere(function($query) use($id) {
+            $query->where('id_obra', $id);
+                
+        })
+        ->join('obras_fuentes', 'obras_fuentes.obra_id', '=', 'id_obra')
+        ->join('fuentes_clientes', 'fuentes_clientes.id_fuente_financ_cliente', '=', 'fuente_financiamiento_cliente_id')
+        ->join('fuentes_financiamientos', 'fuentes_financiamientos.id_fuente_financiamiento', '=', 'fuente_financiamiento_id')
+        ->join('clientes', 'clientes.id_cliente', '=', 'cliente_id')
+        ->join('municipios', 'municipios.id_municipio', '=', 'municipio_id')
+        ->join('distritos', 'distritos.id_distrito', '=', 'distrito_id')
+        ->select('nombre_localidad','municipios.nombre as nombre_municipio', 'distritos.nombre as nombre_distrito', 'oficio_notificacion', 'monto_contratado', 'monto_modificado', 'fuentes_financiamientos.nombre_corto as nombre_fuente', 'nombre_obra', 'fecha_inicio_programada', 'fecha_final_programada', 'id_obra', 'anticipo_porcentaje')
+        ->first();
+
+        $obra_contrato = DB::table('obra_modalidad_ejecucion')
+        ->orWhere(function($query) use($id) {
+            $query->where('obra_id', $id);
+                
+        })
+        ->join('obras_contrato', 'obras_contrato.id_obra_contrato', '=', 'obra_contrato_id')
+        ->join('contratistas', 'contratistas.id_contratista', '=', 'contratista_id')
+        ->first();
+        $obra_admin = DB::table('obra_modalidad_ejecucion')
+        ->orWhere(function($query) use($id) {
+            $query->where('obra_id', $id);
+                
+        })
+        ->join('obras_administracion', 'obras_administracion.id_obra_administracion', '=', 'obra_administracion_id')
+        ->first();
+        $obra_social = DB::table('obra_modalidad_ejecucion')
+        ->orWhere(function($query) use($id) {
+            $query->where('obra_id', $id);
+                
+        })
+        ->join('parte_social_tecnica', 'parte_social_tecnica.id_parte_social_tecnica', '=', 'parte_social_tecnica_id')
+        ->first();
+
+        $obra_licitacion = null;
+
+        if($obra_contrato != null){
+            $obra_licitacion = DB::table('licitacion_invitacion')->where('obra_contrato_id',$obra_contrato->obra_contrato_id)->first();
+        }
+
+        $convenios = null;
+        
+        if($obra_contrato != null) {
+            $convenios = DB::table('convenios_modificatorios')
+            ->where('obra_contrato_id',$obra_contrato->obra_contrato_id)->get();
+        }
+        $estimaciones = null;
+        
+        if($obra_contrato != null) {
+            $estimaciones = DB::table('desglose_pagos_obra')
+            ->where('obra_contrato_id',$obra_contrato->obra_contrato_id)
+            ->join('estimaciones', 'estimaciones.desglose_pagos_id', '=', 'desglose_pagos_obra.id_desglose_pagos')
+            ->get();
+        }
+
+
+        $obj_obra = collect(
+            ['obra' => $obra,
+            'contrato' => $obra_contrato,
+            'admin' => $obra_admin,
+            'social' => $obra_social,
+            'licitacion'=>$obra_licitacion,
+            'estimaciones'=>$estimaciones]
+        );
+        //return $obj_obra;
+        
+        
+        return view('obra.ver',compact('obj_obra', 'convenios', 'estimaciones'));
     }
      /**
      * Show the form for editing the specified resource.
