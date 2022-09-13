@@ -152,7 +152,9 @@ class ClienteController extends Controller
         $cliente->password = $request['password'];
 
         $cliente->update();
-        
+
+        return auth()->user()->getRoleNames();
+
         if(auth()->user()->getRoleNames()[0] == 'Administrador')
             return redirect()->route('clientes.index');
         else
