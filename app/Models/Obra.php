@@ -16,6 +16,7 @@ class Obra extends Model
         'nombre_obra',
         'nombre_corto',
         'nombre_archivo',
+        'version_checklist',
         'numero_contrato',
         'oficio_notificacion',
         'fecha_oficio_notificacion',

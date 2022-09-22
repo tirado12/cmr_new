@@ -172,16 +172,16 @@ class GeneralController extends Controller
         ->join('fuentes_clientes', 'fuentes_clientes.id_fuente_financ_cliente', '=', 'fuente_financiamiento_cliente_id')
         ->where("cliente_id",$id)
         ->where('ejercicio',$anio)
+        ->whereIn('fuente_financiamiento_id', [2,3])
         ->select('nombre_corto', 'nombre_obra', 'id_obra')
         ->get();
+
 
         $sisplade = null;
 
         if($fuente_f3 != null){
             $sisplade = Sisplade::where('fuentes_clientes_id', $fuente_f3->id_fuente_financ_cliente)->first();
         }
-
-        
 
 
         return view('ejercicio.ejercicio', 
@@ -202,7 +202,7 @@ class GeneralController extends Controller
             'sisplade',
             'fuente_f3',
             'obras_pt'
-        ));
+        ))->with('eliminar', 'ok');
     }
 
     public function create_obra($id, $anio)
@@ -239,7 +239,10 @@ class GeneralController extends Controller
         $obras_count = $obras_count->obras_count;
         
         $municipios = Municipio::all();
-        return view('obra.create_obra',compact('municipios', 'obras_count', 'cliente', 'anio', 'actas_preliminares', 'contratistas', 'fuentes_cliente', 'anio'));
+        return view(
+            'obra.create_obra',
+            compact('municipios', 'obras_count', 'cliente', 'anio', 'actas_preliminares', 'contratistas', 'fuentes_cliente', 'anio')
+        );
     }
 
     public function update_expediente(Request $request)
@@ -595,7 +598,7 @@ class GeneralController extends Controller
         ->join('distritos', 'distritos.id_distrito', '=', 'distrito_id')
         ->join('regiones', 'regiones.id_region', '=', 'region_id')
         ->join('estados', 'estados.id_estado', '=', 'estado_id')
-        ->select('id_obra', 'numero_obra', 'nombre_localidad','municipios.nombre as nombre_municipio', 'distritos.nombre as nombre_distrito', 'regiones.nombre as nombre_region', 'estados.nombre as nombre_estado', 'oficio_notificacion', 'monto_contratado', 'monto_modificado', 'nombre_obra', 'fecha_inicio_programada', 'fecha_final_programada', 'fecha_final_real', 'id_obra', 'anticipo_porcentaje', 'modalidad_ejecucion', 'obras.nombre_corto as nombre_corto_obra', 'ejercicio', 'anticipo_monto', 'id_municipio', 'avance_fisico', 'avance_economico', 'avance_tecnico')
+        ->select('id_obra', 'numero_obra', 'nombre_localidad','municipios.nombre as nombre_municipio', 'distritos.nombre as nombre_distrito', 'regiones.nombre as nombre_region', 'estados.nombre as nombre_estado', 'oficio_notificacion', 'monto_contratado', 'monto_modificado', 'nombre_obra', 'fecha_inicio_programada', 'fecha_final_programada', 'fecha_final_real', 'id_obra', 'anticipo_porcentaje', 'modalidad_ejecucion', 'obras.nombre_corto as nombre_corto_obra', 'ejercicio', 'anticipo_monto', 'id_municipio', 'avance_fisico', 'avance_economico', 'avance_tecnico', 'nombre_archivo')
         ->first();
 
         $observaciones = ObraObservaciones::where('obra_id', $obra->id_obra)->first();
@@ -768,8 +771,6 @@ class GeneralController extends Controller
 
     public function store_obra(Request $request)
     {
-
-        
         
 
         $request->validate([
@@ -916,7 +917,7 @@ class GeneralController extends Controller
                 }
             
 
-        return redirect()->route('cliente.ejercicio', ['id' => $request->cliente_id, 'anio' => $request->ejercicio]);
+        return redirect()->route('cliente.ejercicio', ['id' => $request->cliente_id, 'anio' => $request->ejercicio])->with('eliminar','ok');
     }
 
     public function store_convenio_modificatorio (Request $request){
@@ -1915,9 +1916,34 @@ class GeneralController extends Controller
             ]
         );
         
-        return view('pdf.ejemplo',compact('obj_obra', 'convenios', 'estimaciones', 'fuentes_financiamiento', 'acta_priorizacion', 'facturas', 'listas_raya', 'contratos_arrendamiento', 'total_pagado', 'pagos_obra', 'total_admin', 'proveedores', 'observaciones', 'total_anticipo'));
         $pdf = Pdf::loadView('pdf.ejemplo', compact('obj_obra', 'convenios', 'estimaciones', 'fuentes_financiamiento', 'acta_priorizacion', 'facturas', 'listas_raya', 'contratos_arrendamiento', 'total_pagado', 'pagos_obra', 'total_admin', 'proveedores', 'observaciones', 'total_anticipo'));
         return $pdf->download('ejemplo.pdf');
-   }
+    }
+
+    public function upload_checklist(Request $request){
+
+        $mensaje = 'ok';
+        $datos = ['success', '¡Archivo guaradado!', 'El archivo se subio correctamente'];
+        
+        
+        $obra = Obra::find($request->id_obra);
+        
+        if (!empty($request->file('file-2'))) {
+            $numero_archivo = $obra->version_checklist + 1;
+            $file = $request->file('file-2');
+            //Move Uploaded File
+            
+            $destinationPath = './uploads/municipios/'.$request->id_municipio.'/'.$request->ejercicio.'/'.$request->id_obra.'/'.'checklist/';
+            $name = 'checklist obra '.$request->id_obra.' '.$request->ejercicio.'.'.$file->getClientOriginalExtension();
+            $file->move($destinationPath, $name);
+            $destinationPath = '/uploads/municipios/'.$request->id_municipio.'/'.$request->ejercicio.'/'.$request->id_obra.'/'.'checklist/'.$name;
+            $obra->nombre_archivo = $destinationPath;
+            $obra->version_checklist = $numero_archivo;
+            $obra->update();
+        }
+        
+        return redirect()->route('obra.ver', ['id' => $request->id_obra])->with('mensaje', 'ok')->with('datos', $datos);
+        
+    }
 
 }

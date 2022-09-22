@@ -8,6 +8,7 @@
         href="{{ asset('css/jquery.dataTables.min.css') }}">
         <link rel="stylesheet" href="{{ asset('css/styles_select2.css') }}">
         <link rel="stylesheet" href="{{ asset('css/styles_personalizados_general.css') }}">
+        <link rel="stylesheet" href="{{ asset('css/swalfire.css')}}">
         
     <!--Responsive Extension Datatables CSS-->
     <link href="https://cdn.datatables.net/responsive/2.2.3/css/responsive.dataTables.min.css"
@@ -362,168 +363,115 @@
       </div>
     @endif
     @if($fuente_f3)
-    <div>
-      <div class="w-full ">
-          <div x-data={show:false}>
-              <div class="bg-transparent relative" id="headingOne">
-                  <button @click="show=!show" type="button" style="width:100%;">
-                      <div class="border-b px-4 py-3">
-                          <div class="flex justify-between items-center">
-                            <h1 for="first_name" class="text-xl font-bold">Plataformas Digitales</h1>
-                          </div>
-                          <div class="icon-acordeon mr-3 flex justify-center">
-                              <div x-show="!show" class="flex down-simbolo">
-                                  <img src="{{ asset('image/down.svg') }}" alt="Workflow">
-                              </div>
-                              <div x-show="show" class="flex up-simbolo">
-                                  <img src="{{ asset('image/up.svg') }}" alt="Workflow">
-                              </div>
-                          </div>
-                      </div>
-                      
-                  </button>
-              </div>
-              <div x-show="show" class="border mb-2 p-2">
-                  <div class="grid sm:grid-cols-8 gap-x-4 gap-y-2">
-                    <div class="col-span-8 mb-5">
-                      <h2 for="first_name" class="text-lg font-bold text-center">Sistema de Información para la Planeación del Desarrollo de Oaxaca (SISPLADE)</h2>
-                      <div class="flex justify-center">
-                        <button type="button" href="" class="font-semibold text-sm text-blue-500 underline px-3" onclick="toggleModal('modal-sisplade')">Modificar estatus</button>
-                      </div>
-                    </div>
-                    <div class="col-span-4">
-                        <p for="first_name" class="block text-normal font-bold text-gray-900 text-center">Capturado</p>
-                        <div class="mt-2">
-                          @switch($sisplade->capturado)
-                            @case(1)
-                                <div class="flex justify-center max-h-8">
-                                    <img src="{{ asset('image/Bien.svg') }}" alt="Workflow" >
-                                </div>
-                                <div>
-                                    <p class="block text-base font-semibold text-gray-900 text-center">{{$service->formatDate($sisplade->fecha_capturado)}}</p>
-                                </div>
-                            @break
-                            @default
-                              <div class="flex justify-center max-h-8">
-                                  <img src="{{ asset('image/Mal.svg') }}" alt="Workflow">
-                              </div>
-                          @endswitch
-                        </div>
-                    </div>
-                    <div class="col-span-4">
-                        <p for="first_name" class="block text-normal font-bold text-gray-900 text-center">Validado</p>
-                        <div class="mt-2">
-                          @switch($sisplade->validado)
-                            @case(1)
-                                <div class="flex justify-center max-h-8">
-                                    <img src="{{ asset('image/Bien.svg') }}" alt="Workflow" >
-                                </div>
-                                <div>
-                                    <p class="block text-base font-semibold text-gray-900 text-center">{{$service->formatDate($sisplade->fecha_validado)}}</p>
-                                </div>
-                            @break
-                            @default
-                              <div class="flex justify-center max-h-8">
-                                  <img src="{{ asset('image/Mal.svg') }}" alt="Workflow">
-                              </div>
-                          @endswitch
-                        </div>
-                    </div>
-
-                    <div class="col-span-8 mb-10">
-                      <h2 for="first_name" class="text-lg font-bold text-center">Matriz de Inversión para el Desarrollo Social (MIDS)<br>y Sistema de Recursos Federales Transferidos (SRFT)</h2>
-                      <div class="flex justify-center">
-                        <button type="button" href="" class="font-semibold text-sm text-blue-500 underline px-3" onclick="toggleModal('modal-sisplade')">Modificar estatus</button>
-                      </div>
-                    </div>
-                    <div class="col-span-8">
-                      <div class="grid grid-cols-10">
-                        <div class="col-span-4 border">
-                          <p for="first_name" class="block text-base font-bold text-gray-900 text-center p-1">Nombre de la obra</p>
-                        </div>
-                        <div class="col-span-2 border">
-                          <p for="first_name" class="block text-base font-bold text-gray-900 text-center p-1">MIDS</p>
-                        </div>
-                        <div class="col-span-2 border">
-                          <p for="first_name" class="block text-base font-bold text-gray-900 text-center p-1">RFT</p>
-                        </div>
-                        <div class="col-span-2 border">
-                          <p for="first_name" class="block text-base font-bold text-gray-900 text-center p-1">Acciones</p>
-                        </div>
-                          @foreach($obras_pt as $obra) 
-                            <div class="col-span-4 flex justify-center items-center leading-none border p-2">
-                              <p for="first_name" class="block text-base font-semibold text-gray-900 text-center">{{$obra->nombre_corto}}</p>
+      <div>
+        <div class="w-full ">
+            <div x-data={show:false}>
+                <div class="bg-transparent relative" id="headingOne">
+                    <button @click="show=!show" type="button" style="width:100%;">
+                        <div class="border-b px-4 py-3">
+                            <div class="flex justify-between items-center">
+                              <h1 for="first_name" class="text-xl font-bold">Plataformas Digitales</h1>
                             </div>
-                            <div class="col-span-2 border p-2">
-                              <div class="flex justify-center items-center">
-                                <p class="block text-base font-semibold text-gray-900 text-center leading-none">
-                                  @if($obra->planeado == 1)
-                                    En proceso <br>de planeación.
-                                  @else
-                                    @if($obra->firmado == 1)
-                                      En proceso <br>de firma.
+                            <div class="icon-acordeon mr-3 flex justify-center">
+                                <div x-show="!show" class="flex down-simbolo">
+                                    <img src="{{ asset('image/down.svg') }}" alt="Workflow">
+                                </div>
+                                <div x-show="show" class="flex up-simbolo">
+                                    <img src="{{ asset('image/up.svg') }}" alt="Workflow">
+                                </div>
+                            </div>
+                        </div>
+                        
+                    </button>
+                </div>
+                <div x-show="show" class="border mb-2 p-2">
+                    <div class="grid sm:grid-cols-8 gap-x-4 gap-y-2">
+                      <div class="col-span-8 mb-5">
+                        <h2 for="first_name" class="text-lg font-bold text-center">Sistema de Información para la Planeación del Desarrollo de Oaxaca (SISPLADE)</h2>
+                        <div class="flex justify-center">
+                          <button type="button" href="" class="font-semibold text-sm text-blue-500 underline px-3" onclick="toggleModal('modal-sisplade')">Modificar estatus</button>
+                        </div>
+                      </div>
+                      <div class="col-span-4">
+                          <p for="first_name" class="block text-normal font-bold text-gray-900 text-center">Capturado</p>
+                          <div class="mt-2">
+                            @switch($sisplade->capturado)
+                              @case(1)
+                                  <div class="flex justify-center max-h-8">
+                                      <img src="{{ asset('image/Bien.svg') }}" alt="Workflow" >
+                                  </div>
+                                  <div>
+                                      <p class="block text-base font-semibold text-gray-900 text-center">{{$service->formatDate($sisplade->fecha_capturado)}}</p>
+                                  </div>
+                              @break
+                              @default
+                                <div class="flex justify-center max-h-8">
+                                    <img src="{{ asset('image/Mal.svg') }}" alt="Workflow">
+                                </div>
+                            @endswitch
+                          </div>
+                      </div>
+                      <div class="col-span-4">
+                          <p for="first_name" class="block text-normal font-bold text-gray-900 text-center">Validado</p>
+                          <div class="mt-2">
+                            @switch($sisplade->validado)
+                              @case(1)
+                                  <div class="flex justify-center max-h-8">
+                                      <img src="{{ asset('image/Bien.svg') }}" alt="Workflow" >
+                                  </div>
+                                  <div>
+                                      <p class="block text-base font-semibold text-gray-900 text-center">{{$service->formatDate($sisplade->fecha_validado)}}</p>
+                                  </div>
+                              @break
+                              @default
+                                <div class="flex justify-center max-h-8">
+                                    <img src="{{ asset('image/Mal.svg') }}" alt="Workflow">
+                                </div>
+                            @endswitch
+                          </div>
+                      </div>
+
+                      <div class="col-span-8 mb-10">
+                        <h2 for="first_name" class="text-lg font-bold text-center">Matriz de Inversión para el Desarrollo Social (MIDS)<br>y Sistema de Recursos Federales Transferidos (SRFT)</h2>
+                        <div class="flex justify-center">
+                          <button type="button" href="" class="font-semibold text-sm text-blue-500 underline px-3" onclick="toggleModal('modal-sisplade')">Modificar estatus</button>
+                        </div>
+                      </div>
+                      <div class="col-span-8">
+                        <div class="grid grid-cols-10">
+                          <div class="col-span-4 border">
+                            <p for="first_name" class="block text-base font-bold text-gray-900 text-center p-1">Nombre de la obra</p>
+                          </div>
+                          <div class="col-span-2 border">
+                            <p for="first_name" class="block text-base font-bold text-gray-900 text-center p-1">MIDS</p>
+                          </div>
+                          <div class="col-span-2 border">
+                            <p for="first_name" class="block text-base font-bold text-gray-900 text-center p-1">RFT</p>
+                          </div>
+                          <div class="col-span-2 border">
+                            <p for="first_name" class="block text-base font-bold text-gray-900 text-center p-1">Acciones</p>
+                          </div>
+                            @foreach($obras_pt as $obra) 
+                              <div class="col-span-4 flex justify-center items-center leading-none border p-2">
+                                <p for="first_name" class="block text-base font-semibold text-gray-900 text-center">{{$obra->nombre_corto}}</p>
+                              </div>
+                              <div class="col-span-2 border p-2">
+                                <div class="flex justify-center items-center">
+                                  <p class="block text-base font-semibold text-gray-900 text-center leading-none">
+                                    @if($obra->planeado == 1)
+                                      En proceso <br>de planeación.
                                     @else
-                                      @if($obra->validado == 1)
-                                        En proceso <br>de validacion.
+                                      @if($obra->firmado == 1)
+                                        En proceso <br>de firma.
                                       @else
-                                        <div class="flex justify-center max-h-8">
-                                          <img src="{{ asset('image/Bien.svg') }}" alt="Workflow" >
-                                        </div>
+                                        @if($obra->validado == 1)
+                                          En proceso <br>de validacion.
+                                        @else
+                                          <div class="flex justify-center max-h-8">
+                                            <img src="{{ asset('image/Bien.svg') }}" alt="Workflow" >
+                                          </div>
+                                        @endif
                                       @endif
-                                    @endif
-                                  @endif
-                                </p>
-
-                                @if(strftime("%m") > 1 && strftime("%Y") == ($anio + 1))
-                                    <div class="flex justify-center max-h-8">
-                                        <img src="{{ asset('image/Bien.svg') }}" alt="Workflow" >
-                                    </div>
-                                @endif
-
-                                
-                              </div>
-                            </div>
-                            <div class="col-span-2 border p-2">
-                              <div class="flex justify-center items-center">
-                                <p class="block text-base font-semibold text-gray-900 text-center leading-none">
-                                    @if(strftime("%m") == 1 && strftime("%Y") == $cliente->anio_inicio )
-                                        Primer trimestre <br>En proceso
-                                    @endif
-                                    @if(strftime("%m") > 1 && strftime("%m") <= 3 && strftime("%Y") == $anio)
-                                        Primer trimestre <br>En proceso
-                                    @endif
-                                    @if(strftime("%m") == 4 && strftime("%d") > 0 && strftime("%d") < 20 && strftime("%Y") == $anio)
-                                        Capturando<br>Primer trimestre
-                                    @endif
-                                    @if(strftime("%m") == 4 && strftime("%d") > 19 && strftime("%d") < 31 && strftime("%Y") == $anio)
-                                        Registrando<br>Primer trimestre
-                                    @endif
-                                    @if(strftime("%m") > 4 && strftime("%m") < 7 && strftime("%Y") == $anio)
-                                        Segundo trimestre <br>En proceso
-                                    @endif
-                                    @if(strftime("%m") == 7 && strftime("%d") > 0 && strftime("%d") < 20 && strftime("%Y") == $anio)
-                                        Capturando<br>Segundo trimestre
-                                    @endif
-                                    @if(strftime("%m") == 7 && strftime("%d") > 19 && strftime("%d") < 31 && strftime("%Y") == $anio)
-                                        Registrando<br>Segundo trimestre
-                                    @endif
-                                    @if(strftime("%m") > 6 && strftime("%m") < 10 && strftime("%Y") == $anio)
-                                        Tercer trimestre <br>En proceso
-                                    @endif
-                                    @if(strftime("%m") == 10 && strftime("%d") > 0 && strftime("%d") < 20 && strftime("%Y") == $anio)
-                                        Capturando<br>Tercer trimestre
-                                    @endif
-                                    @if(strftime("%m") == 10 && strftime("%d") > 19 && strftime("%d") < 31 && strftime("%Y") == $anio)
-                                        Registrando<br>Tercer trimestre
-                                    @endif
-                                    @if(strftime("%m") > 11 && strftime("%m") < 13 && strftime("%Y") == $anio )
-                                        Cuarto trimestre <br>En proceso
-                                    @endif
-                                    @if(strftime("%m") == 1 && strftime("%d") > 0 && strftime("%d") < 20 && strftime("%Y") == ($anio + 1))
-                                        Capturando<br>Cuarto trimestre
-                                    @endif
-                                    @if(strftime("%m") == 1 && strftime("%d") > 19 && strftime("%d") < 31 && strftime("%Y") == ($anio + 1))
-                                        Registrando<br>Cuarto trimestre
                                     @endif
                                   </p>
 
@@ -533,126 +481,179 @@
                                       </div>
                                   @endif
 
-                                
-                              </div>
-                            </div>
-                            <div class="col-span-2 flex justify-center items-center leading-none border p-2">
-                              <button type="button" href="" class="btn_detalles text-sm text-blue-500 font-normal text-ms p-2 rounded rounded-lg" onclick="mostrarRM('{{'obra_id_'.$obra->id_obra}}')">Detalles</button>
-                            </div>
-                            <div id="{{'obra_id_'.$obra->id_obra}}" class="hidden col-span-10 border p-5">
-                              
-                              <div class="mt-5">
-                                <p for="first_name" class="block text-base font-bold text-gray-900 text-center">Matriz de Inversión para el Desarrollo Social</p>
-                                <div class="flex justify-center">
-                                  <button type="button" href="" class="font-semibold text-sm text-blue-500 underline px-3 text-center" onclick="toggleModalMids('modal-mids', {{$obra->mids}})">Modificar proceso</button>
+                                  
                                 </div>
-                                  <div class="grid grid-cols-6 mt-2">
-                                    <div class="col-span-2">
-                                      <p for="first_name" class="block text-base font-semibold text-gray-900 text-center">Planeación</p>
-                                      <div class="mt-2">
-                                        @switch($obra->mids->planeado)
-                                          @case(1)
-                                              <div class="flex justify-center max-h-8">
-                                                  <img src="{{ asset('image/Bien.svg') }}" alt="Workflow" >
-                                              </div>
-                                              <div>
-                                                  <p class="block text-base font-semibold text-gray-900 text-center">{{$service->formatDate($obra->mids->fecha_planeado)}}</p>
-                                              </div>
-                                          @break
-                                          @default
-                                            <div class="flex justify-center max-h-8">
-                                                <img src="{{ asset('image/Mal.svg') }}" alt="Workflow">
-                                            </div>
-                                        @endswitch
-                                      </div>
-                                    </div>
-                                    <div class="col-span-2">
-                                      <p for="first_name" class="block text-base font-semibold text-gray-900 text-center">Proceso de firma</p>
-                                      <div class="mt-2">
-                                        @switch($obra->mids->firmado)
-                                          @case(1)
-                                              <div class="flex justify-center max-h-8">
-                                                  <img src="{{ asset('image/Bien.svg') }}" alt="Workflow" >
-                                              </div>
-                                              <div>
-                                                  <p class="block text-base font-semibold text-gray-900 text-center">{{$service->formatDate($obra->mids->fecha_firmado)}}</p>
-                                              </div>
-                                          @break
-                                          @default
-                                            <div class="flex justify-center max-h-8">
-                                                <img src="{{ asset('image/Mal.svg') }}" alt="Workflow">
-                                            </div>
-                                        @endswitch
-                                      </div>
-                                    </div>
-                                    <div class="col-span-2">
-                                      <p for="first_name" class="block text-base font-semibold text-gray-900 text-center">Revisión</p>
-                                      <div class="mt-2">
-                                        @switch($obra->mids->validado)
-                                          @case(1)
-                                              <div class="flex justify-center max-h-8">
-                                                  <img src="{{ asset('image/Bien.svg') }}" alt="Workflow" >
-                                              </div>
-                                              <div>
-                                                  <p class="block text-base font-semibold text-gray-900 text-center">{{$service->formatDate($obra->mids->fecha_validado)}}</p>
-                                              </div>
-                                          @break
-                                          @default
-                                            <div class="flex justify-center max-h-8">
-                                                <img src="{{ asset('image/Mal.svg') }}" alt="Workflow">
-                                            </div>
-                                        @endswitch
-                                      </div>
-                                    </div>
-                                    
-                                  </div>
                               </div>
-                              <div class=" mt-10">
-                                  <p for="first_name" class="block text-base font-bold text-gray-900 text-center">Sistema de Recursos Federales Transferidos</p>
+                              <div class="col-span-2 border p-2">
+                                <div class="flex justify-center items-center">
+                                  <p class="block text-base font-semibold text-gray-900 text-center leading-none">
+                                      @if(strftime("%m") == 1 && strftime("%Y") == $cliente->anio_inicio )
+                                          Primer trimestre <br>En proceso
+                                      @endif
+                                      @if(strftime("%m") > 1 && strftime("%m") <= 3 && strftime("%Y") == $anio)
+                                          Primer trimestre <br>En proceso
+                                      @endif
+                                      @if(strftime("%m") == 4 && strftime("%d") > 0 && strftime("%d") < 20 && strftime("%Y") == $anio)
+                                          Capturando<br>Primer trimestre
+                                      @endif
+                                      @if(strftime("%m") == 4 && strftime("%d") > 19 && strftime("%d") < 31 && strftime("%Y") == $anio)
+                                          Registrando<br>Primer trimestre
+                                      @endif
+                                      @if(strftime("%m") > 4 && strftime("%m") < 7 && strftime("%Y") == $anio)
+                                          Segundo trimestre <br>En proceso
+                                      @endif
+                                      @if(strftime("%m") == 7 && strftime("%d") > 0 && strftime("%d") < 20 && strftime("%Y") == $anio)
+                                          Capturando<br>Segundo trimestre
+                                      @endif
+                                      @if(strftime("%m") == 7 && strftime("%d") > 19 && strftime("%d") < 31 && strftime("%Y") == $anio)
+                                          Registrando<br>Segundo trimestre
+                                      @endif
+                                      @if(strftime("%m") > 6 && strftime("%m") < 10 && strftime("%Y") == $anio)
+                                          Tercer trimestre <br>En proceso
+                                      @endif
+                                      @if(strftime("%m") == 10 && strftime("%d") > 0 && strftime("%d") < 20 && strftime("%Y") == $anio)
+                                          Capturando<br>Tercer trimestre
+                                      @endif
+                                      @if(strftime("%m") == 10 && strftime("%d") > 19 && strftime("%d") < 31 && strftime("%Y") == $anio)
+                                          Registrando<br>Tercer trimestre
+                                      @endif
+                                      @if(strftime("%m") > 11 && strftime("%m") < 13 && strftime("%Y") == $anio )
+                                          Cuarto trimestre <br>En proceso
+                                      @endif
+                                      @if(strftime("%m") == 1 && strftime("%d") > 0 && strftime("%d") < 20 && strftime("%Y") == ($anio + 1))
+                                          Capturando<br>Cuarto trimestre
+                                      @endif
+                                      @if(strftime("%m") == 1 && strftime("%d") > 19 && strftime("%d") < 31 && strftime("%Y") == ($anio + 1))
+                                          Registrando<br>Cuarto trimestre
+                                      @endif
+                                    </p>
+
+                                    @if(strftime("%m") > 1 && strftime("%Y") == ($anio + 1))
+                                        <div class="flex justify-center max-h-8">
+                                            <img src="{{ asset('image/Bien.svg') }}" alt="Workflow" >
+                                        </div>
+                                    @endif
+
+                                  
+                                </div>
+                              </div>
+                              <div class="col-span-2 flex justify-center items-center leading-none border p-2">
+                                <button type="button" href="" class="btn_detalles text-sm text-blue-500 font-normal text-ms p-2 rounded rounded-lg" onclick="mostrarRM('{{'obra_id_'.$obra->id_obra}}')">Detalles</button>
+                              </div>
+                              <div id="{{'obra_id_'.$obra->id_obra}}" class="hidden col-span-10 border p-5">
+                                
+                                <div class="mt-5">
+                                  <p for="first_name" class="block text-base font-bold text-gray-900 text-center">Matriz de Inversión para el Desarrollo Social</p>
                                   <div class="flex justify-center">
-                                    <button type="button" href="" class="font-semibold text-sm text-blue-500 underline px-3" onclick="toggleModalRFT('modal-rft', {{$obra->rft}})">Modificar proceso</button>
+                                    <button type="button" href="" class="font-semibold text-sm text-blue-500 underline px-3 text-center" onclick="toggleModalMids('modal-mids', {{$obra->mids}})">Modificar proceso</button>
                                   </div>
-                                  <p for="first_name" class="block text-base font-semibold text-gray-900 text-center mt-2">Avance por trimestre</p>
-                                  <div class="grid grid-cols-8 mt-2">
-                                    
-                                    <div class="col-span-2">
-                                      <div class="flex justify-center items-center">
-                                          <meter min="0" max="100" low="25" high="75" optimum="100" value="{{$obra->rft->primer_trimestre}}" class="barra-porcentaje">
+                                    <div class="grid grid-cols-6 mt-2">
+                                      <div class="col-span-2">
+                                        <p for="first_name" class="block text-base font-semibold text-gray-900 text-center">Planeación</p>
+                                        <div class="mt-2">
+                                          @switch($obra->mids->planeado)
+                                            @case(1)
+                                                <div class="flex justify-center max-h-8">
+                                                    <img src="{{ asset('image/Bien.svg') }}" alt="Workflow" >
+                                                </div>
+                                                <div>
+                                                    <p class="block text-base font-semibold text-gray-900 text-center">{{$service->formatDate($obra->mids->fecha_planeado)}}</p>
+                                                </div>
+                                            @break
+                                            @default
+                                              <div class="flex justify-center max-h-8">
+                                                  <img src="{{ asset('image/Mal.svg') }}" alt="Workflow">
+                                              </div>
+                                          @endswitch
+                                        </div>
                                       </div>
-                                      <p for="first_name" class="block text-base font-bold text-gray-900 text-center">Primero</p>
-                                    </div>
-                                    <div class="col-span-2">
-                                      <div class="flex justify-center items-center">
-                                        <meter min="0" max="100" low="25" high="75" optimum="100" value="{{$obra->rft->segundo_trimestre}}" class="barra-porcentaje">
+                                      <div class="col-span-2">
+                                        <p for="first_name" class="block text-base font-semibold text-gray-900 text-center">Proceso de firma</p>
+                                        <div class="mt-2">
+                                          @switch($obra->mids->firmado)
+                                            @case(1)
+                                                <div class="flex justify-center max-h-8">
+                                                    <img src="{{ asset('image/Bien.svg') }}" alt="Workflow" >
+                                                </div>
+                                                <div>
+                                                    <p class="block text-base font-semibold text-gray-900 text-center">{{$service->formatDate($obra->mids->fecha_firmado)}}</p>
+                                                </div>
+                                            @break
+                                            @default
+                                              <div class="flex justify-center max-h-8">
+                                                  <img src="{{ asset('image/Mal.svg') }}" alt="Workflow">
+                                              </div>
+                                          @endswitch
+                                        </div>
                                       </div>
-                                      <p for="first_name" class="block text-base font-bold text-gray-900 text-center">Segundo</p>
-                                    </div>
-                                    <div class="col-span-2">
-                                      <div class="flex justify-center items-center">
-                                        <meter min="0" max="100" low="25" high="75" optimum="100" value="{{$obra->rft->tercer_trimestre}}" class="barra-porcentaje">
+                                      <div class="col-span-2">
+                                        <p for="first_name" class="block text-base font-semibold text-gray-900 text-center">Revisión</p>
+                                        <div class="mt-2">
+                                          @switch($obra->mids->validado)
+                                            @case(1)
+                                                <div class="flex justify-center max-h-8">
+                                                    <img src="{{ asset('image/Bien.svg') }}" alt="Workflow" >
+                                                </div>
+                                                <div>
+                                                    <p class="block text-base font-semibold text-gray-900 text-center">{{$service->formatDate($obra->mids->fecha_validado)}}</p>
+                                                </div>
+                                            @break
+                                            @default
+                                              <div class="flex justify-center max-h-8">
+                                                  <img src="{{ asset('image/Mal.svg') }}" alt="Workflow">
+                                              </div>
+                                          @endswitch
+                                        </div>
                                       </div>
-                                      <p for="first_name" class="block text-base font-bold text-gray-900 text-center">Tercero</p>
+                                      
                                     </div>
-                                    <div class="col-span-2">
-                                      <div class="flex justify-center items-center">
-                                        <meter min="0" max="100" low="25" high="75" optimum="100" value="{{$obra->rft->cuarto_trimestre}}" class="barra-porcentaje">
+                                </div>
+                                <div class=" mt-10">
+                                    <p for="first_name" class="block text-base font-bold text-gray-900 text-center">Sistema de Recursos Federales Transferidos</p>
+                                    <div class="flex justify-center">
+                                      <button type="button" href="" class="font-semibold text-sm text-blue-500 underline px-3" onclick="toggleModalRFT('modal-rft', {{$obra->rft}})">Modificar proceso</button>
+                                    </div>
+                                    <p for="first_name" class="block text-base font-semibold text-gray-900 text-center mt-2">Avance por trimestre</p>
+                                    <div class="grid grid-cols-8 mt-2">
+                                      
+                                      <div class="col-span-2">
+                                        <div class="flex justify-center items-center">
+                                            <meter min="0" max="100" low="25" high="75" optimum="100" value="{{$obra->rft->primer_trimestre}}" class="barra-porcentaje">
+                                        </div>
+                                        <p for="first_name" class="block text-base font-bold text-gray-900 text-center">Primero</p>
                                       </div>
-                                      <p for="first_name" class="block text-base font-bold text-gray-900 text-center">Cuarto</p>
+                                      <div class="col-span-2">
+                                        <div class="flex justify-center items-center">
+                                          <meter min="0" max="100" low="25" high="75" optimum="100" value="{{$obra->rft->segundo_trimestre}}" class="barra-porcentaje">
+                                        </div>
+                                        <p for="first_name" class="block text-base font-bold text-gray-900 text-center">Segundo</p>
+                                      </div>
+                                      <div class="col-span-2">
+                                        <div class="flex justify-center items-center">
+                                          <meter min="0" max="100" low="25" high="75" optimum="100" value="{{$obra->rft->tercer_trimestre}}" class="barra-porcentaje">
+                                        </div>
+                                        <p for="first_name" class="block text-base font-bold text-gray-900 text-center">Tercero</p>
+                                      </div>
+                                      <div class="col-span-2">
+                                        <div class="flex justify-center items-center">
+                                          <meter min="0" max="100" low="25" high="75" optimum="100" value="{{$obra->rft->cuarto_trimestre}}" class="barra-porcentaje">
+                                        </div>
+                                        <p for="first_name" class="block text-base font-bold text-gray-900 text-center">Cuarto</p>
+                                      </div>
+                                      
                                     </div>
-                                    
-                                  </div>
+                                </div>
                               </div>
-                            </div>
-                          @endforeach
+                            @endforeach
+                          
+                        </div>
                         
                       </div>
-                      
                     </div>
-                  </div>
-              </div>
-          </div>
+                </div>
+            </div>
+        </div>
       </div>
-    </div>
     @endif
 
     <div class="border-b p-4 ">
@@ -1537,15 +1538,17 @@
     </script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.1/jquery.validate.min.js"></script>  
     <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
-
+    
     @if(session('eliminar')=='ok')
-        <script>
-            Swal.fire(
-              '¡Eliminado!',
-              'El usuario ha sido eliminado.',
-              'success'
-            )
-        </script>
+      <script>
+        Swal.fire({  
+          title: "Good job!",
+          text: "You clicked the button!",
+          icon: "success",
+          button: "Aww yiss!",
+
+        })
+      </script>
     @endif
     
     <script>

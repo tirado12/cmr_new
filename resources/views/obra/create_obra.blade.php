@@ -621,6 +621,7 @@
 
     function addrow(fuentes){
         valor_registrado = $("#monto_fuente").val().replaceAll(",", "");
+        console.log(valor_registrado);
         total_obra = $("#monto_contratado").val().replaceAll(",", "");
         if(valor_registrado != ""){
             var table = document.getElementById("example_body");
