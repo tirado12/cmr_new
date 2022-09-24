@@ -1925,21 +1925,27 @@ class GeneralController extends Controller
         $mensaje = 'ok';
         $datos = ['success', '¡Archivo guaradado!', 'El archivo se subio correctamente'];
         
-        
-        $obra = Obra::find($request->id_obra);
-        
-        if (!empty($request->file('file-2'))) {
-            $numero_archivo = $obra->version_checklist + 1;
-            $file = $request->file('file-2');
-            //Move Uploaded File
+        DB::beginTransaction();
+        try {
+            $obra = Obra::find($request->id_obra);
             
-            $destinationPath = './uploads/municipios/'.$request->id_municipio.'/'.$request->ejercicio.'/'.$request->id_obra.'/'.'checklist/';
-            $name = 'checklist obra '.$request->id_obra.' '.$request->ejercicio.'.'.$file->getClientOriginalExtension();
-            $file->move($destinationPath, $name);
-            $destinationPath = '/uploads/municipios/'.$request->id_municipio.'/'.$request->ejercicio.'/'.$request->id_obra.'/'.'checklist/'.$name;
-            $obra->nombre_archivo = $destinationPath;
-            $obra->version_checklist = $numero_archivo;
-            $obra->update();
+            if (!empty($request->file('file-2'))) {
+                $numero_archivo = $obra->version_checklist + 1;
+                $file = $request->file('file-2');
+                //Move Uploaded File
+                
+                $destinationPath = './uploads/municipios/'.$request->id_municipio.'/'.$request->ejercicio.'/'.$request->id_obra.'/'.'checklist/';
+                $name = 'checklist obra '.$request->id_obra.' '.$request->ejercicio.'.'.$file->getClientOriginalExtension();
+                $file->move($destinationPath, $name);
+                $destinationPath = '/uploads/municipios/'.$request->id_municipio.'/'.$request->ejercicio.'/'.$request->id_obra.'/'.'checklist/'.$name;
+                $obra->nombre_archivo = $destinationPath;
+                $obra->version_checklist = $numero_archivo;
+                $obra->update();
+            }
+            DB::commit();
+        } catch (\Exception $e) {
+            DB::rollback();
+            $datos = ['error', '¡Problemas al guaradar el archivo!', 'El archivo no subio correctamente'];
         }
         
         return redirect()->route('obra.ver', ['id' => $request->id_obra])->with('mensaje', 'ok')->with('datos', $datos);

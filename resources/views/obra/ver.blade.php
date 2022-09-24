@@ -8,6 +8,7 @@
     <link rel="stylesheet" href="{{ asset('css/styles_personalizados.css') }}">
     <link rel="stylesheet" href="{{ asset('css/style-file.css') }}">
     <link rel="stylesheet" href="{{ asset('css/swalfire.css')}}">
+
     <style>
         .select2.select2-container{
             width: 100%!important;
@@ -385,10 +386,11 @@
                         <button type="button" href="" class="ml-1 text-sm text-blue-500 underline background-transparent font-semibold outline-none focus:outline-none ease-linear transition-all duration-150 text-center" onclick="toggleModal('modal-checklist')">
                             <i class="fas fa-file-arrow-up text-xl text-blue-500" ></i>
                         </button>
-
-                        <a href="{{ $obj_obra->get('obra')->nombre_archivo }}" target="_blank" class="ml-1">
-                            <i class="fas fa-file-pdf text-xl text-blue-500" ></i>
-                        </a>
+                        @if($obj_obra->get('obra')->nombre_archivo != null)
+                            <a href="{{ $obj_obra->get('obra')->nombre_archivo }}" target="_blank" class="ml-1">
+                                <i class="fas fa-file-pdf text-xl text-blue-500" ></i>
+                            </a>
+                        @endif
                     </div>
                     <div>
                         <!--PARTE SOCIAL DE LA INTEGRACION DEL EXPEDIENTE TECNICO-->
@@ -4592,52 +4594,52 @@
 
 <!-- inicio modal -->
 <div class="hidden overflow-x-hidden overflow-y-auto fixed inset-0 z-50 outline-none focus:outline-none justify-center items-center" id="modal-checklist">
-    <div class="relative w-auto my-6 mx-auto max-w-3xl">
+    <div class="relative w-auto my-28 mx-auto max-w-3xl">
     <!--content-->
     <div class="border-0 rounded-lg shadow-lg relative flex flex-col w-full bg-white outline-none focus:outline-none">
         <!--header-->
-        <div class="flex items-start justify-between p-5 border-b border-solid border-blueGray-200 rounded-t">
-        <h4 class="text-xl font-semibold">
-            Subir checklist de obra
-        </h4>
-        <button class="p-1 ml-auto bg-transparent border-0 text-black opacity-5 float-right text-3xl leading-none font-semibold outline-none focus:outline-none" onclick="toggleModal('modal-checklist')">
-            <span class="bg-transparent text-black opacity-5 h-6 w-6 text-2xl block outline-none focus:outline-none">
-            
-            </span>
-        </button>
+        <div class="flex items-center justify-between px-5 py-3 border-b border-solid border-blueGray-200 rounded-t bg-blue-cmr1">
+            <h4 class="text-base font-normal uppercase text-white">
+                Subir checklist de obra
+            </h4>
+            <button class="p-1 ml-auto bg-transparent border-0 text-white float-right text-2xl leading-none font-semibold outline-none focus:outline-none" onclick="toggleModal('modal-checklist')">
+                <span>
+                    <i class="fas fa-xmark"></i>
+                </span>
+            </button>
         </div>
         <!--body-->
         <form action="{{ route('upload_checklist') }}" id="formulario_file_checklist" name="formulario_file_checklist" method="POST" accept-charset="UTF-8" enctype="multipart/form-data">
-        @csrf
-        @method('POST')
-        <div class="relative p-6 flex-auto my-10">
-            <div class="grid grid-cols-10 gap-4">
-                <input type="text" name="id_obra" maxlength="40" class="hidden mt-1 focus:ring-blue-800 focus:border-blue-800 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md" value="{{ $obj_obra->get('obra')->id_obra }}">
-                <input type="text" name="id_municipio" maxlength="40" class="hidden mt-1 focus:ring-blue-800 focus:border-blue-800 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md" value="{{ $obj_obra->get('obra')->id_municipio }}">
-                <input type="text" name="ejercicio" maxlength="40" class="hidden mt-1 focus:ring-blue-800 focus:border-blue-800 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md" value="{{ $obj_obra->get('obra')->ejercicio }}">
-                <div class="col-span-10">
-                    <div class="container-input flex justify-center items-center">
-                        <input type="file" name="file-2" id="file-2" class="inputfile inputfile-2" data-multiple-caption="{count} archivos seleccionados" multiple accept="application/pdf"/>
-                        <label for="file-2" class="flex justify-center items-center">
-                            <svg xmlns="http://www.w3.org/2000/svg" class="iborrainputfile" width="20" height="17" viewBox="0 0 20 17"><path d="M10 0l-5.2 4.9h3.3v5.1h3.8v-5.1h3.3l-5.2-4.9zm9.3 11.5l-3.2-2.1h-2l3.4 2.6h-3.5c-.1 0-.2.1-.2.1l-.8 2.3h-6l-.8-2.2c-.1-.1-.1-.2-.2-.2h-3.6l3.4-2.6h-2l-3.2 2.1c-.4.3-.7 1-.6 1.5l.6 3.1c.1.5.7.9 1.2.9h16.3c.6 0 1.1-.4 1.3-.9l.6-3.1c.1-.5-.2-1.2-.7-1.5z"></path></svg>
-                            <span class="iborrainputfile">Seleccionar archivo</span>
-                        </label>
-                    </div>
+            @csrf
+            @method('POST')
+            <div class="relative p-6 flex-auto mt-10">
+                <div class="grid grid-cols-10 gap-4">
+                    <input type="text" name="id_obra" maxlength="40" class="hidden mt-1 focus:ring-blue-800 focus:border-blue-800 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md" value="{{ $obj_obra->get('obra')->id_obra }}">
+                    <input type="text" name="id_municipio" maxlength="40" class="hidden mt-1 focus:ring-blue-800 focus:border-blue-800 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md" value="{{ $obj_obra->get('obra')->id_municipio }}">
+                    <input type="text" name="ejercicio" maxlength="40" class="hidden mt-1 focus:ring-blue-800 focus:border-blue-800 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md" value="{{ $obj_obra->get('obra')->ejercicio }}">
+                    <div class="col-span-10">
+                        <div class="container-input flex justify-center items-center">
+                            <input type="file" name="file-2" id="file-2" class="inputfile inputfile-2" data-multiple-caption="{count} archivos seleccionados" multiple accept="application/pdf"/>
+                            <label for="file-2" class="flex justify-center items-center">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="iborrainputfile" width="20" height="17" viewBox="0 0 20 17"><path d="M10 0l-5.2 4.9h3.3v5.1h3.8v-5.1h3.3l-5.2-4.9zm9.3 11.5l-3.2-2.1h-2l3.4 2.6h-3.5c-.1 0-.2.1-.2.1l-.8 2.3h-6l-.8-2.2c-.1-.1-.1-.2-.2-.2h-3.6l3.4-2.6h-2l-3.2 2.1c-.4.3-.7 1-.6 1.5l.6 3.1c.1.5.7.9 1.2.9h16.3c.6 0 1.1-.4 1.3-.9l.6-3.1c.1-.5-.2-1.2-.7-1.5z"></path></svg>
+                                <span class="iborrainputfile">Seleccionar archivo</span>
+                            </label>
+                        </div> 
+                    </div>    
                 </div>
-
-                
-        </div>
-        
+                <div class="mt-10">
+                    <span class="block text-xs">Verifique los campos obligatorios marcados con un ( * ) </span>
+                </div>
             </div>
             <!--footer-->
-                <div class=" p-4 border-t border-solid border-blueGray-200 rounded-b">
+            <div class=" p-4 border-t border-solid border-blueGray-200 rounded-b">
                 
-                <span class="block text-xs">Verifique los campos obligatorios marcados con un ( * ) </span>
+                
                 <div class="text-right">
-                <button class="text-red-500 background-transparent font-bold uppercase px-6 py-2 text-sm outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150" type="button" onclick="toggleModal('modal-checklist')">
+                <button class="text-red-500 background-transparent font-bold uppercase px-6 text-sm outline-none focus:outline-none ease-linear transition-all duration-150" type="button" onclick="toggleModal('modal-checklist')">
                     Cancelar
                 </button>
-                <button type="submit" id="guardar" class="bg-green-500 text-white active:bg-green-600 font-bold uppercase text-sm px-6 py-3 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150" >
+                <button type="submit" id="guardar" class="text-blue-500 font-bold uppercase text-sm px-6 rounded outline-none focus:outline-none ease-linear transition-all duration-150" >
                     Guardar
                 </button>
             </div>
@@ -4795,7 +4797,7 @@
             title: '{{session('datos')[1]}}',
             text: '{{session('datos')[2]}}',
             icon: '{{session('datos')[0]}}',
-            button: "Aww yiss!",
+            button: "Ok",
 
             })
         </script>
