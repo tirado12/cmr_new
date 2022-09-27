@@ -36,8 +36,7 @@
     <svg class="h-7 w-7" fill="none" viewBox="0 0 24 24" stroke="currentColor">
         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" />
     </svg>
-    <h1 class="font-bold text-xl ml-2">Mostrar Obra</h1>
-    <i class="fa-solid fa-file-arrow-down"></i>
+    <h1 class="font-bold text-xl ml-2">Mostrar Obra</h1>    
 </div>
 
 @if ($errors->any())
@@ -3130,761 +3129,483 @@
 @if($obj_obra->get('obra')->modalidad_ejecucion == 2)
     <!-- inicio modal -->
     <div class="hidden overflow-x-hidden overflow-y-auto fixed inset-0 z-50 outline-none focus:outline-none justify-center items-center" id="modal">
-        <div class="relative w-auto my-6 mx-auto max-w-3xl">
+        <div class="relative w-auto my-28 mx-auto max-w-3xl">
         <!--content-->
         <div class="border-0 rounded-lg shadow-lg relative flex flex-col w-full bg-white outline-none focus:outline-none">
             <!--header-->
-            <div class="flex items-start justify-between p-5 border-b border-solid border-blueGray-200 rounded-t">
-            <h4 class="text-xl font-semibold">
-                Agregar nuevo convenio modificatorio
-            </h4>
-            <button class="p-1 ml-auto bg-transparent border-0 text-black opacity-5 float-right text-3xl leading-none font-semibold outline-none focus:outline-none" onclick="toggleModal('modal')">
-                <span class="bg-transparent text-black opacity-5 h-6 w-6 text-2xl block outline-none focus:outline-none">
-                
-                </span>
-            </button>
+            <div class="flex items-center justify-between px-5 py-3 border-b border-solid border-blueGray-200 rounded-t bg-blue-cmr1">
+                <h4 class="text-base font-normal uppercase text-white">
+                    Agregar nuevo convenio modificatorio
+                </h4>
+                <button class="p-1 ml-auto bg-transparent border-0 text-white float-right text-2xl leading-none font-semibold outline-none focus:outline-none" onclick="toggleModal('modal')">
+                    <span>
+                        <i class="fas fa-xmark"></i>
+                    </span>
+                </button>
             </div>
             <!--body-->
             <form action="{{ route('create_convenio') }}" method="POST" id="formulario_convenio" name="formulario_convenio">
             @csrf
             @method('POST')
-            <div class="relative p-6 flex-auto">
-                <div class="grid grid-cols-10 gap-4">
-                    <input type="text" name="id_obra" id="id_obra" maxlength="40" class="hidden mt-1 focus:ring-blue-800 focus:border-blue-800 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md" value="{{ $obj_obra->get('obra')->id_obra }}">
-                    <div class="col-span-5 sm:col-span-5 ">
-                        <label for="contrato" class="block text-sm font-semibold text-gray-700">Número de convenio*</label>
-                        <input type="text" name="numero_convenio_modificatorio" id="numero_convenio_modificatorio" maxlength="40" class="mt-1 focus:ring-blue-800 focus:border-blue-800 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md" value="{{ old('oficio_notificacion') }}">
-                        <label id="error_numero_convenio_modificatorio" class="hidden text-base font-normal text-red-500" >Ingrese un número de convenio valido</label>
-                    </div>
-                    <div class="col-span-3 sm:col-span-5">
-                        <label for="tipo" class="block text-sm font-semibold text-gray-700">Fuente de financiamiento *</label>
-                        <select id="tipo" name="tipo" class="mt-1 block w-full py-2 px-3 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">                
-                            <option value="Convenio modificatorio al monto del contrato">Al monto del contrato</option>
-                            <option value="Convenio modificatorio a la fecha del contrato">A la fecha del contrato</option>
-                            <option value="Convenio modificatorio a las metas del contrato">A las metas del contrato</option>
-                            <option value="Convenio modificatorio al monto y fecha de contrato">Al monto y fecha de contrato</option>
-                            <option value="Convenio modificatorio al monto y metas de contrato">Al monto y metas de contrato</option>
-                            <option value="Convenio modificatorio a la fecha y metas de contrato">A la fecha y metas de contrato</option>
-                            <option value="Convenio modificatorio al monto, metas y fecha de contrato">Al monto, metas y fecha de contrato</option>
-                        </select>
-                    </div>
-                    <div class="col-span-5">
-                        <label for="fecha_convenio" class="block text-sm font-semibold text-gray-700">Fecha del convenio*</label>
-                        <input type="date" name="fecha_convenio" id="fecha_convenio" min="{{$obj_obra->get('obra')->fecha_inicio_programada}}" max="{{$obj_obra->get('obra')->fecha_final_real}}" class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md" >
-                        <label id="error_fecha_convenio" class="hidden text-base font-normal text-red-500" >Ingrese un número de contrato valido</label>
-                    </div>
-                    <div id="mod_fecha_fin" class="hidden col-span-5">
-                        <label for="fecha_fin_modificada" class="block text-sm font-semibold text-gray-700">Fecha final modificada*</label>
-                        <input type="date" name="fecha_fin_modificada" id="fecha_fin_modificada" min="{{$obj_obra->get('obra')->fecha_inicio_programada}}" max="{{$obj_obra->get('obra')->ejercicio +1}}-03-31" class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md" >
-                        <label id="error_fecha_fin" name="error_fecha_fin" class="hidden text-base font-normal text-red-500" >Seleccione una fecha valida</label>
-                    </div>
-                    <div id="monto_modificado_div" class="col-span-8 sm:col-span-5">
-                        <label id="label_monto_modificado" for="label_monto_modificado" class="block text-sm font-bold text-gray-700">Monto modificado*</label>
-                        <div class="relative ">
-                        <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                            <span class="text-gray-700 text-base">
-                            $
-                            </span>
+                <div class="relative p-6 flex-auto">
+                    <div class="grid grid-cols-10 gap-4">
+                        <input type="text" name="id_obra" id="id_obra" maxlength="40" class="hidden mt-1 focus:ring-blue-800 focus:border-blue-800 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md" value="{{ $obj_obra->get('obra')->id_obra }}">
+                        <div class="col-span-5 sm:col-span-5 ">
+                            <label for="contrato" class="block text-sm font-semibold text-gray-700">Número de convenio*</label>
+                            <input type="text" name="numero_convenio_modificatorio" id="numero_convenio_modificatorio" maxlength="40" class="mt-1 focus:ring-blue-800 focus:border-blue-800 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md" value="{{ old('oficio_notificacion') }}">
+                            <label id="error_numero_convenio_modificatorio" class="hidden text-base font-normal text-red-500" >Ingrese un número de convenio valido</label>
                         </div>
-                        <input type="text" name="monto_modificado" id="monto_modificado" maxlength="20" class="pl-7  mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md" placeholder="0.00">
+                        <div class="col-span-3 sm:col-span-5">
+                            <label for="tipo" class="block text-sm font-semibold text-gray-700">Fuente de financiamiento *</label>
+                            <select id="tipo" name="tipo" class="mt-1 block w-full py-2 px-3 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">                
+                                <option value="Convenio modificatorio al monto del contrato">Al monto del contrato</option>
+                                <option value="Convenio modificatorio a la fecha del contrato">A la fecha del contrato</option>
+                                <option value="Convenio modificatorio a las metas del contrato">A las metas del contrato</option>
+                                <option value="Convenio modificatorio al monto y fecha de contrato">Al monto y fecha de contrato</option>
+                                <option value="Convenio modificatorio al monto y metas de contrato">Al monto y metas de contrato</option>
+                                <option value="Convenio modificatorio a la fecha y metas de contrato">A la fecha y metas de contrato</option>
+                                <option value="Convenio modificatorio al monto, metas y fecha de contrato">Al monto, metas y fecha de contrato</option>
+                            </select>
                         </div>
-                        <label id="error_monto" name="error_monto" class="hidden text-base font-normal text-red-500" >El monto a modificar es mayor que el ejercicido</label>
+                        <div class="col-span-5">
+                            <label for="fecha_convenio" class="block text-sm font-semibold text-gray-700">Fecha del convenio*</label>
+                            <input type="date" name="fecha_convenio" id="fecha_convenio" min="{{$obj_obra->get('obra')->fecha_inicio_programada}}" max="{{$obj_obra->get('obra')->fecha_final_real}}" class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md" >
+                            <label id="error_fecha_convenio" class="hidden text-base font-normal text-red-500" >Ingrese un número de contrato valido</label>
+                        </div>
+                        <div id="mod_fecha_fin" class="hidden col-span-5">
+                            <label for="fecha_fin_modificada" class="block text-sm font-semibold text-gray-700">Fecha final modificada*</label>
+                            <input type="date" name="fecha_fin_modificada" id="fecha_fin_modificada" min="{{$obj_obra->get('obra')->fecha_inicio_programada}}" max="{{$obj_obra->get('obra')->ejercicio +1}}-03-31" class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md" >
+                            <label id="error_fecha_fin" name="error_fecha_fin" class="hidden text-base font-normal text-red-500" >Seleccione una fecha valida</label>
+                        </div>
+                        <div id="monto_modificado_div" class="col-span-8 sm:col-span-5">
+                            <label id="label_monto_modificado" for="label_monto_modificado" class="block text-sm font-bold text-gray-700">Monto modificado*</label>
+                            <div class="relative ">
+                            <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                                <span class="text-gray-700 text-base">
+                                $
+                                </span>
+                            </div>
+                            <input type="text" name="monto_modificado" id="monto_modificado" maxlength="20" class="pl-7  mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md" placeholder="0.00">
+                            </div>
+                            <label id="error_monto" name="error_monto" class="hidden text-base font-normal text-red-500" >El monto a modificar es mayor que el ejercicido</label>
+                        </div>
                     </div>
-            </div>
+                    <div class="mt-10">
+                        <span class="block text-xs">Verifique los campos obligatorios marcados con un ( * ) </span>
+                    </div>
+                </div>
+                <!--footer-->
+                <div class=" p-4 border-t border-solid border-blueGray-200 rounded-b">
             
-            </div>
-            <!--footer-->
-            <div class=" p-4 border-t border-solid border-blueGray-200 rounded-b">
-            
-            <span class="block text-xs">Verifique los campos obligatorios marcados con un ( * ) </span>
-            <div class="text-right">
-            <button class="text-red-500 background-transparent font-bold uppercase px-6 py-2 text-sm outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150" type="button" onclick="toggleModal('modal')">
-                Cancelar
-            </button>
-            <button type="submit" id="guardar" class="bg-green-500 text-white active:bg-green-600 font-bold uppercase text-sm px-6 py-3 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150" >
-                Guardar
-            </button>
-            </div>
-            </div>
+                    <div class="text-right">
+                        <button class="text-red-500 background-transparent font-bold uppercase px-6 text-sm outline-none focus:outline-none ease-linear transition-all duration-150" type="button" onclick="toggleModal('modal')">
+                            Cancelar
+                        </button>
+                        <button type="submit" id="guardar" class="text-blue-500 font-bold uppercase text-sm px-6 rounded outline-none focus:outline-none ease-linear transition-all duration-150" >
+                            Guardar
+                        </button>
+                    </div>
+                </div>
             </form>
         </div>
         </div>
     </div>
 
     <div class="hidden overflow-x-hidden overflow-y-auto fixed inset-0 z-50 outline-none focus:outline-none justify-center items-center" id="modal-edit">
-        <div class="relative w-auto my-6 mx-auto max-w-3xl">
+        <div class="relative w-auto my-28 mx-auto max-w-3xl">
         <!--content-->
-        <div class="border-0 rounded-lg shadow-lg relative flex flex-col w-full bg-white outline-none focus:outline-none">
-            <!--header-->
-            <div class="flex items-start justify-between p-5 border-b border-solid border-blueGray-200 rounded-t">
-            <h4 class="text-xl font-semibold">
-                Editar convenio modificatorio
-            </h4>
-            <button class="p-1 ml-auto bg-transparent border-0 text-black opacity-5 float-right text-3xl leading-none font-semibold outline-none focus:outline-none" onclick="toggleModal('modal-edit')">
-                <span class="bg-transparent text-black opacity-5 h-6 w-6 text-2xl block outline-none focus:outline-none">
-                
-                </span>
-            </button>
-            </div>
-            <!--body-->
-            <form action="{{ route('update_convenio') }}" method="POST" id="formulario_convenio_edit" name="formulario_convenio_edit">
-            @csrf
-            @method('POST')
-            <div class="relative p-6 flex-auto">
-                <div class="grid grid-cols-10 gap-4">
-                    <input type="text" name="id_convenio_modificatorio" id="id_convenio_modificatorio" maxlength="40" class="hidden mt-1 focus:ring-blue-800 focus:border-blue-800 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md" value="">
-                    <div class="col-span-5 sm:col-span-5 ">
-                        <label for="numero_convenio_modificatorio_edit" class="block text-sm font-semibold text-gray-700">Número de convenio*</label>
-                        <input type="text" name="numero_convenio_modificatorio_edit" id="numero_convenio_modificatorio_edit" maxlength="40" class="mt-1 focus:ring-blue-800 focus:border-blue-800 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md" value="{{ old('oficio_notificacion') }}">
-                        <label id="error_numero_convenio_modificatorio" class="hidden text-base font-normal text-red-500" >Ingrese un número de convenio valido</label>
-                    </div>
-                    <div class="col-span-3 sm:col-span-5">
-                        <label for="tipo_edit" class="block text-sm font-semibold text-gray-700">Fuente de financiamiento *</label>
-                        <select id="tipo_edit" name="tipo_edit" class="mt-1 block w-full py-2 px-3 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">                
-                            <option value="Convenio modificatorio al monto del contrato">Al monto del contrato</option>
-                            <option value="Convenio modificatorio a la fecha del contrato">A la fecha del contrato</option>
-                            <option value="Convenio modificatorio a las metas del contrato">A las metas del contrato</option>
-                            <option value="Convenio modificatorio al monto y fecha de contrato">Al monto y fecha de contrato</option>
-                            <option value="Convenio modificatorio al monto y metas de contrato">Al monto y metas de contrato</option>
-                            <option value="Convenio modificatorio a la fecha y metas de contrato">A la fecha y metas de contrato</option>
-                            <option value="Convenio modificatorio al monto, metas y fecha de contrato">Al monto, metas y fecha de contrato</option>
-                        </select>
-                    </div>
-                    <div class="col-span-5">
-                        <label for="fecha_convenio_edit" class="block text-sm font-semibold text-gray-700">Fecha del convenio*</label>
-                        <input type="date" name="fecha_convenio_edit" id="fecha_convenio_edit" min="{{$obj_obra->get('obra')->fecha_inicio_programada}}" max="{{$obj_obra->get('obra')->fecha_final_real}}" class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md" >
-                        <label id="error_fecha_convenio_edit" class="hidden text-base font-normal text-red-500" >Ingrese un número de contrato valido</label>
-                    </div>
-                    <div id="mod_fecha_fin_edit" class="col-span-5">
-                        <label for="fecha_fin_modificada_edit" class="block text-sm font-semibold text-gray-700">Fecha final modificada*</label>
-                        <input type="date" name="fecha_fin_modificada_edit" id="fecha_fin_modificada_edit" min="{{$obj_obra->get('obra')->fecha_inicio_programada}}" max="{{$obj_obra->get('obra')->ejercicio +1}}-03-31" class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md" >
-                        <label id="error_fecha_fin_edit" name="error_fecha_fin_edit" class="hidden text-base font-normal text-red-500" >Seleccione una fecha valida</label>
-                    </div>
-                    <div id="monto_modificado_edit_div" class="col-span-8 sm:col-span-5">
-                        <label for="label_monto_modificado_edit" class="block text-sm font-bold text-gray-700">Monto modificado*</label>
-                        <div class="relative ">
-                        <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                            <span class="text-gray-700 text-base">
-                            $
-                            </span>
+            <div class="border-0 rounded-lg shadow-lg relative flex flex-col w-full bg-white outline-none focus:outline-none">
+                <!--header-->
+                <div class="flex items-center justify-between px-5 py-3 border-b border-solid border-blueGray-200 rounded-t bg-blue-cmr1">
+                    <h4 class="text-base font-normal uppercase text-white">
+                        Editar convenio modificatorio
+                    </h4>
+                    <button class="p-1 ml-auto bg-transparent border-0 text-white float-right text-2xl leading-none font-semibold outline-none focus:outline-none" onclick="toggleModal('modal-edit')">
+                        <span>
+                            <i class="fas fa-xmark"></i>
+                        </span>
+                    </button>
+                </div>
+                <!--body-->
+                <form action="{{ route('update_convenio') }}" method="POST" id="formulario_convenio_edit" name="formulario_convenio_edit">
+                    @csrf
+                    @method('POST')
+                    <div class="relative p-6 flex-auto">
+                        <div class="grid grid-cols-10 gap-4">
+                            <input type="text" name="id_convenio_modificatorio" id="id_convenio_modificatorio" maxlength="40" class="hidden mt-1 focus:ring-blue-800 focus:border-blue-800 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md" value="">
+                            <div class="col-span-5 sm:col-span-5 ">
+                                <label for="numero_convenio_modificatorio_edit" class="block text-sm font-semibold text-gray-700">Número de convenio*</label>
+                                <input type="text" name="numero_convenio_modificatorio_edit" id="numero_convenio_modificatorio_edit" maxlength="40" class="mt-1 focus:ring-blue-800 focus:border-blue-800 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md" value="{{ old('oficio_notificacion') }}">
+                                <label id="error_numero_convenio_modificatorio" class="hidden text-base font-normal text-red-500" >Ingrese un número de convenio valido</label>
+                            </div>
+                            <div class="col-span-3 sm:col-span-5">
+                                <label for="tipo_edit" class="block text-sm font-semibold text-gray-700">Fuente de financiamiento *</label>
+                                <select id="tipo_edit" name="tipo_edit" class="mt-1 block w-full py-2 px-3 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">                
+                                    <option value="Convenio modificatorio al monto del contrato">Al monto del contrato</option>
+                                    <option value="Convenio modificatorio a la fecha del contrato">A la fecha del contrato</option>
+                                    <option value="Convenio modificatorio a las metas del contrato">A las metas del contrato</option>
+                                    <option value="Convenio modificatorio al monto y fecha de contrato">Al monto y fecha de contrato</option>
+                                    <option value="Convenio modificatorio al monto y metas de contrato">Al monto y metas de contrato</option>
+                                    <option value="Convenio modificatorio a la fecha y metas de contrato">A la fecha y metas de contrato</option>
+                                    <option value="Convenio modificatorio al monto, metas y fecha de contrato">Al monto, metas y fecha de contrato</option>
+                                </select>
+                            </div>
+                            <div class="col-span-5">
+                                <label for="fecha_convenio_edit" class="block text-sm font-semibold text-gray-700">Fecha del convenio*</label>
+                                <input type="date" name="fecha_convenio_edit" id="fecha_convenio_edit" min="{{$obj_obra->get('obra')->fecha_inicio_programada}}" max="{{$obj_obra->get('obra')->fecha_final_real}}" class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md" >
+                                <label id="error_fecha_convenio_edit" class="hidden text-base font-normal text-red-500" >Ingrese un número de contrato valido</label>
+                            </div>
+                            <div id="mod_fecha_fin_edit" class="col-span-5">
+                                <label for="fecha_fin_modificada_edit" class="block text-sm font-semibold text-gray-700">Fecha final modificada*</label>
+                                <input type="date" name="fecha_fin_modificada_edit" id="fecha_fin_modificada_edit" min="{{$obj_obra->get('obra')->fecha_inicio_programada}}" max="{{$obj_obra->get('obra')->ejercicio +1}}-03-31" class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md" >
+                                <label id="error_fecha_fin_edit" name="error_fecha_fin_edit" class="hidden text-base font-normal text-red-500" >Seleccione una fecha valida</label>
+                            </div>
+                            <div id="monto_modificado_edit_div" class="col-span-8 sm:col-span-5">
+                                <label for="label_monto_modificado_edit" class="block text-sm font-bold text-gray-700">Monto modificado*</label>
+                                <div class="relative ">
+                                <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                                    <span class="text-gray-700 text-base">
+                                    $
+                                    </span>
+                                </div>
+                                <input type="text" name="monto_modificado_edit" id="monto_modificado_edit" maxlength="20" class="pl-7  mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md" placeholder="0.00">
+                                </div>
+                                <label id="error_monto_edit" name="error_monto_edit" class="hidden text-base font-normal text-red-500" >El monto a modificar es mayor que el ejercicido {{$service->formatNumber($total_pagado->total_obra + $obj_obra->get('obra')->anticipo_monto)}}</label>
+                            </div>
                         </div>
-                        <input type="text" name="monto_modificado_edit" id="monto_modificado_edit" maxlength="20" class="pl-7  mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md" placeholder="0.00">
+                        <div class="mt-10">
+                            <span class="block text-xs">Verifique los campos obligatorios marcados con un ( * ) </span>
                         </div>
-                        <label id="error_monto_edit" name="error_monto_edit" class="hidden text-base font-normal text-red-500" >El monto a modificar es mayor que el ejercicido {{$service->formatNumber($total_pagado->total_obra + $obj_obra->get('obra')->anticipo_monto)}}</label>
                     </div>
+                <!--footer-->
+                <div class=" p-4 border-t border-solid border-blueGray-200 rounded-b">
+                    <div class="text-right">
+                        <button class="text-red-500 background-transparent font-bold uppercase px-6 text-sm outline-none focus:outline-none ease-linear transition-all duration-150" type="button" onclick="toggleModal('modal-edit')">
+                            Cancelar
+                        </button>
+                        <button type="submit" id="btn-edit" class="text-blue-500 font-bold uppercase text-sm px-6 rounded outline-none focus:outline-none ease-linear transition-all duration-150" >
+                            Guardar
+                        </button>
+                    </div>
+                </div>
+                </form>
             </div>
-            
-            </div>
-            <!--footer-->
-            <div class=" p-4 border-t border-solid border-blueGray-200 rounded-b">
-            
-            <span class="block text-xs">Verifique los campos obligatorios marcados con un ( * ) </span>
-            <div class="text-right">
-            <button class="text-red-500 background-transparent font-bold uppercase px-6 py-2 text-sm outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150" type="button" onclick="toggleModal('modal-edit')">
-                Cancelar
-            </button>
-            <button type="submit" id="btn-edit" class="bg-green-500 text-white active:bg-green-600 font-bold uppercase text-sm px-6 py-3 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150" >
-                Guardar
-            </button>
-            </div>
-            </div>
-            </form>
-        </div>
         </div>
     </div>
 
     <div class="hidden overflow-x-hidden overflow-y-auto fixed inset-0 z-50 outline-none focus:outline-none justify-center items-center" id="modal-agregar-estimacion">
-        <div class="relative w-auto my-6 mx-auto max-w-3xl">
-        <!--content-->
-        <div class="border-0 rounded-lg shadow-lg relative flex flex-col w-full bg-white outline-none focus:outline-none">
-            <!--header-->
-            <div class="flex items-start justify-between p-5 border-b border-solid border-blueGray-200 rounded-t">
-            <h4 class="text-xl font-semibold">
-                Agregar nueva estimación
-            </h4>
-            <button class="p-1 ml-auto bg-transparent border-0 text-black opacity-5 float-right text-3xl leading-none font-semibold outline-none focus:outline-none" onclick="toggleModal('modal-agregar-estimacion')">
-                <span class="bg-transparent text-black opacity-5 h-6 w-6 text-2xl block outline-none focus:outline-none">
-                
-                </span>
-            </button>
-            </div>
-            <!--body-->
-            <form action="{{ route('create_estimacion') }}" method="POST" id="formulario_create_estimacion" name="formulario_create_estimacion">
-            @csrf
-            @method('POST')
-            <div class="relative p-6 flex-auto">
-                <div class="grid grid-cols-9 gap-4">
-                    <input type="text" name="id_obra_contrato" class="hidden mt-1 focus:ring-blue-800 focus:border-blue-800 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md" value="{{ $obj_obra->get('contrato')->obra_contrato_id }}">
-                    <div class="col-span-2 sm:col-span-3 ">
-                        <label for="contrato" class="block text-sm font-bold text-gray-700">Número de estimación*</label>
-                        <div class="mt-1 py-2 px-3">
-                            <label id="label_numero_estimacion" class="text-base">{{count($estimaciones) + 1}}</label>
-                        </div>  
-                        <input type="text" name="numero_estimacion" id="numero_estimacion" class="hidden mt-1 focus:ring-blue-800 focus:border-blue-800 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md" value="{{count($estimaciones) + 1}}">
-                        <label id="error_numero_estimacion" class="hidden text-base font-normal text-red-500" >Ingrese un número de estimación valido</label>
-                    </div>
-                    <div class="col-span-3 sm:col-span-3 ">
-                        <label for="contrato" class="block text-sm font-bold text-gray-700 text-center">¿Es finiquito?</label>
-                        <div class="mt-1 py-2">
-                            <div class="col-span-8 md:col-span-8">
-                                <div class="form-group">
-                                    <div class="grid grid-cols-8">
-                                        <div class="col-span-4 flex justify-center">
-                                            <div>
-                                                <input type="radio" value="0" checked id="n_finiquito" name="finiquito">
-                                                <label for="n_finiquito" class="text-base font-medium text-gray-700"> No</label>
+        <div class="relative w-auto my-28 mx-auto max-w-3xl">
+            <!--content-->
+            <div class="border-0 rounded-lg shadow-lg relative flex flex-col w-full bg-white outline-none focus:outline-none">
+                <!--header-->
+                <div class="flex items-center justify-between px-5 py-3 border-b border-solid border-blueGray-200 rounded-t bg-blue-cmr1">
+                    <h4 class="text-base font-normal uppercase text-white">
+                        Agregar nueva estimación
+                    </h4>
+                    <button class="p-1 ml-auto bg-transparent border-0 text-white float-right text-2xl leading-none font-semibold outline-none focus:outline-none" onclick="toggleModal('modal-agregar-estimacion')">
+                        <span>
+                            <i class="fas fa-xmark"></i>
+                        </span>
+                    </button>
+                </div>
+                <!--body-->
+                <form action="{{ route('create_estimacion') }}" method="POST" id="formulario_create_estimacion" name="formulario_create_estimacion">
+                    @csrf
+                    @method('POST')
+                    <div class="relative p-6 flex-auto">
+                        <div class="grid grid-cols-9 gap-4">
+                            <input type="text" name="id_obra_contrato" class="hidden mt-1 focus:ring-blue-800 focus:border-blue-800 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md" value="{{ $obj_obra->get('contrato')->obra_contrato_id }}">
+                            <div class="col-span-2 sm:col-span-3 ">
+                                <label for="contrato" class="block text-sm font-bold text-gray-700">Número de estimación*</label>
+                                <div class="mt-1 py-2 px-3">
+                                    <label id="label_numero_estimacion" class="text-base">{{count($estimaciones) + 1}}</label>
+                                </div>  
+                                <input type="text" name="numero_estimacion" id="numero_estimacion" class="hidden mt-1 focus:ring-blue-800 focus:border-blue-800 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md" value="{{count($estimaciones) + 1}}">
+                                <label id="error_numero_estimacion" class="hidden text-base font-normal text-red-500" >Ingrese un número de estimación valido</label>
+                            </div>
+                            <div class="col-span-3 sm:col-span-3 ">
+                                <label for="contrato" class="block text-sm font-bold text-gray-700 text-center">¿Es finiquito?</label>
+                                <div class="mt-1 py-2">
+                                    <div class="col-span-8 md:col-span-8">
+                                        <div class="form-group">
+                                            <div class="grid grid-cols-8">
+                                                <div class="col-span-4 flex justify-center">
+                                                    <div>
+                                                        <input type="radio" value="0" checked id="n_finiquito" name="finiquito">
+                                                        <label for="n_finiquito" class="text-base font-medium text-gray-700"> No</label>
+                                                    </div>
+                                                </div>
+                                                <div class="col-span-4 flex justify-center">
+                                                    <div>
+                                                        <input type="radio" value="1" id="s_finiquito" name="finiquito">
+                                                        <label for="s_finiquito" class="text-base font-medium text-gray-700">Si</label>
+                                                    </div>
+                                                </div>
                                             </div>
                                         </div>
-                                        <div class="col-span-4 flex justify-center">
-                                            <div>
-                                                <input type="radio" value="1" id="s_finiquito" name="finiquito">
-                                                <label for="s_finiquito" class="text-base font-medium text-gray-700">Si</label>
-                                            </div>
-                                        </div>
+                                    </div>
+                                </div>  
+                            </div>
+
+                            <div class="col-span-4">
+                                <label for="fecha_recepcion" class="block text-sm font-bold text-gray-700">Fecha de recepción de documentos*</label>
+                                <input type="date" name="fecha_recepcion" id="fecha_recepcion" min="{{$obj_obra->get('obra')->fecha_inicio_programada}}" max="{{$obj_obra->get('obra')->fecha_final_real}}" class="mt-1 focus:ring-blue-800 focus:border-blue-800 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md" value="{{ old('fecha_oficio_notificacion') }}">
+                                <label id="error_fecha_recepcion" class="hidden text-base font-normal text-red-500" >Ingrese una fecha de recepción de documentos valida</label>
+                            </div>
+                            <div class="col-span-10">
+                                <label for="ejecucion" class="block text-sm font-bold text-gray-700 text-center">Periodo de la estimación</label>
+                                <div class="grid grid-cols-4 gap-4">
+                                    <div class="col-span-2">
+                                        <input type="date" name="fecha_inicio_estimacion" id="fecha_inicio_estimacion" min="{{$obj_obra->get('obra')->fecha_inicio_programada}}" max="{{$obj_obra->get('obra')->fecha_final_real}}" class="mt-1 focus:ring-blue-800 focus:border-blue-800 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md" value="{{ old('fecha_oficio_notificacion') }}">
+                                        <label for="fecha_inicio_estimacion" class="block text-sm font-semibold text-gray-700 text-center">Fecha de inicio*</label>
+                                        <label id="error_fecha_inicio_estimacion" class="hidden text-base font-normal text-red-500" >Ingrese una fecha de inicio valida</label>
+                                    </div>
+                                    <div class="col-span-2">
+                                        <input type="date" name="fecha_fin_estimacion" id="fecha_fin_estimacion" min="{{$obj_obra->get('obra')->fecha_inicio_programada}}" max="{{$obj_obra->get('obra')->fecha_final_real}}"  class="mt-1 focus:ring-blue-800 focus:border-blue-800 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md" value="{{ old('fecha_oficio_notificacion') }}">
+                                        <label for="fecha_fin_estimacion" class="block text-sm font-semibold text-gray-700 text-center">Fecha de fin*</label>
+                                        <label id="error_fecha_fin_estimacion" class="hidden text-base font-normal text-red-500" >Ingrese una fecha final valida</label>
                                     </div>
                                 </div>
                             </div>
-                        </div>  
-                    </div>
+                            <div class="col-span-5">
 
-                    <div class="col-span-4">
-                        <label for="fecha_recepcion" class="block text-sm font-bold text-gray-700">Fecha de recepción de documentos*</label>
-                        <input type="date" name="fecha_recepcion" id="fecha_recepcion" min="{{$obj_obra->get('obra')->fecha_inicio_programada}}" max="{{$obj_obra->get('obra')->fecha_final_real}}" class="mt-1 focus:ring-blue-800 focus:border-blue-800 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md" value="{{ old('fecha_oficio_notificacion') }}">
-                        <label id="error_fecha_recepcion" class="hidden text-base font-normal text-red-500" >Ingrese una fecha de recepción de documentos valida</label>
-                    </div>
-                    
-                    
-                    <!--<div class="col-span-8 sm:col-span-5">
-                        <label id="label_monto_modificado" for="label_monto_modificado" class="block text-sm font-bold text-gray-700">Total de la estimación*</label>
-                        <div class="relative ">
-                        <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                            <span class="text-gray-700 text-base">
-                            $
-                            </span>
-                        </div>
-                        <input type="text" name="total_estimacion" id="total_estimacion" maxlength="20" class="pl-7  mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md" placeholder="0.00">
-                        </div>
-                        <label id="error_total_estimacion" name="error_total_estimacion" class="hidden text-base font-normal text-red-500" >El monto de la estimación es mayor al monto restante de la obra.</label>
-                    </div>-->
-                    <div class="col-span-10">
-                        <label for="ejecucion" class="block text-sm font-bold text-gray-700 text-center">Periodo de la estimación</label>
-                        <div class="grid grid-cols-4 gap-4">
-                            <div class="col-span-2">
-                                <input type="date" name="fecha_inicio_estimacion" id="fecha_inicio_estimacion" min="{{$obj_obra->get('obra')->fecha_inicio_programada}}" max="{{$obj_obra->get('obra')->fecha_final_real}}" class="mt-1 focus:ring-blue-800 focus:border-blue-800 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md" value="{{ old('fecha_oficio_notificacion') }}">
-                                <label for="fecha_inicio_estimacion" class="block text-sm font-semibold text-gray-700 text-center">Fecha de inicio*</label>
-                                <label id="error_fecha_inicio_estimacion" class="hidden text-base font-normal text-red-500" >Ingrese una fecha de inicio valida</label>
                             </div>
-                            <div class="col-span-2">
-                                <input type="date" name="fecha_fin_estimacion" id="fecha_fin_estimacion" min="{{$obj_obra->get('obra')->fecha_inicio_programada}}" max="{{$obj_obra->get('obra')->fecha_final_real}}"  class="mt-1 focus:ring-blue-800 focus:border-blue-800 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md" value="{{ old('fecha_oficio_notificacion') }}">
-                                <label for="fecha_fin_estimacion" class="block text-sm font-semibold text-gray-700 text-center">Fecha de fin*</label>
-                                <label id="error_fecha_fin_estimacion" class="hidden text-base font-normal text-red-500" >Ingrese una fecha final valida</label>
-                            </div>
+                            
                         </div>
-                    </div>
-                    <div class="col-span-5">
+                        <div class="mt-10">
+                            <span class="block text-xs">Verifique los campos obligatorios marcados con un ( * ) </span>
+                        </div>
 
                     </div>
-                    
-                    
-
-                    <!--<div class="col-span-10">
-                        <div class="mb-5 text-center">
-                            <label id="error_retenciones" name="error_retenciones" class="hidden text-base font-normal text-red-500 text-center font-bold" >El total de rentenciones es mayor que el monto de la estimación.</label>
-                        </div>
-                        <label for="ejecucion" class="block text-sm font-bold text-gray-700 text-center">Retenciones</label>
-                        <div class="grid grid-cols-4 gap-4">
-                            <div class="col-span-4 sm:col-span-2">
-                                <div class="relative ">
-                                    <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                                        <span class="text-gray-700 text-base">
-                                        $
-                                        </span>
-                                    </div>
-                                    <input type="text" name="supervicion_obra" id="supervicion_obra" maxlength="20" class="pl-7  mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md" placeholder="0.00">
-                                </div>
-                                <label for="supervicion_obra" class="block text-sm font-semibold text-gray-700 text-center">Supervición de obra</label>
-                                <label id="error_supervicion_obra" name="error_supervicion_obra" class="hidden text-base font-normal text-red-500" >El total de la retención es mayor que el monto de la estimación.</label>
-                            </div>
-                            <div class="col-span-4 sm:col-span-2">
-                                
-                                <div class="relative ">
-                                    <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                                        <span class="text-gray-700 text-base">
-                                        $
-                                        </span>
-                                    </div>
-                                    <input type="text" name="mano_obra" id="mano_obra" maxlength="20" class="pl-7  mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md" placeholder="0.00">
-                                </div>
-                                <label for="mano_obra" class="block text-sm font-semibold text-gray-700 text-center">Mano de obra</label>
-                                <label id="error_mano_obra" name="error_mano_obra" class="hidden text-base font-normal text-red-500" >El total de la retención es mayor que el monto de la estimación.</label>
-                            </div>
-                            <div class="col-span-4 sm:col-span-2">
-                                <div class="relative ">
-                                    <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                                        <span class="text-gray-700 text-base">
-                                        $
-                                        </span>
-                                    </div>
-                                    <input type="text" name="cinco_millar" id="cinco_millar" maxlength="20" class="pl-7  mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md" placeholder="0.00">
-                                </div>
-                                <label for="cinco_millar" class="block text-sm font-semibold text-gray-700 text-center">Cinco al millar</label>
-                                <label id="error_cinco_millar" name="error_cinco_millar" class="hidden text-base font-normal text-red-500" >El monto a modificar es mayor que el ejercicido</label>
-                            </div>
-                            <div class="col-span-4 sm:col-span-2">                            
-                                <div class="relative ">
-                                    <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                                        <span class="text-gray-700 text-base">
-                                        $
-                                        </span>
-                                    </div>
-                                    <input type="text" name="dos_millar" id="dos_millar" maxlength="20" class="pl-7  mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md" placeholder="0.00">
-                                </div>
-                                <label for="dos_millar" class="block text-sm font-semibold text-gray-700 text-center">Dos al millar</label>
-                                <label id="error_dos_millar" name="error_dos_millar" class="hidden text-base font-normal text-red-500" >El monto a modificar es mayor que el ejercicido</label>
-                            </div>
+                    <!--footer-->
+                    <div class=" p-4 border-t border-solid border-blueGray-200 rounded-b">
+                        <div class="text-right">
+                            <button class="text-red-500 background-transparent font-bold uppercase px-6 text-sm outline-none focus:outline-none ease-linear transition-all duration-150" type="button" onclick="toggleModal('modal-agregar-estimacion')">
+                                Cancelar
+                            </button>
+                            <button type="submit" id="btn-create-estimacion" class="text-blue-500 font-bold uppercase text-sm px-6 rounded outline-none focus:outline-none ease-linear transition-all duration-150" >
+                                Guardar
+                            </button>
                         </div>
                     </div>
-
-                    <div class="col-span-4 sm:col-span-5">  
-                        <label id="label_monto_modificado" for="label_monto_modificado" class="block text-sm font-bold text-gray-700">Amortización del anticipo*</label>
-                        <div class="relative ">
-                            <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                                <span class="text-gray-700 text-base">
-                                $
-                                </span>
-                            </div>
-                            <input type="text" name="amortizacion_anticipo" id="amortizacion_anticipo" maxlength="20" class="pl-7  mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md" placeholder="0.00">
-                        </div>
-                        <label id="error_amortizacion_anticipo" name="error_amortizacion_anticipo" class="hidden text-base font-normal text-red-500" >El monto a modificar es mayor que el ejercicido</label>
-                    </div>
-                    <div class="col-span-8 md:col-span-5">
-                        <label  id="label_folio_factura" for="cliente_id" class="block text-sm font-bold text-gray-700">Folio de factura:</label>
-                        <input type="text" name="folio_factura" id="folio_factura" maxlength="36" class="mt-1 focus:ring-blue-800 focus:border-blue-800 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md" value="{{ old('oficio_notificacion') }}">
-                        <label id="error_folio_factura" name="error_folio_factura" class="hidden text-base font-normal text-red-500" >Ingrese un folio de factura valido.</label>
-                    </div>
-
-                    <div class="col-span-10">
-                        <label for="ejecucion" class="block text-sm font-bold text-gray-700 text-center">Neto a pagar</label>
-                        <label id="label_monto_neto" class="block text-base font-medium text-gray-700 py-3 px-2 text-center">$ 0.00</label>
-                        <div id="div_error_guardar" class="hidden mx-10 text-center">
-                            <label  class="text-base font-normal text-red-500 text-center font-bold" >El neto a pagar no puede ser menos a cero.</label>
-                        </div>
-                    </div>-->
-                    
+                </form>
             </div>
-            
-            </div>
-            <!--footer-->
-            <div class=" p-4 border-t border-solid border-blueGray-200 rounded-b">
-            
-            <span class="block text-xs">Verifique los campos obligatorios marcados con un ( * ) </span>
-            <div class="text-right">
-            <button class="text-red-500 background-transparent font-bold uppercase px-6 py-2 text-sm outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150" type="button" onclick="toggleModal('modal-agregar-estimacion')">
-                Cancelar
-            </button>
-            <button type="submit" id="btn-create-estimacion" class="bg-green-500 text-white active:bg-green-600 font-bold uppercase text-sm px-6 py-3 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150" >
-                Guardar
-            </button>
-            </div>
-            </div>
-            </form>
-        </div>
         </div>
     </div>
 
     <div class="hidden overflow-x-hidden overflow-y-auto fixed inset-0 z-50 outline-none focus:outline-none justify-center items-center" id="modal-agregar-estimacion-edit">
-        <div class="relative w-auto my-6 mx-auto max-w-3xl">
+        <div class="relative w-auto my-28 mx-auto max-w-3xl">
         <!--content-->
         <div class="border-0 rounded-lg shadow-lg relative flex flex-col w-full bg-white outline-none focus:outline-none">
             <!--header-->
-            <div class="flex items-start justify-between p-5 border-b border-solid border-blueGray-200 rounded-t">
-            <h4 class="text-xl font-semibold">
-                Agregar nueva estimación
-            </h4>
-            <button class="p-1 ml-auto bg-transparent border-0 text-black opacity-5 float-right text-3xl leading-none font-semibold outline-none focus:outline-none" onclick="toggleModal('modal-agregar-estimacion-edit')">
-                <span class="bg-transparent text-black opacity-5 h-6 w-6 text-2xl block outline-none focus:outline-none">
-                
-                </span>
-            </button>
+            <div class="flex items-center justify-between px-5 py-3 border-b border-solid border-blueGray-200 rounded-t bg-blue-cmr1">
+                <h4 class="text-base font-normal uppercase text-white">
+                    Agregar nueva estimación
+                </h4>
+                <button class="p-1 ml-auto bg-transparent border-0 text-white float-right text-2xl leading-none font-semibold outline-none focus:outline-none" onclick="toggleModal('modal-agregar-estimacion-edit')">
+                    <span>
+                        <i class="fas fa-xmark"></i>
+                    </span>
+                </button>
             </div>
             <!--body-->
             <form action="{{ route('update_estimacion') }}" method="POST" id="formulario_create_estimacion_edit" name="formulario_create_estimacion_edit">
             @csrf
             @method('POST')
-            <div class="relative p-6 flex-auto">
-                <div class="grid grid-cols-9 gap-4">
-                    <input type="text" name="id_estimacion_edit" id="id_estimacion_edit" class="hidden mt-1 focus:ring-blue-800 focus:border-blue-800 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md" value="">
-                    <div class="col-span-2 sm:col-span-2 ">
-                        <label for="contrato" class="block text-sm font-bold text-gray-700">Número de estimación*</label>
-                        <div class="mt-1 py-2 px-3">
-                            <label id="label_numero_estimacion_edit" class="text-base">{{count($estimaciones) + 1}}</label>
-                        </div>  
-                        <input type="text" name="numero_estimacion_edit" id="numero_estimacion_edit" class="hidden mt-1 focus:ring-blue-800 focus:border-blue-800 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md" value="{{count($estimaciones) + 1}}">
-                        <label id="error_numero_estimacion_edit" class="hidden text-base font-normal text-red-500" >Ingrese un número de estimación valido</label>
-                    </div>
-                    <div class="col-span-3 sm:col-span-3 ">
-                        <label for="contrato" class="block text-sm font-bold text-gray-700 text-center">¿Es finiquito?</label>
-                        <div class="mt-1 py-2">
-                            <div class="col-span-8 md:col-span-8">
-                                <div class="form-group">
-                                    <div class="grid grid-cols-8">
-                                        <div class="col-span-4 flex justify-center">
-                                            <div>
-                                                <input type="radio" value="0" id="n_finiquito_edit" name="finiquito_edit">
-                                                <label for="n_finiquito_edit" class="text-base font-medium text-gray-700"> No</label>
+                <div class="relative p-6 flex-auto">
+                    <div class="grid grid-cols-9 gap-4">
+                        <input type="text" name="id_estimacion_edit" id="id_estimacion_edit" class="hidden mt-1 focus:ring-blue-800 focus:border-blue-800 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md" value="">
+                        <div class="col-span-2 sm:col-span-2 ">
+                            <label for="contrato" class="block text-sm font-bold text-gray-700">Número de estimación*</label>
+                            <div class="mt-1 py-2 px-3">
+                                <label id="label_numero_estimacion_edit" class="text-base">{{count($estimaciones) + 1}}</label>
+                            </div>  
+                            <input type="text" name="numero_estimacion_edit" id="numero_estimacion_edit" class="hidden mt-1 focus:ring-blue-800 focus:border-blue-800 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md" value="{{count($estimaciones) + 1}}">
+                            <label id="error_numero_estimacion_edit" class="hidden text-base font-normal text-red-500" >Ingrese un número de estimación valido</label>
+                        </div>
+                        <div class="col-span-3 sm:col-span-3 ">
+                            <label for="contrato" class="block text-sm font-bold text-gray-700 text-center">¿Es finiquito?</label>
+                            <div class="mt-1 py-2">
+                                <div class="col-span-8 md:col-span-8">
+                                    <div class="form-group">
+                                        <div class="grid grid-cols-8">
+                                            <div class="col-span-4 flex justify-center">
+                                                <div>
+                                                    <input type="radio" value="0" id="n_finiquito_edit" name="finiquito_edit">
+                                                    <label for="n_finiquito_edit" class="text-base font-medium text-gray-700"> No</label>
+                                                </div>
+                                            </div>
+                                            <div class="col-span-4 flex justify-center">
+                                                <div>
+                                                    <input type="radio" value="1" id="s_finiquito_edit" name="finiquito_edit">
+                                                    <label for="s_finiquito_edit" class="text-base font-medium text-gray-700">Si</label>
+                                                </div>
                                             </div>
                                         </div>
-                                        <div class="col-span-4 flex justify-center">
-                                            <div>
-                                                <input type="radio" value="1" id="s_finiquito_edit" name="finiquito_edit">
-                                                <label for="s_finiquito_edit" class="text-base font-medium text-gray-700">Si</label>
-                                            </div>
-                                        </div>
                                     </div>
                                 </div>
-                            </div>
-                        </div>  
-                    </div>
+                            </div>  
+                        </div>
 
-                    <div class="col-span-4">
-                        <label for="fecha_recepcion" class="block text-sm font-bold text-gray-700">Fecha de recepción de documentos*</label>
-                        <input type="date" name="fecha_recepcion_edit" id="fecha_recepcion_edit" min="{{$obj_obra->get('obra')->fecha_inicio_programada}}" max="{{$obj_obra->get('obra')->ejercicio+1}}-03-31" class="mt-1 focus:ring-blue-800 focus:border-blue-800 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md" value="{{ old('fecha_oficio_notificacion') }}">
-                        <label id="error_fecha_recepcion_edit" class="hidden text-base font-normal text-red-500" >Ingrese una fecha de recepción de documentos valida</label>
-                    </div>
-                    
-                    
-                    <!--<div class="col-span-8 sm:col-span-5">
-                        <label id="label_monto_modificado" for="label_monto_modificado" class="block text-sm font-bold text-gray-700">Total de la estimación*</label>
-                        <div class="relative ">
-                        <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                            <span class="text-gray-700 text-base">
-                            $
-                            </span>
+                        <div class="col-span-4">
+                            <label for="fecha_recepcion" class="block text-sm font-bold text-gray-700">Fecha de recepción de documentos*</label>
+                            <input type="date" name="fecha_recepcion_edit" id="fecha_recepcion_edit" min="{{$obj_obra->get('obra')->fecha_inicio_programada}}" max="{{$obj_obra->get('obra')->ejercicio+1}}-03-31" class="mt-1 focus:ring-blue-800 focus:border-blue-800 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md" value="{{ old('fecha_oficio_notificacion') }}">
+                            <label id="error_fecha_recepcion_edit" class="hidden text-base font-normal text-red-500" >Ingrese una fecha de recepción de documentos valida</label>
                         </div>
-                        <input type="text" name="total_estimacion" id="total_estimacion" maxlength="20" class="pl-7  mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md" placeholder="0.00">
-                        </div>
-                        <label id="error_total_estimacion" name="error_total_estimacion" class="hidden text-base font-normal text-red-500" >El monto de la estimación es mayor al monto restante de la obra.</label>
-                    </div>-->
-                    <div class="col-span-9">
-                        <label for="ejecucion" class="block text-sm font-bold text-gray-700 text-center">Periodo de la estimación</label>
-                        <div class="grid grid-cols-4 gap-4">
-                            <div class="col-span-2">
-                                <input type="date" name="fecha_inicio_estimacion_edit" id="fecha_inicio_estimacion_edit" min="{{$obj_obra->get('obra')->fecha_inicio_programada}}" max="{{$obj_obra->get('obra')->ejercicio+1}}-03-31" class="mt-1 focus:ring-blue-800 focus:border-blue-800 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md" value="{{ old('fecha_oficio_notificacion') }}">
-                                <label for="fecha_inicio_estimacion_edit" class="block text-sm font-semibold text-gray-700 text-center">Fecha de inicio*</label>
-                                <label id="error_fecha_inicio_estimacion_edit" class="hidden text-base font-normal text-red-500" >Ingrese una fecha de inicio valida</label>
-                            </div>
-                            <div class="col-span-2">
-                                <input type="date" name="fecha_fin_estimacion_edit" id="fecha_fin_estimacion_edit" min="{{$obj_obra->get('obra')->fecha_inicio_programada}}" max="{{$obj_obra->get('obra')->ejercicio+1}}-03-31"  class="mt-1 focus:ring-blue-800 focus:border-blue-800 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md" value="{{ old('fecha_oficio_notificacion') }}">
-                                <label for="fecha_fin_estimacion_edit" class="block text-sm font-semibold text-gray-700 text-center">Fecha de fin*</label>
-                                <label id="error_fecha_fin_estimacion_edit" class="hidden text-base font-normal text-red-500" >Ingrese una fecha final valida</label>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-span-5">
-
-                    </div>
-                    
-                    
-
-                    <!--<div class="col-span-10">
-                        <div class="mb-5 text-center">
-                            <label id="error_retenciones" name="error_retenciones" class="hidden text-base font-normal text-red-500 text-center font-bold" >El total de rentenciones es mayor que el monto de la estimación.</label>
-                        </div>
-                        <label for="ejecucion" class="block text-sm font-bold text-gray-700 text-center">Retenciones</label>
-                        <div class="grid grid-cols-4 gap-4">
-                            <div class="col-span-4 sm:col-span-2">
-                                <div class="relative ">
-                                    <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                                        <span class="text-gray-700 text-base">
-                                        $
-                                        </span>
-                                    </div>
-                                    <input type="text" name="supervicion_obra" id="supervicion_obra" maxlength="20" class="pl-7  mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md" placeholder="0.00">
+                        
+                        <div class="col-span-9">
+                            <label for="ejecucion" class="block text-sm font-bold text-gray-700 text-center">Periodo de la estimación</label>
+                            <div class="grid grid-cols-4 gap-4">
+                                <div class="col-span-2">
+                                    <input type="date" name="fecha_inicio_estimacion_edit" id="fecha_inicio_estimacion_edit" min="{{$obj_obra->get('obra')->fecha_inicio_programada}}" max="{{$obj_obra->get('obra')->ejercicio+1}}-03-31" class="mt-1 focus:ring-blue-800 focus:border-blue-800 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md" value="{{ old('fecha_oficio_notificacion') }}">
+                                    <label for="fecha_inicio_estimacion_edit" class="block text-sm font-semibold text-gray-700 text-center">Fecha de inicio*</label>
+                                    <label id="error_fecha_inicio_estimacion_edit" class="hidden text-base font-normal text-red-500" >Ingrese una fecha de inicio valida</label>
                                 </div>
-                                <label for="supervicion_obra" class="block text-sm font-semibold text-gray-700 text-center">Supervición de obra</label>
-                                <label id="error_supervicion_obra" name="error_supervicion_obra" class="hidden text-base font-normal text-red-500" >El total de la retención es mayor que el monto de la estimación.</label>
-                            </div>
-                            <div class="col-span-4 sm:col-span-2">
-                                
-                                <div class="relative ">
-                                    <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                                        <span class="text-gray-700 text-base">
-                                        $
-                                        </span>
-                                    </div>
-                                    <input type="text" name="mano_obra" id="mano_obra" maxlength="20" class="pl-7  mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md" placeholder="0.00">
+                                <div class="col-span-2">
+                                    <input type="date" name="fecha_fin_estimacion_edit" id="fecha_fin_estimacion_edit" min="{{$obj_obra->get('obra')->fecha_inicio_programada}}" max="{{$obj_obra->get('obra')->ejercicio+1}}-03-31"  class="mt-1 focus:ring-blue-800 focus:border-blue-800 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md" value="{{ old('fecha_oficio_notificacion') }}">
+                                    <label for="fecha_fin_estimacion_edit" class="block text-sm font-semibold text-gray-700 text-center">Fecha de fin*</label>
+                                    <label id="error_fecha_fin_estimacion_edit" class="hidden text-base font-normal text-red-500" >Ingrese una fecha final valida</label>
                                 </div>
-                                <label for="mano_obra" class="block text-sm font-semibold text-gray-700 text-center">Mano de obra</label>
-                                <label id="error_mano_obra" name="error_mano_obra" class="hidden text-base font-normal text-red-500" >El total de la retención es mayor que el monto de la estimación.</label>
-                            </div>
-                            <div class="col-span-4 sm:col-span-2">
-                                <div class="relative ">
-                                    <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                                        <span class="text-gray-700 text-base">
-                                        $
-                                        </span>
-                                    </div>
-                                    <input type="text" name="cinco_millar" id="cinco_millar" maxlength="20" class="pl-7  mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md" placeholder="0.00">
-                                </div>
-                                <label for="cinco_millar" class="block text-sm font-semibold text-gray-700 text-center">Cinco al millar</label>
-                                <label id="error_cinco_millar" name="error_cinco_millar" class="hidden text-base font-normal text-red-500" >El monto a modificar es mayor que el ejercicido</label>
-                            </div>
-                            <div class="col-span-4 sm:col-span-2">                            
-                                <div class="relative ">
-                                    <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                                        <span class="text-gray-700 text-base">
-                                        $
-                                        </span>
-                                    </div>
-                                    <input type="text" name="dos_millar" id="dos_millar" maxlength="20" class="pl-7  mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md" placeholder="0.00">
-                                </div>
-                                <label for="dos_millar" class="block text-sm font-semibold text-gray-700 text-center">Dos al millar</label>
-                                <label id="error_dos_millar" name="error_dos_millar" class="hidden text-base font-normal text-red-500" >El monto a modificar es mayor que el ejercicido</label>
                             </div>
                         </div>
-                    </div>
+                        <div class="col-span-5">
 
-                    <div class="col-span-4 sm:col-span-5">  
-                        <label id="label_monto_modificado" for="label_monto_modificado" class="block text-sm font-bold text-gray-700">Amortización del anticipo*</label>
-                        <div class="relative ">
-                            <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                                <span class="text-gray-700 text-base">
-                                $
-                                </span>
-                            </div>
-                            <input type="text" name="amortizacion_anticipo" id="amortizacion_anticipo" maxlength="20" class="pl-7  mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md" placeholder="0.00">
                         </div>
-                        <label id="error_amortizacion_anticipo" name="error_amortizacion_anticipo" class="hidden text-base font-normal text-red-500" >El monto a modificar es mayor que el ejercicido</label>
+                        
                     </div>
-                    <div class="col-span-8 md:col-span-5">
-                        <label  id="label_folio_factura" for="cliente_id" class="block text-sm font-bold text-gray-700">Folio de factura:</label>
-                        <input type="text" name="folio_factura" id="folio_factura" maxlength="36" class="mt-1 focus:ring-blue-800 focus:border-blue-800 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md" value="{{ old('oficio_notificacion') }}">
-                        <label id="error_folio_factura" name="error_folio_factura" class="hidden text-base font-normal text-red-500" >Ingrese un folio de factura valido.</label>
+                    <div class="mt-10">
+                        <span class="block text-xs">Verifique los campos obligatorios marcados con un ( * ) </span>
                     </div>
-
-                    <div class="col-span-10">
-                        <label for="ejecucion" class="block text-sm font-bold text-gray-700 text-center">Neto a pagar</label>
-                        <label id="label_monto_neto" class="block text-base font-medium text-gray-700 py-3 px-2 text-center">$ 0.00</label>
-                        <div id="div_error_guardar" class="hidden mx-10 text-center">
-                            <label  class="text-base font-normal text-red-500 text-center font-bold" >El neto a pagar no puede ser menos a cero.</label>
-                        </div>
-                    </div>-->
-                    
-            </div>
-            
-            </div>
-            <!--footer-->
-            <div class=" p-4 border-t border-solid border-blueGray-200 rounded-b">
-            
-            <span class="block text-xs">Verifique los campos obligatorios marcados con un ( * ) </span>
-            <div class="text-right">
-            <button class="text-red-500 background-transparent font-bold uppercase px-6 py-2 text-sm outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150" type="button" onclick="toggleModal('modal-agregar-estimacion-edit')">
-                Cancelar
-            </button>
-            <button type="submit" id="btn-create-estimacion" class="bg-green-500 text-white active:bg-green-600 font-bold uppercase text-sm px-6 py-3 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150" >
-                Guardar
-            </button>
-            </div>
-            </div>
+                
+                </div>
+                <!--footer-->
+                <div class=" p-4 border-t border-solid border-blueGray-200 rounded-b">
+                    <div class="text-right">
+                        <button class="text-red-500 background-transparent font-bold uppercase px-6 text-sm outline-none focus:outline-none ease-linear transition-all duration-150" type="button" onclick="toggleModal('modal-agregar-estimacion-edit')">
+                            Cancelar
+                        </button>
+                        <button type="submit" id="btn-create-estimacion" class="text-blue-500 font-bold uppercase text-sm px-6 rounded outline-none focus:outline-none ease-linear transition-all duration-150" >
+                            Guardar
+                        </button>
+                    </div>
+                </div>
             </form>
         </div>
         </div>
     </div>
 
     <div class="hidden overflow-x-hidden overflow-y-auto fixed inset-0 z-50 outline-none focus:outline-none justify-center items-center" id="modal-update-pago">
-        <div class="relative w-auto my-6 mx-auto max-w-3xl">
+        <div class="relative w-auto my-28 mx-auto max-w-3xl">
         <!--content-->
         <div class="border-0 rounded-lg shadow-lg relative flex flex-col w-full bg-white outline-none focus:outline-none">
             <!--header-->
-            <div class="flex items-start justify-between p-5 border-b border-solid border-blueGray-200 rounded-t">
-                <h4 class="text-xl font-semibold">
+            <div class="flex items-center justify-between px-5 py-3 border-b border-solid border-blueGray-200 rounded-t">
+                <h4 class="text-base font-normal uppercase text-white">
                     Actualizar proceso de pago de
                     <label id="nombre_pago"></label>
                 </h4>
-            <button class="p-1 ml-auto bg-transparent border-0 text-black opacity-5 float-right text-3xl leading-none font-semibold outline-none focus:outline-none" onclick="toggleModal('modal-update_pago')">
-                <span class="bg-transparent text-black opacity-5 h-6 w-6 text-2xl block outline-none focus:outline-none">
-                
+            <button class="p-1 ml-auto bg-transparent border-0 text-white float-right text-2xl leading-none font-semibold outline-none focus:outline-none" onclick="toggleModal('modal-update_pago')">
+                <span>
+                    <i class="fas fa-xmark"></i>
                 </span>
             </button>
             </div>
             <!--body-->
             <form action="{{ route('create_estimacion') }}" method="POST" id="formulario_update_pago" name="formulario_update_pago">
-            @csrf
-            @method('POST')
-            <div class="relative p-6 flex-auto">
-                <div class="grid grid-cols-10 gap-4">
-                    <input type="text" name="id_pago_desglose" class="hidden mt-1 focus:ring-blue-800 focus:border-blue-800 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md" value="">
-                    <div class="col-span-5">
-                        <label for="fecha_recepcion" class="block text-sm font-semibold text-gray-700 text-center">Fecha de recepción de documentos*</label>
-                        <input type="date" name="fecha_recepcion" id="fecha_recepcion" min="{{$obj_obra->get('obra')->fecha_inicio_programada}}" max="{{$obj_obra->get('obra')->fecha_final_real}}" class="mt-1 focus:ring-blue-800 focus:border-blue-800 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md" value="{{ old('fecha_oficio_notificacion') }}">
-                        <label id="error_fecha_recepcion" class="hidden text-base font-normal text-red-500" >Ingrese una fecha valida</label>
-                    </div>
-                    <div class="col-span-5">
-                        <label for="fecha_recepcion" class="block text-sm font-semibold text-gray-700 text-center">Fecha de observaciones de documentos*</label>
-                        <input type="date" name="fecha_recepcion" id="fecha_recepcion" min="{{$obj_obra->get('obra')->fecha_inicio_programada}}" max="{{$obj_obra->get('obra')->fecha_final_real}}" class="mt-1 focus:ring-blue-800 focus:border-blue-800 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md" value="{{ old('fecha_oficio_notificacion') }}">
-                        <label id="error_fecha_recepcion" class="hidden text-base font-normal text-red-500" >Ingrese una fecha valida</label>
-                    </div>
-                    <div class="col-span-5">
-                        <label for="fecha_recepcion" class="block text-sm font-semibold text-gray-700 text-center">Fecha de solventación de observaciones*</label>
-                        <input type="date" name="fecha_recepcion" id="fecha_recepcion" min="{{$obj_obra->get('obra')->fecha_inicio_programada}}" max="{{$obj_obra->get('obra')->fecha_final_real}}" class="mt-1 focus:ring-blue-800 focus:border-blue-800 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md" value="{{ old('fecha_oficio_notificacion') }}">
-                        <label id="error_fecha_recepcion" class="hidden text-base font-normal text-red-500" >Ingrese una fecha valida</label>
-                    </div>
-                    <div class="col-span-5">
-                        <label for="fecha_recepcion" class="block text-sm font-semibold text-gray-700 text-center">Fecha de validación de documentos*</label>
-                        <input type="date" name="fecha_recepcion" id="fecha_recepcion" min="{{$obj_obra->get('obra')->fecha_inicio_programada}}" max="{{$obj_obra->get('obra')->fecha_final_real}}" class="mt-1 focus:ring-blue-800 focus:border-blue-800 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md" value="{{ old('fecha_oficio_notificacion') }}">
-                        <label id="error_fecha_recepcion" class="hidden text-base font-normal text-red-500" >Ingrese una fecha valida</label>
-                    </div>
+                @csrf
+                @method('POST')
+                <div class="relative p-6 flex-auto">
+                    <div class="grid grid-cols-10 gap-4">
+                        <input type="text" name="id_pago_desglose" class="hidden mt-1 focus:ring-blue-800 focus:border-blue-800 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md" value="">
+                        <div class="col-span-5">
+                            <label for="fecha_recepcion" class="block text-sm font-semibold text-gray-700 text-center">Fecha de recepción de documentos*</label>
+                            <input type="date" name="fecha_recepcion" id="fecha_recepcion" min="{{$obj_obra->get('obra')->fecha_inicio_programada}}" max="{{$obj_obra->get('obra')->fecha_final_real}}" class="mt-1 focus:ring-blue-800 focus:border-blue-800 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md" value="{{ old('fecha_oficio_notificacion') }}">
+                            <label id="error_fecha_recepcion" class="hidden text-base font-normal text-red-500" >Ingrese una fecha valida</label>
+                        </div>
+                        <div class="col-span-5">
+                            <label for="fecha_recepcion" class="block text-sm font-semibold text-gray-700 text-center">Fecha de observaciones de documentos*</label>
+                            <input type="date" name="fecha_recepcion" id="fecha_recepcion" min="{{$obj_obra->get('obra')->fecha_inicio_programada}}" max="{{$obj_obra->get('obra')->fecha_final_real}}" class="mt-1 focus:ring-blue-800 focus:border-blue-800 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md" value="{{ old('fecha_oficio_notificacion') }}">
+                            <label id="error_fecha_recepcion" class="hidden text-base font-normal text-red-500" >Ingrese una fecha valida</label>
+                        </div>
+                        <div class="col-span-5">
+                            <label for="fecha_recepcion" class="block text-sm font-semibold text-gray-700 text-center">Fecha de solventación de observaciones*</label>
+                            <input type="date" name="fecha_recepcion" id="fecha_recepcion" min="{{$obj_obra->get('obra')->fecha_inicio_programada}}" max="{{$obj_obra->get('obra')->fecha_final_real}}" class="mt-1 focus:ring-blue-800 focus:border-blue-800 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md" value="{{ old('fecha_oficio_notificacion') }}">
+                            <label id="error_fecha_recepcion" class="hidden text-base font-normal text-red-500" >Ingrese una fecha valida</label>
+                        </div>
+                        <div class="col-span-5">
+                            <label for="fecha_recepcion" class="block text-sm font-semibold text-gray-700 text-center">Fecha de validación de documentos*</label>
+                            <input type="date" name="fecha_recepcion" id="fecha_recepcion" min="{{$obj_obra->get('obra')->fecha_inicio_programada}}" max="{{$obj_obra->get('obra')->fecha_final_real}}" class="mt-1 focus:ring-blue-800 focus:border-blue-800 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md" value="{{ old('fecha_oficio_notificacion') }}">
+                            <label id="error_fecha_recepcion" class="hidden text-base font-normal text-red-500" >Ingrese una fecha valida</label>
+                        </div>
 
-                    <div class="col-span-5">
-                        <label for="fecha_recepcion" class="block text-sm font-semibold text-gray-700 text-center">Fecha de documentos*</label>
-                        <input type="date" name="fecha_recepcion" id="fecha_recepcion" min="{{$obj_obra->get('obra')->fecha_inicio_programada}}" max="{{$obj_obra->get('obra')->fecha_final_real}}" class="mt-1 focus:ring-blue-800 focus:border-blue-800 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md" value="{{ old('fecha_oficio_notificacion') }}">
-                        <label id="error_fecha_recepcion" class="hidden text-base font-normal text-red-500" >Ingrese una fecha valida</label>
-                    </div>
-                    <div class="col-span-10">
-                        <label for="ejecucion" class="block text-sm font-bold text-gray-700 text-center">Periodo de la estimación</label>
-                        <div class="grid grid-cols-4 gap-4">
-                            <div class="col-span-2">
-                                <input type="date" name="fecha_inicio_estimacion" id="fecha_inicio_estimacion" min="{{$obj_obra->get('obra')->fecha_inicio_programada}}" max="{{$obj_obra->get('obra')->fecha_final_real}}" class="mt-1 focus:ring-blue-800 focus:border-blue-800 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md" value="{{ old('fecha_oficio_notificacion') }}">
-                                <label for="fecha_inicio_estimacion" class="block text-sm font-semibold text-gray-700 text-center">Fecha de inicio*</label>
-                                <label id="error_fecha_inicio_estimacion" class="hidden text-base font-normal text-red-500" >Ingrese una fecha de inicio valida</label>
-                            </div>
-                            <div class="col-span-2">
-                                <input type="date" name="fecha_fin_estimacion" id="fecha_fin_estimacion" min="{{$obj_obra->get('obra')->fecha_inicio_programada}}" max="{{$obj_obra->get('obra')->fecha_final_real}}"  class="mt-1 focus:ring-blue-800 focus:border-blue-800 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md" value="{{ old('fecha_oficio_notificacion') }}">
-                                <label for="fecha_fin_estimacion" class="block text-sm font-semibold text-gray-700 text-center">Fecha de fin*</label>
-                                <label id="error_fecha_fin_estimacion" class="hidden text-base font-normal text-red-500" >Ingrese una fecha final valida</label>
+                        <div class="col-span-5">
+                            <label for="fecha_recepcion" class="block text-sm font-semibold text-gray-700 text-center">Fecha de documentos*</label>
+                            <input type="date" name="fecha_recepcion" id="fecha_recepcion" min="{{$obj_obra->get('obra')->fecha_inicio_programada}}" max="{{$obj_obra->get('obra')->fecha_final_real}}" class="mt-1 focus:ring-blue-800 focus:border-blue-800 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md" value="{{ old('fecha_oficio_notificacion') }}">
+                            <label id="error_fecha_recepcion" class="hidden text-base font-normal text-red-500" >Ingrese una fecha valida</label>
+                        </div>
+                        <div class="col-span-10">
+                            <label for="ejecucion" class="block text-sm font-bold text-gray-700 text-center">Periodo de la estimación</label>
+                            <div class="grid grid-cols-4 gap-4">
+                                <div class="col-span-2">
+                                    <input type="date" name="fecha_inicio_estimacion" id="fecha_inicio_estimacion" min="{{$obj_obra->get('obra')->fecha_inicio_programada}}" max="{{$obj_obra->get('obra')->fecha_final_real}}" class="mt-1 focus:ring-blue-800 focus:border-blue-800 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md" value="{{ old('fecha_oficio_notificacion') }}">
+                                    <label for="fecha_inicio_estimacion" class="block text-sm font-semibold text-gray-700 text-center">Fecha de inicio*</label>
+                                    <label id="error_fecha_inicio_estimacion" class="hidden text-base font-normal text-red-500" >Ingrese una fecha de inicio valida</label>
+                                </div>
+                                <div class="col-span-2">
+                                    <input type="date" name="fecha_fin_estimacion" id="fecha_fin_estimacion" min="{{$obj_obra->get('obra')->fecha_inicio_programada}}" max="{{$obj_obra->get('obra')->fecha_final_real}}"  class="mt-1 focus:ring-blue-800 focus:border-blue-800 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md" value="{{ old('fecha_oficio_notificacion') }}">
+                                    <label for="fecha_fin_estimacion" class="block text-sm font-semibold text-gray-700 text-center">Fecha de fin*</label>
+                                    <label id="error_fecha_fin_estimacion" class="hidden text-base font-normal text-red-500" >Ingrese una fecha final valida</label>
+                                </div>
                             </div>
                         </div>
-                    </div>
-                    <div class="col-span-5">
+                        <div class="col-span-5">
 
-                    </div>
-                    <div class="col-span-5">
+                        </div>
+                        <div class="col-span-5">
+                            
+                            <input type="date" name="fecha_recepcion" id="fecha_recepcion" min="{{$obj_obra->get('obra')->fecha_inicio_programada}}" max="{{$obj_obra->get('obra')->fecha_final_real}}" class="mt-1 focus:ring-blue-800 focus:border-blue-800 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md" value="{{ old('fecha_oficio_notificacion') }}">
+                            <label for="fecha_recepcion" class="block text-sm font-semibold text-gray-700 text-right">Fecha de recepción de documentos*</label>
+                            <label id="error_fecha_recepcion" class="hidden text-base font-normal text-red-500" >Ingrese una fecha de inicio valida</label>
+                        </div>
                         
-                        <input type="date" name="fecha_recepcion" id="fecha_recepcion" min="{{$obj_obra->get('obra')->fecha_inicio_programada}}" max="{{$obj_obra->get('obra')->fecha_final_real}}" class="mt-1 focus:ring-blue-800 focus:border-blue-800 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md" value="{{ old('fecha_oficio_notificacion') }}">
-                        <label for="fecha_recepcion" class="block text-sm font-semibold text-gray-700 text-right">Fecha de recepción de documentos*</label>
-                        <label id="error_fecha_recepcion" class="hidden text-base font-normal text-red-500" >Ingrese una fecha de inicio valida</label>
                     </div>
-                    
-
-                    <!--<div class="col-span-10">
-                        <div class="mb-5 text-center">
-                            <label id="error_retenciones" name="error_retenciones" class="hidden text-base font-normal text-red-500 text-center font-bold" >El total de rentenciones es mayor que el monto de la estimación.</label>
-                        </div>
-                        <label for="ejecucion" class="block text-sm font-bold text-gray-700 text-center">Retenciones</label>
-                        <div class="grid grid-cols-4 gap-4">
-                            <div class="col-span-4 sm:col-span-2">
-                                <div class="relative ">
-                                    <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                                        <span class="text-gray-700 text-base">
-                                        $
-                                        </span>
-                                    </div>
-                                    <input type="text" name="supervicion_obra" id="supervicion_obra" maxlength="20" class="pl-7  mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md" placeholder="0.00">
-                                </div>
-                                <label for="supervicion_obra" class="block text-sm font-semibold text-gray-700 text-center">Supervición de obra</label>
-                                <label id="error_supervicion_obra" name="error_supervicion_obra" class="hidden text-base font-normal text-red-500" >El total de la retención es mayor que el monto de la estimación.</label>
-                            </div>
-                            <div class="col-span-4 sm:col-span-2">
-                                
-                                <div class="relative ">
-                                    <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                                        <span class="text-gray-700 text-base">
-                                        $
-                                        </span>
-                                    </div>
-                                    <input type="text" name="mano_obra" id="mano_obra" maxlength="20" class="pl-7  mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md" placeholder="0.00">
-                                </div>
-                                <label for="mano_obra" class="block text-sm font-semibold text-gray-700 text-center">Mano de obra</label>
-                                <label id="error_mano_obra" name="error_mano_obra" class="hidden text-base font-normal text-red-500" >El total de la retención es mayor que el monto de la estimación.</label>
-                            </div>
-                            <div class="col-span-4 sm:col-span-2">
-                                <div class="relative ">
-                                    <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                                        <span class="text-gray-700 text-base">
-                                        $
-                                        </span>
-                                    </div>
-                                    <input type="text" name="cinco_millar" id="cinco_millar" maxlength="20" class="pl-7  mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md" placeholder="0.00">
-                                </div>
-                                <label for="cinco_millar" class="block text-sm font-semibold text-gray-700 text-center">Cinco al millar</label>
-                                <label id="error_cinco_millar" name="error_cinco_millar" class="hidden text-base font-normal text-red-500" >El monto a modificar es mayor que el ejercicido</label>
-                            </div>
-                            <div class="col-span-4 sm:col-span-2">                            
-                                <div class="relative ">
-                                    <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                                        <span class="text-gray-700 text-base">
-                                        $
-                                        </span>
-                                    </div>
-                                    <input type="text" name="dos_millar" id="dos_millar" maxlength="20" class="pl-7  mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md" placeholder="0.00">
-                                </div>
-                                <label for="dos_millar" class="block text-sm font-semibold text-gray-700 text-center">Dos al millar</label>
-                                <label id="error_dos_millar" name="error_dos_millar" class="hidden text-base font-normal text-red-500" >El monto a modificar es mayor que el ejercicido</label>
-                            </div>
-                        </div>
+                    <div class="mt-10">
+                        <span class="block text-xs">Verifique los campos obligatorios marcados con un ( * ) </span>
                     </div>
-
-                    <div class="col-span-4 sm:col-span-5">  
-                        <label id="label_monto_modificado" for="label_monto_modificado" class="block text-sm font-bold text-gray-700">Amortización del anticipo*</label>
-                        <div class="relative ">
-                            <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                                <span class="text-gray-700 text-base">
-                                $
-                                </span>
-                            </div>
-                            <input type="text" name="amortizacion_anticipo" id="amortizacion_anticipo" maxlength="20" class="pl-7  mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md" placeholder="0.00">
-                        </div>
-                        <label id="error_amortizacion_anticipo" name="error_amortizacion_anticipo" class="hidden text-base font-normal text-red-500" >El monto a modificar es mayor que el ejercicido</label>
+                
+                </div>
+                <!--footer-->
+                <div class=" p-4 border-t border-solid border-blueGray-200 rounded-b">
+                
+                    <span class="block text-xs">Verifique los campos obligatorios marcados con un ( * ) </span>
+                    <div class="text-right">
+                        <button class="text-red-500 background-transparent font-bold uppercase px-6 text-sm outline-none focus:outline-none ease-linear transition-all duration-150" type="button" onclick="toggleModal('modal-agregar-estimacion')">
+                            Cancelar
+                        </button>
+                        <button type="submit" id="btn-create-estimacion" class="text-blue-500 font-bold uppercase text-sm px-6 rounded outline-none focus:outline-none ease-linear transition-all duration-150" >
+                            Guardar
+                        </button>
                     </div>
-                    <div class="col-span-8 md:col-span-5">
-                        <label  id="label_folio_factura" for="cliente_id" class="block text-sm font-bold text-gray-700">Folio de factura:</label>
-                        <input type="text" name="folio_factura" id="folio_factura" maxlength="36" class="mt-1 focus:ring-blue-800 focus:border-blue-800 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md" value="{{ old('oficio_notificacion') }}">
-                        <label id="error_folio_factura" name="error_folio_factura" class="hidden text-base font-normal text-red-500" >Ingrese un folio de factura valido.</label>
-                    </div>
-
-                    <div class="col-span-10">
-                        <label for="ejecucion" class="block text-sm font-bold text-gray-700 text-center">Neto a pagar</label>
-                        <label id="label_monto_neto" class="block text-base font-medium text-gray-700 py-3 px-2 text-center">$ 0.00</label>
-                        <div id="div_error_guardar" class="hidden mx-10 text-center">
-                            <label  class="text-base font-normal text-red-500 text-center font-bold" >El neto a pagar no puede ser menos a cero.</label>
-                        </div>
-                    </div>-->
-                    
-            </div>
-            
-            </div>
-            <!--footer-->
-            <div class=" p-4 border-t border-solid border-blueGray-200 rounded-b">
-            
-            <span class="block text-xs">Verifique los campos obligatorios marcados con un ( * ) </span>
-            <div class="text-right">
-            <button class="text-red-500 background-transparent font-bold uppercase px-6 py-2 text-sm outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150" type="button" onclick="toggleModal('modal-agregar-estimacion')">
-                Cancelar
-            </button>
-            <button type="submit" id="btn-create-estimacion" class="bg-green-500 text-white active:bg-green-600 font-bold uppercase text-sm px-6 py-3 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150" >
-                Guardar
-            </button>
-            </div>
-            </div>
+                </div>
             </form>
         </div>
         </div>
     </div>
 
     <div class="hidden overflow-x-hidden overflow-y-auto fixed inset-0 z-50 outline-none focus:outline-none justify-center items-center" id="modal-proceso-validacion">
-        <div class="relative w-auto my-6 mx-auto max-w-3xl">
+        <div class="relative w-auto my-28 mx-auto max-w-3xl">
         <!--content-->
         <div class="border-0 rounded-lg shadow-lg relative flex flex-col w-full bg-white outline-none focus:outline-none">
             <!--header-->
-            <div class="flex items-start justify-between p-5 border-b border-solid border-blueGray-200 rounded-t">
-                <h4 class="text-xl font-semibold">
+            <div class="flex items-center justify-between px-5 py-3 border-b border-solid border-blueGray-200 rounded-t bg-blue-cmr1">
+                <h4 class="text-base font-normal uppercase text-white">
                     Proceso de validación
                 </h4>
-            <button class="p-1 ml-auto bg-transparent border-0 text-black opacity-5 float-right text-3xl leading-none font-semibold outline-none focus:outline-none" onclick="toggleModal('modal-proceso-validacion')">
-                <span class="bg-transparent text-black opacity-5 h-6 w-6 text-2xl block outline-none focus:outline-none">
-                
-                </span>
-            </button>
+                <button class="p-1 ml-auto bg-transparent border-0 text-white float-right text-2xl leading-none font-semibold outline-none focus:outline-none" onclick="toggleModal('modal-proceso-validacion')">
+                    <span>
+                        <i class="fas fa-xmark"></i>
+                    </span>
+                </button>
             </div>
             <!--body-->
             <table id="example" class="table table_estimacion table-striped bg-white" style="width:100%;">
@@ -3913,168 +3634,84 @@
                 </tbody>
             </table>
             <form action="{{ route('create_estimacion') }}" method="POST" id="formulario_update_pago" name="formulario_update_pago">
-            @csrf
-            @method('POST')
-            <div class="relative p-6 flex-auto">
-                <div class="grid grid-cols-10 gap-4">
-                    <input type="text" name="id_pago_desglose" class="hidden mt-1 focus:ring-blue-800 focus:border-blue-800 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md" value="">
-                    <div class="col-span-5">
-                        <label for="fecha_recepcion" class="block text-sm font-semibold text-gray-700 text-center">Fecha de recepción de documentos*</label>
-                        <input type="date" name="fecha_recepcion" id="fecha_recepcion" min="{{$obj_obra->get('obra')->fecha_inicio_programada}}" max="{{$obj_obra->get('obra')->fecha_final_real}}" class="mt-1 focus:ring-blue-800 focus:border-blue-800 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md" value="{{ old('fecha_oficio_notificacion') }}">
-                        <label id="error_fecha_recepcion" class="hidden text-base font-normal text-red-500" >Ingrese una fecha valida</label>
-                    </div>
-                    <div class="col-span-5">
-                        <label for="fecha_recepcion" class="block text-sm font-semibold text-gray-700 text-center">Fecha de observaciones de documentos*</label>
-                        <input type="date" name="fecha_recepcion" id="fecha_recepcion" min="{{$obj_obra->get('obra')->fecha_inicio_programada}}" max="{{$obj_obra->get('obra')->fecha_final_real}}" class="mt-1 focus:ring-blue-800 focus:border-blue-800 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md" value="{{ old('fecha_oficio_notificacion') }}">
-                        <label id="error_fecha_recepcion" class="hidden text-base font-normal text-red-500" >Ingrese una fecha valida</label>
-                    </div>
-                    <div class="col-span-5">
-                        <label for="fecha_recepcion" class="block text-sm font-semibold text-gray-700 text-center">Fecha de solventación de observaciones*</label>
-                        <input type="date" name="fecha_recepcion" id="fecha_recepcion" min="{{$obj_obra->get('obra')->fecha_inicio_programada}}" max="{{$obj_obra->get('obra')->fecha_final_real}}" class="mt-1 focus:ring-blue-800 focus:border-blue-800 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md" value="{{ old('fecha_oficio_notificacion') }}">
-                        <label id="error_fecha_recepcion" class="hidden text-base font-normal text-red-500" >Ingrese una fecha valida</label>
-                    </div>
-                    <div class="col-span-5">
-                        <label for="fecha_recepcion" class="block text-sm font-semibold text-gray-700 text-center">Fecha de validación de documentos*</label>
-                        <input type="date" name="fecha_recepcion" id="fecha_recepcion" min="{{$obj_obra->get('obra')->fecha_inicio_programada}}" max="{{$obj_obra->get('obra')->fecha_final_real}}" class="mt-1 focus:ring-blue-800 focus:border-blue-800 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md" value="{{ old('fecha_oficio_notificacion') }}">
-                        <label id="error_fecha_recepcion" class="hidden text-base font-normal text-red-500" >Ingrese una fecha valida</label>
-                    </div>
+                @csrf
+                @method('POST')
+                <div class="relative p-6 flex-auto">
+                    <div class="grid grid-cols-10 gap-4">
+                        <input type="text" name="id_pago_desglose" class="hidden mt-1 focus:ring-blue-800 focus:border-blue-800 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md" value="">
+                        <div class="col-span-5">
+                            <label for="fecha_recepcion" class="block text-sm font-semibold text-gray-700 text-center">Fecha de recepción de documentos*</label>
+                            <input type="date" name="fecha_recepcion" id="fecha_recepcion" min="{{$obj_obra->get('obra')->fecha_inicio_programada}}" max="{{$obj_obra->get('obra')->fecha_final_real}}" class="mt-1 focus:ring-blue-800 focus:border-blue-800 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md" value="{{ old('fecha_oficio_notificacion') }}">
+                            <label id="error_fecha_recepcion" class="hidden text-base font-normal text-red-500" >Ingrese una fecha valida</label>
+                        </div>
+                        <div class="col-span-5">
+                            <label for="fecha_recepcion" class="block text-sm font-semibold text-gray-700 text-center">Fecha de observaciones de documentos*</label>
+                            <input type="date" name="fecha_recepcion" id="fecha_recepcion" min="{{$obj_obra->get('obra')->fecha_inicio_programada}}" max="{{$obj_obra->get('obra')->fecha_final_real}}" class="mt-1 focus:ring-blue-800 focus:border-blue-800 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md" value="{{ old('fecha_oficio_notificacion') }}">
+                            <label id="error_fecha_recepcion" class="hidden text-base font-normal text-red-500" >Ingrese una fecha valida</label>
+                        </div>
+                        <div class="col-span-5">
+                            <label for="fecha_recepcion" class="block text-sm font-semibold text-gray-700 text-center">Fecha de solventación de observaciones*</label>
+                            <input type="date" name="fecha_recepcion" id="fecha_recepcion" min="{{$obj_obra->get('obra')->fecha_inicio_programada}}" max="{{$obj_obra->get('obra')->fecha_final_real}}" class="mt-1 focus:ring-blue-800 focus:border-blue-800 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md" value="{{ old('fecha_oficio_notificacion') }}">
+                            <label id="error_fecha_recepcion" class="hidden text-base font-normal text-red-500" >Ingrese una fecha valida</label>
+                        </div>
+                        <div class="col-span-5">
+                            <label for="fecha_recepcion" class="block text-sm font-semibold text-gray-700 text-center">Fecha de validación de documentos*</label>
+                            <input type="date" name="fecha_recepcion" id="fecha_recepcion" min="{{$obj_obra->get('obra')->fecha_inicio_programada}}" max="{{$obj_obra->get('obra')->fecha_final_real}}" class="mt-1 focus:ring-blue-800 focus:border-blue-800 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md" value="{{ old('fecha_oficio_notificacion') }}">
+                            <label id="error_fecha_recepcion" class="hidden text-base font-normal text-red-500" >Ingrese una fecha valida</label>
+                        </div>
 
-                    <div class="col-span-5">
-                        <label for="fecha_recepcion" class="block text-sm font-semibold text-gray-700 text-center">Fecha de documentos*</label>
-                        <input type="date" name="fecha_recepcion" id="fecha_recepcion" min="{{$obj_obra->get('obra')->fecha_inicio_programada}}" max="{{$obj_obra->get('obra')->fecha_final_real}}" class="mt-1 focus:ring-blue-800 focus:border-blue-800 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md" value="{{ old('fecha_oficio_notificacion') }}">
-                        <label id="error_fecha_recepcion" class="hidden text-base font-normal text-red-500" >Ingrese una fecha valida</label>
-                    </div>
-                    <div class="col-span-10">
-                        <label for="ejecucion" class="block text-sm font-bold text-gray-700 text-center">Periodo de la estimación 1</label>
-                        <div class="grid grid-cols-4 gap-4">
-                            <div class="col-span-2">
-                                <input type="date" name="fecha_inicio_estimacion" id="fecha_inicio_estimacion" min="{{$obj_obra->get('obra')->fecha_inicio_programada}}" max="{{$obj_obra->get('obra')->fecha_final_real}}" class="mt-1 focus:ring-blue-800 focus:border-blue-800 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md" value="{{ old('fecha_oficio_notificacion') }}">
-                                <label for="fecha_inicio_estimacion" class="block text-sm font-semibold text-gray-700 text-center">Fecha de inicio*</label>
-                                <label id="error_fecha_inicio_estimacion" class="hidden text-base font-normal text-red-500" >Ingrese una fecha de inicio valida</label>
-                            </div>
-                            <div class="col-span-2">
-                                <input type="date" name="fecha_fin_estimacion" id="fecha_fin_estimacion" min="{{$obj_obra->get('obra')->fecha_inicio_programada}}" max="{{$obj_obra->get('obra')->fecha_final_real}}"  class="mt-1 focus:ring-blue-800 focus:border-blue-800 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md" value="{{ old('fecha_oficio_notificacion') }}">
-                                <label for="fecha_fin_estimacion" class="block text-sm font-semibold text-gray-700 text-center">Fecha de fin*</label>
-                                <label id="error_fecha_fin_estimacion" class="hidden text-base font-normal text-red-500" >Ingrese una fecha final valida</label>
+                        <div class="col-span-5">
+                            <label for="fecha_recepcion" class="block text-sm font-semibold text-gray-700 text-center">Fecha de documentos*</label>
+                            <input type="date" name="fecha_recepcion" id="fecha_recepcion" min="{{$obj_obra->get('obra')->fecha_inicio_programada}}" max="{{$obj_obra->get('obra')->fecha_final_real}}" class="mt-1 focus:ring-blue-800 focus:border-blue-800 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md" value="{{ old('fecha_oficio_notificacion') }}">
+                            <label id="error_fecha_recepcion" class="hidden text-base font-normal text-red-500" >Ingrese una fecha valida</label>
+                        </div>
+                        <div class="col-span-10">
+                            <label for="ejecucion" class="block text-sm font-bold text-gray-700 text-center">Periodo de la estimación 1</label>
+                            <div class="grid grid-cols-4 gap-4">
+                                <div class="col-span-2">
+                                    <input type="date" name="fecha_inicio_estimacion" id="fecha_inicio_estimacion" min="{{$obj_obra->get('obra')->fecha_inicio_programada}}" max="{{$obj_obra->get('obra')->fecha_final_real}}" class="mt-1 focus:ring-blue-800 focus:border-blue-800 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md" value="{{ old('fecha_oficio_notificacion') }}">
+                                    <label for="fecha_inicio_estimacion" class="block text-sm font-semibold text-gray-700 text-center">Fecha de inicio*</label>
+                                    <label id="error_fecha_inicio_estimacion" class="hidden text-base font-normal text-red-500" >Ingrese una fecha de inicio valida</label>
+                                </div>
+                                <div class="col-span-2">
+                                    <input type="date" name="fecha_fin_estimacion" id="fecha_fin_estimacion" min="{{$obj_obra->get('obra')->fecha_inicio_programada}}" max="{{$obj_obra->get('obra')->fecha_final_real}}"  class="mt-1 focus:ring-blue-800 focus:border-blue-800 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md" value="{{ old('fecha_oficio_notificacion') }}">
+                                    <label for="fecha_fin_estimacion" class="block text-sm font-semibold text-gray-700 text-center">Fecha de fin*</label>
+                                    <label id="error_fecha_fin_estimacion" class="hidden text-base font-normal text-red-500" >Ingrese una fecha final valida</label>
+                                </div>
                             </div>
                         </div>
-                    </div>
-                    <div class="col-span-5">
+                        <div class="col-span-5">
 
-                    </div>
-                    <div class="col-span-5">
+                        </div>
+                        <div class="col-span-5">
+                            
+                            <input type="date" name="fecha_recepcion" id="fecha_recepcion" min="{{$obj_obra->get('obra')->fecha_inicio_programada}}" max="{{$obj_obra->get('obra')->fecha_final_real}}" class="mt-1 focus:ring-blue-800 focus:border-blue-800 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md" value="{{ old('fecha_oficio_notificacion') }}">
+                            <label for="fecha_recepcion" class="block text-sm font-semibold text-gray-700 text-right">Fecha de recepción de documentos*</label>
+                            <label id="error_fecha_recepcion" class="hidden text-base font-normal text-red-500" >Ingrese una fecha de inicio valida</label>
+                        </div>
                         
-                        <input type="date" name="fecha_recepcion" id="fecha_recepcion" min="{{$obj_obra->get('obra')->fecha_inicio_programada}}" max="{{$obj_obra->get('obra')->fecha_final_real}}" class="mt-1 focus:ring-blue-800 focus:border-blue-800 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md" value="{{ old('fecha_oficio_notificacion') }}">
-                        <label for="fecha_recepcion" class="block text-sm font-semibold text-gray-700 text-right">Fecha de recepción de documentos*</label>
-                        <label id="error_fecha_recepcion" class="hidden text-base font-normal text-red-500" >Ingrese una fecha de inicio valida</label>
                     </div>
-                    
-
-                    <!--<div class="col-span-10">
-                        <div class="mb-5 text-center">
-                            <label id="error_retenciones" name="error_retenciones" class="hidden text-base font-normal text-red-500 text-center font-bold" >El total de rentenciones es mayor que el monto de la estimación.</label>
-                        </div>
-                        <label for="ejecucion" class="block text-sm font-bold text-gray-700 text-center">Retenciones</label>
-                        <div class="grid grid-cols-4 gap-4">
-                            <div class="col-span-4 sm:col-span-2">
-                                <div class="relative ">
-                                    <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                                        <span class="text-gray-700 text-base">
-                                        $
-                                        </span>
-                                    </div>
-                                    <input type="text" name="supervicion_obra" id="supervicion_obra" maxlength="20" class="pl-7  mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md" placeholder="0.00">
-                                </div>
-                                <label for="supervicion_obra" class="block text-sm font-semibold text-gray-700 text-center">Supervición de obra</label>
-                                <label id="error_supervicion_obra" name="error_supervicion_obra" class="hidden text-base font-normal text-red-500" >El total de la retención es mayor que el monto de la estimación.</label>
-                            </div>
-                            <div class="col-span-4 sm:col-span-2">
-                                
-                                <div class="relative ">
-                                    <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                                        <span class="text-gray-700 text-base">
-                                        $
-                                        </span>
-                                    </div>
-                                    <input type="text" name="mano_obra" id="mano_obra" maxlength="20" class="pl-7  mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md" placeholder="0.00">
-                                </div>
-                                <label for="mano_obra" class="block text-sm font-semibold text-gray-700 text-center">Mano de obra</label>
-                                <label id="error_mano_obra" name="error_mano_obra" class="hidden text-base font-normal text-red-500" >El total de la retención es mayor que el monto de la estimación.</label>
-                            </div>
-                            <div class="col-span-4 sm:col-span-2">
-                                <div class="relative ">
-                                    <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                                        <span class="text-gray-700 text-base">
-                                        $
-                                        </span>
-                                    </div>
-                                    <input type="text" name="cinco_millar" id="cinco_millar" maxlength="20" class="pl-7  mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md" placeholder="0.00">
-                                </div>
-                                <label for="cinco_millar" class="block text-sm font-semibold text-gray-700 text-center">Cinco al millar</label>
-                                <label id="error_cinco_millar" name="error_cinco_millar" class="hidden text-base font-normal text-red-500" >El monto a modificar es mayor que el ejercicido</label>
-                            </div>
-                            <div class="col-span-4 sm:col-span-2">                            
-                                <div class="relative ">
-                                    <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                                        <span class="text-gray-700 text-base">
-                                        $
-                                        </span>
-                                    </div>
-                                    <input type="text" name="dos_millar" id="dos_millar" maxlength="20" class="pl-7  mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md" placeholder="0.00">
-                                </div>
-                                <label for="dos_millar" class="block text-sm font-semibold text-gray-700 text-center">Dos al millar</label>
-                                <label id="error_dos_millar" name="error_dos_millar" class="hidden text-base font-normal text-red-500" >El monto a modificar es mayor que el ejercicido</label>
-                            </div>
-                        </div>
+                    <div class="mt-10">
+                        <span class="block text-xs">Verifique los campos obligatorios marcados con un ( * ) </span>
                     </div>
-
-                    <div class="col-span-4 sm:col-span-5">  
-                        <label id="label_monto_modificado" for="label_monto_modificado" class="block text-sm font-bold text-gray-700">Amortización del anticipo*</label>
-                        <div class="relative ">
-                            <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                                <span class="text-gray-700 text-base">
-                                $
-                                </span>
-                            </div>
-                            <input type="text" name="amortizacion_anticipo" id="amortizacion_anticipo" maxlength="20" class="pl-7  mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md" placeholder="0.00">
-                        </div>
-                        <label id="error_amortizacion_anticipo" name="error_amortizacion_anticipo" class="hidden text-base font-normal text-red-500" >El monto a modificar es mayor que el ejercicido</label>
+                
+                </div>
+                <!--footer-->
+                <div class=" p-4 border-t border-solid border-blueGray-200 rounded-b">
+                
+                    <div class="text-right">
+                        <button class="text-red-500 background-transparent font-bold uppercase px-6 text-sm outline-none focus:outline-none ease-linear transition-all duration-150" type="button" onclick="toggleModal('modal-agregar-estimacion')">
+                            Cancelar
+                        </button>
+                        <button type="submit" id="btn-create-estimacion" class="text-blue-500 font-bold uppercase text-sm px-6 rounded outline-none focus:outline-none ease-linear transition-all duration-150" >
+                            Guardar
+                        </button>
                     </div>
-                    <div class="col-span-8 md:col-span-5">
-                        <label  id="label_folio_factura" for="cliente_id" class="block text-sm font-bold text-gray-700">Folio de factura:</label>
-                        <input type="text" name="folio_factura" id="folio_factura" maxlength="36" class="mt-1 focus:ring-blue-800 focus:border-blue-800 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md" value="{{ old('oficio_notificacion') }}">
-                        <label id="error_folio_factura" name="error_folio_factura" class="hidden text-base font-normal text-red-500" >Ingrese un folio de factura valido.</label>
-                    </div>
-
-                    <div class="col-span-10">
-                        <label for="ejecucion" class="block text-sm font-bold text-gray-700 text-center">Neto a pagar</label>
-                        <label id="label_monto_neto" class="block text-base font-medium text-gray-700 py-3 px-2 text-center">$ 0.00</label>
-                        <div id="div_error_guardar" class="hidden mx-10 text-center">
-                            <label  class="text-base font-normal text-red-500 text-center font-bold" >El neto a pagar no puede ser menos a cero.</label>
-                        </div>
-                    </div>-->
-                    
-            </div>
-            
-            </div>
-            <!--footer-->
-            <div class=" p-4 border-t border-solid border-blueGray-200 rounded-b">
-            
-            <span class="block text-xs">Verifique los campos obligatorios marcados con un ( * ) </span>
-            <div class="text-right">
-            <button class="text-red-500 background-transparent font-bold uppercase px-6 py-2 text-sm outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150" type="button" onclick="toggleModal('modal-agregar-estimacion')">
-                Cancelar
-            </button>
-            <button type="submit" id="btn-create-estimacion" class="bg-green-500 text-white active:bg-green-600 font-bold uppercase text-sm px-6 py-3 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150" >
-                Guardar
-            </button>
-            </div>
-            </div>
+                </div>
             </form>
         </div>
         </div>
     </div>
-
 
     <div class="hidden opacity-25 fixed inset-0 z-40 bg-black" id="modal-backdrop"></div>
     <div class="hidden opacity-25 fixed inset-0 z-40 bg-black" id="modal-edit-backdrop"></div>
@@ -4085,503 +3722,507 @@
 @if($obj_obra->get('obra')->modalidad_ejecucion == 1)
     <!-- inicio modal agregar lista de raya -->
     <div class="hidden overflow-x-hidden overflow-y-auto fixed inset-0 z-50 outline-none focus:outline-none justify-center items-center" id="modal-lista-raya">
-        <div class="relative w-auto my-6 mx-auto max-w-3xl">
+        <div class="relative w-auto my-28 mx-auto max-w-3xl">
         <!--content-->
         <div class="border-0 rounded-lg shadow-lg relative flex flex-col w-full bg-white outline-none focus:outline-none">
             <!--header-->
-            <div class="flex items-start justify-between p-5 border-b border-solid border-blueGray-200 rounded-t">
-            <h4 class="text-xl font-semibold">
-                Agregar nueva lista de raya
-            </h4>
-            <button class="p-1 ml-auto bg-transparent border-0 text-black opacity-5 float-right text-3xl leading-none font-semibold outline-none focus:outline-none" onclick="toggleModal('modal-lista-raya')">
-                <span class="bg-transparent text-black opacity-5 h-6 w-6 text-2xl block outline-none focus:outline-none">
-                
-                </span>
-            </button>
+            <div class="flex items-center justify-between px-5 py-3 border-b border-solid border-blueGray-200 rounded-t bg-blue-cmr1">
+                <h4 class="text-base font-normal uppercase text-white">
+                    Agregar nueva lista de raya
+                </h4>
+                <button class="p-1 ml-auto bg-transparent border-0 text-white float-right text-2xl leading-none font-semibold outline-none focus:outline-none" onclick="toggleModal('modal-lista-raya')">
+                    <span>
+                        <i class="fas fa-xmark"></i>
+                    </span>
+                </button>
             </div>
             <!--body-->
             <form action="{{ route('store_lista') }}" method="POST" id="formulario_lista" name="formulario_lista">
-            @csrf
-            @method('POST')
-            <div class="relative p-6 flex-auto">
-                <div class="grid grid-cols-10 gap-4">
-                    <input type="text" name="id_obra_admin_lista" id="id_obra_admin_lista" maxlength="40" class="hidden mt-1 focus:ring-blue-800 focus:border-blue-800 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md" value="{{ $obj_obra->get('admin')->obra_administracion_id }}">
-                    <input type="text" name="id_obra_lista" id="id_obra_lista" maxlength="40" class="hidden mt-1 focus:ring-blue-800 focus:border-blue-800 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md" value="{{ $obj_obra->get('obra')->id_obra }}">
-                    <div class="col-span-5 sm:col-span-5 ">
-                        <label for="contrato" class="block text-sm font-bold text-gray-700">Número de lista de raya*</label>
-                        <div class="mt-1 py-2 px-3">
-                            <label id="label_numero_lista_raya" class="text-base">{{str_pad(count($listas_raya) + 1,3,"0",STR_PAD_LEFT)}}</label>
-                        </div>  
-                        <input type="text" name="numero_lista_raya" id="numero_lista_raya" class="hidden mt-1 focus:ring-blue-800 focus:border-blue-800 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md" value="{{count($listas_raya) + 1}}">
-                        <label id="error_numero_lista_raya" class="hidden text-base font-normal text-red-500" >Ingrese un número de estimación valido</label>
-                    </div>
-                    <div class="col-span-5 sm:col-span-5">
-                        <label for="tipo" class="block text-sm font-bold text-gray-700">Total*</label>
-                        <div class="relative ">
-                            <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                                <span class="text-gray-700 text-base">
-                                $
-                                </span>
-                            </div>
-                            <input type="text" name="total_lista_raya" id="total_lista_raya" maxlength="20" class="pl-7  mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md" required placeholder="0.00">
+                @csrf
+                @method('POST')
+                <div class="relative p-6 flex-auto">
+                    <div class="grid grid-cols-10 gap-4">
+                        <input type="text" name="id_obra_admin_lista" id="id_obra_admin_lista" maxlength="40" class="hidden mt-1 focus:ring-blue-800 focus:border-blue-800 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md" value="{{ $obj_obra->get('admin')->obra_administracion_id }}">
+                        <input type="text" name="id_obra_lista" id="id_obra_lista" maxlength="40" class="hidden mt-1 focus:ring-blue-800 focus:border-blue-800 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md" value="{{ $obj_obra->get('obra')->id_obra }}">
+                        <div class="col-span-5 sm:col-span-5 ">
+                            <label for="contrato" class="block text-sm font-bold text-gray-700">Número de lista de raya*</label>
+                            <div class="mt-1 py-2 px-3">
+                                <label id="label_numero_lista_raya" class="text-base">{{str_pad(count($listas_raya) + 1,3,"0",STR_PAD_LEFT)}}</label>
+                            </div>  
+                            <input type="text" name="numero_lista_raya" id="numero_lista_raya" class="hidden mt-1 focus:ring-blue-800 focus:border-blue-800 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md" value="{{count($listas_raya) + 1}}">
+                            <label id="error_numero_lista_raya" class="hidden text-base font-normal text-red-500" >Ingrese un número de estimación valido</label>
                         </div>
-                        <label id="error_monto_admin_mayor" class="hidden text-base font-normal text-red-500" >El monto es mayor que el restante de la obra</label>
-                        <label id="error_total_lista_raya" class="hidden text-base font-normal text-red-500" >Ingrese un monto total de lista de raya valido</label>
-                    </div>
-                    
-                    <div class="col-span-10">
-                        <label for="periodo_lista_raya" class="block text-sm font-bold text-gray-700 text-center">Periodo de la lista de raya</label>
-                        <div class="grid grid-cols-4 gap-4">
-                            <div class="col-span-2">
-                                <input type="date" name="fecha_inicio_lista" id="fecha_inicio_lista" min="{{$obj_obra->get('obra')->fecha_inicio_programada}}" max="{{$obj_obra->get('obra')->fecha_final_real}}" class="mt-1 focus:ring-blue-800 focus:border-blue-800 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md" value="{{ old('fecha_oficio_notificacion') }}">
-                                <label for="fecha_inicio_lista" class="block text-sm font-semibold text-gray-700 text-center">Fecha de inicio*</label>
-                                <label id="error_fecha_inicio_lista" class="hidden text-base font-normal text-red-500" >Ingrese una fecha de inicio valida</label>
-                            </div>
-                            <div class="col-span-2">
-                                <input type="date" name="fecha_fin_lista" id="fecha_fin_lista" min="{{$obj_obra->get('obra')->fecha_inicio_programada}}" max="{{$obj_obra->get('obra')->fecha_final_real}}"  class="mt-1 focus:ring-blue-800 focus:border-blue-800 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md" value="{{ old('fecha_oficio_notificacion') }}">
-                                <label for="fecha_fin_lista" class="block text-sm font-semibold text-gray-700 text-center">Fecha de fin*</label>
-                                <label id="error_fecha_fin_lista" class="hidden text-base font-normal text-red-500" >Ingrese una fecha final valida</label>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="col-span-10">
-                        <div class="mb-5 text-center">
-                            <label id="error_retenciones_lista" name="error_retenciones_lista" class="hidden text-base font-normal text-red-500 text-center font-bold" >El total de rentenciones es mayor que el monto de la estimación.</label>
-                        </div>
-                        <label for="periodo_lista_raya" class="block text-sm font-bold text-gray-700 text-center">Retenciones</label>
-                        <div class="grid grid-cols-4 gap-4">
-                            <div class="col-span-2">
-                                <div class="relative ">
-                                    <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                                        <span class="text-gray-700 text-base">
-                                        $
-                                        </span>
-                                    </div>
-                                    <input type="text" name="isr_lista" id="isr_lista" maxlength="20" class="pl-7  mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md" placeholder="0.00">
+                        <div class="col-span-5 sm:col-span-5">
+                            <label for="tipo" class="block text-sm font-bold text-gray-700">Total*</label>
+                            <div class="relative ">
+                                <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                                    <span class="text-gray-700 text-base">
+                                    $
+                                    </span>
                                 </div>
-                                <label for="isr_lista" class="block text-sm font-semibold text-gray-700 text-center">I.S.R.*</label>
-                                <label id="error_isr_lista" class="hidden text-base font-normal text-red-500" >Ingrese una cantidad de ISR valida</label>
+                                <input type="text" name="total_lista_raya" id="total_lista_raya" maxlength="20" class="pl-7  mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md" required placeholder="0.00">
                             </div>
-                            <div class="col-span-2">
-                                <div class="relative ">
-                                    <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                                        <span class="text-gray-700 text-base">
-                                        $
-                                        </span>
-                                    </div>
-                                    <input type="text" name="mano_obra_lista" id="mano_obra_lista" maxlength="20" class="pl-7  mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md" placeholder="0.00">
+                            <label id="error_monto_admin_mayor" class="hidden text-base font-normal text-red-500" >El monto es mayor que el restante de la obra</label>
+                            <label id="error_total_lista_raya" class="hidden text-base font-normal text-red-500" >Ingrese un monto total de lista de raya valido</label>
+                        </div>
+                        
+                        <div class="col-span-10">
+                            <label for="periodo_lista_raya" class="block text-sm font-bold text-gray-700 text-center">Periodo de la lista de raya</label>
+                            <div class="grid grid-cols-4 gap-4">
+                                <div class="col-span-2">
+                                    <input type="date" name="fecha_inicio_lista" id="fecha_inicio_lista" min="{{$obj_obra->get('obra')->fecha_inicio_programada}}" max="{{$obj_obra->get('obra')->fecha_final_real}}" class="mt-1 focus:ring-blue-800 focus:border-blue-800 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md" value="{{ old('fecha_oficio_notificacion') }}">
+                                    <label for="fecha_inicio_lista" class="block text-sm font-semibold text-gray-700 text-center">Fecha de inicio*</label>
+                                    <label id="error_fecha_inicio_lista" class="hidden text-base font-normal text-red-500" >Ingrese una fecha de inicio valida</label>
                                 </div>
-                                <label for="mano_obra_lista" class="block text-sm font-semibold text-gray-700 text-center">3% de mano de obra *</label>
-                                <label id="error_mano_obra_lista" class="hidden text-base font-normal text-red-500" >Ingrese un monto de mano de obra valido</label>
+                                <div class="col-span-2">
+                                    <input type="date" name="fecha_fin_lista" id="fecha_fin_lista" min="{{$obj_obra->get('obra')->fecha_inicio_programada}}" max="{{$obj_obra->get('obra')->fecha_final_real}}"  class="mt-1 focus:ring-blue-800 focus:border-blue-800 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md" value="{{ old('fecha_oficio_notificacion') }}">
+                                    <label for="fecha_fin_lista" class="block text-sm font-semibold text-gray-700 text-center">Fecha de fin*</label>
+                                    <label id="error_fecha_fin_lista" class="hidden text-base font-normal text-red-500" >Ingrese una fecha final valida</label>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-span-10">
+                            <div class="mb-5 text-center">
+                                <label id="error_retenciones_lista" name="error_retenciones_lista" class="hidden text-base font-normal text-red-500 text-center font-bold" >El total de rentenciones es mayor que el monto de la estimación.</label>
+                            </div>
+                            <label for="periodo_lista_raya" class="block text-sm font-bold text-gray-700 text-center">Retenciones</label>
+                            <div class="grid grid-cols-4 gap-4">
+                                <div class="col-span-2">
+                                    <div class="relative ">
+                                        <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                                            <span class="text-gray-700 text-base">
+                                            $
+                                            </span>
+                                        </div>
+                                        <input type="text" name="isr_lista" id="isr_lista" maxlength="20" class="pl-7  mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md" placeholder="0.00">
+                                    </div>
+                                    <label for="isr_lista" class="block text-sm font-semibold text-gray-700 text-center">I.S.R.*</label>
+                                    <label id="error_isr_lista" class="hidden text-base font-normal text-red-500" >Ingrese una cantidad de ISR valida</label>
+                                </div>
+                                <div class="col-span-2">
+                                    <div class="relative ">
+                                        <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                                            <span class="text-gray-700 text-base">
+                                            $
+                                            </span>
+                                        </div>
+                                        <input type="text" name="mano_obra_lista" id="mano_obra_lista" maxlength="20" class="pl-7  mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md" placeholder="0.00">
+                                    </div>
+                                    <label for="mano_obra_lista" class="block text-sm font-semibold text-gray-700 text-center">3% de mano de obra *</label>
+                                    <label id="error_mano_obra_lista" class="hidden text-base font-normal text-red-500" >Ingrese un monto de mano de obra valido</label>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-span-10 div_pago">
+                            <label for="ejecucion" class="block text-sm font-bold text-gray-700 text-center">Neto pagado</label>
+                            <label id="label_monto_neto_lista" class="block text-base font-medium text-gray-700 py-3 px-2 text-center">$ 0.00</label>
+                            <div id="div_error_guardar_lista" class="hidden mx-10 text-center">
+                                <label  class="text-base font-normal text-red-500 text-center font-bold" >El neto a pagar no puede ser menor a cero.</label>
                             </div>
                         </div>
                     </div>
-
-                    <div class="col-span-10 div_pago">
-                        <label for="ejecucion" class="block text-sm font-bold text-gray-700 text-center">Neto pagado</label>
-                        <label id="label_monto_neto_lista" class="block text-base font-medium text-gray-700 py-3 px-2 text-center">$ 0.00</label>
-                        <div id="div_error_guardar_lista" class="hidden mx-10 text-center">
-                            <label  class="text-base font-normal text-red-500 text-center font-bold" >El neto a pagar no puede ser menor a cero.</label>
-                        </div>
+                    <div class="mt-10">
+                        <span class="block text-xs">Verifique los campos obligatorios marcados con un ( * ) </span>
                     </div>
-            </div>
-            
-            </div>
-            <!--footer-->
-            <div class=" p-4 border-t border-solid border-blueGray-200 rounded-b">
-            
-            <span class="block text-xs">Verifique los campos obligatorios marcados con un ( * ) </span>
-            <div class="text-right">
-            <button class="text-red-500 background-transparent font-bold uppercase px-6 py-2 text-sm outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150" type="button" onclick="toggleModal('modal-lista-raya')">
-                Cancelar
-            </button>
-            <button type="submit" id="guardar_lista" class="bg-green-500 text-white active:bg-green-600 font-bold uppercase text-sm px-6 py-3 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150" >
-                Guardar
-            </button>
-            </div>
-            </div>
+                </div>
+                <!--footer-->
+                <div class=" p-4 border-t border-solid border-blueGray-200 rounded-b">
+                    <div class="text-right">
+                        <button class="text-red-500 background-transparent font-bold uppercase px-6 text-sm outline-none focus:outline-none ease-linear transition-all duration-150" type="button" onclick="toggleModal('modal-lista-raya')">
+                            Cancelar
+                        </button>
+                        <button type="submit" id="guardar_lista" class="text-blue-500 font-bold uppercase text-sm px-6 rounded outline-none focus:outline-none ease-linear transition-all duration-150" >
+                            Guardar
+                        </button>
+                    </div>
+                </div>
             </form>
         </div>
         </div>
     </div>
+
     <!-- inicio modal editar lista de raya -->
     <div class="hidden overflow-x-hidden overflow-y-auto fixed inset-0 z-50 outline-none focus:outline-none justify-center items-center" id="modal-lista-raya-edit">
-        <div class="relative w-auto my-6 mx-auto max-w-3xl">
+        <div class="relative w-auto my-28 mx-auto max-w-3xl">
         <!--content-->
         <div class="border-0 rounded-lg shadow-lg relative flex flex-col w-full bg-white outline-none focus:outline-none">
             <!--header-->
-            <div class="flex items-start justify-between p-5 border-b border-solid border-blueGray-200 rounded-t">
-            <h4 class="text-xl font-semibold">
-                Editar lista de raya
-            </h4>
-            <button class="p-1 ml-auto bg-transparent border-0 text-black opacity-5 float-right text-3xl leading-none font-semibold outline-none focus:outline-none" onclick="toggleModal('modal-lista-raya-edit')">
-                <span class="bg-transparent text-black opacity-5 h-6 w-6 text-2xl block outline-none focus:outline-none">
-                
-                </span>
-            </button>
+            <div class="flex items-center justify-between px-5 py-3 border-b border-solid border-blueGray-200 rounded-t bg-blue-cmr1">
+                <h4 class="text-base font-normal uppercase text-white">
+                    Editar lista de raya
+                </h4>
+                <button class="p-1 ml-auto bg-transparent border-0 text-white float-right text-2xl leading-none font-semibold outline-none focus:outline-none" onclick="toggleModal('modal-lista-raya-edit')">
+                    <span>
+                        <i class="fas fa-xmark"></i>
+                    </span>
+                </button>
             </div>
             <!--body-->
             <form action="{{ route('update_lista') }}" method="POST" id="formulario_lista_edit" name="formulario_lista_edit">
-            @csrf
-            @method('POST')
-            <div class="relative p-6 flex-auto">
-                <div class="grid grid-cols-10 gap-4">
-                    <input type="text" name="id_lista" id="id_lista" maxlength="40" class="hidden mt-1 focus:ring-blue-800 focus:border-blue-800 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md" value="">
-                    <input type="text" name="id_obra_lista_edit" id="id_obra_lista_edit" maxlength="40" class="hidden mt-1 focus:ring-blue-800 focus:border-blue-800 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md" value="{{ $obj_obra->get('obra')->id_obra }}">
-                    <div class="col-span-5 sm:col-span-5 ">
-                        <label for="contrato" class="block text-sm font-bold text-gray-700">Número de lista de raya*</label>
-                        <div class="mt-1 py-2 px-3">
-                            <label id="label_numero_lista_raya_edit" class="text-base">{{str_pad(count($listas_raya) + 1,3,"0",STR_PAD_LEFT)}}</label>
-                        </div>  
-                        <input type="text" name="numero_lista_raya_edit" id="numero_lista_raya_edit" class="hidden mt-1 focus:ring-blue-800 focus:border-blue-800 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md" value="{{count($listas_raya) + 1}}">
-                        <label id="error_numero_lista_raya_edit" class="hidden text-base font-normal text-red-500" >Ingrese un número de estimación valido</label>
-                    </div>
-                    <div class="col-span-5 sm:col-span-5">
-                        <label for="tipo" class="block text-sm font-bold text-gray-700">Total*</label>
-                        <div class="relative ">
-                            <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                                <span class="text-gray-700 text-base">
-                                $
-                                </span>
-                            </div>
-                            <input type="text" name="total_lista_raya_edit" id="total_lista_raya_edit" maxlength="20" class="pl-7  mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md" placeholder="0.00">
+                @csrf
+                @method('POST')
+                <div class="relative p-6 flex-auto">
+                    <div class="grid grid-cols-10 gap-4">
+                        <input type="text" name="id_lista" id="id_lista" maxlength="40" class="hidden mt-1 focus:ring-blue-800 focus:border-blue-800 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md" value="">
+                        <input type="text" name="id_obra_lista_edit" id="id_obra_lista_edit" maxlength="40" class="hidden mt-1 focus:ring-blue-800 focus:border-blue-800 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md" value="{{ $obj_obra->get('obra')->id_obra }}">
+                        <div class="col-span-5 sm:col-span-5 ">
+                            <label for="contrato" class="block text-sm font-bold text-gray-700">Número de lista de raya*</label>
+                            <div class="mt-1 py-2 px-3">
+                                <label id="label_numero_lista_raya_edit" class="text-base">{{str_pad(count($listas_raya) + 1,3,"0",STR_PAD_LEFT)}}</label>
+                            </div>  
+                            <input type="text" name="numero_lista_raya_edit" id="numero_lista_raya_edit" class="hidden mt-1 focus:ring-blue-800 focus:border-blue-800 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md" value="{{count($listas_raya) + 1}}">
+                            <label id="error_numero_lista_raya_edit" class="hidden text-base font-normal text-red-500" >Ingrese un número de estimación valido</label>
                         </div>
-                        <label id="error_monto_admin_mayor_edit" class="hidden text-base font-normal text-red-500" >El monto es mayor que el restante de la obra</label>
-                        <label id="error_total_lista_raya_edit" class="hidden text-base font-normal text-red-500" >Ingrese un total de lista de raya valido.</label>
-                    </div>
-                    
-                    <div class="col-span-10">
-                        <label for="periodo_lista_raya_edit" class="block text-sm font-bold text-gray-700 text-center">Periodo de la lista de raya</label>
-                        <div class="grid grid-cols-4 gap-4">
-                            <div class="col-span-2">
-                                <input type="date" name="fecha_inicio_lista_edit" id="fecha_inicio_lista_edit" min="{{$obj_obra->get('obra')->fecha_inicio_programada}}" max="{{$obj_obra->get('obra')->fecha_final_real}}" class="mt-1 focus:ring-blue-800 focus:border-blue-800 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md" value="{{ old('fecha_oficio_notificacion') }}">
-                                <label for="fecha_inicio_lista_edit" class="block text-sm font-semibold text-gray-700 text-center">Fecha de inicio*</label>
-                                <label id="error_fecha_inicio_lista_edit" class="hidden text-base font-normal text-red-500" >Ingrese una fecha de inicio valida</label>
-                            </div>
-                            <div class="col-span-2">
-                                <input type="date" name="fecha_fin_lista_edit" id="fecha_fin_lista_edit" min="{{$obj_obra->get('obra')->fecha_inicio_programada}}" max="{{$obj_obra->get('obra')->fecha_final_real}}"  class="mt-1 focus:ring-blue-800 focus:border-blue-800 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md" value="{{ old('fecha_oficio_notificacion') }}">
-                                <label for="fecha_fin_lista_edit" class="block text-sm font-semibold text-gray-700 text-center">Fecha de fin*</label>
-                                <label id="error_fecha_fin_lista_edit" class="hidden text-base font-normal text-red-500" >Ingrese una fecha final valida</label>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="col-span-10">
-                        <div class="mb-5 text-center">
-                            <label id="error_retenciones_lista_edit" name="error_retenciones_lista" class="hidden text-base font-normal text-red-500 text-center font-bold" >El total de rentenciones es mayor que el monto de la estimación.</label>
-                        </div>
-                        <label for="periodo_lista_raya_edit" class="block text-sm font-bold text-gray-700 text-center">Retenciones</label>
-                        <div class="grid grid-cols-4 gap-4">
-                            <div class="col-span-2">
-                                <div class="relative ">
-                                    <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                                        <span class="text-gray-700 text-base">
-                                        $
-                                        </span>
-                                    </div>
-                                    <input type="text" name="isr_lista_edit" id="isr_lista_edit" maxlength="20" class="pl-7  mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md" placeholder="0.00">
+                        <div class="col-span-5 sm:col-span-5">
+                            <label for="tipo" class="block text-sm font-bold text-gray-700">Total*</label>
+                            <div class="relative ">
+                                <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                                    <span class="text-gray-700 text-base">
+                                    $
+                                    </span>
                                 </div>
-                                <label for="isr_lista_edit" class="block text-sm font-semibold text-gray-700 text-center">I.S.R.*</label>
-                                <label id="error_isr_lista_edit" class="hidden text-base font-normal text-red-500" >Ingrese una cantidad de ISR valida</label>
+                                <input type="text" name="total_lista_raya_edit" id="total_lista_raya_edit" maxlength="20" class="pl-7  mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md" placeholder="0.00">
                             </div>
-                            <div class="col-span-2">
-                                <div class="relative ">
-                                    <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                                        <span class="text-gray-700 text-base">
-                                        $
-                                        </span>
-                                    </div>
-                                    <input type="text" name="mano_obra_lista_edit" id="mano_obra_lista_edit" maxlength="20" class="pl-7  mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md" placeholder="0.00">
+                            <label id="error_monto_admin_mayor_edit" class="hidden text-base font-normal text-red-500" >El monto es mayor que el restante de la obra</label>
+                            <label id="error_total_lista_raya_edit" class="hidden text-base font-normal text-red-500" >Ingrese un total de lista de raya valido.</label>
+                        </div>
+                        
+                        <div class="col-span-10">
+                            <label for="periodo_lista_raya_edit" class="block text-sm font-bold text-gray-700 text-center">Periodo de la lista de raya</label>
+                            <div class="grid grid-cols-4 gap-4">
+                                <div class="col-span-2">
+                                    <input type="date" name="fecha_inicio_lista_edit" id="fecha_inicio_lista_edit" min="{{$obj_obra->get('obra')->fecha_inicio_programada}}" max="{{$obj_obra->get('obra')->fecha_final_real}}" class="mt-1 focus:ring-blue-800 focus:border-blue-800 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md" value="{{ old('fecha_oficio_notificacion') }}">
+                                    <label for="fecha_inicio_lista_edit" class="block text-sm font-semibold text-gray-700 text-center">Fecha de inicio*</label>
+                                    <label id="error_fecha_inicio_lista_edit" class="hidden text-base font-normal text-red-500" >Ingrese una fecha de inicio valida</label>
                                 </div>
-                                <label for="mano_obra_lista_edit" class="block text-sm font-semibold text-gray-700 text-center">3% de mano de obra *</label>
-                                <label id="error_mano_obra_lista_edit" class="hidden text-base font-normal text-red-500" >Ingrese un monto de mano de obra valido</label>
+                                <div class="col-span-2">
+                                    <input type="date" name="fecha_fin_lista_edit" id="fecha_fin_lista_edit" min="{{$obj_obra->get('obra')->fecha_inicio_programada}}" max="{{$obj_obra->get('obra')->fecha_final_real}}"  class="mt-1 focus:ring-blue-800 focus:border-blue-800 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md" value="{{ old('fecha_oficio_notificacion') }}">
+                                    <label for="fecha_fin_lista_edit" class="block text-sm font-semibold text-gray-700 text-center">Fecha de fin*</label>
+                                    <label id="error_fecha_fin_lista_edit" class="hidden text-base font-normal text-red-500" >Ingrese una fecha final valida</label>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-span-10">
+                            <div class="mb-5 text-center">
+                                <label id="error_retenciones_lista_edit" name="error_retenciones_lista" class="hidden text-base font-normal text-red-500 text-center font-bold" >El total de rentenciones es mayor que el monto de la estimación.</label>
+                            </div>
+                            <label for="periodo_lista_raya_edit" class="block text-sm font-bold text-gray-700 text-center">Retenciones</label>
+                            <div class="grid grid-cols-4 gap-4">
+                                <div class="col-span-2">
+                                    <div class="relative ">
+                                        <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                                            <span class="text-gray-700 text-base">
+                                            $
+                                            </span>
+                                        </div>
+                                        <input type="text" name="isr_lista_edit" id="isr_lista_edit" maxlength="20" class="pl-7  mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md" placeholder="0.00">
+                                    </div>
+                                    <label for="isr_lista_edit" class="block text-sm font-semibold text-gray-700 text-center">I.S.R.*</label>
+                                    <label id="error_isr_lista_edit" class="hidden text-base font-normal text-red-500" >Ingrese una cantidad de ISR valida</label>
+                                </div>
+                                <div class="col-span-2">
+                                    <div class="relative ">
+                                        <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                                            <span class="text-gray-700 text-base">
+                                            $
+                                            </span>
+                                        </div>
+                                        <input type="text" name="mano_obra_lista_edit" id="mano_obra_lista_edit" maxlength="20" class="pl-7  mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md" placeholder="0.00">
+                                    </div>
+                                    <label for="mano_obra_lista_edit" class="block text-sm font-semibold text-gray-700 text-center">3% de mano de obra *</label>
+                                    <label id="error_mano_obra_lista_edit" class="hidden text-base font-normal text-red-500" >Ingrese un monto de mano de obra valido</label>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-span-10 div_pago">
+                            <label for="ejecucion" class="block text-sm font-bold text-gray-700 text-center">Neto pagado</label>
+                            <label id="label_monto_neto_lista_edit" class="block text-base font-medium text-gray-700 py-3 px-2 text-center">$ 0.00</label>
+                            <div id="div_error_guardar_lista_edit" class="hidden mx-10 text-center">
+                                <label  class="text-base font-normal text-red-500 text-center font-bold" >El neto a pagar no puede ser menor a cero.</label>
                             </div>
                         </div>
                     </div>
-
-                    <div class="col-span-10 div_pago">
-                        <label for="ejecucion" class="block text-sm font-bold text-gray-700 text-center">Neto pagado</label>
-                        <label id="label_monto_neto_lista_edit" class="block text-base font-medium text-gray-700 py-3 px-2 text-center">$ 0.00</label>
-                        <div id="div_error_guardar_lista_edit" class="hidden mx-10 text-center">
-                            <label  class="text-base font-normal text-red-500 text-center font-bold" >El neto a pagar no puede ser menor a cero.</label>
-                        </div>
+                    <div class="mt-10">
+                        <span class="block text-xs">Verifique los campos obligatorios marcados con un ( * ) </span>
                     </div>
-            </div>
-            
-            </div>
-            <!--footer-->
-            <div class=" p-4 border-t border-solid border-blueGray-200 rounded-b">
-            
-            <span class="block text-xs">Verifique los campos obligatorios marcados con un ( * ) </span>
-            <div class="text-right">
-            <button class="text-red-500 background-transparent font-bold uppercase px-6 py-2 text-sm outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150" type="button" onclick="toggleModal('modal-lista-raya-edit')">
-                Cancelar
-            </button>
-            <button type="submit" id="guardar_lista_edit" class="bg-green-500 text-white active:bg-green-600 font-bold uppercase text-sm px-6 py-3 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150" >
-                Guardar
-            </button>
-            </div>
-            </div>
+                
+                </div>
+                <!--footer-->
+                <div class=" p-4 border-t border-solid border-blueGray-200 rounded-b">
+                    <div class="text-right">
+                        <button class="text-red-500 background-transparent font-bold uppercase px-6 text-sm outline-none focus:outline-none ease-linear transition-all duration-150" type="button" onclick="toggleModal('modal-lista-raya-edit')">
+                            Cancelar
+                        </button>
+                        <button type="submit" id="guardar_lista_edit" class="text-blue-500 font-bold uppercase text-sm px-6 rounded outline-none focus:outline-none ease-linear transition-all duration-150" >
+                            Guardar
+                        </button>
+                    </div>
+                </div>
             </form>
         </div>
         </div>
     </div>
+
     <!-- inicio modal agregar factura  -->
     <div class="hidden overflow-x-hidden overflow-y-auto fixed inset-0 z-50 outline-none focus:outline-none justify-center items-center" id="modal-agregar-factura">
-        <div class="relative w-auto my-6 mx-auto max-w-3xl">
+        <div class="relative w-auto my-28 mx-auto max-w-3xl">
         <!--content-->
         <div class="border-0 rounded-lg shadow-lg relative flex flex-col w-full bg-white outline-none focus:outline-none">
             <!--header-->
-            <div class="flex items-start justify-between p-5 border-b border-solid border-blueGray-200 rounded-t">
-            <h4 class="text-xl font-semibold">
-                Agregar nueva factura
-            </h4>
-            <button class="p-1 ml-auto bg-transparent border-0 text-black opacity-5 float-right text-3xl leading-none font-semibold outline-none focus:outline-none" onclick="toggleModal('modal-agregar-factura')">
-                <span class="bg-transparent text-black opacity-5 h-6 w-6 text-2xl block outline-none focus:outline-none">
-                
-                </span>
-            </button>
+            <div class="flex items-center justify-between px-5 py-3 border-b border-solid border-blueGray-200 rounded-t bg-blue-cmr1">
+                <h4 class="text-base font-normal uppercase text-white">
+                    Agregar nueva factura
+                </h4>
+                <button class="p-1 ml-auto bg-transparent border-0 text-white float-right text-2xl leading-none font-semibold outline-none focus:outline-none" onclick="toggleModal('modal-agregar-factura')">
+                    <span>
+                        <i class="fas fa-xmark"></i>
+                    </span>
+                </button>
             </div>
             <!--body-->
             <form action="{{ route('store_factura') }}" method="POST" id="formulario_factura" name="formulario_factura">
-            @csrf
-            @method('POST')
-            <div class="relative p-6 flex-auto">
-                <div class="grid grid-cols-10 gap-4">
-                    <input type="text" name="id_obra_admin_factura" id="id_obra_admin_factura" maxlength="40" class="hidden mt-1 focus:ring-blue-800 focus:border-blue-800 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md" value="{{ $obj_obra->get('admin')->obra_administracion_id }}">
-                    <input type="text" name="id_obra_factura" id="id_obra_factura" maxlength="40" class="hidden mt-1 focus:ring-blue-800 focus:border-blue-800 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md" value="{{ $obj_obra->get('obra')->id_obra }}">
-                    <div class="col-span-10 sm:col-span-5">
-                        <label  id="label_folio_fiscal_factura" class="block text-sm font-bold text-gray-700">Folio fiscal:</label>
-                        <input type="text" name="folio_fiscal_factura" id="folio_fiscal_factura" maxlength="36" class="mt-1 focus:ring-blue-800 focus:border-blue-800 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md" value="{{ old('oficio_notificacion') }}">
-                        <label id="error_folio_fiscal_factura" name="error_folio_fiscal_factura" class="hidden text-base font-normal text-red-500" >Ingrese un folio de factura valido.</label>
-                    </div>
-                    <div class="col-span-5">
-                        <label  id="label_fecha_factura" class="block text-sm font-bold text-gray-700">Fecha:</label>
-                        <input type="date" name="fecha_factura" id="fecha_factura" min="{{$obj_obra->get('obra')->fecha_inicio_programada}}" max="{{$obj_obra->get('obra')->fecha_final_real}}" class="mt-1 focus:ring-blue-800 focus:border-blue-800 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md" value="{{ old('fecha_oficio_notificacion') }}">
-                        <label id="error_fecha_factura" class="hidden text-base font-normal text-red-500" >Ingrese una fecha de factura valida.</label>
-                    </div>
-                    <div class="col-span-5 sm:col-span-5">
-                        <label for="tipo" class="block text-sm font-bold text-gray-700">Monto*</label>
-                        <div class="relative ">
-                            <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                                <span class="text-gray-700 text-base">
-                                $
-                                </span>
-                            </div>
-                            <input type="text" name="total_factura" id="total_factura" maxlength="20" class="pl-7  mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md" placeholder="0.00">
+                @csrf
+                @method('POST')
+                <div class="relative p-6 flex-auto">
+                    <div class="grid grid-cols-10 gap-4">
+                        <input type="text" name="id_obra_admin_factura" id="id_obra_admin_factura" maxlength="40" class="hidden mt-1 focus:ring-blue-800 focus:border-blue-800 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md" value="{{ $obj_obra->get('admin')->obra_administracion_id }}">
+                        <input type="text" name="id_obra_factura" id="id_obra_factura" maxlength="40" class="hidden mt-1 focus:ring-blue-800 focus:border-blue-800 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md" value="{{ $obj_obra->get('obra')->id_obra }}">
+                        <div class="col-span-10 sm:col-span-5">
+                            <label  id="label_folio_fiscal_factura" class="block text-sm font-bold text-gray-700">Folio fiscal:</label>
+                            <input type="text" name="folio_fiscal_factura" id="folio_fiscal_factura" maxlength="36" class="mt-1 focus:ring-blue-800 focus:border-blue-800 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md" value="{{ old('oficio_notificacion') }}">
+                            <label id="error_folio_fiscal_factura" name="error_folio_fiscal_factura" class="hidden text-base font-normal text-red-500" >Ingrese un folio de factura valido.</label>
                         </div>
-                        <label id="error_monto_admin_mayor_fac" class="hidden text-base font-normal text-red-500" >El monto es mayor que el restante de la obra: {{$service->formatNumber($obj_obra->get('obra')->monto_contratado - $total_admin)}}</label>
-                        <label id="error_total_factura" class="hidden text-base font-normal text-red-500" >Ingrese un monto total de factura valido.</label>
+                        <div class="col-span-5">
+                            <label  id="label_fecha_factura" class="block text-sm font-bold text-gray-700">Fecha:</label>
+                            <input type="date" name="fecha_factura" id="fecha_factura" min="{{$obj_obra->get('obra')->fecha_inicio_programada}}" max="{{$obj_obra->get('obra')->fecha_final_real}}" class="mt-1 focus:ring-blue-800 focus:border-blue-800 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md" value="{{ old('fecha_oficio_notificacion') }}">
+                            <label id="error_fecha_factura" class="hidden text-base font-normal text-red-500" >Ingrese una fecha de factura valida.</label>
+                        </div>
+                        <div class="col-span-5 sm:col-span-5">
+                            <label for="tipo" class="block text-sm font-bold text-gray-700">Monto*</label>
+                            <div class="relative ">
+                                <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                                    <span class="text-gray-700 text-base">
+                                    $
+                                    </span>
+                                </div>
+                                <input type="text" name="total_factura" id="total_factura" maxlength="20" class="pl-7  mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md" placeholder="0.00">
+                            </div>
+                            <label id="error_monto_admin_mayor_fac" class="hidden text-base font-normal text-red-500" >El monto es mayor que el restante de la obra: {{$service->formatNumber($obj_obra->get('obra')->monto_contratado - $total_admin)}}</label>
+                            <label id="error_total_factura" class="hidden text-base font-normal text-red-500" >Ingrese un monto total de factura valido.</label>
+                        </div>
+                        <div class="col-span-10">
+                            <label  id="label_concepto_factura" class="block text-sm font-bold text-gray-700">Concepto:</label>
+                            
+                            <textarea maxlength ="300" name="concepto_factura" id="concepto_factura" class="mt-1 focus:ring-blue-800 focus:border-blue-800 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md" value="{{ old('fecha_oficio_notificacion') }}"></textarea>
+                            <label id="error_concepto_factura" class="hidden text-base font-normal text-red-500" >Ingrese concepto referente a la factura valido.</label>
+                        </div>
+                        <div class="col-span-10">
+                            <label  for="proveedor" class="block text-sm font-bold text-gray-700">Contratista*</label>
+                            <select class="js-example-basic-single mt-1 block w-full py-2 px-3 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm" name="proveedor_id">
+                                @foreach ($proveedores as $proveedor)
+                                    <option value="{{$proveedor->id_proveedor}}">{{$proveedor->rfc}} - {{$proveedor->razon_social}}</option>
+                                @endforeach
+                            </select>
+                            <label id="error_proveedor_id" class="hidden text-base font-normal text-red-500" >Seleccione un proveedor.</label>
+                        </div>
                     </div>
-                    <div class="col-span-10">
-                        <label  id="label_concepto_factura" class="block text-sm font-bold text-gray-700">Concepto:</label>
-                        
-                        <textarea maxlength ="300" name="concepto_factura" id="concepto_factura" class="mt-1 focus:ring-blue-800 focus:border-blue-800 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md" value="{{ old('fecha_oficio_notificacion') }}"></textarea>
-                        <label id="error_concepto_factura" class="hidden text-base font-normal text-red-500" >Ingrese concepto referente a la factura valido.</label>
+                    <div class="mt-10">
+                        <span class="block text-xs">Verifique los campos obligatorios marcados con un ( * ) </span>
                     </div>
-                    <div class="col-span-10">
-                        <label  for="proveedor" class="block text-sm font-bold text-gray-700">Contratista*</label>
-                        <select class="js-example-basic-single mt-1 block w-full py-2 px-3 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm" name="proveedor_id">
-                            @foreach ($proveedores as $proveedor)
-                                <option value="{{$proveedor->id_proveedor}}">{{$proveedor->rfc}} - {{$proveedor->razon_social}}</option>
-                            @endforeach
-                        </select>
-                        <label id="error_proveedor_id" class="hidden text-base font-normal text-red-500" >Seleccione un proveedor.</label>
+                
+                </div>
+                <!--footer-->
+                <div class=" p-4 border-t border-solid border-blueGray-200 rounded-b">
+                    <div class="text-right">
+                        <button class="text-red-500 background-transparent font-bold uppercase px-6 text-sm outline-none focus:outline-none ease-linear transition-all duration-150" type="button" onclick="toggleModal('modal-agregar-factura')">
+                            Cancelar
+                        </button>
+                        <button type="submit" id="guardar_factura" class="text-blue-500 font-bold uppercase text-sm px-6 rounded outline-none focus:outline-none ease-linear transition-all duration-150" >
+                            Guardar
+                        </button>
                     </div>
-            </div>
-            
-            </div>
-            <!--footer-->
-            <div class=" p-4 border-t border-solid border-blueGray-200 rounded-b">
-            
-            <span class="block text-xs">Verifique los campos obligatorios marcados con un ( * ) </span>
-            <div class="text-right">
-            
-                <button class="text-red-500 background-transparent font-bold uppercase px-6 py-2 text-sm outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150" type="button" onclick="toggleModal('modal-agregar-factura')">
-                Cancelar
-            </button>
-            <button type="submit" id="guardar_factura" class="bg-green-500 text-white active:bg-green-600 font-bold uppercase text-sm px-6 py-3 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150" >
-                Guardar
-            </button>
-            </div>
-            </div>
+                </div>
             </form>
         </div>
         </div>
     </div>
+
     <!-- inicio modal editar factura  -->
     <div class="hidden overflow-x-hidden overflow-y-auto fixed inset-0 z-50 outline-none focus:outline-none justify-center items-center" id="modal-edit-factura">
-        <div class="relative w-auto my-6 mx-auto max-w-3xl">
-        <!--content-->
-        <div class="border-0 rounded-lg shadow-lg relative flex flex-col w-full bg-white outline-none focus:outline-none">
-            <!--header-->
-            <div class="flex items-start justify-between p-5 border-b border-solid border-blueGray-200 rounded-t">
-            <h4 class="text-xl font-semibold">
-                Editar factura
-            </h4>
-            <button class="p-1 ml-auto bg-transparent border-0 text-black opacity-5 float-right text-3xl leading-none font-semibold outline-none focus:outline-none" onclick="toggleModal('modal-edit-factura')">
-                <span class="bg-transparent text-black opacity-5 h-6 w-6 text-2xl block outline-none focus:outline-none">
-                
-                </span>
-            </button>
-            </div>
-            <!--body-->
-            <form action="{{ route('update_factura') }}" method="POST" id="formulario_factura_edit" name="formulario_factura_edit">
-            @csrf
-            @method('POST')
-            <div class="relative p-6 flex-auto">
-                <div class="grid grid-cols-10 gap-4">
-                    <input type="text" name="id_factura" id="id_factura" maxlength="40" class="hidden mt-1 focus:ring-blue-800 focus:border-blue-800 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md" value="">
-                    <input type="text" name="id_obra_factura_edit" id="id_obra_factura_edit" maxlength="40" class="hidden mt-1 focus:ring-blue-800 focus:border-blue-800 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md" value="{{ $obj_obra->get('obra')->id_obra }}">
-                    <div class="col-span-10 sm:col-span-5">
-                        <label  id="label_folio_fiscal_factura_edit" class="block text-sm font-bold text-gray-700">Folio fiscal:</label>
-                        <input type="text" name="folio_fiscal_factura_edit" id="folio_fiscal_factura_edit" maxlength="36" class="mt-1 focus:ring-blue-800 focus:border-blue-800 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md" value="{{ old('oficio_notificacion') }}">
-                        <label id="error_folio_fiscal_factura_edit" name="error_folio_fiscal_factura_edit" class="hidden text-base font-normal text-red-500" >Ingrese un folio de factura valido.</label>
-                    </div>
-                    <div class="col-span-5">
-                        <label  id="label_fecha_factura_edit" class="block text-sm font-bold text-gray-700">Fecha:</label>
-                        <input type="date" name="fecha_factura_edit" id="fecha_factura_edit" min="{{$obj_obra->get('obra')->fecha_inicio_programada}}" max="{{$obj_obra->get('obra')->fecha_final_real}}" class="mt-1 focus:ring-blue-800 focus:border-blue-800 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md" value="{{ old('fecha_oficio_notificacion') }}">
-                        <label id="error_fecha_factura_edit" class="hidden text-base font-normal text-red-500" >Ingrese una fecha de factura valida.</label>
-                    </div>
-                    <div class="col-span-5 sm:col-span-5">
-                        <label for="tipo" class="block text-sm font-bold text-gray-700">Monto*</label>
-                        <div class="relative ">
-                            <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                                <span class="text-gray-700 text-base">
-                                $
-                                </span>
+        <div class="relative w-auto my-28 mx-auto max-w-3xl">
+            <!--content-->
+            <div class="border-0 rounded-lg shadow-lg relative flex flex-col w-full bg-white outline-none focus:outline-none">
+                <!--header-->
+                <div class="flex items-center justify-between px-5 py-3 border-b border-solid border-blueGray-200 rounded-t bg-blue-cmr1">
+                    <h4 class="text-base font-normal uppercase text-white">
+                        Editar factura
+                    </h4>
+                    <button class="p-1 ml-auto bg-transparent border-0 text-white float-right text-2xl leading-none font-semibold outline-none focus:outline-none" onclick="toggleModal('modal-edit-factura')">
+                        <span>
+                            <i class="fas fa-xmark"></i>
+                        </span>
+                    </button>
+                </div>
+                <!--body-->
+                <form action="{{ route('update_factura') }}" method="POST" id="formulario_factura_edit" name="formulario_factura_edit">
+                    @csrf
+                    @method('POST')
+                    <div class="relative p-6 flex-auto">
+                        <div class="grid grid-cols-10 gap-4">
+                            <input type="text" name="id_factura" id="id_factura" maxlength="40" class="hidden mt-1 focus:ring-blue-800 focus:border-blue-800 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md" value="">
+                            <input type="text" name="id_obra_factura_edit" id="id_obra_factura_edit" maxlength="40" class="hidden mt-1 focus:ring-blue-800 focus:border-blue-800 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md" value="{{ $obj_obra->get('obra')->id_obra }}">
+                            <div class="col-span-10 sm:col-span-5">
+                                <label  id="label_folio_fiscal_factura_edit" class="block text-sm font-bold text-gray-700">Folio fiscal:</label>
+                                <input type="text" name="folio_fiscal_factura_edit" id="folio_fiscal_factura_edit" maxlength="36" class="mt-1 focus:ring-blue-800 focus:border-blue-800 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md" value="{{ old('oficio_notificacion') }}">
+                                <label id="error_folio_fiscal_factura_edit" name="error_folio_fiscal_factura_edit" class="hidden text-base font-normal text-red-500" >Ingrese un folio de factura valido.</label>
                             </div>
-                            <input type="text" name="total_factura_edit" id="total_factura_edit" maxlength="20" class="pl-7  mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md" placeholder="0.00">
+                            <div class="col-span-5">
+                                <label  id="label_fecha_factura_edit" class="block text-sm font-bold text-gray-700">Fecha:</label>
+                                <input type="date" name="fecha_factura_edit" id="fecha_factura_edit" min="{{$obj_obra->get('obra')->fecha_inicio_programada}}" max="{{$obj_obra->get('obra')->fecha_final_real}}" class="mt-1 focus:ring-blue-800 focus:border-blue-800 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md" value="{{ old('fecha_oficio_notificacion') }}">
+                                <label id="error_fecha_factura_edit" class="hidden text-base font-normal text-red-500" >Ingrese una fecha de factura valida.</label>
+                            </div>
+                            <div class="col-span-5 sm:col-span-5">
+                                <label for="tipo" class="block text-sm font-bold text-gray-700">Monto*</label>
+                                <div class="relative ">
+                                    <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                                        <span class="text-gray-700 text-base">
+                                        $
+                                        </span>
+                                    </div>
+                                    <input type="text" name="total_factura_edit" id="total_factura_edit" maxlength="20" class="pl-7  mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md" placeholder="0.00">
+                                </div>
+                                <label id="error_monto_admin_mayor_fac_edit" class="hidden text-base font-normal text-red-500" >El monto es mayor que el restante de la obra: {{$service->formatNumber($obj_obra->get('obra')->monto_contratado - $total_admin)}}</label>
+                                <label id="error_total_factura_edit" class="hidden text-base font-normal text-red-500" >Ingrese un monto total de factura valido.</label>
+                            </div>
+                            <div class="col-span-10">
+                                <label  id="label_concepto_factura_edit" class="block text-sm font-bold text-gray-700">Concepto:</label>
+                                
+                                <textarea maxlength ="300" name="concepto_factura_edit" id="concepto_factura_edit" class="mt-1 focus:ring-blue-800 focus:border-blue-800 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md" value="{{ old('fecha_oficio_notificacion') }}"></textarea>
+                                <label id="error_concepto_factura_edit" class="hidden text-base font-normal text-red-500" >Ingrese concepto referente a la factura valido.</label>
+                            </div>
+                            <div class="col-span-10">
+                                <label  for="proveedor" class="block text-sm font-bold text-gray-700">Proveedor*</label>
+                                <select class="js-example-basic-single-1 mt-1 block w-full py-2 px-3 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm" name="proveedor_id_edit" id="proveedor_id_edit">
+                                    @foreach ($proveedores as $proveedor)
+                                        <option value="{{$proveedor->id_proveedor}}">{{$proveedor->rfc}} - {{$proveedor->razon_social}}</option>
+                                    @endforeach
+                                </select>
+                                <label id="error_proveedor_id_edit" class="hidden text-base font-normal text-red-500" >Seleccione un proveedor.</label>
+                            </div>
                         </div>
-                        <label id="error_monto_admin_mayor_fac_edit" class="hidden text-base font-normal text-red-500" >El monto es mayor que el restante de la obra: {{$service->formatNumber($obj_obra->get('obra')->monto_contratado - $total_admin)}}</label>
-                        <label id="error_total_factura_edit" class="hidden text-base font-normal text-red-500" >Ingrese un monto total de factura valido.</label>
+                        <div class="mt-10">
+                            <span class="block text-xs">Verifique los campos obligatorios marcados con un ( * ) </span>
+                        </div>
                     </div>
-                    <div class="col-span-10">
-                        <label  id="label_concepto_factura_edit" class="block text-sm font-bold text-gray-700">Concepto:</label>
-                        
-                        <textarea maxlength ="300" name="concepto_factura_edit" id="concepto_factura_edit" class="mt-1 focus:ring-blue-800 focus:border-blue-800 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md" value="{{ old('fecha_oficio_notificacion') }}"></textarea>
-                        <label id="error_concepto_factura_edit" class="hidden text-base font-normal text-red-500" >Ingrese concepto referente a la factura valido.</label>
+                    <!--footer-->
+                    <div class=" p-4 border-t border-solid border-blueGray-200 rounded-b">
+                        <div class="text-right">            
+                            <button class="text-red-500 background-transparent font-bold uppercase px-6 text-sm outline-none focus:outline-none ease-linear transition-all duration-150" type="button" onclick="toggleModal('modal-edit-factura')">
+                                Cancelar
+                            </button>
+                            <button type="submit" id="guardar_factura_edit" class="text-blue-500 font-bold uppercase text-sm px-6 rounded outline-none focus:outline-none ease-linear transition-all duration-150" >
+                                Guardar
+                            </button>
+                        </div>
                     </div>
-                    <div class="col-span-10">
-                        <label  for="proveedor" class="block text-sm font-bold text-gray-700">Proveedor*</label>
-                        <select class="js-example-basic-single-1 mt-1 block w-full py-2 px-3 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm" name="proveedor_id_edit" id="proveedor_id_edit">
-                            @foreach ($proveedores as $proveedor)
-                                <option value="{{$proveedor->id_proveedor}}">{{$proveedor->rfc}} - {{$proveedor->razon_social}}</option>
-                            @endforeach
-                        </select>
-                        <label id="error_proveedor_id_edit" class="hidden text-base font-normal text-red-500" >Seleccione un proveedor.</label>
-                    </div>
+                </form>
             </div>
-            
-            </div>
-            <!--footer-->
-            <div class=" p-4 border-t border-solid border-blueGray-200 rounded-b">
-            
-            <span class="block text-xs">Verifique los campos obligatorios marcados con un ( * ) </span>
-            <div class="text-right">
-            
-                <button class="text-red-500 background-transparent font-bold uppercase px-6 py-2 text-sm outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150" type="button" onclick="toggleModal('modal-edit-factura')">
-                Cancelar
-            </button>
-            <button type="submit" id="guardar_factura_edit" class="bg-green-500 text-white active:bg-green-600 font-bold uppercase text-sm px-6 py-3 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150" >
-                Guardar
-            </button>
-            </div>
-            </div>
-            </form>
-        </div>
         </div>
     </div>
+
     <!-- inicio modal agregar factura  -->
     <div class="hidden overflow-x-hidden overflow-y-auto fixed inset-0 z-50 outline-none focus:outline-none justify-center items-center" id="modal-agregar-contrato">
-        <div class="relative w-auto my-6 mx-auto max-w-3xl">
-        <!--content-->
-        <div class="border-0 rounded-lg shadow-lg relative flex flex-col w-full bg-white outline-none focus:outline-none">
-            <!--header-->
-            <div class="flex items-start justify-between p-5 border-b border-solid border-blueGray-200 rounded-t">
-            <h4 class="text-xl font-semibold">
-                Agregar nuevo contrato de arrendamiento
-            </h4>
-            <button class="p-1 ml-auto bg-transparent border-0 text-black opacity-5 float-right text-3xl leading-none font-semibold outline-none focus:outline-none" onclick="toggleModal('modal-agregar-contrato')">
-                <span class="bg-transparent text-black opacity-5 h-6 w-6 text-2xl block outline-none focus:outline-none">
-                
-                </span>
-            </button>
-            </div>
-            <!--body-->
-            <form action="{{ route('store_contrato') }}" method="POST" id="formulario_contrato" name="formulario_contrato">
-            @csrf
-            @method('POST')
-            <div class="relative p-6 flex-auto">
-                <div class="grid grid-cols-10 gap-4">
-                    <input type="text" name="id_obra_admin_contrato" id="id_obra_admin_contrato" maxlength="40" class="hidden mt-1 focus:ring-blue-800 focus:border-blue-800 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md" value="{{ $obj_obra->get('admin')->obra_administracion_id }}">
-                    <input type="text" name="id_obra_contrato" id="id_obra_contrato" maxlength="40" class="hidden mt-1 focus:ring-blue-800 focus:border-blue-800 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md" value="{{ $obj_obra->get('obra')->id_obra }}">
-                    <div class="col-span-10 sm:col-span-5">
-                        <label  id="label_numero_contrato" class="block text-sm font-bold text-gray-700">Número de contrato:*</label>
-                        <input type="text" name="numero_contrato" id="numero_contrato" maxlength="36" class="mt-1 focus:ring-blue-800 focus:border-blue-800 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md" value="{{ old('oficio_notificacion') }}">
-                        <label id="error_numero_contrato" name="error_numero_factura" class="hidden text-base font-normal text-red-500" >Ingrese un folio de factura valido.</label>
-                    </div>
-                    <div class="col-span-5">
-                        <label  id="label_fecha_contrato" class="block text-sm font-bold text-gray-700">Fecha de contrato:*</label>
-                        <input type="date" name="fecha_contrato" id="fecha_contrato" min="{{$obj_obra->get('obra')->fecha_inicio_programada}}" max="{{$obj_obra->get('obra')->fecha_final_real}}" class="mt-1 focus:ring-blue-800 focus:border-blue-800 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md" value="{{ old('fecha_oficio_notificacion') }}">
-                        <label id="error_fecha_contrato" class="hidden text-base font-normal text-red-500" >Ingrese una fecha de factura valida.</label>
-                    </div>
-                    <div class="col-span-5 sm:col-span-5">
-                        <label for="tipo" class="block text-sm font-bold text-gray-700">Monto:*</label>
-                        <div class="relative ">
-                            <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                                <span class="text-gray-700 text-base">
-                                $
-                                </span>
+        <div class="relative w-auto my-28 mx-auto max-w-3xl">
+            <!--content-->
+            <div class="border-0 rounded-lg shadow-lg relative flex flex-col w-full bg-white outline-none focus:outline-none">
+                <!--header-->
+                <div class="flex items-center justify-between px-5 py-3 border-b border-solid border-blueGray-200 rounded-t bg-blue-cmr1">
+                    <h4 class="text-base font-normal uppercase text-white">
+                        Agregar nuevo contrato de arrendamiento
+                    </h4>
+                    <button class="p-1 ml-auto bg-transparent border-0 text-white float-right text-2xl leading-none font-semibold outline-none focus:outline-none" onclick="toggleModal('modal-agregar-contrato')">
+                        <span>
+                            <i class="fas fa-xmark"></i>
+                        </span>
+                    </button>
+                </div>
+                <!--body-->
+                <form action="{{ route('store_contrato') }}" method="POST" id="formulario_contrato" name="formulario_contrato">
+                    @csrf
+                    @method('POST')
+                    <div class="relative p-6 flex-auto">
+                        <div class="grid grid-cols-10 gap-4">
+                            <input type="text" name="id_obra_admin_contrato" id="id_obra_admin_contrato" maxlength="40" class="hidden mt-1 focus:ring-blue-800 focus:border-blue-800 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md" value="{{ $obj_obra->get('admin')->obra_administracion_id }}">
+                            <input type="text" name="id_obra_contrato" id="id_obra_contrato" maxlength="40" class="hidden mt-1 focus:ring-blue-800 focus:border-blue-800 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md" value="{{ $obj_obra->get('obra')->id_obra }}">
+                            <div class="col-span-10 sm:col-span-5">
+                                <label  id="label_numero_contrato" class="block text-sm font-bold text-gray-700">Número de contrato:*</label>
+                                <input type="text" name="numero_contrato" id="numero_contrato" maxlength="36" class="mt-1 focus:ring-blue-800 focus:border-blue-800 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md" value="{{ old('oficio_notificacion') }}">
+                                <label id="error_numero_contrato" name="error_numero_factura" class="hidden text-base font-normal text-red-500" >Ingrese un folio de factura valido.</label>
                             </div>
-                            <input type="text" name="total_contrato" id="total_contrato" maxlength="20" class="pl-7  mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md" placeholder="0.00">
+                            <div class="col-span-5">
+                                <label  id="label_fecha_contrato" class="block text-sm font-bold text-gray-700">Fecha de contrato:*</label>
+                                <input type="date" name="fecha_contrato" id="fecha_contrato" min="{{$obj_obra->get('obra')->fecha_inicio_programada}}" max="{{$obj_obra->get('obra')->fecha_final_real}}" class="mt-1 focus:ring-blue-800 focus:border-blue-800 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md" value="{{ old('fecha_oficio_notificacion') }}">
+                                <label id="error_fecha_contrato" class="hidden text-base font-normal text-red-500" >Ingrese una fecha de factura valida.</label>
+                            </div>
+                            <div class="col-span-5 sm:col-span-5">
+                                <label for="tipo" class="block text-sm font-bold text-gray-700">Monto:*</label>
+                                <div class="relative ">
+                                    <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                                        <span class="text-gray-700 text-base">
+                                        $
+                                        </span>
+                                    </div>
+                                    <input type="text" name="total_contrato" id="total_contrato" maxlength="20" class="pl-7  mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md" placeholder="0.00">
+                                </div>
+                                <label id="error_monto_admin_mayor_contrato" class="hidden text-base font-normal text-red-500" >El monto es mayor que el restante de la obra: {{$service->formatNumber($obj_obra->get('obra')->monto_contratado - $total_admin)}}</label>
+                                <label id="error_total_contrato" class="hidden text-base font-normal text-red-500" >Ingrese un monto total de factura valido.</label>
+                            </div>
+                            <div class="col-span-10">
+                                <label  for="proveedor" class="block text-sm font-bold text-gray-700">Proveedor:*</label>
+                                <select class="js-example-basic-single mt-1 block w-full py-2 px-3 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm" name="proveedor_id_contrato" id="proveedor_id_contrato">
+                                    @foreach ($proveedores as $proveedor)
+                                        <option value="{{$proveedor->id_proveedor}}">{{$proveedor->rfc}} - {{$proveedor->razon_social}}</option>
+                                    @endforeach
+                                </select>
+                                <label id="error_proveedor_id_contrato" class="hidden text-base font-normal text-red-500" >Seleccione un proveedor.</label>
+                            </div>
+                            <div class="col-span-10">
+                                <label for="periodo_contrato" class="block text-sm font-bold text-gray-700 text-center">Periodo de contrato de arrendamiento</label>
+                                <div class="grid grid-cols-4 gap-4">
+                                    <div class="col-span-2">
+                                        <input type="date" name="fecha_inicio_contrato" id="fecha_inicio_contrato" min="{{$obj_obra->get('obra')->fecha_inicio_programada}}" max="{{$obj_obra->get('obra')->fecha_final_real}}" class="mt-1 focus:ring-blue-800 focus:border-blue-800 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md" value="{{ old('fecha_oficio_notificacion') }}">
+                                        <label for="fecha_inicio_contrato" class="block text-sm font-semibold text-gray-700 text-center">Fecha de inicio*</label>
+                                        <label id="error_fecha_inicio_contrato" class="hidden text-base font-normal text-red-500" >Ingrese una fecha de inicio valida</label>
+                                    </div>
+                                    <div class="col-span-2">
+                                        <input type="date" name="fecha_fin_contrato" id="fecha_fin_contrato" min="{{$obj_obra->get('obra')->fecha_inicio_programada}}" max="{{$obj_obra->get('obra')->fecha_final_real}}"  class="mt-1 focus:ring-blue-800 focus:border-blue-800 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md" value="{{ old('fecha_oficio_notificacion') }}">
+                                        <label for="fecha_fin_contrato" class="block text-sm font-semibold text-gray-700 text-center">Fecha de fin*</label>
+                                        <label id="error_fecha_fin_contrato" class="hidden text-base font-normal text-red-500" >Ingrese una fecha final valida</label>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
-                        <label id="error_monto_admin_mayor_contrato" class="hidden text-base font-normal text-red-500" >El monto es mayor que el restante de la obra: {{$service->formatNumber($obj_obra->get('obra')->monto_contratado - $total_admin)}}</label>
-                        <label id="error_total_contrato" class="hidden text-base font-normal text-red-500" >Ingrese un monto total de factura valido.</label>
-                    </div>
-                    <div class="col-span-10">
-                        <label  for="proveedor" class="block text-sm font-bold text-gray-700">Proveedor:*</label>
-                        <select class="js-example-basic-single mt-1 block w-full py-2 px-3 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm" name="proveedor_id_contrato" id="proveedor_id_contrato">
-                            @foreach ($proveedores as $proveedor)
-                                <option value="{{$proveedor->id_proveedor}}">{{$proveedor->rfc}} - {{$proveedor->razon_social}}</option>
-                            @endforeach
-                        </select>
-                        <label id="error_proveedor_id_contrato" class="hidden text-base font-normal text-red-500" >Seleccione un proveedor.</label>
-                    </div>
-                    <div class="col-span-10">
-                        <label for="periodo_contrato" class="block text-sm font-bold text-gray-700 text-center">Periodo de contrato de arrendamiento</label>
-                        <div class="grid grid-cols-4 gap-4">
-                            <div class="col-span-2">
-                                <input type="date" name="fecha_inicio_contrato" id="fecha_inicio_contrato" min="{{$obj_obra->get('obra')->fecha_inicio_programada}}" max="{{$obj_obra->get('obra')->fecha_final_real}}" class="mt-1 focus:ring-blue-800 focus:border-blue-800 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md" value="{{ old('fecha_oficio_notificacion') }}">
-                                <label for="fecha_inicio_contrato" class="block text-sm font-semibold text-gray-700 text-center">Fecha de inicio*</label>
-                                <label id="error_fecha_inicio_contrato" class="hidden text-base font-normal text-red-500" >Ingrese una fecha de inicio valida</label>
-                            </div>
-                            <div class="col-span-2">
-                                <input type="date" name="fecha_fin_contrato" id="fecha_fin_contrato" min="{{$obj_obra->get('obra')->fecha_inicio_programada}}" max="{{$obj_obra->get('obra')->fecha_final_real}}"  class="mt-1 focus:ring-blue-800 focus:border-blue-800 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md" value="{{ old('fecha_oficio_notificacion') }}">
-                                <label for="fecha_fin_contrato" class="block text-sm font-semibold text-gray-700 text-center">Fecha de fin*</label>
-                                <label id="error_fecha_fin_contrato" class="hidden text-base font-normal text-red-500" >Ingrese una fecha final valida</label>
-                            </div>
+                        <div class="mt-10">
+                            <span class="block text-xs">Verifique los campos obligatorios marcados con un ( * ) </span>
                         </div>
                     </div>
+                    <!--footer-->
+                    <div class=" p-4 border-t border-solid border-blueGray-200 rounded-b">
+                        <div class="text-right">
+                            <button class="text-red-500 background-transparent font-bold uppercase px-6 text-sm outline-none focus:outline-none ease-linear transition-all duration-150" type="button" onclick="toggleModal('modal-agregar-contrato')">
+                                Cancelar
+                            </button>
+                            <button type="submit" id="guardar_contrato" class="text-blue-500 font-bold uppercase text-sm px-6 rounded outline-none focus:outline-none ease-linear transition-all duration-150" >
+                                Guardar
+                            </button>
+                        </div>
+                    </div>
+                </form>
             </div>
-            
-            </div>
-            <!--footer-->
-            <div class=" p-4 border-t border-solid border-blueGray-200 rounded-b">
-            
-            <span class="block text-xs">Verifique los campos obligatorios marcados con un ( * ) </span>
-            <div class="text-right">
-                <button class="text-red-500 background-transparent font-bold uppercase px-6 py-2 text-sm outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150" type="button" onclick="toggleModal('modal-agregar-contrato')">
-                    Cancelar
-                </button>
-                <button type="submit" id="guardar_contrato" class="bg-green-500 text-white active:bg-green-600 font-bold uppercase text-sm px-6 py-3 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150" >
-                    Guardar
-                </button>
-            </div>
-            </div>
-            </form>
-        </div>
         </div>
     </div>
 

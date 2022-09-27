@@ -248,200 +248,213 @@ class GeneralController extends Controller
     public function update_expediente(Request $request)
     {
 
-        $obra_relaciones = ObraModalidadEjecucion::where('obra_id', $request->id_obra)->first();
+        $mensaje = 'ok';
+        $datos = ['success', '¡PROCESO EXITOSO!', 'El expediente de obra se actualizo correctamente'];
         
-        $parte_social = ParteSocialTecnica::find($obra_relaciones->parte_social_tecnica_id);
-        
-        $parte_social->acta_integracion_consejo = $request->acta_integracion_consejo;
-        $parte_social->acta_seleccion_obras = $request->acta_seleccion_obras;
-        $parte_social->acta_priorizacion_obras = $request->acta_priorizacion_obras;
-        $parte_social->convenio_mezcla = $request->convenio_mezcla;
-        $parte_social->acta_integracion_comite = $request->acta_integracion_comite;
-        $parte_social->convenio_concertacion = $request->convenio_concertacion;
-        $parte_social->acta_aprobacion_obra = $request->acta_aprobacion_obra;
-        $parte_social->acta_excep_licitacion = $request->acta_excep_licitacion;
-        $parte_social->estudio_factibilidad = $request->estudio_factibilidad;
-        $parte_social->oficio_aprobacion_obra = $request->oficio_aprobacion_obra;
-        $parte_social->anexos_oficio_notificacion = $request->anexos_oficio_notificacion;
-        $parte_social->cedula_informacion_basica = $request->cedula_informacion_basica;
-        $parte_social->generalidades_inversion = $request->generalidades_inversion;
-        $parte_social->tenencia_tierra = $request->tenencia_tierra;
-        $parte_social->dictamen_impacto_ambiental = $request->dictamen_impacto_ambiental;
-        $parte_social->presupuesto_obra = $request->presupuesto_obra;
-        $parte_social->catalogo_conceptos = $request->catalogo_conceptos_social;
-        $parte_social->explosion_insumos = $request->explosion_insumos;
-        $parte_social->generadores_obra = $request->generadores_obra;
-        $parte_social->planos_proyecto = $request->planos_proyecto;
-        $parte_social->especificaciones_generales_particulares = $request->especificaciones_generales_particulares;
-        $parte_social->dro = $request->dro;
-        $parte_social->programa_obra_inversion = $request->programa_obra_inversion;
-        $parte_social->croquis_macro = $request->croquis_macro;
-        $parte_social->croquis_micro = $request->croquis_micro;
-        $parte_social->acta_ejecutar_adjudicacion = 3;
+        DB::beginTransaction();
+        try {
 
-        if($request->acta_ejecutar_adjudicacion != '')
-            $parte_social->acta_ejecutar_adjudicacion = $request->acta_ejecutar_adjudicacion;
-        
-        $numero_total = ($request->total_documentos / 3) - $request->total_na;
-        $total_avance = round($request->total_si * 100 / $numero_total, 2) ;
-        
-        
-        
-        if($obra_relaciones->obra_contrato_id != null){
-            $obra_contrato = ObrasContrato::find($obra_relaciones->obra_contrato_id);
-            $obra_contrato->contrato = $request->contrato;
-            $obra_contrato->oficio_justificativo_convenio_modificatorio = $request->oficio_justificativo_convenio_modificatorio;
-            $obra_contrato->analisis_p_u = $request->analisis_p_u;
-            $obra_contrato->catalogo_conceptos = $request->catalogo_conceptos;
-            $obra_contrato->montos_mensuales_ejecutados = $request->montos_mensuales_ejecutados;
-            $obra_contrato->calendario_trabajos_ejecutados = $request->calendario_trabajos_ejecutados;
-            $obra_contrato->oficio_superintendente = $request->oficio_superintendente;
-            $obra_contrato->oficio_residente_obra = $request->oficio_residente_obra;
-            $obra_contrato->oficio_disposicion_inmueble = $request->oficio_disposicion_inmueble;
-            $obra_contrato->oficio_inicio_obra = $request->oficio_inicio_obra;
-            $obra_contrato->exp_factura_anticipo = $request->exp_factura_anticipo;
-            $obra_contrato->exp_fianza_anticipo = $request->exp_fianza_anticipo;
-            $obra_contrato->exp_fianza_cumplimiento = $request->exp_fianza_cumplimiento;
-            $obra_contrato->exp_fianza_v_o = $request->exp_fianza_v_o;
-            $obra_contrato->presupuesto_definitivo = $request->presupuesto_definitivo;
-            $obra_contrato->aviso_terminacion_obra = $request->aviso_terminacion_obra;
-            $obra_contrato->acta_entrega_contratista = $request->acta_entrega_contratista;
-            $obra_contrato->acta_entrega_municipio = $request->acta_entrega_municipio;
-            $obra_contrato->saba_finiquito = $request->saba_finiquito;
-            $obra_contrato->acta_extincion = $request->acta_extincion;
-            $obra_contrato->padron_contratistas = $request->padron_contratistas;
-            $obra_contrato->invitacion_acuse_recepcion = $request->invitacion_acuse_recepcion;
-            $obra_contrato->aceptacion_invitacion = $request->aceptacion_invitacion;
-            $obra_contrato->factura_anticipo = $request->factura_anticipo;
-            $obra_contrato->fianza_anticipo = $request->fianza_anticipo;
-            $obra_contrato->fianza_cumplimiento = $request->fianza_cumplimiento;
-            $obra_contrato->fianza_v_o = $request->fianza_v_o;
+            $obra_relaciones = ObraModalidadEjecucion::where('obra_id', $request->id_obra)->first();
+            
+            $parte_social = ParteSocialTecnica::find($obra_relaciones->parte_social_tecnica_id);
+            
+            $parte_social->acta_integracion_consejo = $request->acta_integracion_consejo;
+            $parte_social->acta_seleccion_obras = $request->acta_seleccion_obras;
+            $parte_social->acta_priorizacion_obras = $request->acta_priorizacion_obras;
+            $parte_social->convenio_mezcla = $request->convenio_mezcla;
+            $parte_social->acta_integracion_comite = $request->acta_integracion_comite;
+            $parte_social->convenio_concertacion = $request->convenio_concertacion;
+            $parte_social->acta_aprobacion_obra = $request->acta_aprobacion_obra;
+            $parte_social->acta_excep_licitacion = $request->acta_excep_licitacion;
+            $parte_social->estudio_factibilidad = $request->estudio_factibilidad;
+            $parte_social->oficio_aprobacion_obra = $request->oficio_aprobacion_obra;
+            $parte_social->anexos_oficio_notificacion = $request->anexos_oficio_notificacion;
+            $parte_social->cedula_informacion_basica = $request->cedula_informacion_basica;
+            $parte_social->generalidades_inversion = $request->generalidades_inversion;
+            $parte_social->tenencia_tierra = $request->tenencia_tierra;
+            $parte_social->dictamen_impacto_ambiental = $request->dictamen_impacto_ambiental;
+            $parte_social->presupuesto_obra = $request->presupuesto_obra;
+            $parte_social->catalogo_conceptos = $request->catalogo_conceptos_social;
+            $parte_social->explosion_insumos = $request->explosion_insumos;
+            $parte_social->generadores_obra = $request->generadores_obra;
+            $parte_social->planos_proyecto = $request->planos_proyecto;
+            $parte_social->especificaciones_generales_particulares = $request->especificaciones_generales_particulares;
+            $parte_social->dro = $request->dro;
+            $parte_social->programa_obra_inversion = $request->programa_obra_inversion;
+            $parte_social->croquis_macro = $request->croquis_macro;
+            $parte_social->croquis_micro = $request->croquis_micro;
+            $parte_social->acta_ejecutar_adjudicacion = 3;
 
-            $obra_contrato->calendario_trabajos_ejecutados = 2;      
+            if($request->acta_ejecutar_adjudicacion != '')
+                $parte_social->acta_ejecutar_adjudicacion = $request->acta_ejecutar_adjudicacion;
+            
+            $numero_total = ($request->total_documentos / 3) - $request->total_na;
+            $total_avance = round($request->total_si * 100 / $numero_total, 2) ;
+            
+            
+            
+            if($obra_relaciones->obra_contrato_id != null){
+                $obra_contrato = ObrasContrato::find($obra_relaciones->obra_contrato_id);
+                $obra_contrato->contrato = $request->contrato;
+                $obra_contrato->oficio_justificativo_convenio_modificatorio = $request->oficio_justificativo_convenio_modificatorio;
+                $obra_contrato->analisis_p_u = $request->analisis_p_u;
+                $obra_contrato->catalogo_conceptos = $request->catalogo_conceptos;
+                $obra_contrato->montos_mensuales_ejecutados = $request->montos_mensuales_ejecutados;
+                $obra_contrato->calendario_trabajos_ejecutados = $request->calendario_trabajos_ejecutados;
+                $obra_contrato->oficio_superintendente = $request->oficio_superintendente;
+                $obra_contrato->oficio_residente_obra = $request->oficio_residente_obra;
+                $obra_contrato->oficio_disposicion_inmueble = $request->oficio_disposicion_inmueble;
+                $obra_contrato->oficio_inicio_obra = $request->oficio_inicio_obra;
+                $obra_contrato->exp_factura_anticipo = $request->exp_factura_anticipo;
+                $obra_contrato->exp_fianza_anticipo = $request->exp_fianza_anticipo;
+                $obra_contrato->exp_fianza_cumplimiento = $request->exp_fianza_cumplimiento;
+                $obra_contrato->exp_fianza_v_o = $request->exp_fianza_v_o;
+                $obra_contrato->presupuesto_definitivo = $request->presupuesto_definitivo;
+                $obra_contrato->aviso_terminacion_obra = $request->aviso_terminacion_obra;
+                $obra_contrato->acta_entrega_contratista = $request->acta_entrega_contratista;
+                $obra_contrato->acta_entrega_municipio = $request->acta_entrega_municipio;
+                $obra_contrato->saba_finiquito = $request->saba_finiquito;
+                $obra_contrato->acta_extincion = $request->acta_extincion;
+                $obra_contrato->padron_contratistas = $request->padron_contratistas;
+                $obra_contrato->invitacion_acuse_recepcion = $request->invitacion_acuse_recepcion;
+                $obra_contrato->aceptacion_invitacion = $request->aceptacion_invitacion;
+                $obra_contrato->factura_anticipo = $request->factura_anticipo;
+                $obra_contrato->fianza_anticipo = $request->fianza_anticipo;
+                $obra_contrato->fianza_cumplimiento = $request->fianza_cumplimiento;
+                $obra_contrato->fianza_v_o = $request->fianza_v_o;
 
-            $obra_contrato->update();
+                $obra_contrato->calendario_trabajos_ejecutados = 2;      
 
-            if($request->bases_licitacion != null){
-                $licitacion = LicitacionInvitacion::where('obra_contrato_id', $obra_contrato->id_obra_contrato)->first();
-                
-                $licitacion->bases_licitacion = $request->bases_licitacion;
-                $licitacion->constancia_visita = $request->constancia_visita;
-                $licitacion->acta_junta_aclaraciones = $request->acta_junta_aclaraciones;
-                $licitacion->acta_apertura_tecnica = $request->acta_apertura_tecnica;
-                $licitacion->dictamen_tecnico = $request->dictamen_tecnico;
-                $licitacion->acta_apertura_economica = $request->acta_apertura_economica;
-                $licitacion->dictamen_economico = $request->dictamen_economico;
-                $licitacion->dictamen = $request->dictamen;
-                $licitacion->acta_fallo = $request->acta_fallo;
-                $licitacion->propuesta_licitantes_economica = $request->propuesta_licitantes_economica;
-                $licitacion->propuesta_licitantes_tecnica = $request->propuesta_licitantes_tecnica;
+                $obra_contrato->update();
 
-                $licitacion->update();
+                if($request->bases_licitacion != null){
+                    $licitacion = LicitacionInvitacion::where('obra_contrato_id', $obra_contrato->id_obra_contrato)->first();
+                    
+                    $licitacion->bases_licitacion = $request->bases_licitacion;
+                    $licitacion->constancia_visita = $request->constancia_visita;
+                    $licitacion->acta_junta_aclaraciones = $request->acta_junta_aclaraciones;
+                    $licitacion->acta_apertura_tecnica = $request->acta_apertura_tecnica;
+                    $licitacion->dictamen_tecnico = $request->dictamen_tecnico;
+                    $licitacion->acta_apertura_economica = $request->acta_apertura_economica;
+                    $licitacion->dictamen_economico = $request->dictamen_economico;
+                    $licitacion->dictamen = $request->dictamen;
+                    $licitacion->acta_fallo = $request->acta_fallo;
+                    $licitacion->propuesta_licitantes_economica = $request->propuesta_licitantes_economica;
+                    $licitacion->propuesta_licitantes_tecnica = $request->propuesta_licitantes_tecnica;
+
+                    $licitacion->update();
+                }
+
+                for($i = 1; $i <= $request->numero_estimaciones; $i++){
+                    $id_estimacion = "estimacion_id_$i";
+                    $factura_estimacion = "factura_estimacion_$i";
+                    $caratula_estimacion = "caratula_estimacion_$i";
+                    $presupuesto_estimacion = "presupuesto_estimacion_$i";
+                    $cuerpo_estimacion = "cuerpo_estimacion_$i";
+                    $numero_generadores_estimacion = "numero_generadores_estimacion_$i";
+                    $resumen_estimacion = "resumen_estimacion_$i";
+                    $estado_cuenta_estimacion = "estado_cuenta_estimacion_$i";
+                    $croquis_ilustrativo_estimacion = "croquis_ilustrativo_estimacion_$i";
+                    $reporte_fotografico_estimacion = "reporte_fotografico_estimacion_$i";
+                    $notas_bitacora = "notas_bitacora_$i";
+                    
+                    $estimacion = Estimaciones::find($request->$id_estimacion);
+                    $estimacion->factura_estimacion = $request->$factura_estimacion;
+                    $estimacion->caratula_estimacion = $request->$caratula_estimacion;
+                    $estimacion->presupuesto_estimacion = $request->$presupuesto_estimacion;
+                    $estimacion->cuerpo_estimacion = $request->$cuerpo_estimacion;
+                    $estimacion->numero_generadores_estimacion = $request->$numero_generadores_estimacion;
+                    $estimacion->resumen_estimacion = $request->$resumen_estimacion;
+                    $estimacion->estado_cuenta_estimacion = $request->$estado_cuenta_estimacion;
+                    $estimacion->croquis_ilustrativo_estimacion = $request->$croquis_ilustrativo_estimacion;
+                    $estimacion->reporte_fotografico_estimacion = $request->$reporte_fotografico_estimacion;
+                    $estimacion->notas_bitacora = $request->$notas_bitacora;
+                    
+
+                    $estimacion->update();
+                }
+
+                for($i = 1; $i <= $request->numero_convenios; $i++){
+                    $id_convenio = "convenio_id_$i";
+                    $integrado = "convenio_$i";
+
+                    $convenio = ConveniosModificatorio::find($request->$id_convenio);
+                    $convenio->agregado_expediente = $request->$integrado;
+
+                    $convenio->update();
+                }
             }
 
-            for($i = 1; $i <= $request->numero_estimaciones; $i++){
-                $id_estimacion = "estimacion_id_$i";
-                $factura_estimacion = "factura_estimacion_$i";
-                $caratula_estimacion = "caratula_estimacion_$i";
-                $presupuesto_estimacion = "presupuesto_estimacion_$i";
-                $cuerpo_estimacion = "cuerpo_estimacion_$i";
-                $numero_generadores_estimacion = "numero_generadores_estimacion_$i";
-                $resumen_estimacion = "resumen_estimacion_$i";
-                $estado_cuenta_estimacion = "estado_cuenta_estimacion_$i";
-                $croquis_ilustrativo_estimacion = "croquis_ilustrativo_estimacion_$i";
-                $reporte_fotografico_estimacion = "reporte_fotografico_estimacion_$i";
-                $notas_bitacora = "notas_bitacora_$i";
-                
-                $estimacion = Estimaciones::find($request->$id_estimacion);
-                $estimacion->factura_estimacion = $request->$factura_estimacion;
-                $estimacion->caratula_estimacion = $request->$caratula_estimacion;
-                $estimacion->presupuesto_estimacion = $request->$presupuesto_estimacion;
-                $estimacion->cuerpo_estimacion = $request->$cuerpo_estimacion;
-                $estimacion->numero_generadores_estimacion = $request->$numero_generadores_estimacion;
-                $estimacion->resumen_estimacion = $request->$resumen_estimacion;
-                $estimacion->estado_cuenta_estimacion = $request->$estado_cuenta_estimacion;
-                $estimacion->croquis_ilustrativo_estimacion = $request->$croquis_ilustrativo_estimacion;
-                $estimacion->reporte_fotografico_estimacion = $request->$reporte_fotografico_estimacion;
-                $estimacion->notas_bitacora = $request->$notas_bitacora;
-                
+            if($obra_relaciones->obra_administracion_id != null){
+                $obra_admin = ObrasAdministracion::find($obra_relaciones->obra_administracion_id);
 
-                $estimacion->update();
+                $obra_admin->inventario_maquinaria_construccion = $request->inventario_maquinaria_construccion;
+                $obra_admin->plantilla_personal = $request->plantilla_personal;
+                $obra_admin->indentificacion_oficial_trabajadores = $request->indentificacion_oficial_trabajadores;
+                $obra_admin->reporte_fotografico = $request->reporte_fotografico;
+                $obra_admin->notas_bitacora = $request->notas_bitacora;
+                $obra_admin->acta_entrega_municipio = $request->acta_entrega_municipio;
+                $obra_admin->cedula_detallada_facturacion = $request->cedula_detallada_facturacion;
+
+                $obra_admin->update();
+
+                for($i = 1; $i <= $request->numero_listas; $i++){
+                    $id_lista = "lista_id_$i";
+                    $integrado = "lista_raya_$i";
+                    
+                    $lista = ContratoListaRaya::find($request->$id_lista);
+                    $lista->agregado_expediente = $request->$integrado;
+
+                    $lista->update();
+                }
+
+                for($i = 1; $i <= $request->numero_facturas; $i++){
+                    $id_factura = "factura_id_$i";
+                    $integrado = "factura_$i";
+                    
+                    $factura = Factura::find($request->$id_factura);
+                    $factura->agregado_expediente = $request->$integrado;
+
+                    $factura->update();
+                }
+
+                for($i = 1; $i <= $request->numero_contratos; $i++){
+                    $id_contrato = "contrato_id_$i";
+                    $integrado = "contrato_arrendamiento_$i";
+                    
+                    $contrato = ContratosArrendamiento::find($request->$id_contrato);
+                    $contrato->agregado_expediente = $request->$integrado;
+                    
+                    $contrato->update();
+                }
             }
 
-            for($i = 1; $i <= $request->numero_convenios; $i++){
-                $id_convenio = "convenio_id_$i";
-                $integrado = "convenio_$i";
+            $obra = Obra::find($obra_relaciones->obra_id);
+            $obra->avance_tecnico = $total_avance;
+            $obra->update();
 
-                $convenio = ConveniosModificatorio::find($request->$id_convenio);
-                $convenio->agregado_expediente = $request->$integrado;
 
-                $convenio->update();
+            $parte_social->update();
+
+            $observaciones = ObraObservaciones::where('obra_id',$obra_relaciones->obra_id)->first();
+            if($observaciones == null){
+                ObraObservaciones::create([
+                    'obra_id' => $obra_relaciones->obra_id,
+                    'observacion' => $request->observaciones,
+                ]);
             }
+            else{
+                $observaciones->observacion = $request->observaciones;
+                $observaciones->update();
+            }
+
+            DB::commit();
+        } catch (\Exception $e) {
+            DB::rollback();
+            $datos = ['error', '¡ERROR!', 'No se ha podido actualizar el expediente'];
         }
-
-        if($obra_relaciones->obra_administracion_id != null){
-            $obra_admin = ObrasAdministracion::find($obra_relaciones->obra_administracion_id);
-
-            $obra_admin->inventario_maquinaria_construccion = $request->inventario_maquinaria_construccion;
-            $obra_admin->plantilla_personal = $request->plantilla_personal;
-            $obra_admin->indentificacion_oficial_trabajadores = $request->indentificacion_oficial_trabajadores;
-            $obra_admin->reporte_fotografico = $request->reporte_fotografico;
-            $obra_admin->notas_bitacora = $request->notas_bitacora;
-            $obra_admin->acta_entrega_municipio = $request->acta_entrega_municipio;
-            $obra_admin->cedula_detallada_facturacion = $request->cedula_detallada_facturacion;
-
-            $obra_admin->update();
-
-            for($i = 1; $i <= $request->numero_listas; $i++){
-                $id_lista = "lista_id_$i";
-                $integrado = "lista_raya_$i";
-                
-                $lista = ContratoListaRaya::find($request->$id_lista);
-                $lista->agregado_expediente = $request->$integrado;
-
-                $lista->update();
-            }
-
-            for($i = 1; $i <= $request->numero_facturas; $i++){
-                $id_factura = "factura_id_$i";
-                $integrado = "factura_$i";
-                
-                $factura = Factura::find($request->$id_factura);
-                $factura->agregado_expediente = $request->$integrado;
-
-                $factura->update();
-            }
-
-            for($i = 1; $i <= $request->numero_contratos; $i++){
-                $id_contrato = "contrato_id_$i";
-                $integrado = "contrato_arrendamiento_$i";
-                
-                $contrato = ContratosArrendamiento::find($request->$id_contrato);
-                $contrato->agregado_expediente = $request->$integrado;
-                
-                $contrato->update();
-            }
-        }
-
-        $obra = Obra::find($obra_relaciones->obra_id);
-        $obra->avance_tecnico = $total_avance;
-        $obra->update();
-
-
-        $parte_social->update();
-
-        $observaciones = ObraObservaciones::where('obra_id',$obra_relaciones->obra_id)->first();
-        if($observaciones == null){
-            ObraObservaciones::create([
-                'obra_id' => $obra_relaciones->obra_id,
-                'observacion' => $request->observaciones,
-            ]);
-        }
-        else{
-            $observaciones->observacion = $request->observaciones;
-            $observaciones->update();
-        }
-        return redirect()->route('obra.ver', ['id' => $request->id_obra]);
+        
+        return redirect()->route('obra.ver', ['id' => $request->id_obra])->with('mensaje', 'ok')->with('datos', $datos);
     }
 
     public function edit_expediente($id)
@@ -572,18 +585,31 @@ class GeneralController extends Controller
 
     public function update_obra(Request $request)
     {
-        $request->validate([
-            "obra_id" => 'required',
-        ]);
+
+        $mensaje = 'ok';
+        $datos = ['success', '¡PROCESO EXITOSO!', 'la obra de actualizo correctamente'];
         
-        $obra = Obra::find($request->obra_id);
-        $obra->nombre_corto = $request->nombre_corto?$request->nombre_corto:$obra->nombre_corto;
-        $obra->fecha_inicio_programada = $request->fecha_inicio?$request->fecha_inicio:$obra->fecha_inicio_programada;
-        $obra->fecha_final_programada = $request->fecha_fin?$request->fecha_fin:$obra->fecha_final_programada;
-        $obra->avance_fisico = $request->avance_fisico?$request->avance_fisico:$obra->avance_fisico;
-        
-        $obra->update();
-        return redirect()->route('obra.ver', ['id' => $request->obra_id]);
+        DB::beginTransaction();
+        try {
+
+            $request->validate([
+                "obra_id" => 'required',
+            ]);
+            
+            $obra = Obra::find($request->obra_id);
+            $obra->nombre_corto = $request->nombre_corto?$request->nombre_corto:$obra->nombre_corto;
+            $obra->fecha_inicio_programada = $request->fecha_inicio?$request->fecha_inicio:$obra->fecha_inicio_programada;
+            $obra->fecha_final_programada = $request->fecha_fin?$request->fecha_fin:$obra->fecha_final_programada;
+            $obra->avance_fisico = $request->avance_fisico?$request->avance_fisico:$obra->avance_fisico;
+            
+            $obra->update();
+
+            DB::commit();
+        } catch (\Exception $e) {
+            DB::rollback();
+            $datos = ['error', '¡ERROR!', 'Problemas al actualizar la obra'];
+        }
+        return redirect()->route('obra.ver', ['id' => $request->obra_id])->with('mensaje', 'ok')->with('datos', $datos);
     }
 
     public function ver($id)
@@ -794,6 +820,12 @@ class GeneralController extends Controller
             "convenio_concertacion" => 'required',
         ]);
 
+        $mensaje = 'ok';
+        $datos = ['success', '¡PROCESO EXITOSO!', 'La obra se guardo correctamente'];
+        
+        DB::beginTransaction();
+        try {
+
         
                 $obras_count = ObrasFuentes::where("cliente_id",$request->cliente_id)
                     ->where('ejercicio',$request->ejercicio)
@@ -915,147 +947,198 @@ class GeneralController extends Controller
                         'obra_id' => $obra->id_obra
                     ]);
                 }
+
+                DB::commit();
+
+        } catch (\Exception $e) {
+            DB::rollback();
+            $datos = ['error', '¡ERROR!', 'Problemas al guardar la obra'];
+        }
             
 
-        return redirect()->route('cliente.ejercicio', ['id' => $request->cliente_id, 'anio' => $request->ejercicio])->with('eliminar','ok');
+        return redirect()->route('cliente.ejercicio', ['id' => $request->cliente_id, 'anio' => $request->ejercicio])->with('mensaje', 'ok')->with('datos', $datos);
     }
 
     public function store_convenio_modificatorio (Request $request){
         
+        $mensaje = 'ok';
+        $datos = ['success', '¡PROCESO EXITOSO!', 'Se registro correctamente el convenio modificatorio'];
         
-        $request->validate([
-            "numero_convenio_modificatorio" => 'required',
-            "fecha_convenio" => 'required',
-            "tipo" => 'required',
-        ]);
+        DB::beginTransaction();
+        try {
 
-        $obra_relaciones = ObraModalidadEjecucion::where('obra_id', $request->id_obra)->first();
-        $obra = Obra::find($request->id_obra);
+            $request->validate([
+                "numero_convenio_modificatorio" => 'required',
+                "fecha_convenio" => 'required',
+                "tipo" => 'required',
+            ]);
 
-        $convenio = ConveniosModificatorio::create([
-            'numero_convenio_modificatorio' => $request->numero_convenio_modificatorio,
-            'fecha_convenio' => $request->fecha_convenio,
-            'tipo' => $request->tipo,
-            'monto_modificado' => $request->monto_modificado?str_replace(",", '', $request->monto_modificado):0,
-            'fecha_fin_modificada' => $request->fecha_fin_modificada,
-            'agregado_expediente' => 2,
-            'obra_contrato_id' => $obra_relaciones->obra_contrato_id,
+            $obra_relaciones = ObraModalidadEjecucion::where('obra_id', $request->id_obra)->first();
+            $obra = Obra::find($request->id_obra);
 
-        ]);
+            $convenio = ConveniosModificatorio::create([
+                'numero_convenio_modificatorio' => $request->numero_convenio_modificatorio,
+                'fecha_convenio' => $request->fecha_convenio,
+                'tipo' => $request->tipo,
+                'monto_modificado' => $request->monto_modificado?str_replace(",", '', $request->monto_modificado):0,
+                'fecha_fin_modificada' => $request->fecha_fin_modificada,
+                'agregado_expediente' => 2,
+                'obra_contrato_id' => $obra_relaciones->obra_contrato_id,
 
-        if($request->monto_modificado != ''){
-            $obra->monto_modificado = str_replace(",", '', $request->monto_modificado);
+            ]);
+
+            if($request->monto_modificado != ''){
+                $obra->monto_modificado = str_replace(",", '', $request->monto_modificado);
+            }
+            if($request->fecha_fin_modificada != '') {
+                $obra->fecha_final_real = $request->fecha_fin_modificada;
+            }
+
+            $obra->update();
+            DB::commit();
+        } catch (\Exception $e) {
+            DB::rollback();
+            $datos = ['error', '¡ERROR!', 'Problemas al guardar convenio modificatorio'];
         }
-        if($request->fecha_fin_modificada != '') {
-            $obra->fecha_final_real = $request->fecha_fin_modificada;
-        }
 
-        $obra->update();
-
-        return redirect()->route('obra.ver', ['id' => $request->id_obra]);
+        return redirect()->route('obra.ver', ['id' => $request->id_obra])->with('mensaje', 'ok')->with('datos', $datos);
 
     }
 
     public function update_convenio_modificatorio (Request $request){
         
+        $mensaje = 'ok';
+        $datos = ['success', '¡PROCESO EXITOSO!', 'El convenio modificatorio se actualizo correctamente'];
         
-        $request->validate([
-            "numero_convenio_modificatorio_edit" => 'required',
-            "fecha_convenio_edit" => 'required',
-            "tipo_edit" => 'required',
-        ]);
+        DB::beginTransaction();
+        try {
         
+            $request->validate([
+                "numero_convenio_modificatorio_edit" => 'required',
+                "fecha_convenio_edit" => 'required',
+                "tipo_edit" => 'required',
+            ]);
+            
 
-        $convenio = ConveniosModificatorio::find($request->id_convenio_modificatorio);
-        $convenio->fecha_convenio =  $request->fecha_convenio_edit;
-        $convenio->tipo = $request->tipo_edit;
-        $convenio->monto_modificado = $request->monto_modificado_edit?str_replace(",", '', $request->monto_modificado_edit):0;
-        $convenio->fecha_fin_modificada = $request->fecha_fin_modificada_edit;
-        $convenio->numero_convenio_modificatorio = $request->numero_convenio_modificatorio_edit;
+            $convenio = ConveniosModificatorio::find($request->id_convenio_modificatorio);
+            $convenio->fecha_convenio =  $request->fecha_convenio_edit;
+            $convenio->tipo = $request->tipo_edit;
+            $convenio->monto_modificado = $request->monto_modificado_edit?str_replace(",", '', $request->monto_modificado_edit):0;
+            $convenio->fecha_fin_modificada = $request->fecha_fin_modificada_edit;
+            $convenio->numero_convenio_modificatorio = $request->numero_convenio_modificatorio_edit;
 
-        $obra_relaciones = ObraModalidadEjecucion::where('obra_contrato_id', $convenio->obra_contrato_id)->first();
-        $obra = Obra::find($obra_relaciones->obra_id);
+            $obra_relaciones = ObraModalidadEjecucion::where('obra_contrato_id', $convenio->obra_contrato_id)->first();
+            $obra = Obra::find($obra_relaciones->obra_id);
 
-        if($request->monto_modificado_edit != ''){
-            $obra->monto_modificado = str_replace(",", '', $request->monto_modificado_edit);
+            if($request->monto_modificado_edit != ''){
+                $obra->monto_modificado = str_replace(",", '', $request->monto_modificado_edit);
+            }
+            if($request->fecha_fin_modificada_edit != '') {
+                $obra->fecha_final_real = $request->fecha_fin_modificada_edit;
+            }
+
+            $convenio->update();
+
+            $obra->update();
+
+            DB::commit();
+        } catch (\Exception $e) {
+            DB::rollback();
+            $datos = ['error', '¡ERROR!', 'Problemas al guardar convenio modificatorio'];
         }
-        if($request->fecha_fin_modificada_edit != '') {
-            $obra->fecha_final_real = $request->fecha_fin_modificada_edit;
-        }
 
-        $convenio->update();
-
-        $obra->update();
-
-        return redirect()->route('obra.ver', ['id' => $obra_relaciones->obra_id]);
+        return redirect()->route('obra.ver', ['id' => $obra_relaciones->obra_id])->with('mensaje', 'ok')->with('datos', $datos);
 
     }
 
     public function store_estimacion (Request $request){
 
+        $mensaje = 'ok';
+        $datos = ['success', '¡PROCESO EXITOSO!', 'La estimación se guardo correctamente'];
         
-        $request->validate([
-            //"total_estimacion" => 'required',
-            "fecha_inicio_estimacion" => 'required',
-            "fecha_fin_estimacion" => 'required',
-            "fecha_recepcion" => 'required',
-        ]);
+        DB::beginTransaction();
+        try {
 
-        $pago = DesglosePagosObra::create([
-            "obra_contrato_id" => $request->id_obra_contrato,
-            "fecha_recepcion" => $request->fecha_recepcion,
-            "nombre" => "Estimación $request->numero_estimacion",
-        ]);
-        
+            $request->validate([
+                //"total_estimacion" => 'required',
+                "fecha_inicio_estimacion" => 'required',
+                "fecha_fin_estimacion" => 'required',
+                "fecha_recepcion" => 'required',
+            ]);
 
-        $estimacion = Estimaciones::create([
-            "numero_estimacion" => $request->numero_estimacion,
-            "total_estimacion" => null,
-            "supervicion_obra" => null,
-            "mano_obra" => null,
-            "cinco_millar" => null,
-            "dos_millar" => null,
-            "amortizacion_anticipo" => null,
-            "fecha_inicio" => $request->fecha_inicio_estimacion,
-            "fecha_final" => $request->fecha_fin_estimacion,
-            "folio_factura" => null,
-            "finiquito" => $request->finiquito,
-            "desglose_pagos_id" => $pago->id_desglose_pagos,
-        ]);
+            $pago = DesglosePagosObra::create([
+                "obra_contrato_id" => $request->id_obra_contrato,
+                "fecha_recepcion" => $request->fecha_recepcion,
+                "nombre" => "Estimación $request->numero_estimacion",
+            ]);
+            
 
-        $observacionesAnticipo = ObservacionesDesglose::create([
-            'desglose_pagos_id' => $pago->id_desglose_pagos,
-        ]);
+            $estimacion = Estimaciones::create([
+                "numero_estimacion" => $request->numero_estimacion,
+                "total_estimacion" => null,
+                "supervicion_obra" => null,
+                "mano_obra" => null,
+                "cinco_millar" => null,
+                "dos_millar" => null,
+                "amortizacion_anticipo" => null,
+                "fecha_inicio" => $request->fecha_inicio_estimacion,
+                "fecha_final" => $request->fecha_fin_estimacion,
+                "folio_factura" => null,
+                "finiquito" => $request->finiquito,
+                "desglose_pagos_id" => $pago->id_desglose_pagos,
+            ]);
 
-        $obra_relaciones = ObraModalidadEjecucion::where('obra_contrato_id', $request->id_obra_contrato)->first();
+            $observacionesAnticipo = ObservacionesDesglose::create([
+                'desglose_pagos_id' => $pago->id_desglose_pagos,
+            ]);
 
-        return redirect()->route('obra.ver', ['id' => $obra_relaciones->obra_id]);
+            $obra_relaciones = ObraModalidadEjecucion::where('obra_contrato_id', $request->id_obra_contrato)->first();
+
+            DB::commit();
+        } catch (\Exception $e) {
+            DB::rollback();
+            $datos = ['error', '¡ERROR!', 'Problemas al guardar la estimación'];
+        }
+
+        return redirect()->route('obra.ver', ['id' => $obra_relaciones->obra_id])->with('mensaje', 'ok')->with('datos', $datos);
 
     }
 
     public function update_estimacion (Request $request){
 
-        $request->validate([
-            //"total_estimacion" => 'required',
-            "fecha_inicio_estimacion_edit" => 'required',
-            "fecha_fin_estimacion_edit" => 'required',
-            "fecha_recepcion_edit" => 'required',
-            "finiquito_edit" => 'required',
-        ]);
+        $mensaje = 'ok';
+        $datos = ['success', '¡PROCESO EXITOSO!', 'La estimación se actualizo correctamente'];
+        
+        DB::beginTransaction();
+        try {
 
-        $estimacion = Estimaciones::find($request->id_estimacion_edit);
-        $estimacion->finiquito = $request->finiquito_edit;
-        $estimacion->fecha_inicio = $request->fecha_inicio_estimacion_edit;
-        $estimacion->fecha_final = $request->fecha_fin_estimacion_edit;
-        $estimacion->update();
+            $request->validate([
+                //"total_estimacion" => 'required',
+                "fecha_inicio_estimacion_edit" => 'required',
+                "fecha_fin_estimacion_edit" => 'required',
+                "fecha_recepcion_edit" => 'required',
+                "finiquito_edit" => 'required',
+            ]);
 
-        $pago = DesglosePagosObra::find($estimacion->desglose_pagos_id);
-        $pago->fecha_recepcion = $request->fecha_recepcion_edit;
-        $pago->update();
+            $estimacion = Estimaciones::find($request->id_estimacion_edit);
+            $estimacion->finiquito = $request->finiquito_edit;
+            $estimacion->fecha_inicio = $request->fecha_inicio_estimacion_edit;
+            $estimacion->fecha_final = $request->fecha_fin_estimacion_edit;
+            $estimacion->update();
 
-        $obra_relaciones = ObraModalidadEjecucion::where('obra_contrato_id', $pago->obra_contrato_id)->first();
+            $pago = DesglosePagosObra::find($estimacion->desglose_pagos_id);
+            $pago->fecha_recepcion = $request->fecha_recepcion_edit;
+            $pago->update();
 
-        return redirect()->route('obra.ver', ['id' => $obra_relaciones->obra_id]);
+            $obra_relaciones = ObraModalidadEjecucion::where('obra_contrato_id', $pago->obra_contrato_id)->first();
+
+            DB::commit();
+        } catch (\Exception $e) {
+            DB::rollback();
+            $datos = ['error', '¡ERROR!', 'Problemas al actualizar la estimación'];
+        }
+
+        return redirect()->route('obra.ver', ['id' => $obra_relaciones->obra_id])->with('mensaje', 'ok')->with('datos', $datos);
 
     }
 
@@ -1201,7 +1284,7 @@ class GeneralController extends Controller
 
     public function store_lista (Request $request)
     {
-        
+
         $request->validate([
             "id_obra_admin_lista" => 'required',
             "id_obra_lista" => 'required',
@@ -1212,50 +1295,59 @@ class GeneralController extends Controller
             "isr_lista" => 'required',
             "mano_obra_lista" => 'required',
         ]);
-
         
-
-        $lista = ContratoListaRaya::create([
-            "obra_administracion_id" => $request->id_obra_lista,
-            "fecha_inicio" => $request->fecha_inicio_lista,
-            "fecha_fin" => $request->fecha_fin_lista,
-            "total" => str_replace(",", '', $request->total_lista_raya),
-            "numero_lista_raya" => $request->numero_lista_raya,
-            "isr" => $request->isr_lista,
-            "mano_obra" => $request->mano_obra_lista,
-            "obra_administracion_id" => $request->id_obra_admin_lista,
-        ]);
-
-        $total_lista = ContratoListaRaya::where('obra_administracion_id',$request->id_obra_admin_lista)
-        ->select(
-            DB::raw('sum(total) as total'),
-        )
-        ->first();
-
-        $total_facturas = Factura::where('obra_administracion_id',$request->id_obra_admin_lista)
-        ->leftJoin('contrato_facturas', 'contrato_facturas.factura_id', '=', 'id_factura')
-        ->where("contrato_arrendamiento_id", null)
-        ->select(
-            DB::raw('sum(total) as total'),
-        )
-        ->first();
-
-        $total_contrato= ContratosArrendamiento::where('obra_administracion_id',$request->id_obra_admin_lista)
-        ->select(
-            DB::raw('sum(monto_contratado) as total'),
-        )
-        ->first();
-
-        $total_ejercido = $total_lista->total + $total_facturas->total + $total_contrato->total;
+        $mensaje = 'ok';
+        $datos = ['success', '¡PROCESO EXITOSO!', 'La lista de raya se guardo correctamente'];
         
-        $obra = Obra::find($request->id_obra_lista);
+        DB::beginTransaction();
+        try {
+
+            $lista = ContratoListaRaya::create([
+                "obra_administracion_id" => $request->id_obra_lista,
+                "fecha_inicio" => $request->fecha_inicio_lista,
+                "fecha_fin" => $request->fecha_fin_lista,
+                "total" => str_replace(",", '', $request->total_lista_raya),
+                "numero_lista_raya" => $request->numero_lista_raya,
+                "isr" => $request->isr_lista,
+                "mano_obra" => $request->mano_obra_lista,
+                "obra_administracion_id" => $request->id_obra_admin_lista,
+            ]);
+
+            $total_lista = ContratoListaRaya::where('obra_administracion_id',$request->id_obra_admin_lista)
+            ->select(
+                DB::raw('sum(total) as total'),
+            )
+            ->first();
+
+            $total_facturas = Factura::where('obra_administracion_id',$request->id_obra_admin_lista)
+            ->leftJoin('contrato_facturas', 'contrato_facturas.factura_id', '=', 'id_factura')
+            ->where("contrato_arrendamiento_id", null)
+            ->select(
+                DB::raw('sum(total) as total'),
+            )
+            ->first();
+
+            $total_contrato= ContratosArrendamiento::where('obra_administracion_id',$request->id_obra_admin_lista)
+            ->select(
+                DB::raw('sum(monto_contratado) as total'),
+            )
+            ->first();
+
+            $total_ejercido = $total_lista->total + $total_facturas->total + $total_contrato->total;
+            
+            $obra = Obra::find($request->id_obra_lista);
+            
+            $porcentaje_economico = ($total_ejercido * 100)/$obra->monto_contratado;
+            $obra->avance_economico = $porcentaje_economico;
+            $obra->update();
+            
+            DB::commit();
+        } catch (\Exception $e) {
+            DB::rollback();
+            $datos = ['error', '¡ERROR!', 'Problemas al guardar la lista de raya'];
+        }
         
-        $porcentaje_economico = ($total_ejercido * 100)/$obra->monto_contratado;
-        $obra->avance_economico = $porcentaje_economico;
-        $obra->update();
-        
-        
-        return redirect()->route('obra.ver', ['id' => $request->id_obra_lista]);
+        return redirect()->route('obra.ver', ['id' => $request->id_obra_lista])->with('mensaje', 'ok')->with('datos', $datos);
         //return $request;
     }
 
@@ -1273,47 +1365,58 @@ class GeneralController extends Controller
             "mano_obra_lista_edit" => 'required',
         ]);
 
-        $lista = ContratoListaRaya::find($request->id_lista);
-        $lista->total = str_replace(",", '', $request->total_lista_raya_edit);
-        $lista->fecha_inicio = $request->fecha_inicio_lista_edit;
-        $lista->fecha_fin = $request->fecha_fin_lista_edit;
-        $lista->isr = str_replace(",", '', $request->isr_lista_edit);
-        $lista->mano_obra = str_replace(",", '', $request->mano_obra_lista_edit);
-
-        $lista->update();
-
-        $total_lista = ContratoListaRaya::where('obra_administracion_id',$lista->obra_administracion_id)
-        ->select(
-            DB::raw('sum(total) as total'),
-        )
-        ->first();
-
-        $total_facturas = Factura::where('obra_administracion_id',$lista->obra_administracion_id)
-        ->leftJoin('contrato_facturas', 'contrato_facturas.factura_id', '=', 'id_factura')
-        ->where("contrato_arrendamiento_id", null)
-        ->select(
-            DB::raw('sum(total) as total'),
-        )
-        ->first();
-
-        $total_contrato= ContratosArrendamiento::where('obra_administracion_id',$lista->obra_administracion_id)
-        ->select(
-            DB::raw('sum(monto_contratado) as total'),
-        )
-        ->first();
-
-        $total_ejercido = $total_lista->total + $total_facturas->total + $total_contrato->total;
+        $mensaje = 'ok';
+        $datos = ['success', '¡PROCESO EXITOSO!', 'La lista de raya se actualizo correctamente'];
         
-        $obra = Obra::find($request->id_obra_lista_edit);
+        DB::beginTransaction();
+        try {
+
+            $lista = ContratoListaRaya::find($request->id_lista);
+            $lista->total = str_replace(",", '', $request->total_lista_raya_edit);
+            $lista->fecha_inicio = $request->fecha_inicio_lista_edit;
+            $lista->fecha_fin = $request->fecha_fin_lista_edit;
+            $lista->isr = str_replace(",", '', $request->isr_lista_edit);
+            $lista->mano_obra = str_replace(",", '', $request->mano_obra_lista_edit);
+
+            $lista->update();
+
+            $total_lista = ContratoListaRaya::where('obra_administracion_id',$lista->obra_administracion_id)
+            ->select(
+                DB::raw('sum(total) as total'),
+            )
+            ->first();
+
+            $total_facturas = Factura::where('obra_administracion_id',$lista->obra_administracion_id)
+            ->leftJoin('contrato_facturas', 'contrato_facturas.factura_id', '=', 'id_factura')
+            ->where("contrato_arrendamiento_id", null)
+            ->select(
+                DB::raw('sum(total) as total'),
+            )
+            ->first();
+
+            $total_contrato= ContratosArrendamiento::where('obra_administracion_id',$lista->obra_administracion_id)
+            ->select(
+                DB::raw('sum(monto_contratado) as total'),
+            )
+            ->first();
+
+            $total_ejercido = $total_lista->total + $total_facturas->total + $total_contrato->total;
+            
+            $obra = Obra::find($request->id_obra_lista_edit);
+            
+            $porcentaje_economico = ($total_ejercido * 100)/$obra->monto_contratado;
+            $obra->avance_economico = $porcentaje_economico;
+            $obra->update();
         
-        $porcentaje_economico = ($total_ejercido * 100)/$obra->monto_contratado;
-        $obra->avance_economico = $porcentaje_economico;
-        $obra->update();
-        
+            DB::commit();
+        } catch (\Exception $e) {
+            DB::rollback();
+            $datos = ['error', '¡ERROR!', 'Problemas al actualizar la lista de raya'];
+        }
 
         
         
-        return redirect()->route('obra.ver', ['id' => $request->id_obra_lista_edit]);
+        return redirect()->route('obra.ver', ['id' => $request->id_obra_lista_edit])->with('mensaje', 'ok')->with('datos', $datos);
         //return $request;
     }
 
@@ -1329,7 +1432,8 @@ class GeneralController extends Controller
             "concepto_factura" => 'required',
             "proveedor_id" => 'required',
         ]);
-        $estado = 'ok';
+        $mensaje = 'ok';
+        $datos = ['success', '¡PROCESO EXITOSO!', 'La factura se guardo correctamente'];
         
 
         try{
@@ -1363,9 +1467,9 @@ class GeneralController extends Controller
                     $contrato_arr = ContratosArrendamiento::find($request->id_contrato_factura)->monto_contratado;
 
                     if($suma > $contrato_arr){
-                        $estado = 'error';
+                        $datos = ['error', '¡ERROR!', 'Problemas al guardar la factura'];
                     }else{
-                        $estado = 'ok';
+                        $datos = ['success', '¡PROCESO EXITOSO!', 'La factura se guardo correctamente'];
                         DB::commit();
                     }
                     
@@ -1401,9 +1505,9 @@ class GeneralController extends Controller
                     $obra->update();
 
                     if($porcentaje_economico > 100){
-                        $estado = 'error';
+                        $datos = ['error', '¡ERROR!', 'Problemas al guardar la factura'];
                     }else{
-                        $estado = 'ok';
+                        $datos = ['success', '¡PROCESO EXITOSO!', 'La factura se guardo correctamente'];
                         DB::commit();
                     }
                 }
@@ -1411,7 +1515,7 @@ class GeneralController extends Controller
         }
         catch (\Exception $e) {
             DB::rollback();
-            $estado = "error";
+            $datos = ['error', '¡ERROR!', 'Problemas al guardar la factura'];
         }
 
 
@@ -1419,7 +1523,7 @@ class GeneralController extends Controller
             return redirect()->route('show_contrato', ['id' => $request->id_contrato_factura, 'id_obra' => $request->id_obra_factura])->with('eliminar', $estado);
             
         }else{
-            return redirect()->route('obra.ver', ['id' => $request->id_obra_factura])->with('eliminar',$estado);
+            return redirect()->route('obra.ver', ['id' => $request->id_obra_factura])->with('mensaje', 'ok')->with('datos', $datos);
         }
         
     }
@@ -1436,48 +1540,60 @@ class GeneralController extends Controller
             "concepto_factura_edit" => 'required',
             "proveedor_id_edit" => 'required',
         ]);
+
+        $mensaje = 'ok';
+        $datos = ['success', '¡PROCESO EXITOSO!', 'La factura se actualizo correctamente'];
+        
+        DB::beginTransaction();
+        try {
         
 
-        $factura = Factura::where('id_factura', $request->id_factura)->first();
-        $factura->folio_fiscal = $request->folio_fiscal_factura_edit;
-        $factura->concepto = $request->concepto_factura_edit;
-        $factura->fecha = $request->fecha_factura_edit;
-        $factura->total = str_replace(",", '', $request->total_factura_edit);
-        $factura->proveedor_id = $request->proveedor_id_edit;
-        $factura->update();
+            $factura = Factura::where('id_factura', $request->id_factura)->first();
+            $factura->folio_fiscal = $request->folio_fiscal_factura_edit;
+            $factura->concepto = $request->concepto_factura_edit;
+            $factura->fecha = $request->fecha_factura_edit;
+            $factura->total = str_replace(",", '', $request->total_factura_edit);
+            $factura->proveedor_id = $request->proveedor_id_edit;
+            $factura->update();
 
-        $total_lista = ContratoListaRaya::where('obra_administracion_id',$factura->obra_administracion_id)
-        ->select(
-            DB::raw('sum(total) as total'),
-        )
-        ->first();
+            $total_lista = ContratoListaRaya::where('obra_administracion_id',$factura->obra_administracion_id)
+            ->select(
+                DB::raw('sum(total) as total'),
+            )
+            ->first();
 
-        $total_facturas = Factura::where('obra_administracion_id',$factura->obra_administracion_id)
-        ->leftJoin('contrato_facturas', 'contrato_facturas.factura_id', '=', 'id_factura')
-        ->where("contrato_arrendamiento_id", null)
-        ->select(
-            DB::raw('sum(total) as total'),
-        )
-        ->first();
+            $total_facturas = Factura::where('obra_administracion_id',$factura->obra_administracion_id)
+            ->leftJoin('contrato_facturas', 'contrato_facturas.factura_id', '=', 'id_factura')
+            ->where("contrato_arrendamiento_id", null)
+            ->select(
+                DB::raw('sum(total) as total'),
+            )
+            ->first();
 
-        $total_contrato= ContratosArrendamiento::where('obra_administracion_id',$factura->obra_administracion_id)
-        ->select(
-            DB::raw('sum(monto_contratado) as total'),
-        )
-        ->first();
+            $total_contrato= ContratosArrendamiento::where('obra_administracion_id',$factura->obra_administracion_id)
+            ->select(
+                DB::raw('sum(monto_contratado) as total'),
+            )
+            ->first();
 
-        $total_ejercido = $total_lista->total + $total_facturas->total + $total_contrato->total;
-        
-        $obra = Obra::find($request->id_obra_factura_edit);
-        
-        $porcentaje_economico = ($total_ejercido * 100)/$obra->monto_contratado;
-        $obra->avance_economico = $porcentaje_economico;
-        $obra->update();
+            $total_ejercido = $total_lista->total + $total_facturas->total + $total_contrato->total;
+            
+            $obra = Obra::find($request->id_obra_factura_edit);
+            
+            $porcentaje_economico = ($total_ejercido * 100)/$obra->monto_contratado;
+            $obra->avance_economico = $porcentaje_economico;
+            $obra->update();
+            DB::commit();
+
+        } catch (\Exception $e) {
+            DB::rollback();
+		    $datos = ['error', '¡ERROR!', 'Problemas al actualizar la factura'];
+        }
 
         if($request->id_contrato_factura_edit != ''){
             return redirect()->route('show_contrato', ['id' => $request->id_contrato_factura_edit, 'id_obra' => $request->id_obra_factura_edit]);
         }else{
-            return redirect()->route('obra.ver', ['id' => $request->id_obra_factura_edit]);
+            return redirect()->route('obra.ver', ['id' => $request->id_obra_factura_edit])->with('mensaje', 'ok')->with('datos', $datos);
         }
         //return $request;
     }
@@ -1496,27 +1612,31 @@ class GeneralController extends Controller
             "fecha_fin_contrato" => 'required',
         ]);
 
+        $mensaje = 'ok';
+        $datos = ['success', '¡PROCESO EXITOSO!', 'El contrato de arrendameinto se guardo correctamente'];
+
+        DB::beginTransaction();
+
         try{
         
-            DB::transaction(function() use($request){
     
-                $contrato = ContratosArrendamiento::create([
-                    "numero_contrato" => $request->numero_contrato,
-                    "fecha_inicio" => $request->fecha_inicio_contrato,
-                    "fecha_fin" => $request->fecha_fin_contrato,
-                    "fecha_contrato" => $request->fecha_contrato,
-                    "monto_contratado" => str_replace(",", '', $request->total_contrato),
-                    "obra_administracion_id" => $request->id_obra_admin_contrato,
-                    "proveedor_id" => $request->proveedor_id_contrato,
-                ]);
+            $contrato = ContratosArrendamiento::create([
+                "numero_contrato" => $request->numero_contrato,
+                "fecha_inicio" => $request->fecha_inicio_contrato,
+                "fecha_fin" => $request->fecha_fin_contrato,
+                "fecha_contrato" => $request->fecha_contrato,
+                "monto_contratado" => str_replace(",", '', $request->total_contrato),
+                "obra_administracion_id" => $request->id_obra_admin_contrato,
+                "proveedor_id" => $request->proveedor_id_contrato,
+            ]);
 
-                $total_lista = ContratoListaRaya::where('obra_administracion_id',$request->id_obra_admin_contrato)
+            $total_lista = ContratoListaRaya::where('obra_administracion_id',$request->id_obra_admin_contrato)
                 ->select(
                     DB::raw('sum(total) as total'),
                 )
                 ->first();
 
-                $total_facturas = Factura::where('obra_administracion_id',$request->id_obra_admin_contrato)
+            $total_facturas = Factura::where('obra_administracion_id',$request->id_obra_admin_contrato)
                 ->leftJoin('contrato_facturas', 'contrato_facturas.factura_id', '=', 'id_factura')
                 ->where("contrato_arrendamiento_id", null)
                 ->select(
@@ -1524,27 +1644,29 @@ class GeneralController extends Controller
                 )
                 ->first();
 
-                $total_contrato= ContratosArrendamiento::where('obra_administracion_id',$request->id_obra_admin_contrato)
+            $total_contrato= ContratosArrendamiento::where('obra_administracion_id',$request->id_obra_admin_contrato)
                 ->select(
                     DB::raw('sum(monto_contratado) as total'),
                 )
                 ->first();
 
-                $total_ejercido = $total_lista->total + $total_facturas->total + $total_contrato->total;
+            $total_ejercido = $total_lista->total + $total_facturas->total + $total_contrato->total;
                 
-                $obra = Obra::find($request->id_obra_contrato);
+            $obra = Obra::find($request->id_obra_contrato);
                 
-                $porcentaje_economico = ($total_ejercido * 100)/$obra->monto_contratado;
-                $obra->avance_economico = $porcentaje_economico;
-                $obra->update();
+            $porcentaje_economico = ($total_ejercido * 100)/$obra->monto_contratado;
+            $obra->avance_economico = $porcentaje_economico;
+            $obra->update();
+            
+            DB::commit();
                 
-            });
         }
         catch (\Exception $e) {
             DB::rollback();
+            $datos = ['error', '¡ERROR!', 'Problemas al guardar el contrato de arrendamiento'];
         }
         
-        return redirect()->route('obra.ver', ['id' => $request->id_obra_contrato]);
+        return redirect()->route('obra.ver', ['id' => $request->id_obra_contrato])->with('mensaje', 'ok')->with('datos', $datos);
         //return $request;
     }
 
@@ -1923,7 +2045,7 @@ class GeneralController extends Controller
     public function upload_checklist(Request $request){
 
         $mensaje = 'ok';
-        $datos = ['success', '¡Archivo guaradado!', 'El archivo se subio correctamente'];
+        $datos = ['success', '¡PROCESO EXITOSO!', 'El archivo se subio correctamente'];
         
         DB::beginTransaction();
         try {
@@ -1945,7 +2067,7 @@ class GeneralController extends Controller
             DB::commit();
         } catch (\Exception $e) {
             DB::rollback();
-            $datos = ['error', '¡Problemas al guaradar el archivo!', 'El archivo no subio correctamente'];
+            $datos = ['error', '¡ERROR!', 'El archivo no subio correctamente'];
         }
         
         return redirect()->route('obra.ver', ['id' => $request->id_obra])->with('mensaje', 'ok')->with('datos', $datos);
