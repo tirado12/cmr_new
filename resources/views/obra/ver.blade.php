@@ -23,12 +23,9 @@
     <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
     <script lenguage="javascript">
         function estado_tabs(){
-            console.log("hola");
             $(".tab_content").hide(); //Hide all content
             $("ul.tabs li:first").addClass("active").show(); //Activate first tab
             $(".tab_content:first").show(); //Show first tab content
-            
-            console.log("fin");
         }
     </script>
 
@@ -65,22 +62,32 @@
     @endif
 
 <div class="mt-10 sm:mt-0 shadow-2xl bg-white rounded-lg">
-    <div class="mt-6 contenedor p-8 shadow-2xl bg-white rounded-lg">
-        
-        <div class="bg-gray-200 mt-5">
-            <h2 class="font-bold text-lg text-center">Datos generales de la obra</h2>
+    <div class="bg-blue-cmr1 rounded-t-lg">
+        <div class="p-4">
+            <h2 class="font-semibold text-lg text-center text-white uppercase">Detalles de la obra</h2>
         </div>
+    </div>
+
+    <div class="bg-gray-300 mt-5">
+        <div class="px-4 py-2">
+            <h2 class="font-semibold text-base text-center uppercase">Datos generales</h2>
+        </div>
+    </div>
+    <div class="contenedor pb-8 px-8">
         
-        <div class="mt-5 grid grid-cols-9 gap-4">
-            <div class="col-span-9">
-                <p class="font-bold">{{ $obj_obra->get('obra')->nombre_obra }}</p>
+        <div class="mt-5 grid grid-cols-12 gap-x-2 gap-y-3">
+            <div class="col-span-12">
+                <p for="first_name" class="text-xs text-center">Nombre</p>
+                <p class="text-base font-semibold bg-gray-100 p-1 text-center">{{ $obj_obra->get('obra')->nombre_obra }}</p>
             </div>
-            <div class="col-span-2">
-                <label for="first_name" class="block text-sm  font-bold text-gray-700">Núm. de obra</label>
-                <label id="numero_obra" name="numero_obra" class="block text-base font-bold text-gray-700 py-3 px-5 ">{{str_pad($obj_obra->get('obra')->numero_obra,3,"0",STR_PAD_LEFT)}}</label>
+            <div class="col-span-12 sm:col-span-3">
+                <p for="first_name" class="text-xs text-center">Núm. de obra</p>
+                <p id="numero_obra" name="numero_obra" class="text-base font-semibold bg-gray-100 p-1 text-center">{{str_pad($obj_obra->get('obra')->numero_obra,3,"0",STR_PAD_LEFT)}}</p>
+                
             </div>
-            <div class="col-span-7">
-                <p class="text-sm font-semibold">Nombre corto: <br><span class="ml-5 text-base font-bold mostrar_datos">{{ $obj_obra->get('obra')->nombre_corto_obra}}</span></p>
+            <div class="col-span-12 sm:col-span-9">
+                <p class="text-xs text-center">Nombre corto</p>
+                <p class="text-base font-semibold bg-gray-100 p-1 text-center mostrar_datos">{{ $obj_obra->get('obra')->nombre_corto_obra}}</p>
                 <form action="{{ route('update_obra') }}" method="POST" accept-charset="UTF-8" enctype="multipart/form-data" id="formulario_nc" class="hidden ml-5">
                     @csrf
                     @method('POST')
@@ -107,236 +114,265 @@
                         </div>
                     </div>
                 </form>
-                <div class="mostrar_datos col-span-9 flex justify-left ml-5">
-                    <button type="button" class="text-sm text-blue-500 underline background-transparent font-semibold outline-none focus:outline-none ease-linear transition-all duration-150" onclick="mostrar_edicion()">
+                <div class="mostrar_datos col-span-9 flex justify-center">
+                    <button type="button" class="text-xs text-blue-500 underline background-transparent font-semibold outline-none focus:outline-none ease-linear transition-all duration-150" onclick="mostrar_edicion()">
                         Editar nombre corto
                     </button>
-                    
                 </div>
             </div>
-            <div class="col-span-9 sm:col-span-3">
-                <p class="text-sm font-semibold">Localidad <br><span class="ml-5 text-base font-bold">{{ $obj_obra->get('obra')->nombre_localidad }}</span></p>
+            <div class="col-span-12 sm:col-span-3">
+                <p class="text-xs text-center">Localidad</p>
+                <p class="text-base font-semibold bg-gray-100 p-1 text-center">{{ $obj_obra->get('obra')->nombre_localidad }}</p>
             </div>
-            <div class="col-span-9 sm:col-span-2">
-                <p class="text-sm font-semibold">Municipio <br><span class="ml-5 text-base font-bold">{{ $obj_obra->get('obra')->nombre_municipio }}</span></p>
+            <div class="col-span-12 sm:col-span-3">
+                <p class="text-xs text-center">Municipio</p>
+                <p class="text-base font-semibold bg-gray-100 p-1 text-center">{{ $obj_obra->get('obra')->nombre_municipio }}</p>
             </div>
-            <div class="col-span-9 sm:col-span-2">
-                <p class="text-sm font-semibold">Distrito <br><span class="ml-5 text-base font-bold">{{ $obj_obra->get('obra')->nombre_distrito }}</span></p>
+            <div class="col-span-12 sm:col-span-3">
+                <p class="text-xs text-center">Distrito</p>
+                <p class="text-base font-semibold bg-gray-100 p-1 text-center">{{ $obj_obra->get('obra')->nombre_distrito }}</p>
             </div>
-            <div class="col-span-9 sm:col-span-2">
-                <p class="text-sm font-semibold">Estado <br><span class="ml-5 text-base font-bold">{{ $obj_obra->get('obra')->nombre_estado }}</span></p>
+            <div class="col-span-12 sm:col-span-3">
+                <p class="text-xs text-center">Estado</p>
+                <p class="text-base font-semibold bg-gray-100 p-1 text-center">{{ $obj_obra->get('obra')->nombre_estado }}</p>
             </div>
             <!--<div class="sm:col-span-3">
                 <p class="text-sm font-semibold">Región <br><span class="ml-5 text-base font-bold">{{ $obj_obra->get('obra')->nombre_region }}</span></p>
             </div>
             -->
-            <div class="col-span-9 sm:col-span-3">
-                <p class="text-sm"> <span class="font-semibold">Oficio de notificación</span><br>
-                    <span class="ml-5">Número: <span class="text-base font-bold">{{ $obj_obra->get('obra')->oficio_notificacion }}</span></span><br>
-                    <span class="ml-5">Fecha: <span class="text-base font-bold">{{ date('d-m-Y', strtotime($obj_obra->get('obra')->fecha_oficio_notificacion)) }}</span></span>
-                </p>
+            <div class="col-span-12 sm:col-span-3">
+                <p class="text-xs text-center">Número de oficio de notificación</p>
+                <p class="text-base font-semibold bg-gray-100 p-1 text-center ">{{ $obj_obra->get('obra')->oficio_notificacion }}</p>
             </div>
+            <div class="col-span-12 sm:col-span-3">
+                <p class="text-xs text-center">Fecha de oficio de notificación</p>
+                <p class="text-base font-semibold bg-gray-100 p-1 text-center">{{ date('d-m-Y', strtotime($obj_obra->get('obra')->fecha_oficio_notificacion)) }}</p>
+            </div>
+            @if($obj_obra->get('obra')->modalidad_ejecucion == 2)
+                <div class="col-span-12 sm:col-span-3">
+                    <p class="text-xs text-center">Número de contrato</p>
+                    <p class="text-base font-semibold bg-gray-100 p-1 text-center ">{{ $obj_obra->get('contrato')->numero_contrato }}</p>
+                </div>
+                <div class="col-span-12 sm:col-span-3">
+                    <p class="text-xs text-center">Fecha de contrato</p>
+                    <p class="text-base font-semibold bg-gray-100 p-1 text-center">{{ date('d-m-Y', strtotime($obj_obra->get('contrato')->fecha_contrato)) }}</p>
+                </div>
+            @endif
+            <div class="col-span-12 sm:col-span-3">
+                <p class="text-xs text-center">Monto contratado</p>
+                <p class="text-base font-semibold bg-gray-100 p-1 text-center">{{ $service->formatNumber($obj_obra->get('obra')->monto_contratado) }}</p>
+            </div>
+            @if($obj_obra->get('obra')->monto_modificado != null)
+                <div class="col-span-12 sm:col-span-3">
+                    <p class="text-xs text-center mt-2">Monto modificado</p>
+                    <p class="text-base font-semibold bg-gray-100 p-1 text-center">{{ $service->formatNumber($obj_obra->get('obra')->monto_modificado) }}</p>
+                </div>
+            @endif 
+            @if($obj_obra->get('obra')->modalidad_ejecucion == 1)
+                <div class="col-span-12 sm:col-span-3">
+                    <p class="text-xs text-center mt-2">Monto ejercido</p>
+                    <p class="text-base font-semibold bg-gray-100 p-1 text-center">{{ $service->formatNumber($total_admin) }}</p>
+                </div>
+            @endif
 
-            <div class="col-span-9 sm:col-span-3">
-                <p class="text-sm font-semibold">Monto de la obra<br><span class="ml-5 text-base font-bold">{{ $service->formatNumber($obj_obra->get('obra')->monto_contratado) }}</span></p>
+            <div class="col-span-12 sm:col-span-6">
+                <div class="grid grid-cols-6 gap-x-2 gap-y-3 ocultar_periodo">
+                    <div class="col-span-6 sm:col-span-3">
+                        <p class="text-xs text-center">Fecha de incio</p>
+                        <p class="text-base font-semibold bg-gray-100 p-1 text-center ocultar_periodo">{{ date('d-m-Y', strtotime($obj_obra->get('obra')->fecha_inicio_programada)) }}</p>
+                    </div>
+                    <div class="col-span-6 sm:col-span-3">
+                        @if($obj_obra->get('obra')->modalidad_ejecucion == 2 && $obj_obra->get('obra')->fecha_final_programada != $obj_obra->get('obra')->fecha_final_real)
+                            <p class="text-xs text-center ocultar_periodo">Fecha de terminino modificada</p>
+                            <p class="text-base font-semibold bg-gray-100 p-1 text-center ocultar_periodo">{{ date('d-m-Y', strtotime($obj_obra->get('obra')->fecha_final_real)) }}</p>
+                            
+                        @else
+                            <p class="text-xs text-center ocultar_periodo">Fecha de terminino</p>
+                            <p class="text-base font-semibold bg-gray-100 p-1 text-center ocultar_periodo">{{ date('d-m-Y', strtotime($obj_obra->get('obra')->fecha_final_programada)) }}</p>
+                        @endif
+                    </div>
+                </div>
+
                 @if($obj_obra->get('obra')->modalidad_ejecucion == 1)
-                    <p class="text-sm font-semibold">Monto ejercicido<br><span class="ml-5 text-base font-bold">{{ $service->formatNumber($total_admin) }}</span></p>
-                @endif
-                @if($obj_obra->get('obra')->monto_modificado != null)
-                    <p class="text-sm font-semibold">Monto modificado: <br><span class="ml-5 text-base font-bold">{{ $service->formatNumber($obj_obra->get('obra')->monto_modificado) }}</span></p>
-                @endif
+                        <form action="{{ route('update_obra') }}" method="POST" accept-charset="UTF-8" enctype="multipart/form-data" id="formulario_periodo" class="hidden">
+                            @csrf
+                            @method('POST')
+                            <div class="relative flex-auto">
+                                <div id="datos_generales">
+                                    <div class="grid grid-cols-8 gap-2">
+                                        <div class="col-span-4">
+                                            <p for="fecha_inicio" class="text-xs text-center">Fecha de inicio *</p>
+                                            @if($acta_priorizacion == null)
+                                                <input type="date" name="fecha_inicio" id="fecha_inicio" min="{{$obj_obra->get('obra')->ejercicio}}-01-01" max="{{$obj_obra->get('obra')->ejercicio}}-12-31" class="focus:ring-blue-800 focus:border-blue-800 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md" value="{{ $obj_obra->get('obra')->fecha_inicio_programada }}">
+                                            @else
+                                                <input type="date" name="fecha_inicio" id="fecha_inicio" min="{{$acta_priorizacion->acta_priorizacion}}" max="{{$obj_obra->get('obra')->ejercicio}}-12-31" class="focus:ring-blue-800 focus:border-blue-800 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md" value="{{ $obj_obra->get('obra')->fecha_inicio_programada }}">
+                                            @endif
+                                            <label id="error_fecha_inicio" class="hidden text-xs text-red-500" >Ingrese una fecha de inicio valida</label>
+                                        </div>
+                                        <div class="col-span-4">
+                                            <p for="fecha_inicio" class="text-xs text-center">Fecha de fin *</p>
+                                            @if($acta_priorizacion == null)
+                                                <input type="date" name="fecha_fin" id="fecha_fin" min="{{$obj_obra->get('obra')->ejercicio}}-01-01" max="{{$obj_obra->get('obra')->ejercicio}}-12-31" class="focus:ring-blue-800 focus:border-blue-800 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md" value="{{ $obj_obra->get('obra')->fecha_final_programada }}">
+                                            @else
+                                                <input type="date" name="fecha_fin" id="fecha_fin" min="{{$acta_priorizacion->acta_priorizacion}}" max="{{$obj_obra->get('obra')->ejercicio}}-12-31" class="focus:ring-blue-800 focus:border-blue-800 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md" value="{{ $obj_obra->get('obra')->fecha_final_programada }}">
+                                            @endif
+                                            <label id="error_fecha_fin" class="hidden text-xs text-red-500" >Ingrese una fecha final valida</label>
+                                        </div>
+                                        <input type="number" name="obra_id" class="hidden mt-1 focus:ring-blue-800 focus:border-blue-800 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md" value="{{ $obj_obra->get('obra')->id_obra}}">
+                                    </div>
+                                </div>
+                            </div>
+                            <!--footer-->
+                            <div class="rounded-b">
+                                <div class="text-center">
+                                    <button type="button" class="text-xs text-red-500 background-transparent font-semibold outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150" onclick="ocultar_periodo()">
+                                        Cancelar
+                                    </button>
+                                    <button id="guardar_btn_periodo" type="submit" class=" text-xs bg-transparent text-green-500  font-semibold rounded outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150">
+                                        Guardar
+                                    </button>
+                                </div>
+                            </div>
+                        </form>
+                        <div class="flex justify-center ocultar_periodo">
+                            <button type="button" class="text-xs text-blue-500 underline background-transparent font-semibold outline-none focus:outline-none ease-linear transition-all duration-150" onclick="mostrar_periodo()">
+                                Editar periodo de ejecución
+                            </button>
+                        </div>
+                    @endif
+                
+                
             </div>
             
-            <div class="col-span-9 sm:col-span-3">
-                <p class="text-sm font-semibold">Fuente de financiamiento </p>
-                <table id="example1" class="ml-5 table table-striped bg-white" style="width:100%;">
+            <div class="col-span-12 sm:col-span-3">
+                <p class="text-xs text-center">Fuente de financiamiento</p>                
+                <table id="example1" class="table table-striped bg-white" style="width:100%;">
                     <tbody>
                         @foreach ($fuentes_financiamiento as $fuente)
-                            <tr>
+                            <tr class="bg-gray-100">
                                 <td>
-                                    <div class="">
-                                        <span class="font-semibold">{{ $fuente->nombre_corto }} &nbsp;&nbsp;&nbsp;</span>
-                                    </div>
+                                    <p class="text-base font-semibold p-1 text-center">
+                                        {{ $fuente->nombre_corto }}
+                                    </p>
                                 </td>
                                 <td>
-                                    <div class="">
-                                        <span class="font-bold">{{ $service->formatNumber($fuente->monto) }}</span><br>
-                                    </div>
+                                    <p class="text-base font-semibold p-1 text-center">
+                                        {{ $service->formatNumber($fuente->monto) }}
+                                    </p>
                                 </td>
                             </tr>
                         @endforeach
                     </tbody>
                 </table>
             </div>
-            <div class="col-span-9 sm:col-span-3">
-                <p class="text-sm font-semibold">Periodo de ejecución<br class="ocultar_periodo">
-                    <span class="ml-5 text-sm font-normal ocultar_periodo">Fecha de inicio: <br><span class="ml-5 text-base font-bold ocultar_periodo">{{ date('d-m-Y', strtotime($obj_obra->get('obra')->fecha_inicio_programada)) }}</span></span>  <br>
-                    <span class="ml-5 text-sm font-normal ocultar_periodo">Fecha de termino: <br><span class="ml-5 text-base font-bold ocultar_periodo">{{ date('d-m-Y', strtotime($obj_obra->get('obra')->fecha_final_programada)) }}</span></span> <br>
-
-                    @if($obj_obra->get('obra')->modalidad_ejecucion == 2 && $obj_obra->get('obra')->fecha_final_programada != $obj_obra->get('obra')->fecha_final_real)
-                        <span class="ml-5 text-sm font-normal ocultar_periodo">Fecha de termino modificada: <br><span class="ml-5 text-base font-bold ocultar_periodo">{{ date('d-m-Y', strtotime($obj_obra->get('obra')->fecha_final_real)) }}</span></span> 
-                    @endif
-                </p>
-                
-                
-                @if($obj_obra->get('obra')->modalidad_ejecucion == 1)
-                    <form action="{{ route('update_obra') }}" method="POST" accept-charset="UTF-8" enctype="multipart/form-data" id="formulario_periodo" class="hidden ml-5">
-                        @csrf
-                        @method('POST')
-                        <div class="relative flex-auto">
-                            <div id="datos_generales">
-                                <div class="grid grid-cols-8">
-                                    <div class="col-span-8">
-                                        <div class="col-span-8">
-                                            <label for="fecha_inicio" class="block text-sm font-normal text-gray-700">Fecha de inicio*</label>
-                                            @if($acta_priorizacion == null)
-                                                <input type="date" name="fecha_inicio" id="fecha_inicio" min="{{$obj_obra->get('obra')->ejercicio}}-01-01" max="{{$obj_obra->get('obra')->ejercicio}}-12-31" class="focus:ring-blue-800 focus:border-blue-800 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md" value="{{ $obj_obra->get('obra')->fecha_inicio_programada }}">
-                                            @else
-                                                <input type="date" name="fecha_inicio" id="fecha_inicio" min="{{$acta_priorizacion->acta_priorizacion}}" max="{{$obj_obra->get('obra')->ejercicio}}-12-31" class="focus:ring-blue-800 focus:border-blue-800 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md" value="{{ $obj_obra->get('obra')->fecha_inicio_programada }}">
-                                            @endif
-                                            <label id="error_fecha_inicio" class="hidden text-base font-normal text-red-500" >Ingrese una fecha de inicio valida</label>
-                                        </div>
-                                        <div class="col-span-8">
-                                            <label for="fecha_fin" class="block text-sm font-normal text-gray-700">Fecha de fin*</label>
-                                            @if($acta_priorizacion == null)
-                                                <input type="date" name="fecha_fin" id="fecha_fin" min="{{$obj_obra->get('obra')->ejercicio}}-01-01" max="{{$obj_obra->get('obra')->ejercicio}}-12-31" class="focus:ring-blue-800 focus:border-blue-800 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md" value="{{ $obj_obra->get('obra')->fecha_final_programada }}">
-                                            @else
-                                                <input type="date" name="fecha_fin" id="fecha_fin" min="{{$acta_priorizacion->acta_priorizacion}}" max="{{$obj_obra->get('obra')->ejercicio}}-12-31" class="focus:ring-blue-800 focus:border-blue-800 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md" value="{{ $obj_obra->get('obra')->fecha_final_programada }}">
-                                            @endif
-                                            <label id="error_fecha_fin" class="hidden text-base font-normal text-red-500" >Ingrese una fecha final valida</label>
-                                        </div>
-                                        <input type="number" name="obra_id" class="hidden mt-1 focus:ring-blue-800 focus:border-blue-800 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md" value="{{ $obj_obra->get('obra')->id_obra}}">
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <!--footer-->
-                        <div class="rounded-b">
-                            <div class="text-left">
-                                <button type="button" class="text-red-500 background-transparent font-semibold  text-sm outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150" onclick="ocultar_periodo()">
-                                    Cancelar
-                                </button>
-                                <button id="guardar_btn_periodo" type="submit" class="bg-transparent text-green-500  font-semibold text-sm rounded outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150">
-                                    Guardar
-                                </button>
-                            </div>
-                        </div>
-                    </form>
-                    <div class="col-span-9 flex justify-left ocultar_periodo">
-                        <button type="button" class="ml-5 text-sm text-blue-500 underline background-transparent font-semibold outline-none focus:outline-none ease-linear transition-all duration-150" onclick="mostrar_periodo()">
-                            Editar periodo de ejecución
-                        </button>
-                    </div>
+            <div class="col-span-12 sm:col-span-3">
+                <p class="text-xs text-center ocultar_periodo">Modalidad de ejecución</p>
+                @if ($obj_obra->get('obra')->modalidad_ejecucion == 2)
+                    <p class="text-base font-semibold bg-gray-100 p-1 text-center ocultar_periodo">
+                        Contrato
+                    </p>
+                @else
+                    <p class="text-base font-semibold bg-gray-100 p-1 text-center ocultar_periodo">
+                        Administración directa
+                    </p>
                 @endif
             </div>
+
             @if($obj_obra->get('obra')->modalidad_ejecucion == 2)
-                <div class="col-span-9 sm:col-span-3">
-                    <p class="text-sm font-semibold"> Contrato<br>
-                        <span class="ml-5">Número: <span class="text-base font-bold">{{ $obj_obra->get('contrato')->numero_contrato }}</span></span><br>
-                        <span class="ml-5">Fecha: <span class="text-base font-bold">{{ date('d-m-Y', strtotime($obj_obra->get('contrato')->fecha_contrato)) }}</span></span>
+                <div class="col-span-12 sm:col-span-3">
+                    <p class="text-xs text-center ocultar_periodo">Modalidad de contratación</p>
+                    <p class="text-base font-semibold bg-gray-100 p-1 text-center ocultar_periodo">
+                        @switch($obj_obra->get('contrato')->modalidad_asignacion)
+                            @case(3)
+                                Adjudicación directa
+                            @break
+                            @case(2)
+                                Invitación a cuando menos tres contratistas
+                            @break
+                            @default
+                                Licitación pública
+                        @endswitch
                     </p>
-                </div>
-            @endif
-            
-            @if ($obj_obra->get('obra')->modalidad_ejecucion == 2)
-                <div class="col-span-9 sm:col-span-3">        
-                    <p class="text-sm font-semibold">Contratista<br><span class="ml-5 text-base font-bold">{{ $obj_obra->get('contrato')->razon_social }}</span></p>
-                </div>
-            @endif
-            <div class="col-span-9 sm:col-span-3">
-                <p class="text-sm font-semibold">Modalidad de ejecución<br>
-                    @if ($obj_obra->get('obra')->modalidad_ejecucion == 2)
-                        <span class="ml-5 text-base font-bold">Contrato</span><br>
-                    @else
-                        <span class="ml-5 text-base font-bold">Administración directa</span>
-                    @endif
-                    
-                </p>
-            </div>
-            
-            @if($obj_obra->get('obra')->modalidad_ejecucion == 2)
-                <div class="col-span-9 sm:col-span-3 flex items-center">
-                    <p class="text-sm font-semibold">Modalidad de contratación<br>
-                        <span class="ml-5 text-base font-bold">
-                            @switch($obj_obra->get('contrato')->modalidad_asignacion)
-                                @case(3)
-                                    Adjudicación directa
-                                @break
-                                @case(2)
-                                    Invitación a cuando menos tres contratistas
-                                @break
-                                @default
-                                    Licitación pública
-                            @endswitch
-                        </span>
-                    </p>
-                </div>
-            @endif
-            @if($obj_obra->get('obra')->anticipo_monto > 0)
-                <div class="col-span-9 sm:col-span-3 flex items-center">
-                    <div>
-                        <p class="text-sm font-semibold">Monto de anticipo:<br>
-                            <span class="ml-5 text-base font-bold">
-                                {{$service->formatNumber($obj_obra->get('obra')->anticipo_monto)}}
-                            </span>
-                        </p>
-    
-                        <p class="text-sm font-semibold">Total amortizado:<br>
-                            <span class="ml-5 text-base font-bold">
-                                {{$service->formatNumber($total_pagado->total_anticipo)}}
-                            </span>
-                        </p>
-                    </div>
-                    
                 </div>
             @endif
 
-            <div class="col-span-9">
-                <div class="grid grid-cols-9 gap-4">
-                    <div class="col-span-9 sm:col-span-3">
-                        <p class="text-sm font-semibold text-center  sm:text-left">Avance fisico:</p>
-                        <p class="text-base font-bold modificar_af text-center">{{$obj_obra->get('obra')->avance_fisico}}</p>
-                        <form action="{{ route('update_obra') }}" method="POST" accept-charset="UTF-8" enctype="multipart/form-data" id="formulario_af" class="hidden ml-5">
-                            @csrf
-                            @method('POST')
-                            <div class="relative flex-auto">
-                                <div>
-                                    <div class="grid grid-cols-8">
-                                        <div class="col-span-8">
-                                            <input type="number" min="0" max="100" name="avance_fisico" id="avance_fisico" class="mt-1 focus:ring-blue-800 focus:border-blue-800 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md" value="{{ $obj_obra->get('obra')->avance_fisico}}">
-                                            <label id="error_avance_fisico" name="error_avance_fisico" class="hidden text-base font-normal text-red-500" >Ingrese avance fisico valido.</label>  
-                                            <input type="number" name="obra_id" class="hidden mt-1 focus:ring-blue-800 focus:border-blue-800 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md" value="{{ $obj_obra->get('obra')->id_obra}}">
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <!--footer-->
-                            <div class="rounded-b">
-                                <div class="text-left">
-                                    <button type="button" class="text-red-500 background-transparent font-semibold  text-sm outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150" onclick="ocultar_af()">
-                                        Cancelar
-                                    </button>
-                                    <button id="guardar_btn_af" type="submit" class="bg-transparent text-green-500  font-semibold text-sm rounded outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150">
-                                        Guardar
-                                    </button>
-                                </div>
-                            </div>
-                        </form>
-                        <div class="modificar_af col-span-9 text-center">
-                            <button type="button" class="text-sm text-blue-500 underline background-transparent font-semibold outline-none focus:outline-none ease-linear transition-all duration-150" onclick="modificar_af()">
-                                Editar avance fisico
-                            </button>
-                            
+            @if($obj_obra->get('obra')->anticipo_monto > 0)
+                <div class="col-span-12 sm:col-span-3">
+                    <p class="text-xs text-center ocultar_periodo">Monto de anticipo</p>
+                    <p class="text-base font-semibold bg-gray-100 p-1 text-center ocultar_periodo">
+                        {{$service->formatNumber($obj_obra->get('obra')->anticipo_monto)}}
+                    </p>
+                </div>
+                <div class="col-span-12 sm:col-span-3">
+                    <p class="text-xs text-center ocultar_periodo">Total amortizado</p>
+                    <p class="text-base font-semibold bg-gray-100 p-1 text-center ocultar_periodo">
+                        {{$service->formatNumber($total_pagado->total_anticipo)}}
+                    </p>
+                </div>
+            @endif
+            
+            
+            
+            @if ($obj_obra->get('obra')->modalidad_ejecucion == 2)
+                <div class="col-span-12">
+                    <p class="text-xs text-center ocultar_periodo">Contratista</p>
+                    <p class="text-base font-semibold bg-gray-100 p-1 text-center ocultar_periodo">{{ $obj_obra->get('contrato')->razon_social }}</p>
+                </div>
+            @endif
+            
+            <div class="col-span-12 sm:col-span-4">
+                <p class="text-xs text-center ocultar_periodo">Avance fisico</p>
+                <div class="flex justify-center modificar_af mt-2">
+                    <div class="mkCharts" data-percent="{{round($obj_obra->get('obra')->avance_fisico,0)}}" data-color="rgb(59, 130, 246)" data-size="85" data-stroke="3" data-size="7"></div>    
+                </div>
+                
+                <form action="{{ route('update_obra') }}" method="POST" accept-charset="UTF-8" enctype="multipart/form-data" id="formulario_af" class="hidden ml-5">
+                    @csrf
+                    @method('POST')
+                    <div class="relative flex-auto">
+                        <div>
+                            <input type="number" min="0" max="100" name="avance_fisico" id="avance_fisico" class="mt-1 focus:ring-blue-800 focus:border-blue-800 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md" value="{{ $obj_obra->get('obra')->avance_fisico}}">
+                            <label id="error_avance_fisico" name="error_avance_fisico" class="hidden text-base font-normal text-red-500" >Ingrese avance fisico valido.</label>  
+                            <input type="number" name="obra_id" class="hidden mt-1 focus:ring-blue-800 focus:border-blue-800 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md" value="{{ $obj_obra->get('obra')->id_obra}}">
                         </div>
                     </div>
-                    <div class="col-span-9 sm:col-span-3">
-                        <p class="text-sm font-semibold text-center sm:text-left">Avance técnico:</p>
-                        <p class="text-base font-bold text-center">{{number_format($obj_obra->get('obra')->avance_tecnico,0,'.','')}}</p>
+                    <!--footer-->
+                    <div class="rounded-b">
+                        <div class="text-left">
+                            <button type="button" class="text-red-500 background-transparent font-semibold  text-sm outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150" onclick="ocultar_af()">
+                                Cancelar
+                            </button>
+                            <button id="guardar_btn_af" type="submit" class="bg-transparent text-green-500  font-semibold text-sm rounded outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150">
+                                Guardar
+                            </button>
+                        </div>
                     </div>
-                    <div class="col-span-9 sm:col-span-3">
-                        <p class="text-sm font-semibold text-center sm:text-left">Avance economico:</p>
-                        <p class="text-base font-bold text-center">{{number_format($obj_obra->get('obra')->avance_economico,0,'.','')}}</p>
-                    </div>
+                </form>
+                <div class="modificar_af col-span-9 text-center">
+                    <button type="button" class="text-xs text-blue-500 underline background-transparent font-semibold outline-none focus:outline-none ease-linear transition-all duration-150" onclick="modificar_af()">
+                        Editar avance fisico
+                    </button>
+                    
+                </div>
+            </div>
+            <div class="col-span-12 sm:col-span-4">
+                <p class="text-xs text-center ocultar_periodo">Avance técnico:</p>
+                <div class="flex justify-center modificar_af mt-2">
+                    <div class="mkCharts" data-percent="{{round($obj_obra->get('obra')->avance_tecnico,0)}}" data-color="rgb(59, 130, 246)" data-size="85" data-stroke="2" font-size="7"></div>    
+                </div>
+            </div>
+            <div class="col-span-12 sm:col-span-4">
+                <p class="text-xs text-center ocultar_periodo">Avance economico</p>
+                <div class="flex justify-center modificar_af mt-2">
+                    <div class="mkCharts" data-percent="{{round($obj_obra->get('obra')->avance_economico,0)}}" data-color="rgb(59, 130, 246)" data-size="80" data-stroke="2"font-size="7"></div>    
+                </div>
+            </div>
+            
+            
+
+            <div class="col-span-12">
+                <div class="grid grid-cols-9 gap-4">
+                    
                 </div>
             </div>
             
@@ -374,6 +410,7 @@
                 <div class="tab_content" id="tab1">
                     
                     <p class="font-bold text-lg text-center">Integración del expediente técnico</p>
+                    
                     <div class="flex justify-center">
                         <a type="button" href="{{ route('edit_expediente', [$obj_obra->get('obra')->id_obra]) }}" class="text-sm text-blue-500 underline background-transparent font-semibold outline-none focus:outline-none ease-linear transition-all duration-150 text-center">Modificar expediente técnico</a>
                     </div>
@@ -419,12 +456,12 @@
                                             <div class="border sm:col-span-4 p-2">
                                                 <div class="flex items-center h-full">
                                                     <div class="col-nombre">
-                                                        <p class="dos-lineas text-base">
+                                                        <p class="dos-lineas text-sm leading-none">
                                                             Acta de integración del Consejo de Desarrollo Municipal
                                                         </p>
                                                     </div>
                                                     <div class="col-estado ml-2">
-                                                        <div class="flex justify-center my-2">
+                                                        <div class="flex justify-center my-1">
                                                             @switch($obj_obra->get('social')->acta_integracion_consejo)
                                                             @case(1)
                                                             <img src="{{ asset('image/Bien.svg') }}" alt="Workflow">
@@ -442,10 +479,10 @@
                                             <div class="border sm:col-span-4  p-2">
                                                 <div class="flex items-center h-full">
                                                     <div class="col-nombre">
-                                                        <p class="dos-lineas">Acta de selección de obras</p>
+                                                        <p class="dos-lineas text-sm leading-none ">Acta de selección de obras</p>
                                                     </div>
                                                     <div class="col-estado pl-2">
-                                                        <div class="flex justify-center my-2">
+                                                        <div class="flex justify-center my-1">
                                                             @switch($obj_obra->get('social')->acta_seleccion_obras)
                                                             @case(1)
                                                             <img src="{{ asset('image/Bien.svg') }}" alt="Workflow">
@@ -463,10 +500,10 @@
                                             <div class="border sm:col-span-4  p-2">
                                                 <div class="flex items-center h-full">
                                                     <div class="col-nombre">
-                                                        <p class="dos-lineas">Acta de priorización de obras, acciones sociales básicas e inversión.</p>
+                                                        <p class="dos-lineas text-sm leading-none">Acta de priorización de obras, acciones sociales básicas e inversión.</p>
                                                     </div>
                                                     <div class="col-estado pl-2">
-                                                        <div class="flex justify-center my-2">
+                                                        <div class="flex justify-center my-1">
                                                             @switch($obj_obra->get('social')->acta_priorizacion_obras)
                                                             @case(1)
                                                             <img src="{{ asset('image/Bien.svg') }}" alt="Workflow">
@@ -485,10 +522,10 @@
                                             <div class="border sm:col-span-4  p-2">
                                                 <div class="flex items-center h-full">
                                                     <div class="col-nombre">
-                                                        <p class="dos-lineas">Acta de integración del comité de obras.</p>
+                                                        <p class="dos-lineas text-sm leading-none">Acta de integración del comité de obras.</p>
                                                     </div>
                                                     <div class="col-estado pl-2">
-                                                        <div class="flex justify-center my-2">
+                                                        <div class="flex justify-center my-1">
                                                             @switch($obj_obra->get('social')->acta_integracion_comite)
                                                             @case(1)
                                                             <img src="{{ asset('image/Bien.svg') }}" alt="Workflow">
@@ -506,10 +543,10 @@
                                             <div class="border sm:col-span-4 p-2">
                                                 <div class="flex items-center h-full">
                                                     <div class="col-nombre">
-                                                        <p class="dos-lineas">Convenio de concertación.</p>
+                                                        <p class="dos-lineas text-sm leading-none">Convenio de concertación.</p>
                                                     </div>
                                                     <div class="col-estado pl-2">
-                                                        <div class="flex justify-center my-2">
+                                                        <div class="flex justify-center my-1">
                                                             @switch($obj_obra->get('social')->convenio_concertacion)
                                                             @case(1)
                                                             <img src="{{ asset('image/Bien.svg') }}" alt="Workflow">
@@ -527,12 +564,12 @@
                                             <div class="border sm:col-span-4  p-2">
                                                 <div class="flex items-center h-full">
                                                     <div class="col-nombre">
-                                                        <p class="dos-lineas">
+                                                        <p class="dos-lineas text-sm leading-none">
                                                             {{$obj_obra->get('obra')->modalidad_ejecucion == 2?'Acta de excepción a la licitación pública.': 'Acta de acuerdo de cabildo para ejecutar la obra por Administracion Directa.'}}
                                                         </p>
                                                     </div>
                                                     <div class="col-estado pl-2">
-                                                        <div class="flex justify-center">
+                                                        <div class="flex justify-center my-1">
                                                             @switch($obj_obra->get('social')->acta_excep_licitacion)
                                                             @case(1)
                                                             <img src="{{ asset('image/Bien.svg') }}" alt="Workflow">
@@ -550,12 +587,12 @@
                                             <div class="border sm:col-span-4  p-2">
                                                 <div class="flex items-center h-full">
                                                     <div class="col-nombre">
-                                                        <p class="dos-lineas">
+                                                        <p class="dos-lineas text-sm leading-none">
                                                             Convenio celebrado con instancias Estatales y Federales para Mezcla de recursos, transferencias de recursos.
                                                         </p>
                                                     </div>
                                                     <div class="col-estado pl-2">
-                                                        <div class="flex justify-center my-2">
+                                                        <div class="flex justify-center my-1">
                                                             @switch($obj_obra->get('social')->convenio_mezcla)
                                                             @case(1)
                                                             <img src="{{ asset('image/Bien.svg') }}" alt="Workflow">
@@ -573,12 +610,12 @@
                                             <div class="border sm:col-span-4  p-2">
                                                 <div class="flex items-center h-full">
                                                     <div class="col-nombre">
-                                                        <p class="dos-lineas">
+                                                        <p class="dos-lineas text-sm leading-none">
                                                             Acta de aprobacion y autorizacion de obras, acciones sociales e inversiones.
                                                         </p>
                                                     </div>
                                                     <div class="col-estado pl-2">
-                                                        <div class="flex justify-center my-2">
+                                                        <div class="flex justify-center my-1">
                                                             @switch($obj_obra->get('social')->acta_aprobacion_obra)
                                                             @case(1)
                                                             <img src="{{ asset('image/Bien.svg') }}" alt="Workflow">
@@ -597,10 +634,10 @@
                                                 <div class="border sm:col-span-4  p-2">
                                                     <div class="flex items-center h-full">
                                                         <div class="col-nombre">
-                                                            <p class="dos-lineas">Acta para adjudicar la obra de manera directa.</p>
+                                                            <p class="dos-lineas text-sm leading-none">Acta para adjudicar la obra de manera directa.</p>
                                                         </div>
                                                         <div class="col-estado pl-2">
-                                                            <div class="flex justify-center my-2">
+                                                            <div class="flex justify-center my-1">
                                                                 @switch($obj_obra->get('social')->acta_ejecutar_adjudicacion)
                                                                 @case(1)
                                                                 <img src="{{ asset('image/Bien.svg') }}" alt="Workflow">
@@ -653,12 +690,12 @@
                                             <div class="border sm:col-span-4 p-2">
                                                 <div class="flex items-center h-full">
                                                     <div class="col-nombre">
-                                                        <p class="dos-lineas">
+                                                        <p class="dos-lineas text-sm leading-none">
                                                             Estudio de factibilidad técnica, económica y ecológica de la realización de la obra.
                                                         </p>
                                                     </div>
                                                     <div class="col-estado ml-2">
-                                                        <div class="flex justify-center my-2">
+                                                        <div class="flex justify-center my-1">
                                                             @switch($obj_obra->get('social')->estudio_factibilidad)
                                                             @case(1)
                                                             <img src="{{ asset('image/Bien.svg') }}" alt="Workflow">
@@ -677,12 +714,12 @@
                                             <div class="border sm:col-span-4  p-2">
                                                 <div class="flex items-center h-full">
                                                     <div class="col-nombre">
-                                                        <p class="dos-lineas">
+                                                        <p class="dos-lineas text-sm leading-none">
                                                             Oficio de notificación de aprobación y autorización de obras, acciones sociales básicas e inversiones.
                                                         </p>
                                                     </div>
                                                     <div class="col-estado pl-2">
-                                                        <div class="flex justify-center my-2">
+                                                        <div class="flex justify-center my-1">
                                                             @switch($obj_obra->get('social')->oficio_aprobacion_obra)
                                                             @case(1)
                                                             <img src="{{ asset('image/Bien.svg') }}" alt="Workflow">
@@ -701,12 +738,12 @@
                                             <div class="border sm:col-span-4  p-2">
                                                 <div class="flex items-center h-full">
                                                     <div class="col-nombre">
-                                                        <p class="dos-lineas">
+                                                        <p class="dos-lineas text-sm leading-none">
                                                             Anexos del oficio de notificación, de aprobación y autorización de obras, acciones sociales básicas e inversiones.
                                                         </p>
                                                     </div>
                                                     <div class="col-estado pl-2">
-                                                        <div class="flex justify-center my-2">
+                                                        <div class="flex justify-center my-1">
                                                             @switch($obj_obra->get('social')->anexos_oficio_notificacion)
                                                             @case(1)
                                                             <img src="{{ asset('image/Bien.svg') }}" alt="Workflow">
@@ -725,12 +762,12 @@
                                             <div class="border sm:col-span-4  p-2">
                                                 <div class="flex items-center h-full">
                                                     <div class="col-nombre">
-                                                        <p class="dos-lineas">
+                                                        <p class="dos-lineas text-sm leading-none">
                                                             Cédula de información básica.
                                                         </p>
                                                     </div>
                                                     <div class="col-estado pl-2">
-                                                        <div class="flex justify-center my-2">
+                                                        <div class="flex justify-center my-1">
                                                             @switch($obj_obra->get('social')->cedula_informacion_basica)
                                                             @case(1)
                                                             <img src="{{ asset('image/Bien.svg') }}" alt="Workflow">
@@ -749,12 +786,12 @@
                                             <div class="border sm:col-span-4 p-2">
                                                 <div class="flex items-center h-full">
                                                     <div class="col-nombre">
-                                                        <p class="dos-lineas">
+                                                        <p class="dos-lineas text-sm leading-none">
                                                             Generalidades de la inversión.
                                                         </p>
                                                     </div>
                                                     <div class="col-estado pl-2">
-                                                        <div class="flex justify-center my-2">
+                                                        <div class="flex justify-center my-1">
                                                             @switch($obj_obra->get('social')->generalidades_inversion)
                                                             @case(1)
                                                             <img src="{{ asset('image/Bien.svg') }}" alt="Workflow">
@@ -773,12 +810,12 @@
                                             <div class="border sm:col-span-4  p-2">
                                                 <div class="flex items-center h-full">
                                                     <div class="col-nombre">
-                                                        <p class="dos-lineas">
+                                                        <p class="dos-lineas text-sm leading-none">
                                                             Documentos que acrediten la tenencia de la tierra.
                                                         </p>
                                                     </div>
                                                     <div class="col-estado pl-2">
-                                                        <div class="flex justify-center">
+                                                        <div class="flex justify-center my-1">
                                                             @switch($obj_obra->get('social')->tenencia_tierra)
                                                             @case(1)
                                                             <img src="{{ asset('image/Bien.svg') }}" alt="Workflow">
@@ -797,12 +834,12 @@
                                             <div class="border sm:col-span-4  p-2">
                                                 <div class="flex items-center h-full">
                                                     <div class="col-nombre">
-                                                        <p class="dos-lineas">
+                                                        <p class="dos-lineas text-sm leading-none">
                                                             Dictamen de impacto ambiental.
                                                         </p>
                                                     </div>
                                                     <div class="col-estado pl-2">
-                                                        <div class="flex justify-center my-2">
+                                                        <div class="flex justify-center my-1">
                                                             @switch($obj_obra->get('social')->dictamen_impacto_ambiental)
                                                             @case(1)
                                                             <img src="{{ asset('image/Bien.svg') }}" alt="Workflow">
@@ -821,12 +858,12 @@
                                             <div class="border sm:col-span-4  p-2">
                                                 <div class="flex items-center h-full">
                                                     <div class="col-nombre">
-                                                        <p class="dos-lineas">
+                                                        <p class="dos-lineas text-sm leading-none">
                                                             Presupuesto de obra programada.
                                                         </p>
                                                     </div>
                                                     <div class="col-estado pl-2">
-                                                        <div class="flex justify-center my-2">
+                                                        <div class="flex justify-center my-1">
                                                             @switch($obj_obra->get('social')->presupuesto_obra)
                                                             @case(1)
                                                             <img src="{{ asset('image/Bien.svg') }}" alt="Workflow">
@@ -845,12 +882,12 @@
                                             <div class="border sm:col-span-4  p-2">
                                                 <div class="flex items-center h-full">
                                                     <div class="col-nombre">
-                                                        <p class="dos-lineas">
+                                                        <p class="dos-lineas text-sm leading-none">
                                                             Catálogo de conceptos.
                                                         </p>
                                                     </div>
                                                     <div class="col-estado pl-2">
-                                                        <div class="flex justify-center my-2">
+                                                        <div class="flex justify-center my-1">
                                                             @switch($obj_obra->get('social')->catalogo_conceptos)
                                                             @case(1)
                                                             <img src="{{ asset('image/Bien.svg') }}" alt="Workflow">
@@ -869,12 +906,12 @@
                                             <div class="border sm:col-span-4  p-2">
                                                 <div class="flex items-center h-full">
                                                     <div class="col-nombre">
-                                                        <p class="dos-lineas">
+                                                        <p class="dos-lineas text-sm leading-none">
                                                             Explosión de insumos programada.
                                                         </p>
                                                     </div>
                                                     <div class="col-estado pl-2">
-                                                        <div class="flex justify-center my-2">
+                                                        <div class="flex justify-center my-1">
                                                             @switch($obj_obra->get('social')->explosion_insumos)
                                                             @case(1)
                                                             <img src="{{ asset('image/Bien.svg') }}" alt="Workflow">
@@ -893,12 +930,12 @@
                                             <div class="border sm:col-span-4  p-2">
                                                 <div class="flex items-center h-full">
                                                     <div class="col-nombre">
-                                                        <p class="dos-lineas">
+                                                        <p class="dos-lineas text-sm leading-none">
                                                             Generadores de obra programada.
                                                         </p>
                                                     </div>
                                                     <div class="col-estado pl-2">
-                                                        <div class="flex justify-center my-2">
+                                                        <div class="flex justify-center my-1">
                                                             @switch($obj_obra->get('social')->generadores_obra)
                                                             @case(1)
                                                             <img src="{{ asset('image/Bien.svg') }}" alt="Workflow">
@@ -917,12 +954,12 @@
                                             <div class="border sm:col-span-4  p-2">
                                                 <div class="flex items-center h-full">
                                                     <div class="col-nombre">
-                                                        <p class="dos-lineas">
+                                                        <p class="dos-lineas text-sm leading-none">
                                                             Planos del proyecto.
                                                         </p>
                                                     </div>
                                                     <div class="col-estado pl-2">
-                                                        <div class="flex justify-center my-2">
+                                                        <div class="flex justify-center my-1">
                                                             @switch($obj_obra->get('social')->planos_proyecto)
                                                             @case(1)
                                                             <img src="{{ asset('image/Bien.svg') }}" alt="Workflow">
@@ -941,12 +978,12 @@
                                             <div class="border sm:col-span-4  p-2">
                                                 <div class="flex items-center h-full">
                                                     <div class="col-nombre">
-                                                        <p class="dos-lineas">
+                                                        <p class="dos-lineas text-sm leading-none">
                                                             Especificaciones generales y particulares de construcción.
                                                         </p>
                                                     </div>
                                                     <div class="col-estado pl-2">
-                                                        <div class="flex justify-center my-2">
+                                                        <div class="flex justify-center my-1">
                                                             @switch($obj_obra->get('social')->especificaciones_generales_particulares)
                                                             @case(1)
                                                             <img src="{{ asset('image/Bien.svg') }}" alt="Workflow">
@@ -965,12 +1002,12 @@
                                             <div class="border sm:col-span-4  p-2">
                                                 <div class="flex items-center h-full">
                                                     <div class="col-nombre">
-                                                        <p class="dos-lineas">
+                                                        <p class="dos-lineas text-sm leading-none">
                                                             Licencia del Director Responsable de Obra.
                                                         </p>
                                                     </div>
                                                     <div class="col-estado pl-2">
-                                                        <div class="flex justify-center my-2">
+                                                        <div class="flex justify-center my-1">
                                                             @switch($obj_obra->get('social')->dro)
                                                             @case(1)
                                                             <img src="{{ asset('image/Bien.svg') }}" alt="Workflow">
@@ -989,12 +1026,12 @@
                                             <div class="border sm:col-span-4  p-2">
                                                 <div class="flex items-center h-full">
                                                     <div class="col-nombre">
-                                                        <p class="dos-lineas">
+                                                        <p class="dos-lineas text-sm leading-none">
                                                             Programa de obra e inversión.
                                                         </p>
                                                     </div>
                                                     <div class="col-estado pl-2">
-                                                        <div class="flex justify-center my-2">
+                                                        <div class="flex justify-center my-1">
                                                             @switch($obj_obra->get('social')->programa_obra_inversion)
                                                             @case(1)
                                                             <img src="{{ asset('image/Bien.svg') }}" alt="Workflow">
@@ -1013,12 +1050,12 @@
                                             <div class="border sm:col-span-4  p-2">
                                                 <div class="flex items-center h-full">
                                                     <div class="col-nombre">
-                                                        <p class="dos-lineas">
+                                                        <p class="dos-lineas text-sm leading-none">
                                                             Croquis de micro localización.
                                                         </p>
                                                     </div>
                                                     <div class="col-estado pl-2">
-                                                        <div class="flex justify-center my-2">
+                                                        <div class="flex justify-center my-1">
                                                             @switch($obj_obra->get('social')->croquis_macro)
                                                             @case(1)
                                                             <img src="{{ asset('image/Bien.svg') }}" alt="Workflow">
@@ -1037,12 +1074,12 @@
                                             <div class="border sm:col-span-4  p-2">
                                                 <div class="flex items-center h-full">
                                                     <div class="col-nombre">
-                                                        <p class="dos-lineas">
+                                                        <p class="dos-lineas text-sm leading-none">
                                                             Croquis de macro localización
                                                         </p>
                                                     </div>
                                                     <div class="col-estado pl-2">
-                                                        <div class="flex justify-center my-2">
+                                                        <div class="flex justify-center my-1">
                                                             @switch($obj_obra->get('social')->croquis_micro)
                                                             @case(1)
                                                             <img src="{{ asset('image/Bien.svg') }}" alt="Workflow">
@@ -1094,12 +1131,12 @@
                                                     <div class="border sm:col-span-4 p-2">
                                                         <div class="flex items-center h-full">
                                                             <div class="col-nombre">
-                                                                <p class="dos-lineas"> 
+                                                                <p class="dos-lineas text-sm leading-none"> 
                                                                     Inscripción al padrón de contratista.
                                                                 </p>
                                                             </div>
                                                             <div class="col-estado ml-2">
-                                                                <div class="flex justify-center my-2">
+                                                                <div class="flex justify-center my-1">
                                                                     @switch($obj_obra->get('contrato')->padron_contratistas)
                                                                     @case(1)
                                                                     <img src="{{ asset('image/Bien.svg') }}" alt="Workflow">
@@ -1118,12 +1155,12 @@
                                                     <div class="border sm:col-span-4  p-2">
                                                         <div class="flex items-center h-full">
                                                             <div class="col-nombre">
-                                                                <p  class="dos-lineas">
+                                                                <p  class="dos-lineas text-sm leading-none">
                                                                     Invitaciones (con acuses de recepción)
                                                                 </p>
                                                             </div>
                                                             <div class="col-estado pl-2">
-                                                                <div class="flex justify-center my-2">
+                                                                <div class="flex justify-center my-1">
                                                                     @switch($obj_obra->get('contrato')->invitacion_acuse_recepcion)
                                                                     @case(1)
                                                                     <img src="{{ asset('image/Bien.svg') }}" alt="Workflow">
@@ -1142,12 +1179,12 @@
                                                     <div class="border sm:col-span-4  p-2">
                                                         <div class="flex items-center h-full">
                                                             <div class="col-nombre">
-                                                                <p  class="dos-lineas">
+                                                                <p  class="dos-lineas text-sm leading-none">
                                                                     Oficio de aceptación de la invitación (con acuses de recepción)
                                                                 </p>
                                                             </div>
                                                             <div class="col-estado pl-2">
-                                                                <div class="flex justify-center my-2">
+                                                                <div class="flex justify-center my-1">
                                                                     @switch($obj_obra->get('contrato')->aceptacion_invitacion)
                                                                     @case(1)
                                                                     <img src="{{ asset('image/Bien.svg') }}" alt="Workflow">
@@ -1168,12 +1205,12 @@
                                                     <div class="border sm:col-span-4  p-2">
                                                         <div class="flex items-center h-full">
                                                             <div class="col-nombre">
-                                                                <p class="dos-lineas">
+                                                                <p class="dos-lineas text-sm leading-none">
                                                                     Bases de licitacion (con anexos).
                                                                 </p>
                                                             </div>
                                                             <div class="col-estado pl-2">
-                                                                <div class="flex justify-center my-2">
+                                                                <div class="flex justify-center my-1">
                                                                     @switch($obj_obra->get('licitacion')->bases_licitacion)
                                                                     @case(1)
                                                                     <img src="{{ asset('image/Bien.svg') }}" alt="Workflow">
@@ -1192,12 +1229,12 @@
                                                     <div class="border sm:col-span-4 p-2">
                                                         <div class="flex items-center h-full">
                                                             <div class="col-nombre">
-                                                                <p class="dos-lineas">
+                                                                <p class="dos-lineas text-sm leading-none">
                                                                     Constancia de visita o de conocer el sitio donde se ejecutará la obra.
                                                                 </p>
                                                             </div>
                                                             <div class="col-estado pl-2">
-                                                                <div class="flex justify-center my-2">
+                                                                <div class="flex justify-center my-1">
                                                                     @switch($obj_obra->get('licitacion')->constancia_visita)
                                                                     @case(1)
                                                                     <img src="{{ asset('image/Bien.svg') }}" alt="Workflow">
@@ -1216,12 +1253,12 @@
                                                     <div class="border sm:col-span-4  p-2">
                                                         <div class="flex items-center h-full">
                                                             <div class="col-nombre">
-                                                                <p class="dos-lineas">
+                                                                <p class="dos-lineas text-sm leading-none">
                                                                     Acta de la junta de aclaraciones.
                                                                 </p>
                                                             </div>
                                                             <div class="col-estado pl-2">
-                                                                <div class="flex justify-center">
+                                                                <div class="flex justify-center my-1">
                                                                     @switch($obj_obra->get('licitacion')->acta_junta_aclaraciones)
                                                                     @case(1)
                                                                     <img src="{{ asset('image/Bien.svg') }}" alt="Workflow">
@@ -1240,12 +1277,12 @@
                                                     <div class="border sm:col-span-4  p-2">
                                                         <div class="flex items-center h-full">
                                                             <div class="col-nombre">
-                                                                <p class="dos-lineas">
+                                                                <p class="dos-lineas text-sm leading-none">
                                                                     Acta de apertura técnica.
                                                                 </p>
                                                             </div>
                                                             <div class="col-estado pl-2">
-                                                                <div class="flex justify-center my-2">
+                                                                <div class="flex justify-center my-1">
                                                                     @switch($obj_obra->get('licitacion')->acta_apertura_tecnica)
                                                                     @case(1)
                                                                     <img src="{{ asset('image/Bien.svg') }}" alt="Workflow">
@@ -1264,12 +1301,12 @@
                                                     <div class="border sm:col-span-4  p-2">
                                                         <div class="flex items-center h-full">
                                                             <div class="col-nombre">
-                                                                <p class="dos-lineas">
+                                                                <p class="dos-lineas text-sm leading-none">
                                                                     Dictamen técnico y análisis detallado.
                                                                 </p>
                                                             </div>
                                                             <div class="col-estado pl-2">
-                                                                <div class="flex justify-center my-2">
+                                                                <div class="flex justify-center my-1">
                                                                     @switch($obj_obra->get('licitacion')->dictamen_tecnico)
                                                                     @case(1)
                                                                     <img src="{{ asset('image/Bien.svg') }}" alt="Workflow">
@@ -1288,12 +1325,12 @@
                                                     <div class="border sm:col-span-4  p-2">
                                                         <div class="flex items-center h-full">
                                                             <div class="col-nombre">
-                                                                <p class="dos-lineas">
+                                                                <p class="dos-lineas text-sm leading-none">
                                                                     Acta de apertura económica.
                                                                 </p>
                                                             </div>
                                                             <div class="col-estado pl-2">
-                                                                <div class="flex justify-center my-2">
+                                                                <div class="flex justify-center my-1">
                                                                     @switch($obj_obra->get('licitacion')->acta_apertura_economica)
                                                                     @case(1)
                                                                     <img src="{{ asset('image/Bien.svg') }}" alt="Workflow">
@@ -1312,12 +1349,12 @@
                                                     <div class="border sm:col-span-4  p-2">
                                                         <div class="flex items-center h-full">
                                                             <div class="col-nombre">
-                                                                <p class="dos-lineas">
+                                                                <p class="dos-lineas text-sm leading-none">
                                                                     Dictamen económico y análisis detallado
                                                                 </p>
                                                             </div>
                                                             <div class="col-estado pl-2">
-                                                                <div class="flex justify-center my-2">
+                                                                <div class="flex justify-center my-1">
                                                                     @switch($obj_obra->get('licitacion')->dictamen_economico)
                                                                     @case(1)
                                                                     <img src="{{ asset('image/Bien.svg') }}" alt="Workflow">
@@ -1336,12 +1373,12 @@
                                                     <div class="border sm:col-span-4  p-2">
                                                         <div class="flex items-center h-full">
                                                             <div class="col-nombre">
-                                                                <p class="dos-lineas">
+                                                                <p class="dos-lineas text-sm leading-none">
                                                                     Dictamen
                                                                 </p>
                                                             </div>
                                                             <div class="col-estado pl-2">
-                                                                <div class="flex justify-center my-2">
+                                                                <div class="flex justify-center my-1">
                                                                     @switch($obj_obra->get('licitacion')->dictamen)
                                                                     @case(1)
                                                                     <img src="{{ asset('image/Bien.svg') }}" alt="Workflow">
@@ -1360,12 +1397,12 @@
                                                     <div class="border sm:col-span-4  p-2">
                                                         <div class="flex items-center h-full">
                                                             <div class="col-nombre">
-                                                                <p class="dos-lineas">
+                                                                <p class="dos-lineas text-sm leading-none">
                                                                     Acta de fallo
                                                                 </p>
                                                             </div>
                                                             <div class="col-estado pl-2">
-                                                                <div class="flex justify-center my-2">
+                                                                <div class="flex justify-center my-1">
                                                                     @switch($obj_obra->get('licitacion')->acta_fallo)
                                                                     @case(1)
                                                                     <img src="{{ asset('image/Bien.svg') }}" alt="Workflow">
@@ -1384,12 +1421,12 @@
                                                     <div class="border sm:col-span-4  p-2">
                                                         <div class="flex items-center h-full">
                                                             <div class="col-nombre">
-                                                                <p class="dos-lineas">
+                                                                <p class="dos-lineas text-sm leading-none">
                                                                     Propuesta económica de los licitantes.
                                                                 </p>
                                                             </div>
                                                             <div class="col-estado pl-2">
-                                                                <div class="flex justify-center my-2">
+                                                                <div class="flex justify-center my-1">
                                                                     @switch($obj_obra->get('licitacion')->propuesta_licitantes_economica)
                                                                     @case(1)
                                                                     <img src="{{ asset('image/Bien.svg') }}" alt="Workflow">
@@ -1408,12 +1445,12 @@
                                                     <div class="border sm:col-span-4  p-2">
                                                         <div class="flex items-center h-full">
                                                             <div class="col-nombre">
-                                                                <p class="dos-lineas">
+                                                                <p class="dos-lineas text-sm leading-none">
                                                                     Propuesta técnica de los licitantes.
                                                                 </p>
                                                             </div>
                                                             <div class="col-estado pl-2">
-                                                                <div class="flex justify-center my-2">
+                                                                <div class="flex justify-center my-1">
                                                                     @switch($obj_obra->get('licitacion')->propuesta_licitantes_tecnica)
                                                                     @case(1)
                                                                     <img src="{{ asset('image/Bien.svg') }}" alt="Workflow">
@@ -1433,14 +1470,14 @@
                                                     <div class="border sm:col-span-4  p-2">
                                                         <div class="flex items-center h-full">
                                                             <div class="col-nombre">
-                                                                <p class="dos-lineas">
+                                                                <p class="dos-lineas text-sm leading-none">
                                                                     Contrato                                                         
                                                                     @if ($obj_obra->get('contrato')->contrato_tipo == 1) <span class="font-bold">(Precios unitarios)</span> @endif
                                                                     @if ($obj_obra->get('contrato')->contrato_tipo == 2) (Precios Alzados) @endif.
                                                                 </p>
                                                             </div>
                                                             <div class="col-estado pl-2">
-                                                                <div class="flex justify-center my-2">
+                                                                <div class="flex justify-center my-1">
                                                                     @switch($obj_obra->get('contrato')->contrato)
                                                                     @case(1)
                                                                     <img src="{{ asset('image/Bien.svg') }}" alt="Workflow">
@@ -1459,12 +1496,12 @@
                                                     <div class="border sm:col-span-4  p-2">
                                                         <div class="flex items-center h-full">
                                                             <div class="col-nombre">
-                                                                <p class="dos-lineas">
+                                                                <p class="dos-lineas text-sm leading-none">
                                                                     Oficio justificatorio para convenio modificatorio.
                                                                 </p>
                                                             </div>
                                                             <div class="col-estado pl-2">
-                                                                <div class="flex justify-center my-2">
+                                                                <div class="flex justify-center my-1">
                                                                     @switch($obj_obra->get('contrato')->oficio_justificativo_convenio_modificatorio)
                                                                     @case(1)
                                                                     <img src="{{ asset('image/Bien.svg') }}" alt="Workflow">
@@ -1493,7 +1530,7 @@
                                                             @foreach ($convenios as  $convenio)
                                                                 <div class="border sm:col-span-4 p-2 mt-1">
                                                                     <div class="flex items-center  h-full">
-                                                                        <div class="col-nombre">
+                                                                        <div class="col-nombre text-sm leading-none">
                                                                             <p>
                                                                                 Convenio modificatorio
                                                                                 @switch($convenio->tipo)
@@ -1509,7 +1546,7 @@
                                                                             </p>
                                                                         </div>
                                                                         <div class="col-estado pl-2">
-                                                                            <div class="flex justify-center my-2">
+                                                                            <div class="flex justify-center my-1">
                                                                                 @switch($convenio->agregado_expediente)
                                                                                 @case(1)
                                                                                 <img src="{{ asset('image/Bien.svg') }}" alt="Workflow">
@@ -1539,13 +1576,13 @@
                                                         <div class="grid sm:grid-cols-8 gap-x-4 gap-y-1">
                                                             <div class="border sm:col-span-4 p-2 mt-1">
                                                                 <div class="flex items-center  h-full">
-                                                                    <div class="col-nombre">
+                                                                    <div class="col-nombre text-sm leading-none">
                                                                         <p>
                                                                             Catálogo de conceptos.
                                                                         </p>
                                                                     </div>
                                                                     <div class="col-estado pl-2">
-                                                                        <div class="flex justify-center my-2">
+                                                                        <div class="flex justify-center my-1">
                                                                             @switch($obj_obra->get('contrato')->catalogo_conceptos)
                                                                             @case(1)
                                                                             <img src="{{ asset('image/Bien.svg') }}" alt="Workflow">
@@ -1563,12 +1600,12 @@
                                                             <div class="border sm:col-span-4 p-2 mt-1">
                                                                 <div class="flex items-center  h-full">
                                                                     <div class="col-nombre">
-                                                                        <p class="dos-lineas">
+                                                                        <p class="dos-lineas text-sm leading-none">
                                                                             Análisis de precios unitarios.
                                                                         </p>
                                                                     </div>
                                                                     <div class="col-estado pl-2">
-                                                                        <div class="flex justify-center my-2">
+                                                                        <div class="flex justify-center my-1">
                                                                             @switch($obj_obra->get('contrato')->analisis_p_u)
                                                                             @case(1)
                                                                             <img src="{{ asset('image/Bien.svg') }}" alt="Workflow">
@@ -1586,12 +1623,12 @@
                                                             <div class="border sm:col-span-4 p-2 mt-1">
                                                                 <div class="flex items-center  h-full">
                                                                     <div class="col-nombre">
-                                                                        <p class="dos-lineas">
+                                                                        <p class="dos-lineas text-sm leading-none">
                                                                             Calendario de la ejecución de los trabajos.
                                                                         </p>
                                                                     </div>
                                                                     <div class="col-estado pl-2">
-                                                                        <div class="flex justify-center my-2">
+                                                                        <div class="flex justify-center my-1">
                                                                             @switch($obj_obra->get('contrato')->montos_mensuales_ejecutados)
                                                                             @case(1)
                                                                             <img src="{{ asset('image/Bien.svg') }}" alt="Workflow">
@@ -1644,12 +1681,12 @@
                                                 <div class="border sm:col-span-4 p-2">
                                                     <div class="flex items-center h-full">
                                                         <div class="col-nombre">
-                                                            <p  class="dos-lineas">
+                                                            <p  class="dos-lineas text-sm leading-none">
                                                                 Asignacion mediante oficio del Superintendente de obra.
                                                             </p>
                                                         </div>
                                                         <div class="col-estado ml-2">
-                                                            <div class="flex justify-center my-2">
+                                                            <div class="flex justify-center my-1">
                                                                 @switch($obj_obra->get('contrato')->oficio_superintendente)
                                                                 @case(1)
                                                                 <img src="{{ asset('image/Bien.svg') }}" alt="Workflow">
@@ -1668,12 +1705,12 @@
                                                 <div class="border sm:col-span-4  p-2">
                                                     <div class="flex items-center h-full">
                                                         <div class="col-nombre">
-                                                            <p class="dos-lineas">
+                                                            <p class="dos-lineas text-sm leading-none">
                                                                 Asignacion mediante oficio del residente de obra.
                                                             </p>
                                                         </div>
                                                         <div class="col-estado pl-2">
-                                                            <div class="flex justify-center my-2">
+                                                            <div class="flex justify-center my-1">
                                                                 @switch($obj_obra->get('contrato')->oficio_residente_obra)
                                                                 @case(1)
                                                                 <img src="{{ asset('image/Bien.svg') }}" alt="Workflow">
@@ -1692,12 +1729,12 @@
                                                 <div class="border sm:col-span-4  p-2">
                                                     <div class="flex items-center h-full">
                                                         <div class="col-nombre">
-                                                            <p class="dos-lineas">
+                                                            <p class="dos-lineas text-sm leading-none">
                                                                 Oficio emitido por la ejecutora dirigido al contratista por la disposición del inmueble.
                                                             </p>
                                                         </div>
                                                         <div class="col-estado pl-2">
-                                                            <div class="flex justify-center my-2">
+                                                            <div class="flex justify-center my-1">
                                                                 @switch($obj_obra->get('contrato')->oficio_disposicion_inmueble)
                                                                 @case(1)
                                                                 <img src="{{ asset('image/Bien.svg') }}" alt="Workflow">
@@ -1716,12 +1753,12 @@
                                                 <div class="border sm:col-span-4  p-2">
                                                     <div class="flex items-center h-full">
                                                         <div class="col-nombre">
-                                                            <p class="dos-lineas">
+                                                            <p class="dos-lineas text-sm leading-none">
                                                                 Notificacion de inicio de obra.
                                                             </p>
                                                         </div>
                                                         <div class="col-estado pl-2">
-                                                            <div class="flex justify-center my-2">
+                                                            <div class="flex justify-center my-1">
                                                                 @switch($obj_obra->get('contrato')->oficio_inicio_obra)
                                                                 @case(1)
                                                                 <img src="{{ asset('image/Bien.svg') }}" alt="Workflow">
@@ -1740,14 +1777,14 @@
                                                 <div class="border sm:col-span-4  p-2">
                                                     <div class="flex items-center h-full">
                                                         <div class="col-nombre">
-                                                            <p class="dos-lineas">
+                                                            <p class="dos-lineas text-sm leading-none">
                                                                 Factura de anticipo: <span class="font-bold">{{ $obj_obra->get('contrato')->factura_anticipo }}</span>
                                                                 <br>
                                                                 Importe: <span class="font-bold">{{ $service->formatNumber($obj_obra->get('obra')->anticipo_porcentaje * 0.01 * $obj_obra->get('obra')->monto_contratado) }}</span>
                                                             </p>
                                                         </div>
                                                         <div class="col-estado pl-2">
-                                                            <div class="flex justify-center my-2">
+                                                            <div class="flex justify-center my-1">
                                                                 @switch($obj_obra->get('contrato')->exp_factura_anticipo)
                                                                 @case(1)
                                                                 <img src="{{ asset('image/Bien.svg') }}" alt="Workflow">
@@ -1807,12 +1844,12 @@
                                                                                             <div class="border sm:col-span-8 p-2">
                                                                                                 <div class="flex items-center h-full">
                                                                                                     <div class="col-nombre">
-                                                                                                        <p class="dos-lineas">
+                                                                                                        <p class="dos-lineas text-sm leading-none">
                                                                                                             Factura de la estimación.
                                                                                                         </p>
                                                                                                     </div>
                                                                                                     <div class="col-estado ml-2">
-                                                                                                        <div class="flex justify-center my-2">
+                                                                                                        <div class="flex justify-center my-1">
                                                                                                             @switch($estimacion->factura_estimacion)
                                                                                                             @case(1)
                                                                                                             <img src="{{ asset('image/Bien.svg') }}" alt="Workflow">
@@ -1831,12 +1868,12 @@
                                                                                             <div class="border sm:col-span-8 p-2">
                                                                                                 <div class="flex items-center h-full">
                                                                                                     <div class="col-nombre">
-                                                                                                        <p class="dos-lineas">
+                                                                                                        <p class="dos-lineas text-sm leading-none">
                                                                                                             Presupuesto de la estimación.
                                                                                                         </p>
                                                                                                     </div>
                                                                                                     <div class="col-estado ml-2">
-                                                                                                        <div class="flex justify-center my-2">
+                                                                                                        <div class="flex justify-center my-1">
                                                                                                             @switch($estimacion->presupuesto_estimacion)
                                                                                                             @case(1)
                                                                                                             <img src="{{ asset('image/Bien.svg') }}" alt="Workflow">
@@ -1855,12 +1892,12 @@
                                                                                             <div class="border sm:col-span-8 p-2">
                                                                                                 <div class="flex items-center h-full">
                                                                                                     <div class="col-nombre">
-                                                                                                        <p class="dos-lineas">
+                                                                                                        <p class="dos-lineas text-sm leading-none">
                                                                                                             Carátula de estimación.
                                                                                                         </p>
                                                                                                     </div>
                                                                                                     <div class="col-estado ml-2">
-                                                                                                        <div class="flex justify-center my-2">
+                                                                                                        <div class="flex justify-center my-1">
                                                                                                             @switch($estimacion->caratula_estimacion)
                                                                                                             @case(1)
                                                                                                             <img src="{{ asset('image/Bien.svg') }}" alt="Workflow">
@@ -1879,12 +1916,12 @@
                                                                                             <div class="border sm:col-span-8 p-2">
                                                                                                 <div class="flex items-center h-full">
                                                                                                     <div class="col-nombre">
-                                                                                                        <p class="dos-lineas">
+                                                                                                        <p class="dos-lineas text-sm leading-none">
                                                                                                             Cuerpo de estimación.
                                                                                                         </p>
                                                                                                     </div>
                                                                                                     <div class="col-estado ml-2">
-                                                                                                        <div class="flex justify-center my-2">
+                                                                                                        <div class="flex justify-center my-1">
                                                                                                             @switch($estimacion -> cuerpo_estimacion)
                                                                                                             @case(1)
                                                                                                             <img src="{{ asset('image/Bien.svg') }}" alt="Workflow">
@@ -1903,12 +1940,12 @@
                                                                                             <div class="border sm:col-span-8 p-2">
                                                                                                 <div class="flex items-center h-full">
                                                                                                     <div class="col-nombre">
-                                                                                                        <p class="dos-lineas">
+                                                                                                        <p class="dos-lineas text-sm leading-none">
                                                                                                             Resumen de estimación.
                                                                                                         </p>
                                                                                                     </div>
                                                                                                     <div class="col-estado ml-2">
-                                                                                                        <div class="flex justify-center my-2">
+                                                                                                        <div class="flex justify-center my-1">
                                                                                                             @switch($estimacion -> resumen_estimacion)
                                                                                                             @case(1)
                                                                                                             <img src="{{ asset('image/Bien.svg') }}" alt="Workflow">
@@ -1927,12 +1964,12 @@
                                                                                             <div class="border sm:col-span-8 p-2">
                                                                                                 <div class="flex items-center h-full">
                                                                                                     <div class="col-nombre">
-                                                                                                        <p class="dos-lineas">
+                                                                                                        <p class="dos-lineas text-sm leading-none">
                                                                                                             Estado de cuenta de estimación.
                                                                                                         </p>
                                                                                                     </div>
                                                                                                     <div class="col-estado ml-2">
-                                                                                                        <div class="flex justify-center my-2">
+                                                                                                        <div class="flex justify-center my-1">
                                                                                                             @switch($estimacion->estado_cuenta_estimacion)
                                                                                                             @case(1)
                                                                                                             <img src="{{ asset('image/Bien.svg') }}" alt="Workflow">
@@ -1951,12 +1988,12 @@
                                                                                             <div class="border sm:col-span-8 p-2">
                                                                                                 <div class="flex items-center h-full">
                                                                                                     <div class="col-nombre">
-                                                                                                        <p class="dos-lineas">
+                                                                                                        <p class="dos-lineas text-sm leading-none">
                                                                                                             Número generadores de estimación.
                                                                                                         </p>
                                                                                                     </div>
                                                                                                     <div class="col-estado ml-2">
-                                                                                                        <div class="flex justify-center my-2">
+                                                                                                        <div class="flex justify-center my-1">
                                                                                                             @switch($estimacion->numero_generadores_estimacion)
                                                                                                             @case(1)
                                                                                                             <img src="{{ asset('image/Bien.svg') }}" alt="Workflow">
@@ -1975,12 +2012,12 @@
                                                                                             <div class="border sm:col-span-8 p-2">
                                                                                                 <div class="flex items-center h-full">
                                                                                                     <div class="col-nombre">
-                                                                                                        <p class="dos-lineas">
+                                                                                                        <p class="dos-lineas text-sm leading-none">
                                                                                                             Corquis de localización de estimación.
                                                                                                         </p>
                                                                                                     </div>
                                                                                                     <div class="col-estado ml-2">
-                                                                                                        <div class="flex justify-center my-2">
+                                                                                                        <div class="flex justify-center my-1">
                                                                                                             @switch($estimacion->croquis_ilustrativo_estimacion)
                                                                                                             @case(1)
                                                                                                             <img src="{{ asset('image/Bien.svg') }}" alt="Workflow">
@@ -1999,12 +2036,12 @@
                                                                                             <div class="border sm:col-span-8 p-2">
                                                                                                 <div class="flex items-center h-full">
                                                                                                     <div class="col-nombre">
-                                                                                                        <p class="dos-lineas">
+                                                                                                        <p class="dos-lineas text-sm leading-none">
                                                                                                             Soporte fotográfico de estimación.
                                                                                                         </p>
                                                                                                     </div>
                                                                                                     <div class="col-estado ml-2">
-                                                                                                        <div class="flex justify-center my-2">
+                                                                                                        <div class="flex justify-center my-1">
                                                                                                             @switch($estimacion->reporte_fotografico_estimacion)
                                                                                                             @case(1)
                                                                                                             <img src="{{ asset('image/Bien.svg') }}" alt="Workflow">
@@ -2023,12 +2060,12 @@
                                                                                             <div class="border sm:col-span-8 p-2">
                                                                                                 <div class="flex items-center h-full">
                                                                                                     <div class="col-nombre">
-                                                                                                        <p class="dos-lineas">
+                                                                                                        <p class="dos-lineas text-sm leading-none">
                                                                                                             Notas de bitácora.
                                                                                                         </p>
                                                                                                     </div>
                                                                                                     <div class="col-estado ml-2">
-                                                                                                        <div class="flex justify-center my-2">
+                                                                                                        <div class="flex justify-center my-1">
                                                                                                             @switch($estimacion->notas_bitacora)
                                                                                                             @case(1)
                                                                                                             <img src="{{ asset('image/Bien.svg') }}" alt="Workflow">
@@ -2066,12 +2103,12 @@
                                                         <div class="border sm:col-span-4 p-2 mt-1">
                                                             <div class="flex items-center  h-full">
                                                                 <div class="col-nombre">
-                                                                    <p class="dos-lineas">
+                                                                    <p class="dos-lineas text-sm leading-none">
                                                                         Fianza de anticipo: <span class="font-bold">{{ $obj_obra->get('contrato')->fianza_anticipo }}</span>
                                                                     </p>
                                                                 </div>
                                                                 <div class="col-estado pl-2">
-                                                                    <div class="flex justify-center my-2">
+                                                                    <div class="flex justify-center my-1">
                                                                         @switch($obj_obra->get('contrato')->exp_fianza_anticipo)
                                                                         @case(1)
                                                                         <img src="{{ asset('image/Bien.svg') }}" alt="Workflow">
@@ -2089,12 +2126,12 @@
                                                         <div class="border sm:col-span-4 p-2 mt-1">
                                                             <div class="flex items-center  h-full">
                                                                 <div class="col-nombre">
-                                                                    <p class="dos-lineas">
+                                                                    <p class="dos-lineas text-sm leading-none">
                                                                         Fianza de cumplimiento: <span class="font-bold">{{ $obj_obra->get('contrato')->fianza_cumplimiento }}</span>
                                                                     </p>
                                                                 </div>
                                                                 <div class="col-estado pl-2">
-                                                                    <div class="flex justify-center my-2">
+                                                                    <div class="flex justify-center my-1">
                                                                         @switch($obj_obra->get('contrato')->exp_fianza_cumplimiento)
                                                                         @case(1)
                                                                         <img src="{{ asset('image/Bien.svg') }}" alt="Workflow">
@@ -2112,12 +2149,12 @@
                                                         <div class="border sm:col-span-4 p-2 mt-1">
                                                             <div class="flex items-center  h-full">
                                                                 <div class="col-nombre">
-                                                                    <p class="dos-lineas">
+                                                                    <p class="dos-lineas text-sm leading-none">
                                                                         Fianza de vicios ocultos: <span class="font-bold">{{ $obj_obra->get('contrato')->fianza_v_o }}</span>
                                                                     </p>
                                                                 </div>
                                                                 <div class="col-estado pl-2">
-                                                                    <div class="flex justify-center my-2">
+                                                                    <div class="flex justify-center my-1">
                                                                         @switch($obj_obra->get('contrato')->exp_fianza_v_o)
                                                                         @case(1)
                                                                         <img src="{{ asset('image/Bien.svg') }}" alt="Workflow">
@@ -2138,12 +2175,12 @@
                                                 <div class="border sm:col-span-4 p-2">
                                                     <div class="flex items-center h-full">
                                                         <div class="col-nombre">
-                                                            <p  class="dos-lineas">
+                                                            <p  class="dos-lineas text-sm leading-none">
                                                                 Inventario de la maquinaria y equipo de construcción con que cuenta el municipio.
                                                             </p>
                                                         </div>
                                                         <div class="col-estado ml-2">
-                                                            <div class="flex justify-center my-2">
+                                                            <div class="flex justify-center my-1">
                                                                 @switch($obj_obra->get('admin')->inventario_maquinaria_construccion)
                                                                 @case(1)
                                                                 <img src="{{ asset('image/Bien.svg') }}" alt="Workflow">
@@ -2161,12 +2198,12 @@
                                                 <div class="border sm:col-span-4 p-2">
                                                     <div class="flex items-center h-full">
                                                         <div class="col-nombre">
-                                                            <p  class="dos-lineas">
+                                                            <p  class="dos-lineas text-sm leading-none">
                                                                 Relacion de la plantilla del personal tecnico y administrativo relacionado con la obra
                                                             </p>
                                                         </div>
                                                         <div class="col-estado ml-2">
-                                                            <div class="flex justify-center my-2">
+                                                            <div class="flex justify-center my-1">
                                                                 @switch($obj_obra->get('admin')->plantilla_personal)
                                                                 @case(1)
                                                                 <img src="{{ asset('image/Bien.svg') }}" alt="Workflow">
@@ -2184,12 +2221,12 @@
                                                 <div class="border sm:col-span-4 p-2">
                                                     <div class="flex items-center h-full">
                                                         <div class="col-nombre">
-                                                            <p  class="dos-lineas">
+                                                            <p  class="dos-lineas text-sm leading-none">
                                                                 Identificacion oficial de los trabajadores que aparecen en las listas de raya
                                                             </p>
                                                         </div>
                                                         <div class="col-estado ml-2">
-                                                            <div class="flex justify-center my-2">
+                                                            <div class="flex justify-center my-1">
                                                                 @switch($obj_obra->get('admin')->indentificacion_oficial_trabajadores)
                                                                 @case(1)
                                                                 <img src="{{ asset('image/Bien.svg') }}" alt="Workflow">
@@ -2207,12 +2244,12 @@
                                                 <div class="border sm:col-span-4 p-2">
                                                     <div class="flex items-center h-full">
                                                         <div class="col-nombre">
-                                                            <p  class="dos-lineas">
+                                                            <p  class="dos-lineas text-sm leading-none">
                                                                 Reporte fotográfico.
                                                             </p>
                                                         </div>
                                                         <div class="col-estado ml-2">
-                                                            <div class="flex justify-center my-2">
+                                                            <div class="flex justify-center my-1">
                                                                 @switch($obj_obra->get('admin')->reporte_fotografico)
                                                                 @case(1)
                                                                 <img src="{{ asset('image/Bien.svg') }}" alt="Workflow">
@@ -2230,12 +2267,12 @@
                                                 <div class="border sm:col-span-4 p-2">
                                                     <div class="flex items-center h-full">
                                                         <div class="col-nombre">
-                                                            <p  class="dos-lineas">
+                                                            <p  class="dos-lineas text-sm leading-none">
                                                                 Notas de bitácora.
                                                             </p>
                                                         </div>
                                                         <div class="col-estado ml-2">
-                                                            <div class="flex justify-center my-2">
+                                                            <div class="flex justify-center my-1">
                                                                 @switch($obj_obra->get('admin')->notas_bitacora)
                                                                 @case(1)
                                                                 <img src="{{ asset('image/Bien.svg') }}" alt="Workflow">
@@ -2253,12 +2290,12 @@
                                                 <div class="border sm:col-span-4 p-2">
                                                     <div class="flex items-center h-full">
                                                         <div class="col-nombre">
-                                                            <p  class="dos-lineas">
+                                                            <p  class="dos-lineas text-sm leading-none">
                                                                 Acta de entrega recepción.
                                                             </p>
                                                         </div>
                                                         <div class="col-estado ml-2">
-                                                            <div class="flex justify-center my-2">
+                                                            <div class="flex justify-center my-1">
                                                                 @switch($obj_obra->get('admin')->acta_entrega_municipio)
                                                                 @case(1)
                                                                 <img src="{{ asset('image/Bien.svg') }}" alt="Workflow">
@@ -2276,12 +2313,12 @@
                                                 <div class="border sm:col-span-4 p-2">
                                                     <div class="flex items-center h-full">
                                                         <div class="col-nombre">
-                                                            <p  class="dos-lineas">
+                                                            <p  class="dos-lineas text-sm leading-none">
                                                                 Cédula detallada de facturación total de la obra.
                                                             </p>
                                                         </div>
                                                         <div class="col-estado ml-2">
-                                                            <div class="flex justify-center my-2">
+                                                            <div class="flex justify-center my-1">
                                                                 @switch($obj_obra->get('admin')->cedula_detallada_facturacion)
                                                                 @case(1)
                                                                 <img src="{{ asset('image/Bien.svg') }}" alt="Workflow">
@@ -2301,7 +2338,7 @@
                                                     <div class="border sm:col-span-8  p-2 mt-4">
                                                         <div class="flex items-center justify-center mb-3">
                                                             <div>
-                                                                <p class="font-bold dos-lineas">
+                                                                <p class="font-bold dos-lineas ">
                                                                     Listas de raya
                                                                 </p>
                                                             </div>
@@ -2311,12 +2348,12 @@
                                                                 <div class="border sm:col-span-4 p-2 mt-1">
                                                                     <div class="flex items-center  h-full">
                                                                         <div class="col-nombre">
-                                                                            <p class="dos-lineas">
+                                                                            <p class="dos-lineas text-sm leading-none">
                                                                                Lista de raya {{$lista->numero_lista_raya}}<br> Del {{date('d-m-Y', strtotime($lista->fecha_inicio))}} al {{date('d-m-Y', strtotime($lista->fecha_fin))}}
                                                                             </p>
                                                                         </div>
                                                                         <div class="col-estado pl-2">
-                                                                            <div class="flex justify-center my-2">
+                                                                            <div class="flex justify-center my-1">
                                                                                 @switch($lista->agregado_expediente)
                                                                                 @case(1)
                                                                                 <img src="{{ asset('image/Bien.svg') }}" alt="Workflow">
@@ -2349,13 +2386,13 @@
                                                             @foreach ($facturas as $key => $factura)
                                                                 <div class="border sm:col-span-4 p-2 mt-1">
                                                                     <div class="flex items-center  h-full">
-                                                                        <div class="col-nombre">
+                                                                        <div class="col-nombre text-sm leading-none">
                                                                             <p>
                                                                                Factura  {{$factura->folio_fiscal}}
                                                                             </p>
                                                                         </div>
                                                                         <div class="col-estado pl-2">
-                                                                            <div class="flex justify-center my-2">
+                                                                            <div class="flex justify-center my-1">
                                                                                 @switch($factura->agregado_expediente)
                                                                                 @case(1)
                                                                                 <img src="{{ asset('image/Bien.svg') }}" alt="Workflow">
@@ -2389,13 +2426,13 @@
                                                             @foreach ($contratos_arrendamiento as $contrato)
                                                                 <div class="border sm:col-span-4 p-2 mt-1">
                                                                     <div class="flex items-center  h-full">
-                                                                        <div class="col-nombre">
+                                                                        <div class="col-nombre text-sm leading-none">
                                                                             <p>
                                                                                Contrato {{$contrato->numero_contrato}}
                                                                             </p>
                                                                         </div>
                                                                         <div class="col-estado pl-2">
-                                                                            <div class="flex justify-center my-2">
+                                                                            <div class="flex justify-center my-1">
                                                                                 @switch($contrato->agregado_expediente)
                                                                                 @case(1)
                                                                                 <img src="{{ asset('image/Bien.svg') }}" alt="Workflow">
@@ -2452,12 +2489,12 @@
                                                     <div class="border sm:col-span-4 p-2">
                                                         <div class="flex items-center h-full">
                                                             <div class="col-nombre">
-                                                                <p class="dos-lineas">
+                                                                <p class="dos-lineas text-sm leading-none">
                                                                     Presupuesto definitivo.
                                                                 </p>
                                                             </div>
                                                             <div class="col-estado ml-2">
-                                                                <div class="flex justify-center my-2">
+                                                                <div class="flex justify-center my-1">
                                                                     @switch($obj_obra->get('contrato')->presupuesto_definitivo)
                                                                     @case(1)
                                                                     <img src="{{ asset('image/Bien.svg') }}" alt="Workflow">
@@ -2476,12 +2513,12 @@
                                                     <div class="border sm:col-span-4  p-2">
                                                         <div class="flex items-center h-full">
                                                             <div class="col-nombre">
-                                                                <p class="dos-lineas">
+                                                                <p class="dos-lineas text-sm leading-none">
                                                                     Actas de entrega de recepción fisica de los trabajos del contratista al municipio.
                                                                 </p>
                                                             </div>
                                                             <div class="col-estado pl-2">
-                                                                <div class="flex justify-center my-2">
+                                                                <div class="flex justify-center my-1">
                                                                     @switch($obj_obra->get('contrato')->acta_entrega_contratista)
                                                                     @case(1)
                                                                     <img src="{{ asset('image/Bien.svg') }}" alt="Workflow">
@@ -2500,12 +2537,12 @@
                                                     <div class="border sm:col-span-4  p-2">
                                                         <div class="flex items-center h-full">
                                                             <div class="col-nombre">
-                                                                <p class="dos-lineas">
+                                                                <p class="dos-lineas text-sm leading-none">
                                                                     Actas de entrega de recepción fisica de los trabajos del municipio a los beneficiarios.
                                                                 </p>
                                                             </div>
                                                             <div class="col-estado pl-2">
-                                                                <div class="flex justify-center my-2">
+                                                                <div class="flex justify-center my-1">
                                                                     @switch($obj_obra->get('contrato')->acta_entrega_municipio)
                                                                     @case(1)
                                                                     <img src="{{ asset('image/Bien.svg') }}" alt="Workflow">
@@ -2524,12 +2561,12 @@
                                                     <div class="border sm:col-span-4  p-2">
                                                         <div class="flex items-center h-full">
                                                             <div class="col-nombre">
-                                                                <p class="dos-lineas">
+                                                                <p class="dos-lineas text-sm leading-none">
                                                                     Acta de extinción de derechos y obligaciones.
                                                                 </p>
                                                             </div>
                                                             <div class="col-estado pl-2">
-                                                                <div class="flex justify-center my-2">
+                                                                <div class="flex justify-center my-1">
                                                                     @switch($obj_obra->get('contrato')->acta_extincion)
                                                                     @case(1)
                                                                     <img src="{{ asset('image/Bien.svg') }}" alt="Workflow">
@@ -2548,12 +2585,12 @@
                                                     <div class="border sm:col-span-4  p-2">
                                                         <div class="flex items-center h-full">
                                                             <div class="col-nombre">
-                                                                <p class="dos-lineas">
+                                                                <p class="dos-lineas text-sm leading-none">
                                                                     Aviso de terminación de la obra por parte del contratista.
                                                                 </p>
                                                             </div>
                                                             <div class="col-estado pl-2">
-                                                                <div class="flex justify-center my-2">
+                                                                <div class="flex justify-center my-1">
                                                                     @switch($obj_obra->get('contrato')->aviso_terminacion_obra)
                                                                     @case(1)
                                                                     <img src="{{ asset('image/Bien.svg') }}" alt="Workflow">
@@ -2572,12 +2609,12 @@
                                                     <div class="border sm:col-span-4  p-2">
                                                         <div class="flex items-center h-full">
                                                             <div class="col-nombre">
-                                                                <p class="dos-lineas">
+                                                                <p class="dos-lineas text-sm leading-none">
                                                                     Sabana de finiquito.
                                                                 </p>
                                                             </div>
                                                             <div class="col-estado pl-2">
-                                                                <div class="flex justify-center my-2">
+                                                                <div class="flex justify-center my-1">
                                                                     @switch($obj_obra->get('contrato')->saba_finiquito)
                                                                     @case(1)
                                                                     <img src="{{ asset('image/Bien.svg') }}" alt="Workflow">
@@ -2648,8 +2685,8 @@
                                                     </td>
                                                     <td>
                                                         <div class="text-sm leading-5 font-medium text-gray-900 text-right">
-                                                        Del <b>{{ $service->formatDate($lista->fecha_inicio) }}</b><br>
-                                                        Al <b>{{ $service->formatDate($lista->fecha_fin) }}</b>
+                                                            Del <span class="font-semibold">{{ $service->formatDate($lista->fecha_inicio) }}</span><br>
+                                                            Al <span class="font-semibold">{{ $service->formatDate($lista->fecha_fin) }}</span>
                                                         </div>
                                                     </td>
                                                     <td>
@@ -2728,8 +2765,8 @@
                                                     </td>
                                                     <td>
                                                         <div class="text-sm leading-5 font-medium text-gray-900 text-right">
-                                                        Del <b>{{ $service->formatDate($contrato->fecha_inicio) }}</b><br>
-                                                        Al <b>{{ $service->formatDate($contrato->fecha_fin) }}</b>
+                                                        Del <span class="font-semibold">{{ $service->formatDate($contrato->fecha_inicio) }}</span><br>
+                                                        Al <span class="font-semibold">{{ $service->formatDate($contrato->fecha_fin) }}</span>
                                                         </div>
                                                     </td>
                                                     <td>
@@ -4260,7 +4297,7 @@
                     <input type="text" name="ejercicio" maxlength="40" class="hidden mt-1 focus:ring-blue-800 focus:border-blue-800 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md" value="{{ $obj_obra->get('obra')->ejercicio }}">
                     <div class="col-span-10">
                         <div class="container-input flex justify-center items-center">
-                            <input type="file" name="file-2" id="file-2" class="inputfile inputfile-2" data-multiple-caption="{count} archivos seleccionados" multiple accept="application/pdf"/>
+                            <input type="file" name="file-2" id="file-2" class="inputfile inputfile-2" multiple accept="application/pdf"/>
                             <label for="file-2" class="flex justify-center items-center">
                                 <svg xmlns="http://www.w3.org/2000/svg" class="iborrainputfile" width="20" height="17" viewBox="0 0 20 17"><path d="M10 0l-5.2 4.9h3.3v5.1h3.8v-5.1h3.3l-5.2-4.9zm9.3 11.5l-3.2-2.1h-2l3.4 2.6h-3.5c-.1 0-.2.1-.2.1l-.8 2.3h-6l-.8-2.2c-.1-.1-.1-.2-.2-.2h-3.6l3.4-2.6h-2l-3.2 2.1c-.4.3-.7 1-.6 1.5l.6 3.1c.1.5.7.9 1.2.9h16.3c.6 0 1.1-.4 1.3-.9l.6-3.1c.1-.5-.2-1.2-.7-1.5z"></path></svg>
                                 <span class="iborrainputfile">Seleccionar archivo</span>
@@ -4277,12 +4314,12 @@
                 
                 
                 <div class="text-right">
-                <button class="text-red-500 background-transparent font-bold uppercase px-6 text-sm outline-none focus:outline-none ease-linear transition-all duration-150" type="button" onclick="toggleModal('modal-checklist')">
-                    Cancelar
-                </button>
-                <button type="submit" id="guardar" class="text-blue-500 font-bold uppercase text-sm px-6 rounded outline-none focus:outline-none ease-linear transition-all duration-150" >
-                    Guardar
-                </button>
+                    <button class="text-red-500 background-transparent font-bold uppercase px-6 text-sm outline-none focus:outline-none ease-linear transition-all duration-150" type="button" onclick="toggleModal('modal-checklist')">
+                        Cancelar
+                    </button>
+                    <button type="submit" id="guardar" class="text-blue-500 font-bold uppercase text-sm px-6 rounded outline-none focus:outline-none ease-linear transition-all duration-150" >
+                        Guardar
+                    </button>
             </div>
         </div>
         </form>
@@ -4298,6 +4335,7 @@
     <script src="//cdn.jsdelivr.net/npm/sweetalert2@10"></script>
     <script type="text/javascript" charset="utf8" src="https://code.jquery.com/jquery-3.5.1.js"></script>
     <script src="{{ asset('js/jquery.dataTables.min.js') }}"></script>
+    <script src="{{ asset('js/mk_charts.js') }}"></script>
     <script src="{{ asset('js/dataTables.responsive.min.js') }}"></script>
     <script src="https://unpkg.com/@popperjs/core@2.9.1/dist/umd/popper.min.js" charset="utf-8"></script>
     <script type="text/javascript" src="https://cdn.datatables.net/v/dt/jszip-2.5.0/dt-1.10.22/b-1.6.4/b-flash-1.6.4/b-html5-1.6.4/b-print-1.6.4/datatables.min.js"></script>

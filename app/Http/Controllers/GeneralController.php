@@ -182,8 +182,7 @@ class GeneralController extends Controller
         if($fuente_f3 != null){
             $sisplade = Sisplade::where('fuentes_clientes_id', $fuente_f3->id_fuente_financ_cliente)->first();
         }
-
-
+        
         return view('ejercicio.ejercicio', 
         compact(
             'fuentes_cliente',
@@ -624,7 +623,7 @@ class GeneralController extends Controller
         ->join('distritos', 'distritos.id_distrito', '=', 'distrito_id')
         ->join('regiones', 'regiones.id_region', '=', 'region_id')
         ->join('estados', 'estados.id_estado', '=', 'estado_id')
-        ->select('id_obra', 'numero_obra', 'nombre_localidad','municipios.nombre as nombre_municipio', 'distritos.nombre as nombre_distrito', 'regiones.nombre as nombre_region', 'estados.nombre as nombre_estado', 'oficio_notificacion', 'monto_contratado', 'monto_modificado', 'nombre_obra', 'fecha_inicio_programada', 'fecha_final_programada', 'fecha_final_real', 'id_obra', 'anticipo_porcentaje', 'modalidad_ejecucion', 'obras.nombre_corto as nombre_corto_obra', 'ejercicio', 'anticipo_monto', 'id_municipio', 'avance_fisico', 'avance_economico', 'avance_tecnico', 'nombre_archivo')
+        ->select('id_obra', 'numero_obra', 'nombre_localidad','municipios.nombre as nombre_municipio', 'distritos.nombre as nombre_distrito', 'regiones.nombre as nombre_region', 'estados.nombre as nombre_estado', 'oficio_notificacion', 'monto_contratado', 'monto_modificado', 'nombre_obra', 'fecha_inicio_programada', 'fecha_final_programada', 'fecha_final_real', 'id_obra', 'anticipo_porcentaje', 'modalidad_ejecucion', 'obras.nombre_corto as nombre_corto_obra', 'ejercicio', 'anticipo_monto', 'id_municipio', 'avance_fisico', 'avance_economico', 'avance_tecnico', 'nombre_archivo', 'fecha_oficio_notificacion')
         ->first();
 
         $observaciones = ObraObservaciones::where('obra_id', $obra->id_obra)->first();
@@ -797,7 +796,7 @@ class GeneralController extends Controller
 
     public function store_obra(Request $request)
     {
-        
+        return $request;
 
         $request->validate([
             "monto_contratado" => 'required',
@@ -1158,7 +1157,7 @@ class GeneralController extends Controller
         ->join('distritos', 'distritos.id_distrito', '=', 'distrito_id')
         ->join('regiones', 'regiones.id_region', '=', 'region_id')
         ->join('estados', 'estados.id_estado', '=', 'estado_id')
-        ->select('id_obra','avance_fisico','nombre_localidad','municipios.nombre as nombre_municipio', 'distritos.nombre as nombre_distrito', 'regiones.nombre as nombre_region', 'estados.nombre as nombre_estado', 'oficio_notificacion', 'monto_contratado', 'monto_modificado', 'nombre_obra', 'fecha_inicio_programada', 'fecha_final_programada', 'id_obra', 'anticipo_porcentaje', 'anticipo_monto', 'modalidad_ejecucion', 'obras.nombre_corto as nombre_corto_obra', 'ejercicio')
+        ->select('id_obra','avance_fisico','nombre_localidad','municipios.nombre as nombre_municipio', 'distritos.nombre as nombre_distrito', 'regiones.nombre as nombre_region', 'estados.nombre as nombre_estado', 'oficio_notificacion', 'monto_contratado', 'monto_modificado', 'nombre_obra', 'fecha_inicio_programada', 'fecha_final_programada', 'id_obra', 'anticipo_porcentaje', 'anticipo_monto', 'modalidad_ejecucion', 'obras.nombre_corto as nombre_corto_obra', 'ejercicio', 'numero_obra')
         ->first();
         
         $obra_contrato = ObrasContrato::where('id_obra_contrato',$pagos_obra->obra_contrato_id)
@@ -1422,6 +1421,7 @@ class GeneralController extends Controller
 
     public function store_factura (Request $request)
     {
+
         
         $request->validate([
             "id_obra_admin_factura" => 'required',
@@ -1520,7 +1520,7 @@ class GeneralController extends Controller
 
 
         if($request->id_contrato_factura != ''){
-            return redirect()->route('show_contrato', ['id' => $request->id_contrato_factura, 'id_obra' => $request->id_obra_factura])->with('eliminar', $estado);
+            return redirect()->route('show_contrato', ['id' => $request->id_contrato_factura, 'id_obra' => $request->id_obra_factura])->with('mensaje', 'ok')->with('datos', $datos);
             
         }else{
             return redirect()->route('obra.ver', ['id' => $request->id_obra_factura])->with('mensaje', 'ok')->with('datos', $datos);
@@ -1591,7 +1591,7 @@ class GeneralController extends Controller
         }
 
         if($request->id_contrato_factura_edit != ''){
-            return redirect()->route('show_contrato', ['id' => $request->id_contrato_factura_edit, 'id_obra' => $request->id_obra_factura_edit]);
+            return redirect()->route('show_contrato', ['id' => $request->id_contrato_factura_edit, 'id_obra' => $request->id_obra_factura_edit])->with('mensaje', 'ok')->with('datos', $datos);
         }else{
             return redirect()->route('obra.ver', ['id' => $request->id_obra_factura_edit])->with('mensaje', 'ok')->with('datos', $datos);
         }
@@ -1672,7 +1672,6 @@ class GeneralController extends Controller
 
     public function show_contrato ($id, $obra_id)
     {
-
         $obra = Obra::where('id_obra', $obra_id)
         ->join('obras_fuentes', 'obras_fuentes.obra_id', '=', 'id_obra')
         ->join('fuentes_clientes', 'fuentes_clientes.id_fuente_financ_cliente', '=', 'fuente_financiamiento_cliente_id')
@@ -1682,7 +1681,7 @@ class GeneralController extends Controller
         ->join('distritos', 'distritos.id_distrito', '=', 'distrito_id')
         ->join('regiones', 'regiones.id_region', '=', 'region_id')
         ->join('estados', 'estados.id_estado', '=', 'estado_id')
-        ->select('id_obra','avance_fisico','nombre_localidad','municipios.nombre as nombre_municipio', 'distritos.nombre as nombre_distrito', 'regiones.nombre as nombre_region', 'estados.nombre as nombre_estado', 'oficio_notificacion', 'monto_contratado', 'monto_modificado', 'nombre_obra', 'fecha_inicio_programada', 'fecha_final_programada', 'id_obra', 'anticipo_porcentaje', 'anticipo_monto', 'modalidad_ejecucion', 'obras.nombre_corto as nombre_corto_obra', 'ejercicio', 'municipio_id', 'fecha_final_real')
+        ->select('id_obra','avance_fisico','nombre_localidad','municipios.nombre as nombre_municipio', 'distritos.nombre as nombre_distrito', 'regiones.nombre as nombre_region', 'estados.nombre as nombre_estado', 'oficio_notificacion', 'monto_contratado', 'monto_modificado', 'nombre_obra', 'fecha_inicio_programada', 'fecha_final_programada', 'id_obra', 'anticipo_porcentaje', 'anticipo_monto', 'modalidad_ejecucion', 'obras.nombre_corto as nombre_corto_obra', 'ejercicio', 'municipio_id', 'fecha_final_real', 'numero_obra')
         ->first();
 
         $contrato = ContratosArrendamiento::where('id_contrato_arrendamiento',$id)
@@ -1832,18 +1831,58 @@ class GeneralController extends Controller
     public function update_mids(Request $request)
     {   
 
-        $request->validate([
-            'fecha_planeacion' => 'required',
-        ]);
-
-
+        //return $request;
+        
         $mids = Mids::find($request->mids_id);
-        $mids->fecha_planeado = $request->fecha_planeacion;
-        $mids->firmado = $request->fecha_firma?1:2;
-        $mids->fecha_firmado = $request->fecha_firma;
-        $mids->validado = $request->fecha_revision?1:2;
-        $mids->fecha_validado = $request->fecha_revision;
+        
+        
 
+        if (!empty($request->file('archivo_capturado'))) {
+
+
+            $file = $request->file('archivo_capturado');
+            
+            //Move Uploaded File
+            
+
+            $destinationPath = './uploads/municipios/'.$request->municipio_id.'/'.$request->ejercicio.'/'.$mids->obra_id.'/'.'mids/';
+            $name = 'acuse planeación MIDS obra '.$mids->obra_id.' '.$request->ejercicio.'.'.$file->getClientOriginalExtension();
+            $file->move($destinationPath, $name);
+            $destinationPath = '/uploads/municipios/'.$request->municipio_id.'/'.$request->ejercicio.'/'.$mids->obra_id.'/'.'mids/'.$name;
+            $mids->archivo_planeado = $destinationPath;
+            $mids->planeado = 1;
+            $mids->fecha_planeado = $request->fecha_planeacion;
+        }
+
+        if (!empty($request->file('archivo_firma'))) {
+
+            $file = $request->file('archivo_firma');
+            
+            //Move Uploaded File
+            
+            $destinationPath = './uploads/municipios/'.$request->municipio_id.'/'.$request->ejercicio.'/'.$mids->obra_id.'/'.'mids/';
+            $name = 'Acuse de la firma MIDS obra '.$mids->obra_id.' '.$request->ejercicio.'.'.$file->getClientOriginalExtension();
+            $file->move($destinationPath, $name);
+            $destinationPath = '/uploads/municipios/'.$request->municipio_id.'/'.$request->ejercicio.'/'.$mids->obra_id.'/'.'mids/'.$name;
+            $mids->archivo_firmado = $destinationPath;
+            $mids->firmado = 1;
+            $mids->fecha_firmado = $request->fecha_planeacion;
+        }
+
+        if (!empty($request->file('archivo_revision'))) {
+
+            $file = $request->file('archivo_revision');
+            
+            //Move Uploaded File
+            
+            $destinationPath = './uploads/municipios/'.$request->municipio_id.'/'.$request->ejercicio.'/'.$mids->obra_id.'/'.'mids/';
+            $name = 'acuse revisión MIDS obra '.$mids->obra_id.' '.$request->ejercicio.'.'.$file->getClientOriginalExtension();
+            $file->move($destinationPath, $name);
+            $destinationPath = '/uploads/municipios/'.$request->municipio_id.'/'.$request->ejercicio.'/'.$mids->obra_id.'/'.'mids/'.$name;
+            $mids->archivo_validado = $destinationPath;
+            $mids->validado = 1;
+            $mids->fecha_validado = $request->fecha_planeacion;
+        }
 
         $mids->update();
         

@@ -10,12 +10,6 @@
     <link href="https://cdn.datatables.net/responsive/2.2.3/css/responsive.dataTables.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.datatables.net/buttons/1.6.4/css/buttons.dataTables.min.css">
 
-    <div class="flex flex-row mb-4">
-        <svg class="h-7 w-7" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" />
-        </svg>
-        <h1 class="font-bold text-xl ml-2">Proceso de pago</h1>
-    </div>
 
     @if ($errors->any())
       <div class="alert flex flex-row items-center bg-yellow-200 p-2 rounded-lg border-b-2 border-yellow-300 mb-4 shadow">
@@ -43,116 +37,139 @@
     @endif
 
     <div class="mt-10 sm:mt-0 shadow-2xl bg-white rounded-lg">
-        <div class="mt-6 p-8 shadow-2xl bg-white rounded-lg">
+        <div class="shadow-2xl bg-white rounded-lg">
+            <div class="bg-blue-cmr1 rounded-t-lg">
+                <div class="p-4">
+                    <h2 class="font-semibold text-lg text-center text-white uppercase">Proceso de pago de la obra</h2>
+                </div>
+            </div>
 
-            <div class="bg-gray-200 mt-5">
-                <h2 class="font-bold text-lg text-center">Datos generales de la obra</h2>
+            <div class="bg-gray-300 mt-6">
+                <div class="px-4 py-2">
+                    <h2 class="font-semibold text-base text-center uppercase">Datos generales de la obra</h2>
+                </div>
             </div>
             
-            <div class="mt-5 grid grid-cols-9 gap-4">
-                <div class="col-span-9">
-                    <p class="font-bold">{{ $obra->nombre_obra }}</p>
+            <div class="pb-8 px-8 pt-4 grid grid-cols-12 gap-2">
+                <div class="col-span-12">
+                    <p class="text-xs text-center">Nombre</p>
+                    <p class="text-base font-semibold bg-gray-100 p-1 text-center">{{ $obra->nombre_obra }}</p>
                 </div>
-                <div class="col-span-9">
-                    <p class="text-sm font-semibold">Nombre corto: <br><span class="ml-5 text-base font-bold mostrar_datos">{{ $obra->nombre_corto_obra}}</span></p>
+                <div class="col-span-12 sm:col-span-3">
+                    <p class="text-xs text-center">Núm. de obra</p>
+                    <p class="text-base font-semibold bg-gray-100 p-1 text-center">{{str_pad($obra->numero_obra,3,"0",STR_PAD_LEFT)}}</p>
                 </div>
-                <div class="col-span-9 sm:col-span-3">
-                    <p class="text-sm font-semibold">Localidad <br><span class="ml-5 text-base font-bold">{{ $obra->nombre_localidad }}</span></p>
+                <div class="col-span-12 sm:col-span-9">
+                    <p class="text-xs text-center">Nombre corto</p>
+                    <p class="text-base font-semibold bg-gray-100 p-1 text-center">{{ $obra->nombre_corto_obra}}</p>
                 </div>
-                <div class="col-span-9 sm:col-span-2">
-                    <p class="text-sm font-semibold">Municipio <br><span class="ml-5 text-base font-bold">{{ $obra->nombre_municipio }}</span></p>
+                <div class="col-span-12 sm:col-span-3">
+                    <p class="text-xs text-center">Localidad</p>
+                    <p class="text-base font-semibold bg-gray-100 p-1 text-center">{{ $obra->nombre_localidad}}</p>
                 </div>
-                <div class="col-span-9 sm:col-span-2">
-                    <p class="text-sm font-semibold">Distrito <br><span class="ml-5 text-base font-bold">{{ $obra->nombre_distrito }}</span></p>
+                <div class="col-span-12 sm:col-span-3">
+                    <p class="text-xs text-center">Municipio</p>
+                    <p class="text-base font-semibold bg-gray-100 p-1 text-center">{{ $obra->nombre_municipio }}</p>
                 </div>
-                <div class="col-span-9 sm:col-span-2">
-                    <p class="text-sm font-semibold">Estado <br><span class="ml-5 text-base font-bold">{{ $obra->nombre_estado }}</span></p>
+                <div class="col-span-12 sm:col-span-3">
+                    <p class="text-xs text-center">Distrito</p>
+                    <p class="text-base font-semibold bg-gray-100 p-1 text-center">{{ $obra->nombre_distrito }}</p>
+                </div>
+                <div class="col-span-12 sm:col-span-3">
+                    <p class="text-xs text-center">Distrito</p>
+                    <p class="text-base font-semibold bg-gray-100 p-1 text-center">{{ $obra->nombre_estado }}</p>                    
                 </div>
             </div>
 
-            <div class="bg-gray-200 mt-5">
-                <h2 class="font-bold text-lg text-center">Detalles del proceso de pago {{$pagos_obra->nombre == 'Anticipo'?'del': 'de la'}} {{$pagos_obra->nombre}}</h2>
+            <div class="bg-gray-300 ">
+                <div class="px-4 py-2">
+                    <h2 class="font-semibold text-base text-center uppercase">Detalles del proceso de pago {{$pagos_obra->nombre == 'Anticipo'?'del': 'de la'}} {{$pagos_obra->nombre}}</h2>
+                </div>
             </div>
+
             @if($pagos_obra->fecha_recepcion == null || $pagos_obra->fecha_validacion == null || $pagos_obra->fecha_pago == null)
-                <div class="mt-2 flex justify-center">
+                <div class="pt-2 px-8  flex justify-center">
                     <button type="button" href="" class="text-sm text-blue-500 background-transparent font-semibold outline-none focus:outline-none transition-all duration-150 text-center" onclick="toggleModal_fechas('modal-update-fechas')">Actualizar fechas</button>
                 </div>
             @endif
 
-            <div class="mt-5 grid grid-cols-9 gap-4">
+            <div class="pb-8 px-8 pt-4 grid grid-cols-9 gap-4">
                 <div class="col-span-9 sm:col-span-3">
-                    <p class="text-sm font-semibold">Fecha de recepción de documentos: </p>
-                        <p class="ml-5 text-base font-bold mostrar_datos">{{ $pagos_obra->fecha_recepcion == null?'Sin registro previo': $service->formatDate($pagos_obra->fecha_recepcion)}} </p>
+                    <p class="text-xs text-center">Fecha de recepción de documentos</p>
+                    <p class="text-base font-semibold bg-gray-100 p-1 text-center">{{ $pagos_obra->fecha_recepcion == null?'Sin registro previo': $service->formatDate($pagos_obra->fecha_recepcion)}}</p>
                 </div>
                 <div class="col-span-9 sm:col-span-3">
-                    <p class="text-sm font-semibold">Fecha de validación de documentos: </p>
-                    
+
+                    <p class="text-xs text-center">Fecha de validación de documentos</p>
+                    <p class="text-base font-semibold bg-gray-100 p-1 text-center">
                         @if( $pagos_obra->fecha_recepcion!= null)
-                            <p class="ml-5 text-base font-bold mostrar_datos text-blue-500">
+                            <span class="text-blue-500">
                                 {{ $pagos_obra->fecha_validacion == null?'En proceso': $service->formatDate($pagos_obra->fecha_validacion)}} 
-                            </p>
+                            </span>
                         @else
-                            <p class="ml-5 text-base font-bold mostrar_datos text-red-500">
+                            <span class="text-red-500">
                                 Sin recepción de documentos
-                            </p>
+                            </span>
                         @endif 
+                    </p>
+                    
+                        
 
                         
                     </p>
                 </div>
                 <div class="col-span-9 sm:col-span-3">
-                    <p class="text-sm font-semibold">Fecha de pago {{$pagos_obra->nombre == 'Anticipo'?'del': 'de la'}} {{$pagos_obra->nombre}}: </p>
-                    <p class="ml-5 text-base font-bold mostrar_datos">
+                    <p class="text-xs text-center">Fecha de pago {{$pagos_obra->nombre == 'Anticipo'?'del': 'de la'}} {{$pagos_obra->nombre}}</p>
+                    <p class="text-base font-semibold bg-gray-100 p-1 text-center">
                         @if( $pagos_obra->fecha_recepcion != null)
                             @if( $pagos_obra->fecha_validacion != null)
                                 @if($pagos_obra->fecha_pago == null)
-                                    <p class="ml-5 text-base font-bold mostrar_datos text-blue-500">
+                                    <span class="text-blue-500">
                                         En proceso
-                                    </p>
+                                    </span>
                                 @else
-                                    <p class="ml-5 text-base font-bold mostrar_datos text-gray-900">
+                                    <span class="text-gray-900">
                                         {{$service->formatDate($pagos_obra->fecha_pago)}}
-                                    </p>
+                                    </span>
                                 @endif
                             @else
                                 @if( $pagos_obra->fecha_pago != null)
-                                    <p class="ml-5 text-base font-bold mostrar_datos text-red-500">
+                                    <span class="text-red-500">
                                         {{$service->formatDate($pagos_obra->fecha_pago)}}
-                                    </p>
+                                    </span>
                                 @else
-                                    <p class="ml-5 text-base font-bold mostrar_datos text-red-500">
+                                    <span class="text-red-500">
                                         En proceso de validación.
-                                    </p>
+                                    </span>
                                 @endif
                                 
                             @endif 
                         @else
                             @if( $pagos_obra->fecha_pago != null)
-                                <p class="ml-5 text-base font-bold mostrar_datos text-red-500">
+                                <span class="text-red-500">
                                     {{$service->formatDate($pagos_obra->fecha_pago)}}
-                                </p>
+                                </span>
                             @else
-                                <p class="ml-5 text-base font-bold mostrar_datos text-red-500">
+                                <span class="text-red-500">
                                     Sin recepción de documentos
-                                </p>
+                                </span>
                             @endif
                         @endif
                     </p>
                 </div>
-                <div class="mt-2 col-span-9">
-                    <p class="text-base font-bold text-center">Observaciones realizadas para la validación</p>
-
-                </div>
+                
                 <div class="col-span-9">
+                    
                     @if($pagos_obra != null)
+                        <p class="text-base font-semibold text-center">Observaciones realizadas para la validación</p>
                         <div class="">
                             <table id="example" class="table table_estimacion table-striped bg-white" style="width:100%;">
                                 <thead>
                                     <tr>
-                                        <th class="text-center"><p  class="text-sm leading-5 font-bold text-gray-900 text-center line-height-1">Núm.</p></th>
-                                        <th class="text-center"><p  class="text-sm leading-5 font-bold text-gray-900 text-center line-height-1">Fecha de observación</p></th>
-                                        <th class="text-center"><p  class="text-sm leading-5 font-bold text-gray-900 text-center line-height-1">Fecha de solventación</p></th>
-                                        <th class="text-center"><p  class="text-sm leading-5 font-bold text-gray-900 text-center line-height-1">Acciones</p></th>
+                                        <th class="text-sm text-center leading-none" style="background: rgb(243, 244, 246)!important; border-top-color:rgb(243, 244, 246)!important; ">Núm.</th>
+                                        <th class="text-sm text-center leading-none" style="background: rgb(243, 244, 246)!important; border-top-color:rgb(243, 244, 246)!important; ">Fecha de observación</th>
+                                        <th class="text-sm text-center leading-none" style="background: rgb(243, 244, 246)!important; border-top-color:rgb(243, 244, 246)!important; ">Fecha de solventación</th>
+                                        <th class="text-sm text-center leading-none" style="background: rgb(243, 244, 246)!important; border-top-color:rgb(243, 244, 246)!important; ">Acciones</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -160,55 +177,49 @@
                                         @foreach($observaciones as $key => $observacion)
                                             <tr>
                                                 <td>
-                                                    <div class="text-sm leading-5 font-medium text-center">
-                                                        <p class="text-base font-bold mostrar_datos text-gray-700">
-                                                            {{$key + 1}}
-                                                        </p>
-                                                    </div>
+                                                    <p class="text-sm font-semibold mostrar_datos text-center">
+                                                        {{$key + 1}}
+                                                    </p>
                                                 </td>
-                                                <td>
-                                                    <div class="text-sm leading-5 font-medium text-center">
-                                                        @if( $pagos_obra->fecha_recepcion != null)
+                                                <td class="text-center">
+                                                    @if( $pagos_obra->fecha_recepcion != null)
                                                             @if($observacion->fecha_observaciones == null)
-                                                                <p class="text-base font-bold mostrar_datos text-blue-500">
+                                                                <p class="text-sm font-semibold mostrar_datos text-blue-500">
                                                                     En proceso
                                                                 </p>
                                                             @else
-                                                                <p class="text-base font-bold mostrar_datos text-gray-900">
+                                                                <p class="text-sm font-semibold mostrar_datos">
                                                                     {{$service->formatDate($observacion->fecha_observaciones)}}
                                                                 </p>
                                                             @endif
                                                         @else
-                                                            <p class="text-base font-bold mostrar_datos text-red-500">
+                                                            <p class="text-sm font-semibold mostrar_datos text-red-500">
                                                                 Sin recepción de documentos
                                                             </p>
                                                         @endif 
-                                                    </div>
                                                 </td>
-                                                <td>
-                                                    <div class="text-sm leading-5 font-medium text-center">
-                                                        @if( $pagos_obra->fecha_recepcion != null)
+                                                <td class="text-center">
+                                                    @if( $pagos_obra->fecha_recepcion != null)
                                                             @if( $observacion->fecha_observaciones != null)
                                                                 @if($observacion->fecha_solventacion == null)
-                                                                    <p class="text-base font-bold mostrar_datos text-blue-500">
+                                                                    <p class="text-sm font-semibold mostrar_datos text-blue-500">
                                                                         En proceso
                                                                     </p>
                                                                 @else
-                                                                    <p class="text-base font-bold mostrar_datos text-gray-900">
+                                                                    <p class="text-sm font-semibold mostrar_datos">
                                                                         {{$service->formatDate($observacion->fecha_solventacion)}}
                                                                     </p>
                                                                 @endif
                                                             @else
-                                                                <p class="text-base font-bold mostrar_datos text-red-500">
-                                                                    En proceso de revisión.
+                                                                <p class="text-sm font-semibold mostrar_datos text-red-500">
+                                                                    En proceso de revisión
                                                                 </p>
                                                             @endif 
                                                         @else
-                                                            <p class="text-base font-bold mostrar_datos text-red-500">
+                                                            <p class="text-sm font-semibold mostrar_datos text-red-500">
                                                                 Sin recepción de documentos
                                                             </p>
                                                         @endif
-                                                    </div>
                                                 </td>
                                                 <td>
                                                     @if(count($observaciones) - 1 == $key && $observacion->fecha_solventacion == null && $pagos_obra->fecha_recepcion != null)
@@ -229,17 +240,19 @@
                 </div>
             </div>
             @if($estimacion != null)
-                <div class="bg-gray-200 mt-5">
-                    <h2 class="font-bold text-lg text-center">Detalles de la estimación</h2>
+                <div class="bg-gray-300 ">
+                    <div class="px-4 py-2">
+                        <h2 class="font-semibold text-base text-center uppercase">Detalles de la estimación</h2>
+                    </div>
                 </div>
 
-                <div class="mt-5 grid grid-cols-8 gap-4">
+                <div class="pb-8 px-8 pt-4 grid grid-cols-8 gap-2">
                     <div class="{{$obra->anticipo_monto == 0?$estimacion->numero_estimacion == 1? 'col-span-1':'col-span-2':'col-span-2'}}">
-                        <p class="text-sm font-semibold ">Número de estimación: </p>
-                        <p class="ml-5 text-base font-bold mostrar_datos mt-2">{{$estimacion->numero_estimacion}}</p>
+                        <p class="text-xs text-center">Núm. de estimación</p>
+                        <p class="text-base font-semibold bg-gray-100 p-1 text-center">{{str_pad($estimacion->numero_estimacion,3,"0",STR_PAD_LEFT)}}</p>
                     </div>
                     <div class="{{$obra->anticipo_monto == 0?$estimacion->numero_estimacion == 1? 'col-span-1':'col-span-2':'col-span-2'}}">
-                        <p class="text-sm font-semibold text-center">¿Es finiquito? </p>
+                        <p class="text-xs text-center">¿Es finiquito?</p>
                         <div class="div-estado-proceso mt-2">
                             @if($estimacion->finiquito)
                                 <div class="flex justify-center">
@@ -254,76 +267,79 @@
                     </div>
                     @if($pagos_obra->fecha_pago != null)
                         <div class="col-span-2">
-                            <p class="text-sm font-semibold">Folio de la factura: </p>
-                            <p class="ml-5 text-base font-bold mostrar_datos">{{$estimacion->folio_factura}}</p>
+                            <p class="text-xs text-center">Folio de la factura</p>
+                            <p class="text-base font-semibold bg-gray-100 p-1 text-center">{{$estimacion->folio_factura}}</p>
                         </div>
                         @if($obra->anticipo_monto == 0 && $estimacion->numero_estimacion == 1)
                             <div class="col-span-2">
-                                <p class="text-sm font-semibold ">Folio de fianza de cumplimiento: </p>
-                                <p class="ml-5 text-base font-bold mostrar_datos mt-2">{{$obra_contrato->factura_anticipo}}</p>
+                                <p class="text-xs text-center">Folio de fianza de cumplimiento</p>
+                                <p class="text-base font-semibold bg-gray-100 p-1 text-center">{{$obra_contrato->factura_anticipo}}</p>
                             </div>
                         @endif
                         @if($estimacion->finiquito == 1)
                             <div class="col-span-2">
-                                <p class="text-sm font-semibold ">Folio de : </p>
-                                <p class="ml-5 text-base font-bold mostrar_datos mt-2">{{$obra_contrato->factura_anticipo}}</p>
+                                <p class="text-xs text-center">Folio de</p>
+                                <p class="text-base font-semibold bg-gray-100 p-1 text-center">{{$obra_contrato->factura_anticipo}}</p>
                             </div>
                         @endif
                         <div class="col-span-2">
-                            <p class="text-sm font-semibold">Fecha de la estimación: </p>
-                            <p class="ml-5 text-base font-bold mostrar_datos">{{$service->formatDate($estimacion->fecha_estimacion)}}</p>
+                            <p class="text-xs text-center">Fecha de la estimación</p>
+                            <p class="text-base font-semibold bg-gray-100 p-1 text-center">{{$service->formatDate($estimacion->fecha_estimacion)}}</p>
                         </div>
                         <div class="col-span-2">
-                            <p class="text-sm font-semibold ">Total de la estimación: </p>
-                            <p class="ml-5 text-base font-bold mostrar_datos">{{$service->formatNumber($estimacion->total_estimacion)}}</p>
+                            <p class="text-xs text-center">Fecha de la estimación</p>
+                            <p class="text-base font-semibold bg-gray-100 p-1 text-center">{{$service->formatNumber($estimacion->total_estimacion)}}</p>
                         </div>
                         <div class="col-span-2">
-                            <p class="text-sm font-semibold">Neto pagado: </p>
-                            <p class="ml-5 text-base font-bold mostrar_datos">{{$service->formatNumber($estimacion->total_estimacion - $estimacion->supervicion_obra - $estimacion->mano_obra - $estimacion->cinco_millar - $estimacion->dos_millar - $estimacion->amortizacion_anticipo)}}</p>
+                            <p class="text-xs text-center">Neto pagado</p>
+                            <p class="text-base font-semibold bg-gray-100 p-1 text-center">{{$service->formatNumber($estimacion->total_estimacion - $estimacion->supervicion_obra - $estimacion->mano_obra - $estimacion->cinco_millar - $estimacion->dos_millar - $estimacion->amortizacion_anticipo)}}</p>
                         </div>
                         
                     @endif
                     <div class="col-span-4">
-                        <p class="text-base font-bold text-center">Periodo de la estimación</p>
+                        <p class="text-xs text-center">Periodo de la estimación</p>
                         <div class="grid grid-cols-4 gap-4">
                             
                             <div class="col-span-2">
-                                <p class="text-base font-bold mostrar_datos text-center">{{$service->formatDate($estimacion->fecha_inicio)}}</p>
-                                <p class="text-sm font-semibold text-center">Fecha inicial </p>
+                                <p class="text-base font-semibold bg-gray-100 p-1 text-center">{{$service->formatDate($estimacion->fecha_inicio)}}</p>
+                                <p class="text-xs text-center">Fecha inicial</p>
                             </div>
                             <div class="col-span-2">
-                                <p class="text-base font-bold mostrar_datos text-center">{{$service->formatDate($estimacion->fecha_final)}}</p>
-                                <p class="text-sm font-semibold text-center">Fecha final </p>
+                                <p class="text-base font-semibold bg-gray-100 p-1 text-center">{{$service->formatDate($estimacion->fecha_final)}}</p>
+                                <p class="text-xs text-center ">Fecha final</p>
                             </div>
                             
                         </div>
                     </div>
                     @if($pagos_obra->fecha_pago != null)
                         <div class="col-span-8 border">
-                            <p class="text-base font-bold text-center mt-2 mb-3">Retenciones y amortizaciones de la estimación </p>
-                            <div class="grid grid-cols-9 gap-4 m-1">
+                            <div class="bg-gray-200 ">
+                                <div class="px-4 py-2">
+                                    <h2 class="font-semibold text-base text-center uppercase">Retenciones y amortizaciones de la estimación</h2>
+                                </div>
+                            </div>
+                            <div class="grid grid-cols-9 gap-2 m-1 m-5">
                                 
                                 <div class="col-span-3">
-                                    <p class="text-base font-bold text-center">{{$service->formatNumber($estimacion->supervicion_obra)}}</p>
-                                    <p class="text-sm font-semibold text-center">Supervición de obra </p>
+                                    <p class="text-base font-semibold bg-gray-100 p-1 text-center">{{$service->formatNumber($estimacion->supervicion_obra)}}</p>
+                                    <p class="text-xs text-center">Supervición de obra</p>
                                 </div>
                                 <div class="col-span-3">
-                                    
-                                    <p class="text-base font-bold text-center">{{$service->formatNumber($estimacion->mano_obra)}}</p>
-                                    <p class="text-sm font-semibold text-center">Mano de obra</p>
+                                    <p class="text-base font-semibold bg-gray-100 p-1 text-center">{{$service->formatNumber($estimacion->mano_obra)}}</p>
+                                    <p class="text-xs text-center">Mano de obra</p>
                                 </div>
                                 <div class="col-span-3">
-                                    <p class="text-base font-bold text-center">{{$service->formatNumber($estimacion->cinco_millar)}}</p>
-                                    <p class="text-sm font-semibold text-center">Cinco al millar</p>
+                                    <p class="text-base font-semibold bg-gray-100 p-1 text-center">{{$service->formatNumber($estimacion->cinco_millar)}}</p>
+                                    <p class="text-xs text-center">Cinco al millar</p>
                                 </div>
                                 <div class="col-span-3">
-                                    <p class="text-base font-bold text-center">{{$service->formatNumber($estimacion->dos_millar)}}</p>
-                                    <p class="text-sm font-semibold text-center">Dos al millar</p>
+                                    <p class="text-base font-semibold bg-gray-100 p-1 text-center">{{$service->formatNumber($estimacion->dos_millar)}}</p>
+                                    <p class="text-xs text-center">Dos al millar</p>
                                 </div>
                                 @if($obra->anticipo_monto > 0)
                                     <div class="col-span-3">
-                                        <p class="text-base font-bold text-center">{{$service->formatNumber($estimacion->amortizacion_anticipo)}}</p>
-                                        <p class="text-sm font-semibold text-center">Amortización del anticipo</p>
+                                        <p class="text-base font-semibold bg-gray-100 p-1 text-center">{{$service->formatNumber($estimacion->amortizacion_anticipo)}}</p>
+                                        <p class="text-xs text-center">Amortización del anticipo</p>
                                     </div>
                                 @endif
                             </div>
@@ -334,25 +350,27 @@
                 </div>
             @endif
             @if($pagos_obra->nombre == 'Anticipo' && $pagos_obra->fecha_pago != null)
-                <div class="bg-gray-200 mt-5">
-                    <h2 class="font-bold text-lg text-center">Detalles del anticipo</h2>
+                <div class="bg-gray-300 ">
+                    <div class="px-4 py-2">
+                        <h2 class="font-semibold text-base text-center uppercase">Detalles del anticipo</h2>
+                    </div>
                 </div>
-                <div class="mt-5 grid grid-cols-8 gap-4">
+                <div class="pb-8 px-8 pt-4 grid grid-cols-8 gap-4">
                     <div class="col-span-2">
-                        <p class="text-sm font-semibold ">Monto anticipo: </p>
-                        <p class="ml-5 text-base font-bold mostrar_datos mt-2">{{$service->formatNumber($obra->anticipo_monto)}}</p>
+                        <p class="text-xs text-center ">Monto anticipo</p>
+                        <p class="text-base font-semibold bg-gray-100 p-1 text-center">{{$service->formatNumber($obra->anticipo_monto)}}</p>
                     </div>
                     <div class="col-span-2">
-                        <p class="text-sm font-semibold ">Folio de factura de anticipo: </p>
-                        <p class="ml-5 text-base font-bold mostrar_datos mt-2">{{$obra_contrato->factura_anticipo}}</p>
+                        <p class="text-xs text-center ">Folio de factura de anticipo</p>
+                        <p class="text-base font-semibold bg-gray-100 p-1 text-center">{{$obra_contrato->factura_anticipo}}</p>
                     </div>
                     <div class="col-span-2">
-                        <p class="text-sm font-semibold ">Folio de fianza de anticipo: </p>
-                        <p class="ml-5 text-base font-bold mostrar_datos mt-2">{{$obra_contrato->factura_anticipo}}</p>
+                        <p class="text-xs text-center ">Folio de fianza de anticipo</p>
+                        <p class="text-base font-semibold bg-gray-100 p-1 text-center">{{$obra_contrato->factura_anticipo}}</p>
                     </div>
                     <div class="col-span-2">
-                        <p class="text-sm font-semibold ">Folio de fianza de cumplimiento: </p>
-                        <p class="ml-5 text-base font-bold mostrar_datos mt-2">{{$obra_contrato->factura_anticipo}}</p>
+                        <p class="text-xs text-center ">Folio de fianza de cumplimiento</p>
+                        <p class="text-base font-semibold bg-gray-100 p-1 text-center">{{$obra_contrato->factura_anticipo}}</p>
                     </div>
                 </div>
             @endif
@@ -361,83 +379,83 @@
 
 <!-- inicio modal -->
 <div class="hidden overflow-x-hidden overflow-y-auto fixed inset-0 z-50 outline-none focus:outline-none justify-center items-center" id="modal">
-    <div class="relative w-auto my-28 mx-auto max-w-3xl">
-      <!--content-->
-      <div class="border-0 rounded-lg shadow-lg relative flex flex-col w-full bg-white outline-none focus:outline-none">
-        <!--header-->
-        <div class="flex items-start justify-between p-5 border-b border-solid border-blueGray-200 rounded-t bg-blue-cmr1">
-            <h4 class="text-base font-normal uppercase text-white">
-                Modificar proceso de validación del pago
-            </h4>
-            <button class="p-1 ml-auto bg-transparent border-0 text-white float-right text-2xl leading-none font-semibold outline-none focus:outline-none" onclick="toggleModal('modal')">
-                <span>
-                    <i class="fas fa-xmark"></i>
-                </span>
-            </button>
-        </div>
-        <!--body-->
-        <form action="{{ route('update_observacion') }}" method="POST" id="formulario_update_obs" name="formulario_update_obs">
-            @csrf
-            @method('POST')
-            <div class="relative p-6 flex-auto">
-                <div class="grid grid-cols-10 gap-4">
-                    <input type="text" name="id_observacion" id="id_observacion" maxlength="40" class="hidden mt-1 focus:ring-blue-800 focus:border-blue-800 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md" value="">
-                    <div id="validado" class="col-span-10 text-center">
-                        <input type="checkbox" id="validado" name="validado" >
-                        <label for="validado" class="text-base font-semibold text-gray-700"> La documentación ha sido validada</label>
-                    </div> 
-                    <div id="div-obs-solv" class="col-span-10">
-                        <div class="grid grid-cols-10 gab-4">
-                            <div  id="div_observacion" class=" col-span-5">
-                                <label for="fecha_observacion" class="block text-sm font-semibold text-gray-700">Fecha de observación*</label>
-                                <div id="label_fecha_observacion" class="mt-1 py-2 px-3">
-                                    <label class="text-base font-bold text-gay-500" ></label>
+    <div class="relative w-auto my-28 mx-auto max-w-3xl shadow-2xl ">
+        <!--content-->
+        <div class="border-0 rounded-lg shadow-lg relative flex flex-col w-full bg-white outline-none focus:outline-none">
+                <!--header-->
+                <div class="flex items-center justify-between px-5 py-3 border-b border-solid border-blueGray-200 rounded-t bg-blue-cmr1">
+                    <h4 class="text-base font-normal uppercase text-white">
+                        Modificar proceso de validación del pago
+                    </h4>
+                    <button class="p-1 ml-auto bg-transparent border-0 text-white float-right text-2xl leading-none font-semibold outline-none focus:outline-none" onclick="toggleModal('modal')">
+                        <span>
+                            <i class="fas fa-xmark"></i>
+                        </span>
+                    </button>
+                </div>
+                <!--body-->
+                <form action="{{ route('update_observacion') }}" method="POST" id="formulario_update_obs" name="formulario_update_obs">
+                    @csrf
+                    @method('POST')
+                    <div class="relative p-6 flex-auto">
+                        <div class="grid grid-cols-10 gap-4">
+                            <input type="text" name="id_observacion" id="id_observacion" maxlength="40" class="hidden mt-1 focus:ring-blue-800 focus:border-blue-800 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md" value="">
+                            <div id="validado" class="col-span-10 text-center">
+                                <input type="checkbox" id="validado" name="validado" >
+                                <label for="validado" class="text-base font-semibold text-gray-700"> La documentación ha sido validada</label>
+                            </div> 
+                            <div id="div-obs-solv" class="col-span-10">
+                                <div class="grid grid-cols-10 gab-4">
+                                    <div  id="div_observacion" class=" col-span-5">
+                                        <label for="fecha_observacion" class="block text-sm font-semibold text-gray-700">Fecha de observación*</label>
+                                        <div id="label_fecha_observacion" class="mt-1 py-2 px-3">
+                                            <label class="text-base font-bold text-gay-500" ></label>
+                                        </div>
+                                        <input type="date" name="fecha_observacion" id="fecha_observacion" min="" max="{{$obra->ejercicio + 1}}-03-31" class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md" >
+                                        <label id="error_fecha_observacion" class="hidden text-base font-normal text-red-500" >Ingrese una fecha valida</label>
+                                    </div>
+                                    <div id="div_solventacion" class="hidden col-span-5">
+                                        <label for="fecha_convenio" class="block text-sm font-semibold text-gray-700">Fecha de solventación*</label>
+                                        <div id="label_fecha_solventacion" class="mt-1 py-2 px-3">
+                                            <label class="text-base font-bold text-gay-500" ></label>
+                                        </div>
+                                        <input type="date" name="fecha_solventacion" id="fecha_solventacion" min="" max="{{$obra->ejercicio + 1}}-03-31" class="hidden mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md" >
+                                        <label id="error_fecha_solventacion" class="hidden text-base font-normal text-red-500" >Ingrese una fecha valida</label>
+                                    </div>
                                 </div>
-                                <input type="date" name="fecha_observacion" id="fecha_observacion" min="" max="{{$obra->ejercicio + 1}}-03-31" class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md" >
-                                <label id="error_fecha_observacion" class="hidden text-base font-normal text-red-500" >Ingrese una fecha valida</label>
+                                
                             </div>
-                            <div id="div_solventacion" class="hidden col-span-5">
-                                <label for="fecha_convenio" class="block text-sm font-semibold text-gray-700">Fecha de solventación*</label>
-                                <div id="label_fecha_solventacion" class="mt-1 py-2 px-3">
-                                    <label class="text-base font-bold text-gay-500" ></label>
-                                </div>
-                                <input type="date" name="fecha_solventacion" id="fecha_solventacion" min="" max="{{$obra->ejercicio + 1}}-03-31" class="hidden mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md" >
-                                <label id="error_fecha_solventacion" class="hidden text-base font-normal text-red-500" >Ingrese una fecha valida</label>
+                            <div id="div_validacion" class="hidden col-span-5">
+                                <label for="fecha_validacion" class="block text-sm font-semibold text-gray-700">Fecha de validación*</label>
+                                <input type="date" name="fecha_validacion" id="fecha_validacion" min="" max="{{$obra->ejercicio + 1}}-03-31" class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md" >
+                                <label id="error_fecha_validacion" class="hidden text-base font-normal text-red-500" >Ingrese una fecha valida</label>
                             </div>
                         </div>
-                        
+                        <div class="mt-10">
+                            <span class="block text-xs">Verifique los campos obligatorios marcados con un ( * ) </span>
+                        </div>
+                    
                     </div>
-                    <div id="div_validacion" class="hidden col-span-5">
-                        <label for="fecha_validacion" class="block text-sm font-semibold text-gray-700">Fecha de validación*</label>
-                        <input type="date" name="fecha_validacion" id="fecha_validacion" min="" max="{{$obra->ejercicio + 1}}-03-31" class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md" >
-                        <label id="error_fecha_validacion" class="hidden text-base font-normal text-red-500" >Ingrese una fecha valida</label>
+                    <!--footer-->
+                    <div id="div_acciones" class=" p-4 border-t border-solid border-blueGray-200 rounded-b">
+                        <div class="text-right">
+                            <button class="text-red-500 background-transparent font-bold uppercase px-6 text-sm outline-none focus:outline-none ease-linear transition-all duration-150" type="button" onclick="toggleModal_fechas('modal')">
+                                Cancelar
+                            </button>
+                            <button type="submit" id="guardar" class="text-blue-500 font-bold uppercase text-sm px-6 rounded outline-none focus:outline-none ease-linear transition-all duration-150" >
+                                Guardar
+                            </button>
+                        </div>
                     </div>
-                </div>
-                <div class="mt-10">
-                    <span class="block text-xs">Verifique los campos obligatorios marcados con un ( * ) </span>
-                </div>
-            
-            </div>
-            <!--footer-->
-            <div id="div_acciones" class=" p-4 border-t border-solid border-blueGray-200 rounded-b">
-                <div class="text-right">
-                    <button class="text-red-500 background-transparent font-bold uppercase px-6 text-sm outline-none focus:outline-none ease-linear transition-all duration-150" type="button" onclick="toggleModal_fechas('modal')">
-                        Cancelar
-                    </button>
-                    <button type="submit" id="guardar" class="text-blue-500 font-bold uppercase text-sm px-6 rounded outline-none focus:outline-none ease-linear transition-all duration-150" >
-                        Guardar
-                    </button>
-                </div>
-            </div>
-        </form>
-      </div>
+                </form>
+        </div>
     </div>
 </div>
 
-<div class="hidden overflow-x-hidden overflow-y-auto fixed inset-0 z-50 outline-none focus:outline-none justify-center items-center" id="modal-update-fechas">
+<div class="hidden overflow-x-hidden overflow-y-auto fixed inset-0 z-50 outline-none focus:outline-none justify-center items-center shadow-2xl" id="modal-update-fechas">
     <div class="relative w-auto my-28 mx-auto max-w-3xl">
       <!--content-->
-      <div class="border-0 rounded-lg shadow-lg relative flex flex-col w-full bg-white outline-none focus:outline-none">
+      <div class="border-0 rounded-lg shadow-2xl relative flex flex-col w-full bg-white outline-none focus:outline-none">
         <!--header-->
         <div class="flex items-center justify-between px-5 py-3 border-b border-solid border-blueGray-200 rounded-t bg-blue-cmr1">
             <h4 class="text-base font-normal uppercase text-white">
@@ -669,7 +687,20 @@
 <script src="{{ asset('js/jquery.dataTables.min.js') }}"></script>
 	<script src="{{ asset('js/dataTables.responsive.min.js') }}"></script>
   <script src="https://unpkg.com/@popperjs/core@2.9.1/dist/umd/popper.min.js" charset="utf-8"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.1/jquery.validate.min.js"></script> 
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.1/jquery.validate.min.js"></script>
+
+  
+  @if(session('mensaje')=='ok')
+  <script>
+      Swal.fire({  
+      title: '{{session('datos')[1]}}',
+      text: '{{session('datos')[2]}}',
+      icon: '{{session('datos')[0]}}',
+      button: "Ok",
+
+      })
+  </script>
+@endif
 
 <script>
 

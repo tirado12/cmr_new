@@ -19,11 +19,14 @@ class CreateMidsTable extends Migration
             $table->foreign('obra_id')
                     ->references('id_obra')
                     ->on('obras');
-            $table->integer('planeado')->default('2');
+            $table->integer('planeado')->default('0');
+            $table->text('archivo_planeado')->nullable();
             $table->date('fecha_planeado')->nullable();
-            $table->integer('firmado')->default('2');
+            $table->integer('firmado')->default('0');
+            $table->text('archivo_firmado')->nullable();
             $table->date('fecha_firmado')->nullable();
-            $table->integer('validado')->default('2');
+            $table->integer('validado')->default('0');
+            $table->text('archivo_validado')->nullable();
             $table->date('fecha_validado')->nullable();
             $table->timestamps();
         });

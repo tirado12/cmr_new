@@ -27,12 +27,14 @@ container-input {
     white-space: nowrap;
     cursor: pointer;
     overflow: hidden;
-    padding: 0.625rem 1.25rem;
+    padding: 0.5rem 1.25rem;
 }
 
 .inputfile + label svg {
     width: 1em;
     height: 1em;
+    min-width: 1em;
+    min-height: 1em;
     vertical-align: middle;
     fill: currentColor;
     margin-top: -0.25em;
@@ -42,6 +44,7 @@ container-input {
 .iborrainputfile {
 	font-size:16px; 
 	font-weight:normal;
+    overflow: hidden;
 	
 }
 

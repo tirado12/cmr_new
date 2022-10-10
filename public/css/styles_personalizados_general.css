@@ -6,7 +6,7 @@
 .table-modificada th, .table-simple th {
 	line-height: 1;
     font-size: 0.875rem;
-    font-weight: 700;
+    font-weight: 600;
     --tw-text-opacity: 1;
     color: rgba(17, 24, 39, var(--tw-text-opacity));
 }
@@ -93,3 +93,24 @@
 .div-barra-porc {
     min-height: 3rem;
 }
+
+.mkc_circle { 
+    animation: mck_progress 1000ms ease-in-out; 
+}
+@keyframes 
+    mck_progress { 
+        0% { stroke-dasharray: 0, 100; }
+    }
+
+    .metter-azul::-webkit-meter-optimum-value {
+        box-shadow: 0 5px 5px -5px #999 inset;
+        background-image: linear-gradient(
+          90deg, 
+          #3b82f6 5%, 
+          #3b82f6 15%,
+          #3b82f6 55%,
+          #3b82f6 95%,
+          #3b82f6 100%
+        );
+        background-size: 100% 100%;
+      }

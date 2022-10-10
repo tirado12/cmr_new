@@ -53,7 +53,7 @@ table.dataTable thead tr th:not(.text-center) {
 }
 
 table.dataTable thead tr th {
-    background-color: #edf2f7;
+    background-color: #E5E7EB;
     border-bottom-width: 2px;
     border-top-width: 1px;
     border-color: #d2d6dc

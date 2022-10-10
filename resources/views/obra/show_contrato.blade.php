@@ -20,12 +20,12 @@
 
     <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
 
-<div class="flex flex-row mb-4">
+<!--<div class="flex flex-row mb-4">
     <svg class="h-7 w-7" fill="none" viewBox="0 0 24 24" stroke="currentColor">
         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" />
     </svg>
     <h1 class="font-bold text-xl ml-2">Proceso de pago</h1>
-</div>
+</div>-->
 
     @if ($errors->any())
       <div class="alert flex flex-row items-center bg-yellow-200 p-2 rounded-lg border-b-2 border-yellow-300 mb-4 shadow">
@@ -53,97 +53,115 @@
     @endif
 
 <div class="mt-10 sm:mt-0 shadow-2xl bg-white rounded-lg">
-    <div class="mt-6 p-8 shadow-2xl bg-white rounded-lg">
+    <div class="shadow-2xl bg-white rounded-lg">
 
-        <div class="bg-gray-200 mt-5">
-            <h2 class="font-bold text-lg text-center">Datos generales de la obra</h2>
+        <div class="bg-blue-cmr1 rounded-t-lg">
+            <div class="p-4">
+                <h2 class="font-semibold text-lg text-center text-white uppercase">Proceso de pago de la obra</h2>
+            </div>
+        </div>
+
+        <div class="bg-gray-300 mt-6">
+            <div class="px-4 py-2">
+                <h2 class="font-semibold text-base text-center uppercase">Datos generales de la obra</h2>
+            </div>
         </div>
         
-        <div class="mt-5 grid grid-cols-10 gap-4">
-            <div class="col-span-10">
-                <p class="font-bold">{{ $obra->nombre_obra }}</p>
+        
+        <div class="pb-8 px-8 pt-4 grid grid-cols-12 gap-2">
+            <div class="col-span-12">
+                <p class="text-xs text-center">Nombre</p>
+                <p class="text-base font-semibold bg-gray-100 p-1 text-center">{{ $obra->nombre_obra }}</p>
             </div>
-            <div class="col-span-10">
-                <p class="text-sm font-semibold text-center">Nombre corto:</p>
-                <p class="text-base font-bold mostrar_datos text-center">{{ $obra->nombre_corto_obra}}</p>
+            <div class="col-span-12 sm:col-span-3">
+                <p class="text-xs text-center">Núm. de obra</p>
+                <p class="text-base font-semibold bg-gray-100 p-1 text-center">{{str_pad($obra->numero_obra,3,"0",STR_PAD_LEFT)}}</p>
             </div>
-            <div class="col-span-10 sm:col-span-3">
-                <p class="text-sm font-semibold text-center sm:text-left">Localidad:</p>
-                <p class="text-base font-bold mostrar_datos text-center">{{ $obra->nombre_localidad }}</p>
+            <div class="col-span-12 sm:col-span-9">
+                <p class="text-xs text-center">Nombre corto</p>
+                <p class="text-base font-semibold bg-gray-100 p-1 text-center">{{ $obra->nombre_corto_obra}}</p>
             </div>
-            <div class="col-span-10 sm:col-span-3">
-                <p class="text-sm font-semibold text-center sm:text-left">Municipio:</p>
-                <p class="text-base font-bold mostrar_datos text-center">{{ $obra->nombre_municipio }}</p>
+            <div class="col-span-12 sm:col-span-3">
+                <p class="text-xs text-center">Localidad</p>
+                <p class="text-base font-semibold bg-gray-100 p-1 text-center">{{ $obra->nombre_localidad}}</p>
             </div>
-            <div class="col-span-5 sm:col-span-2">
-                <p class="text-sm font-semibold text-center sm:text-left">Municipio:</p>
-                <p class="text-base font-bold mostrar_datos text-center">{{ $obra->nombre_distrito }}</p>
+            <div class="col-span-12 sm:col-span-3">
+                <p class="text-xs text-center">Municipio</p>
+                <p class="text-base font-semibold bg-gray-100 p-1 text-center">{{ $obra->nombre_municipio }}</p>
             </div>
-            <div class="col-span-5 sm:col-span-2">
-                <p class="text-sm font-semibold text-center sm:text-left">Estado:</p>
-                <p class="text-base font-bold mostrar_datos text-center">{{ $obra->nombre_estado }}</p>
+            <div class="col-span-12 sm:col-span-3">
+                <p class="text-xs text-center">Distrito</p>
+                <p class="text-base font-semibold bg-gray-100 p-1 text-center">{{ $obra->nombre_distrito }}</p>
+            </div>
+            <div class="col-span-12 sm:col-span-3">
+                <p class="text-xs text-center">Distrito</p>
+                <p class="text-base font-semibold bg-gray-100 p-1 text-center">{{ $obra->nombre_estado }}</p>
             </div>
         </div>
 
-        <div class="bg-gray-200 mt-5">
-            <h2 class="font-bold text-lg text-center">Detalles del contrato de arrendamiento</h2>
+        <div class="bg-gray-300 ">
+            <div class="px-4 py-2">
+                <h2 class="font-semibold text-base text-center uppercase">Detalles del contrato de arrendamiento</h2>
+            </div>
         </div>
 
-        <div class="mt-5 grid grid-cols-8 gap-4">
-            <div class="col-span-8 sm:col-span-2">
-                <p class="text-sm font-semibold text-center sm:text-left">Número de contrato:</p>
-                <p class="text-base font-bold mostrar_datos text-center">{{$contrato->numero_contrato}}</p>
+        <div class="pb-8 px-8 pt-4 grid grid-cols-12 gap-4">
+            <div class="col-span-12 sm:col-span-4">
+                <p class="text-xs text-center">Número de contrato</p>
+                <p class="text-base font-semibold bg-gray-100 p-1 text-center">{{$contrato->numero_contrato}}</p>
             </div>
-            <div class="col-span-8 sm:col-span-2">
-                <p class="text-sm font-semibold text-center sm:text-left">Fecha de contrato:</p>
-                <p class="text-base font-bold mostrar_datos text-center">{{$service->formatDate($contrato->fecha_contrato)}}</p>
+            <div class="col-span-12 sm:col-span-4">
+                <p class="text-xs text-center">Fecha de contrato</p>
+                <p class="text-base font-semibold bg-gray-100 p-1 text-center">{{$service->formatDate($contrato->fecha_contrato)}}</p>
             </div>
-            <div class="col-span-8 sm:col-span-2">
-                <p class="text-sm font-semibold text-center sm:text-left">Monto contratado:</p>
-                <p class="text-base font-bold mostrar_datos text-center">{{$service->formatNumber($contrato->monto_contratado)}}</p>
+            <div class="col-span-12 sm:col-span-4">
+                <p class="text-xs text-center">Monto contratado</p>
+                <p class="text-base font-semibold bg-gray-100 p-1 text-center">{{$service->formatNumber($contrato->monto_contratado)}}</p>
             </div>
-            <div class="col-span-8 sm:col-span-2">
-                <p class="text-sm font-semibold text-center sm:text-left">Monto contratado:</p>
-                <p class="text-base font-bold mostrar_datos text-center">{{$contrato->rfc}} - {{$contrato->razon_social}}</p>
+            <div class="col-span-12 sm:col-span-6">
+                <p class="text-xs text-center">Contratista</p>
+                <p class="text-base font-semibold bg-gray-100 p-1 text-center">{{$contrato->rfc}} - {{$contrato->razon_social}}</p>
             </div>
-            <div class="col-span-8 sm:col-span-4 ">
-                <p class="text-sm font-semibold text-center">Periodo del contrato</p>
+            <div class="col-span-12 sm:col-span-6 ">
+                <p class="text-xs text-center">Periodo del contrato</p>
                 <div class="grid grid-cols-4 gap-4">
                     
                     <div class="col-span-4 sm:col-span-2">
-                        <p class="text-base font-bold mostrar_datos text-center">{{$service->formatDate($contrato->fecha_inicio)}}</p>
-                        <p class="text-sm font-semibold text-center">Fecha inicial </p>
+                        <p class="text-base font-semibold bg-gray-100 p-1 text-center">{{$service->formatDate($contrato->fecha_inicio)}}</p>
+                        <p class="text-xs text-center">Fecha inicial</p>
                     </div>
                     <div class="col-span-4 sm:col-span-2">
-                        <p class="text-base font-bold mostrar_datos text-center">{{$service->formatDate($contrato->fecha_fin)}}</p>
-                        <p class="text-sm font-semibold text-center">Fecha final </p>
+                        <p class="text-base font-semibold bg-gray-100 p-1 text-center">{{$service->formatDate($contrato->fecha_fin)}}</p>
+                        <p class="text-xs text-center">Fecha final</p>
                     </div>
                     
                 </div>
             </div>
         </div>
 
-        <div class="bg-gray-200 mt-5">
-            <h2 class="font-bold text-lg text-center">Facturas del contrato</h2>
+        <div class="bg-gray-300 ">
+            <div class="px-4 py-2">
+                <h2 class="font-semibold text-base text-center uppercase">Facturas del contrato</h2>
+            </div>
         </div>
 
-        <div class="">
+        <div class="pb-8 px-8 pt-2">
             @if($total_admin < $contrato->monto_contratado)
                 <div class="flex justify-center">
                     <button type="button" href="" class="text-sm text-blue-500 underline background-transparent font-semibold outline-none focus:outline-none ease-linear transition-all duration-150 text-center" onclick="toggleModal('modal-agregar-factura')">Agregar nueva factura</button>
                 </div>
             @endif
             @if($facturas != null)
-                <div class="mt-5">
+                <div class="mt-2">
                     <table id="example" class="table table_estimacion table-striped bg-white" style="width:100%;">
                         <thead>
                             <tr>
-                                <th class="text-center">Núm.</th>
-                                <th class="text-center">Folio fiscal</th>
-                                <th class="text-center">Fecha de factura</th>
-                                <th class="text-center">Monto facturado</th>
-                                <th class="text-center">Proveedor</th>
-                                <th class="text-center">Acciones</th>
+                                <th class="text-sm text-center leading-none" style="background: rgb(243, 244, 246)!important; border-top-color:rgb(243, 244, 246)!important;">Núm.</th>
+                                <th class="text-sm text-center leading-none" style="background: rgb(243, 244, 246)!important; border-top-color:rgb(243, 244, 246)!important;">Folio fiscal</th>
+                                <th class="text-sm text-center leading-none" style="background: rgb(243, 244, 246)!important; border-top-color:rgb(243, 244, 246)!important;">Fecha de factura</th>
+                                <th class="text-sm text-center leading-none" style="background: rgb(243, 244, 246)!important; border-top-color:rgb(243, 244, 246)!important;">Monto facturado</th>
+                                <th class="text-sm text-center leading-none" style="background: rgb(243, 244, 246)!important; border-top-color:rgb(243, 244, 246)!important;">Proveedor</th>
+                                <th class="text-sm text-center leading-none" style="background: rgb(243, 244, 246)!important; border-top-color:rgb(243, 244, 246)!important;">Acciones</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -180,7 +198,7 @@
                                         @if($total_admin < $contrato->monto_contratado)
                                             @if($key == count($facturas) - 1)
                                                 <div class="text-sm leading-5 font-medium text-gray-900 flex justify-center">
-                                                    <button type="button" href="" class="bg-white text-sm text-blue-500 font-normal text-ms p-2 rounded rounded-lg" onclick="toggleModal_EditFactura('modal-edit-factura', {{$factura}})">Editar</button>
+                                                    <button type="button" href="" class="bg-white text-sm text-blue-500 font-normal text-sm" onclick="toggleModal_EditFactura('modal-edit-factura', {{$factura}})">Editar</button>
                                                 </div>
                                             @endif
                                         @endif
@@ -375,27 +393,17 @@
     <script type="text/javascript" src="https://cdn.datatables.net/v/dt/jszip-2.5.0/dt-1.10.22/b-1.6.4/b-flash-1.6.4/b-html5-1.6.4/b-print-1.6.4/datatables.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.1/jquery.validate.min.js"></script>  
     <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
-    <!--Alerta de confirmacion-->
-@if(session('eliminar')=='ok')
-<script>
-  Swal.fire(
-    '¡Agregada!',
-    'La factura de arredamiento fue agregada correctamente.',
-    'success'
-  )
-</script>
-@endif
-<!--Alerta de error-->
-@if(session('eliminar')=='error')
-<script>
-  Swal.fire({
-    icon: 'error',
-    title: '¡Oops... !',
-    html: 'La factura de arrendamiento no se puede guardar, revisa los datos.'
-    
-  });
-</script>
-@endif
+    @if(session('mensaje')=='ok')
+        <script>
+            Swal.fire({  
+            title: '{{session('datos')[1]}}',
+            text: '{{session('datos')[2]}}',
+            icon: '{{session('datos')[0]}}',
+            button: "Ok",
+
+            })
+        </script>
+    @endif
 
 <script>
     

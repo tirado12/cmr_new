@@ -144,10 +144,22 @@ ul.tabs li a:hover {
 	background: #ccc;
 }
 html ul.tabs li.active a, html ul.tabs li.active a:hover  {
-	background: #007fff;
-	border: 1px solid #003eff;
+	background: #3b82f6;
+	border: 1px solid #3461A8;
 	color: #fff;
 }
+
+@media (max-width: 778px) {
+	ul.tabs{
+		height: auto;
+		width: 100%;
+	}
+
+	ul.tabs a{
+		width: 100%;
+	}
+}
+
 
 .icon-acordeon {
 	right: 0px;
@@ -273,3 +285,5 @@ html ul.tabs li.active a, html ul.tabs li.active a:hover  {
   	.div-estado-proceso div img{
 		height: 25px;
 	}
+
+	

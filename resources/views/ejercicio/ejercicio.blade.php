@@ -1,3 +1,4 @@
+
 @extends('layouts.plantilla')
 @section('title','Municipio')
 @section('contenido')
@@ -9,6 +10,7 @@
         <link rel="stylesheet" href="{{ asset('css/styles_select2.css') }}">
         <link rel="stylesheet" href="{{ asset('css/styles_personalizados_general.css') }}">
         <link rel="stylesheet" href="{{ asset('css/swalfire.css')}}">
+        <link rel="stylesheet" href="{{ asset('css/style-file.css') }}">
         
     <!--Responsive Extension Datatables CSS-->
     <link href="https://cdn.datatables.net/responsive/2.2.3/css/responsive.dataTables.min.css"
@@ -19,6 +21,7 @@
     <div class="flex flex-row items-center ">
         <img class="block h-24 w-24 rounded-full shadow-2xl" src="{{$cliente->logo}}" alt="cmr">
         <div class="ml-4 grid grid-col-1">
+            <p class="block font-black text-xl">Ejercicio {{$anio}}</p>
             <p class="block font-black text-xl">{{$cliente->id_municipio}} - {{$cliente->nombre_municipio}}</p>
             <p class="text-gray-600">{{$cliente->id_distrito}} {{$cliente->nombre_distrito}} - {{$cliente->id_region}} {{$cliente->nombre_region}}</p>
             <p class="text-gray-600"></p>
@@ -71,28 +74,34 @@
                         
                     </button>
                 </div>
-                <div x-show="show" class="border mb-2 p-2">
-                    <div class="grid sm:grid-cols-8 gap-x-4 gap-y-2">
-                      <div class="col-span-8 mb-5">
-                        <h2 for="first_name" class="text-lg font-bold text-center">Programa de Desarrollo Institucional Municipal y de las<br> Demarcaciones Territoriales del Distrito Federal (PRODIMDF)</h2>
-                        <p class="text-center font-semibold mt-2">Monto asignado: <span class="font-bold">{{$service->formatNumber($fuentes_cliente->where('fuente_financiamiento_id', 2)->first()->monto_prodim)}}</span></p>
+                <div x-show="show" class=" rounded-lg border mb-5">
+                  <div class="shadow-xl bg-white rounded-lg pb-10 pt-5">
+                    <div class="pt-6 p-4">
+                      <div class="-5">
+                        <h2 for="first_name" class="text-lg font-bold text-center leading-none">Programa de Desarrollo Institucional Municipal y de las<br> Demarcaciones Territoriales del Distrito Federal (PRODIMDF)</h2>
+                        <p class="text-sm text-center font-semibold mt-4">Monto asignado</p>
+                        <p class="font-bold text-center leading-none">{{$service->formatNumber($fuentes_cliente->where('fuente_financiamiento_id', 2)->first()->monto_prodim)}}</p>
                       </div>
-                      <div class="col-span-8">
-                          <p for="first_name" class="block text-normal font-base text-gray-500 text-center">Comprometido</p>
+                      <div class="mt-5">
+                          <div class="bg-gray-300">
+                            <div class="px-4 py-2">
+                                <p class="font-semibold text-base text-center uppercase">Comprometido</p>
+                            </div>
+                          </div>
                           <div class="flex justify-center">
                             <button type="button" href="" class="font-semibold text-sm text-blue-500 underline px-3" onclick="toggleModal('modal-comprometido')">Agregar comprometido</button>
                           </div>
                             
                       </div>
-                      <div class="col-span-8 overflow-auto">
+                      <div class="overflow-auto m-4">
                         <table id="example1" class="table-simple table-striped bg-white table-modificada" style="width:100%;">
                           <thead>
                               <tr>
-                                  <th class="text-center py-2">Clave</th>
-                                  <th class="text-center">Nombre</th>
-                                  <th class="text-center">Fecha comprometido</th>
-                                  <th class="text-center">Monto comprometido</th>
-                                  <th class="text-center">Acciones</th>
+                                  <th class="text-center" style="background: rgb(243, 244, 246) !important;">Clave</th>
+                                  <th class="text-center" style="background: rgb(243, 244, 246) !important;">Nombre</th>
+                                  <th class="text-center" style="background: rgb(243, 244, 246) !important;">Fecha comprometido</th>
+                                  <th class="text-center" style="background: rgb(243, 244, 246) !important;">Monto comprometido</th>
+                                  <th class="text-center" style="background: rgb(243, 244, 246) !important;">Acciones</th>
                               </tr>
                           </thead>
                           <tbody>
@@ -275,6 +284,8 @@
                         </div>
                       @endif
                     </div>
+                  </div>
+                  
                 </div>
             </div>
         </div>
@@ -303,24 +314,30 @@
                         
                     </button>
                 </div>
-                <div x-show="show" class="border mb-2 p-2">
-                    <div class="grid sm:grid-cols-8 gap-x-4 gap-y-2">
-                      <div class="col-span-8 mb-5">
-                        <p class="text-center font-semibold mt-2">Monto asignado: <span class="font-bold">{{$service->formatNumber($fuentes_cliente->where('fuente_financiamiento_id', 2)->first()->monto_gastos)}}</span></p>
+                <div x-show="show" class="border mb-5 rounded-lg">
+                  <div class="shadow-xl bg-white rounded-lg pb-10 pt-5">
+                    <div class="p-4">
+                      <div class="mb-5">
+                        <p class="text-center font-semibold mt-2">Monto asignado</p>
+                        <p class="font-bold text-center leading-none">{{$service->formatNumber($fuentes_cliente->where('fuente_financiamiento_id', 2)->first()->monto_gastos)}}</p>
                       </div>
-                      <div class="col-span-8">
-                          <p for="first_name" class="block text-normal font-base text-gray-500 text-center">Comprometido</p>
+                      <div class="mt-5">
+                          <div class="bg-gray-300">
+                            <div class="px-4 py-2">
+                                <p class="font-semibold text-base text-center uppercase">Comprometido</p>
+                            </div>
+                          </div>
                           <div class="flex justify-center">
                             <button type="button" href="" class="font-semibold text-sm text-blue-500 underline px-3" onclick="toggleModal('modal-gi')">Agregar comprometido</button>
                           </div>
                       </div>
-                      <div class="col-span-8 overflow-auto">
+                      <div class="m-4">
                         <table id="example1" class="table-simple table-striped bg-white table-modificada" style="width:100%;">
                           <thead>
                               <tr>
-                                  <th class="text-center py-2">Clave</th>
-                                  <th class="text-center">Nombre</th>
-                                  <th class="text-center">Monto comprometido</th>
+                                  <th class="text-center py-2" style="background: rgb(243, 244, 246) !important;">Clave</th>
+                                  <th class="text-center" style="background: rgb(243, 244, 246) !important;">Nombre</th>
+                                  <th class="text-center" style="background: rgb(243, 244, 246) !important;">Monto comprometido</th>
                               </tr>
                           </thead>
                           <tbody>
@@ -357,6 +374,9 @@
                         </table>
                       </div>
                     </div>
+                    
+                  </div>
+                    
                 </div>
             </div>
         </div>
@@ -384,272 +404,292 @@
                         
                     </button>
                 </div>
-                <div x-show="show" class="border mb-2 p-2">
+                <div x-show="show" class="border rounded-lg mb-5">
+                  <div class="shadow-xl bg-white rounded-lg pb-10">
                     <div class="grid sm:grid-cols-8 gap-x-4 gap-y-2">
-                      <div class="col-span-8 mb-5">
-                        <h2 for="first_name" class="text-lg font-bold text-center">Sistema de Información para la Planeación del Desarrollo de Oaxaca (SISPLADE)</h2>
+                      <div class="col-span-8">
+                        <div class="bg-gray-300 rounded-t-lg">
+                          <div class="px-4 py-2">
+                              <p class="font-semibold text-base text-center uppercase">Sistema de Información para la Planeación del Desarrollo de Oaxaca</p>
+                              <p class="font-semibold text-base text-center uppercase font-bold">(SISPLADE)</p>
+                          </div>
+                        </div>
                         <div class="flex justify-center">
                           <button type="button" href="" class="font-semibold text-sm text-blue-500 underline px-3" onclick="toggleModal('modal-sisplade')">Modificar estatus</button>
                         </div>
                       </div>
-                      <div class="col-span-4">
-                          <p for="first_name" class="block text-normal font-bold text-gray-900 text-center">Capturado</p>
-                          <div class="mt-2">
+                      <div class="col-span-4 mt-2 m-4 mb-16">
+                          <p class="font-semibold text-base text-center bg-gray-100 p-2">Capturado</p>
+                          <div class="p-5 border">
                             @switch($sisplade->capturado)
                               @case(1)
                                   <div class="flex justify-center max-h-8">
                                       <img src="{{ asset('image/Bien.svg') }}" alt="Workflow" >
                                   </div>
                                   <div>
-                                      <p class="block text-base font-semibold text-gray-900 text-center">{{$service->formatDate($sisplade->fecha_capturado)}}</p>
+                                      <p class="text-base font-semibold text-center">{{$service->formatDate($sisplade->fecha_capturado)}}</p>
                                   </div>
                               @break
                               @default
                                 <div class="flex justify-center max-h-8">
                                     <img src="{{ asset('image/Mal.svg') }}" alt="Workflow">
                                 </div>
+                                <div>
+                                    <p class="text-base font-semibold text-center">Sin fecha de captura</p>
+                                </div>
                             @endswitch
                           </div>
                       </div>
-                      <div class="col-span-4">
-                          <p for="first_name" class="block text-normal font-bold text-gray-900 text-center">Validado</p>
-                          <div class="mt-2">
+                      <div class="col-span-4 mt-2 m-4 mb-16">
+                        <p class="font-semibold text-base text-center bg-gray-100 p-2">Validado</p>
+                          <div class="p-5 border">
                             @switch($sisplade->validado)
                               @case(1)
                                   <div class="flex justify-center max-h-8">
                                       <img src="{{ asset('image/Bien.svg') }}" alt="Workflow" >
                                   </div>
                                   <div>
-                                      <p class="block text-base font-semibold text-gray-900 text-center">{{$service->formatDate($sisplade->fecha_validado)}}</p>
+                                      <p class="text-base font-semibold text-center">{{$service->formatDate($sisplade->fecha_validado)}}</p>
                                   </div>
                               @break
                               @default
                                 <div class="flex justify-center max-h-8">
                                     <img src="{{ asset('image/Mal.svg') }}" alt="Workflow">
                                 </div>
+                                <div>
+                                  <p class="text-base font-semibold text-center">Sin fecha de validación</p>
+                              </div>
                             @endswitch
                           </div>
                       </div>
 
-                      <div class="col-span-8 mb-10">
-                        <h2 for="first_name" class="text-lg font-bold text-center">Matriz de Inversión para el Desarrollo Social (MIDS)<br>y Sistema de Recursos Federales Transferidos (SRFT)</h2>
-                        <div class="flex justify-center">
-                          <button type="button" href="" class="font-semibold text-sm text-blue-500 underline px-3" onclick="toggleModal('modal-sisplade')">Modificar estatus</button>
+                      <div class="col-span-8">
+                        <div class="bg-gray-300">
+                          <div class="px-4 py-2">
+                              <p class="font-semibold text-base text-center uppercase">Matriz de Inversión para el Desarrollo Social <span class="font-bold">(MIDS)</span></p>
+                              <p class="font-semibold text-base text-center uppercase">y Sistema de Recursos Federales Transferidos <span class="font-bold">(SRFT)</span></p>
+                          </div>
                         </div>
                       </div>
-                      <div class="col-span-8">
+                      <div class="col-span-8 m-4 mt-5">
                         <div class="grid grid-cols-10">
-                          <div class="col-span-4 border">
-                            <p for="first_name" class="block text-base font-bold text-gray-900 text-center p-1">Nombre de la obra</p>
+                          <div class="col-span-4 border bg-gray-100 flex justify-center items-center p-3">
+                            <p class="text-sm font-semibold text-gray-900 text-center leading-none" >Nombre de la obra</p>
                           </div>
-                          <div class="col-span-2 border">
-                            <p for="first_name" class="block text-base font-bold text-gray-900 text-center p-1">MIDS</p>
+                          <div class="col-span-2 border bg-gray-100 flex justify-center items-center">
+                            <p class="text-sm font-semibold text-gray-900 text-center leading-none">MIDS</p>
                           </div>
-                          <div class="col-span-2 border">
-                            <p for="first_name" class="block text-base font-bold text-gray-900 text-center p-1">RFT</p>
+                          <div class="col-span-2 border bg-gray-100 flex justify-center items-center">
+                            <p class="text-sm font-semibold text-gray-900 text-center leading-none">RFT</p>
                           </div>
-                          <div class="col-span-2 border">
-                            <p for="first_name" class="block text-base font-bold text-gray-900 text-center p-1">Acciones</p>
+                          <div class="col-span-2 border bg-gray-100 flex justify-center items-center">
+                            <p class="text-sm font-semibold text-gray-900 text-center leading-none">Acciones</p>
                           </div>
                             @foreach($obras_pt as $obra) 
-                              <div class="col-span-4 flex justify-center items-center leading-none border p-2">
-                                <p for="first_name" class="block text-base font-semibold text-gray-900 text-center">{{$obra->nombre_corto}}</p>
-                              </div>
-                              <div class="col-span-2 border p-2">
-                                <div class="flex justify-center items-center">
-                                  <p class="block text-base font-semibold text-gray-900 text-center leading-none">
-                                    @if($obra->planeado == 1)
-                                      En proceso <br>de planeación.
-                                    @else
-                                      @if($obra->firmado == 1)
-                                        En proceso <br>de firma.
-                                      @else
-                                        @if($obra->validado == 1)
-                                          En proceso <br>de validacion.
-                                        @else
-                                          <div class="flex justify-center max-h-8">
-                                            <img src="{{ asset('image/Bien.svg') }}" alt="Workflow" >
-                                          </div>
+                                <div class="col-span-4 flex justify-center items-center leading-none border p-2">
+                                    <p for="first_name" class="block text-base font-semibold text-gray-900 text-center">{{$obra->nombre_corto}}</p>
+                                </div>
+                                <div class="col-span-2 border p-2">
+                                    <div class="flex justify-center items-center">
+                                        <p class="block text-base font-semibold text-gray-900 text-center leading-none">
+                                            @if($obra->mids->planeado == 0)
+                                                En proceso <br>de planeación
+                                            @else
+                                                @if($obra->mids->firmado == 0)
+                                                    En proceso <br>de firma
+                                                @else
+                                                    @if($obra->mids->validado == 0)
+                                                        En proceso <br>de validacion
+                                                    @else
+                                                        <div class="flex justify-center max-h-8">
+                                                          <img src="{{ asset('image/Bien.svg') }}" alt="Workflow" >
+                                                        </div>
+                                                    @endif
+                                                @endif
+                                            @endif
+                                        </p>
+
+                                        @if(strftime("%m") > 1 && strftime("%Y") == ($anio + 1))
+                                            <div class="flex justify-center max-h-8">
+                                                <img src="{{ asset('image/Bien.svg') }}" alt="Workflow" >
+                                            </div>
                                         @endif
-                                      @endif
-                                    @endif
-                                  </p>
 
-                                  @if(strftime("%m") > 1 && strftime("%Y") == ($anio + 1))
-                                      <div class="flex justify-center max-h-8">
-                                          <img src="{{ asset('image/Bien.svg') }}" alt="Workflow" >
-                                      </div>
-                                  @endif
-
-                                  
+                                      
+                                    </div>
                                 </div>
-                              </div>
-                              <div class="col-span-2 border p-2">
-                                <div class="flex justify-center items-center">
-                                  <p class="block text-base font-semibold text-gray-900 text-center leading-none">
-                                      @if(strftime("%m") == 1 && strftime("%Y") == $cliente->anio_inicio )
-                                          Primer trimestre <br>En proceso
-                                      @endif
-                                      @if(strftime("%m") > 1 && strftime("%m") <= 3 && strftime("%Y") == $anio)
-                                          Primer trimestre <br>En proceso
-                                      @endif
-                                      @if(strftime("%m") == 4 && strftime("%d") > 0 && strftime("%d") < 20 && strftime("%Y") == $anio)
-                                          Capturando<br>Primer trimestre
-                                      @endif
-                                      @if(strftime("%m") == 4 && strftime("%d") > 19 && strftime("%d") < 31 && strftime("%Y") == $anio)
-                                          Registrando<br>Primer trimestre
-                                      @endif
-                                      @if(strftime("%m") > 4 && strftime("%m") < 7 && strftime("%Y") == $anio)
-                                          Segundo trimestre <br>En proceso
-                                      @endif
-                                      @if(strftime("%m") == 7 && strftime("%d") > 0 && strftime("%d") < 20 && strftime("%Y") == $anio)
-                                          Capturando<br>Segundo trimestre
-                                      @endif
-                                      @if(strftime("%m") == 7 && strftime("%d") > 19 && strftime("%d") < 31 && strftime("%Y") == $anio)
-                                          Registrando<br>Segundo trimestre
-                                      @endif
-                                      @if(strftime("%m") > 6 && strftime("%m") < 10 && strftime("%Y") == $anio)
-                                          Tercer trimestre <br>En proceso
-                                      @endif
-                                      @if(strftime("%m") == 10 && strftime("%d") > 0 && strftime("%d") < 20 && strftime("%Y") == $anio)
-                                          Capturando<br>Tercer trimestre
-                                      @endif
-                                      @if(strftime("%m") == 10 && strftime("%d") > 19 && strftime("%d") < 31 && strftime("%Y") == $anio)
-                                          Registrando<br>Tercer trimestre
-                                      @endif
-                                      @if(strftime("%m") > 11 && strftime("%m") < 13 && strftime("%Y") == $anio )
-                                          Cuarto trimestre <br>En proceso
-                                      @endif
-                                      @if(strftime("%m") == 1 && strftime("%d") > 0 && strftime("%d") < 20 && strftime("%Y") == ($anio + 1))
-                                          Capturando<br>Cuarto trimestre
-                                      @endif
-                                      @if(strftime("%m") == 1 && strftime("%d") > 19 && strftime("%d") < 31 && strftime("%Y") == ($anio + 1))
-                                          Registrando<br>Cuarto trimestre
-                                      @endif
+                                <div class="col-span-2 border p-2">
+                                  <div class="flex justify-center items-center">
+                                    <p class="block text-base font-semibold text-gray-900 text-center leading-none">
+                                        @if($obra->rft->primer_trimestre == 0)
+                                            En proceso<br>primer trimestre
+                                        @else
+                                            @if($obra->rft->segundo_trimestre == 0)
+                                                En proceso<br>segundo trimestre
+                                            @else
+                                                @if($obra->rft->tercer_trimestre == 0)
+                                                    En proceso<br>tercer trimestre
+                                                @else
+                                                    @if($obra->rft->cuarto_trimestre == 0)
+                                                        En proceso<br>cuarto trimestre
+                                                    @else
+                                                      <div class="flex justify-center max-h-8">
+                                                        <img src="{{ asset('image/Bien.svg') }}" alt="Workflow" >
+                                                      </div>
+                                                    @endif
+                                                @endif
+                                            @endif
+                                        @endif
                                     </p>
-
-                                    @if(strftime("%m") > 1 && strftime("%Y") == ($anio + 1))
-                                        <div class="flex justify-center max-h-8">
-                                            <img src="{{ asset('image/Bien.svg') }}" alt="Workflow" >
-                                        </div>
-                                    @endif
-
-                                  
-                                </div>
-                              </div>
-                              <div class="col-span-2 flex justify-center items-center leading-none border p-2">
-                                <button type="button" href="" class="btn_detalles text-sm text-blue-500 font-normal text-ms p-2 rounded rounded-lg" onclick="mostrarRM('{{'obra_id_'.$obra->id_obra}}')">Detalles</button>
-                              </div>
-                              <div id="{{'obra_id_'.$obra->id_obra}}" class="hidden col-span-10 border p-5">
-                                
-                                <div class="mt-5">
-                                  <p for="first_name" class="block text-base font-bold text-gray-900 text-center">Matriz de Inversión para el Desarrollo Social</p>
-                                  <div class="flex justify-center">
-                                    <button type="button" href="" class="font-semibold text-sm text-blue-500 underline px-3 text-center" onclick="toggleModalMids('modal-mids', {{$obra->mids}})">Modificar proceso</button>
                                   </div>
-                                    <div class="grid grid-cols-6 mt-2">
-                                      <div class="col-span-2">
-                                        <p for="first_name" class="block text-base font-semibold text-gray-900 text-center">Planeación</p>
-                                        <div class="mt-2">
-                                          @switch($obra->mids->planeado)
-                                            @case(1)
-                                                <div class="flex justify-center max-h-8">
-                                                    <img src="{{ asset('image/Bien.svg') }}" alt="Workflow" >
-                                                </div>
-                                                <div>
-                                                    <p class="block text-base font-semibold text-gray-900 text-center">{{$service->formatDate($obra->mids->fecha_planeado)}}</p>
-                                                </div>
-                                            @break
-                                            @default
-                                              <div class="flex justify-center max-h-8">
-                                                  <img src="{{ asset('image/Mal.svg') }}" alt="Workflow">
-                                              </div>
-                                          @endswitch
-                                        </div>
-                                      </div>
-                                      <div class="col-span-2">
-                                        <p for="first_name" class="block text-base font-semibold text-gray-900 text-center">Proceso de firma</p>
-                                        <div class="mt-2">
-                                          @switch($obra->mids->firmado)
-                                            @case(1)
-                                                <div class="flex justify-center max-h-8">
-                                                    <img src="{{ asset('image/Bien.svg') }}" alt="Workflow" >
-                                                </div>
-                                                <div>
-                                                    <p class="block text-base font-semibold text-gray-900 text-center">{{$service->formatDate($obra->mids->fecha_firmado)}}</p>
-                                                </div>
-                                            @break
-                                            @default
-                                              <div class="flex justify-center max-h-8">
-                                                  <img src="{{ asset('image/Mal.svg') }}" alt="Workflow">
-                                              </div>
-                                          @endswitch
-                                        </div>
-                                      </div>
-                                      <div class="col-span-2">
-                                        <p for="first_name" class="block text-base font-semibold text-gray-900 text-center">Revisión</p>
-                                        <div class="mt-2">
-                                          @switch($obra->mids->validado)
-                                            @case(1)
-                                                <div class="flex justify-center max-h-8">
-                                                    <img src="{{ asset('image/Bien.svg') }}" alt="Workflow" >
-                                                </div>
-                                                <div>
-                                                    <p class="block text-base font-semibold text-gray-900 text-center">{{$service->formatDate($obra->mids->fecha_validado)}}</p>
-                                                </div>
-                                            @break
-                                            @default
-                                              <div class="flex justify-center max-h-8">
-                                                  <img src="{{ asset('image/Mal.svg') }}" alt="Workflow">
-                                              </div>
-                                          @endswitch
-                                        </div>
-                                      </div>
-                                      
-                                    </div>
                                 </div>
-                                <div class=" mt-10">
-                                    <p for="first_name" class="block text-base font-bold text-gray-900 text-center">Sistema de Recursos Federales Transferidos</p>
-                                    <div class="flex justify-center">
-                                      <button type="button" href="" class="font-semibold text-sm text-blue-500 underline px-3" onclick="toggleModalRFT('modal-rft', {{$obra->rft}})">Modificar proceso</button>
-                                    </div>
-                                    <p for="first_name" class="block text-base font-semibold text-gray-900 text-center mt-2">Avance por trimestre</p>
-                                    <div class="grid grid-cols-8 mt-2">
-                                      
-                                      <div class="col-span-2">
-                                        <div class="flex justify-center items-center">
-                                            <meter min="0" max="100" low="25" high="75" optimum="100" value="{{$obra->rft->primer_trimestre}}" class="barra-porcentaje">
-                                        </div>
-                                        <p for="first_name" class="block text-base font-bold text-gray-900 text-center">Primero</p>
-                                      </div>
-                                      <div class="col-span-2">
-                                        <div class="flex justify-center items-center">
-                                          <meter min="0" max="100" low="25" high="75" optimum="100" value="{{$obra->rft->segundo_trimestre}}" class="barra-porcentaje">
-                                        </div>
-                                        <p for="first_name" class="block text-base font-bold text-gray-900 text-center">Segundo</p>
-                                      </div>
-                                      <div class="col-span-2">
-                                        <div class="flex justify-center items-center">
-                                          <meter min="0" max="100" low="25" high="75" optimum="100" value="{{$obra->rft->tercer_trimestre}}" class="barra-porcentaje">
-                                        </div>
-                                        <p for="first_name" class="block text-base font-bold text-gray-900 text-center">Tercero</p>
-                                      </div>
-                                      <div class="col-span-2">
-                                        <div class="flex justify-center items-center">
-                                          <meter min="0" max="100" low="25" high="75" optimum="100" value="{{$obra->rft->cuarto_trimestre}}" class="barra-porcentaje">
-                                        </div>
-                                        <p for="first_name" class="block text-base font-bold text-gray-900 text-center">Cuarto</p>
-                                      </div>
-                                      
-                                    </div>
+                                <div class="col-span-2 flex justify-center items-center leading-none border p-2">
+                                  <button type="button" href="" class="btn_detalles text-sm text-blue-500 font-normal text-ms p-2 rounded rounded-lg" onclick="mostrarRM('{{'obra_id_'.$obra->id_obra}}')">Detalles</button>
                                 </div>
-                              </div>
+                                <div id="{{'obra_id_'.$obra->id_obra}}" class="hidden col-span-10 border">
+                                  
+                                  <div class="">
+                                      <div class="bg-gray-300 mt-5">
+                                        <div class=" py-2">
+                                            <p class="font-semibold text-base text-center uppercase">Matriz de Inversión para el Desarrollo Social</p>
+                                        </div>
+                                      </div>
+                                      <div class="flex justify-center px-5">
+                                        <button type="button" href="" class="font-semibold text-sm text-blue-500 underline px-3 text-center" onclick="toggleModalMids('modal-mids', {{$obra->mids}})">Modificar proceso</button>
+                                      </div>
+                                      <div class="grid grid-cols-6 mt-5 px-5">
+                                        <div class="col-span-2 border">
+                                          <p class="bg-gray-100 text-base font-semibold text-center p-3">Planeación</p>
+                                          <div class="mt-2 py-5 px-2 flex justify-center items-center">
+                                            <div>
+                                              @switch($obra->mids->planeado)
+                                                @case(1)
+                                                    <div class="flex justify-center max-h-8">
+                                                        <img src="{{ asset('image/Bien.svg') }}" alt="Workflow" >
+                                                    </div>
+                                                    <div>
+                                                        <p class="block text-base font-semibold text-gray-900 text-center">{{$service->formatDate($obra->mids->fecha_planeado)}}</p>
+                                                    </div>
+                                                @break
+                                                @default
+                                                  <div class="flex justify-center max-h-8">
+                                                    <img src="{{ asset('image/tuerca.svg') }}" alt="Workflow">
+                                                  </div>
+                                              @endswitch
+                                            </div>
+                                            
+                                          </div>
+                                        </div>
+                                        <div class="col-span-2 border">
+                                          <p class="bg-gray-100 text-base font-semibold text-center p-3">Proceso de firma</p>
+                                          <div class="mt-2 py-5 px-2 flex justify-center items-center">
+                                            <div>
+                                              @switch($obra->mids->firmado)
+                                                @case(1)
+                                                    <div class="flex justify-center max-h-8">
+                                                        <img src="{{ asset('image/Bien.svg') }}" alt="Workflow" >
+                                                    </div>
+                                                    <div>
+                                                        <p class="block text-base font-semibold text-gray-900 text-center">{{$service->formatDate($obra->mids->fecha_firmado)}}</p>
+                                                    </div>
+                                                @break
+                                                @default
+                                                    @if($obra->mids->planeado == 0)
+                                                      <p class="block text-base font-semibold text-gray-900 text-center">En proceso de planeación</p>
+                                                    @else
+                                                      <div class="flex justify-center max-h-8">
+                                                        <img src="{{ asset('image/tuerca.svg') }}" alt="Workflow">
+                                                      </div>
+                                                    @endif
+                                              @endswitch
+                                            </div>
+                                          </div>
+                                        </div>
+                                        <div class="col-span-2 border">
+                                          <p class="bg-gray-100 text-base font-semibold text-center p-3">Revisión</p>
+                                          <div class="mt-2 py-5 px-2 flex justify-center items-center">
+                                            <div>
+                                              @switch($obra->mids->validado)
+                                                @case(1)
+                                                    <div class="flex justify-center max-h-8">
+                                                        <img src="{{ asset('image/Bien.svg') }}" alt="Workflow" >
+                                                    </div>
+                                                    <div>
+                                                        <p class="block text-base font-semibold text-gray-900 text-center">{{$service->formatDate($obra->mids->fecha_validado)}}</p>
+                                                    </div>
+                                                @break
+                                                @default
+                                                    @if($obra->mids->planeado == 0)
+                                                        <p class="block text-base font-semibold text-gray-900 text-center">En proceso de planeación</p>
+                                                    @else
+                                                      @if($obra->mids->firmado == 0)
+                                                          <p class="block text-base font-semibold text-gray-900 text-center">En proceso de firma</p>
+                                                      @else
+                                                        <div class="flex justify-center max-h-8">
+                                                          <img src="{{ asset('image/tuerca.svg') }}" alt="Workflow">
+                                                        </div>
+                                                      @endif
+                                                    @endif
+                                              @endswitch
+                                            </div>
+                                            
+                                          </div>
+                                        </div>
+                                        
+                                      </div>
+                                  </div>
+                                  <div class=" mt-12 mb-12">
+                                      <div class="bg-gray-300">
+                                        <div class="px-4 py-2">
+                                            <p class="font-semibold text-base text-center uppercase">Sistema de Recursos Federales Transferidos</p>
+                                        </div>
+                                      </div>
+                                      <div class="flex justify-center">
+                                        <button type="button" href="" class="font-semibold text-sm text-blue-500 underline px-3" onclick="toggleModalRFT('modal-rft', {{$obra->rft}})">Modificar proceso</button>
+                                      </div>
+                                      <div class="grid grid-cols-8 mt-5 mx-5 border">
+                                        <div class="col-span-8">
+                                            <div class="bg-gray-100 text-base font-semibold text-center p-3">
+                                                <p for="first_name" class="block text-base font-semibold text-gray-900 text-center">Avance por trimestre</p>
+                                            </div>
+                                        </div>
+                                        
+                                        <div class="col-span-2 border py-5">
+                                          <div class="flex justify-center items-center">
+                                              <meter min="0" max="100" low="25" high="75" optimum="100" value="{{$obra->rft->primer_trimestre}}" class="barra-porcentaje">
+                                          </div>
+                                          <p class="text-base font-semibold text-center">Primero</p>
+                                        </div>
+                                        <div class="col-span-2 border py-5">
+                                          <div class="flex justify-center items-center">
+                                            <meter min="0" max="100" low="25" high="75" optimum="100" value="{{$obra->rft->segundo_trimestre}}" class="barra-porcentaje">
+                                          </div>
+                                          <p class="text-base font-semibold text-center">Segundo</p>
+                                        </div>
+                                        <div class="col-span-2 border py-5">
+                                          <div class="flex justify-center items-center">
+                                            <meter min="0" max="100" low="25" high="75" optimum="100" value="{{$obra->rft->tercer_trimestre}}" class="barra-porcentaje">
+                                          </div>
+                                          <p class="text-base font-semibold text-center">Tercero</p>
+                                        </div>
+                                        <div class="col-span-2 border py-5">
+                                          <div class="flex justify-center items-center">
+                                            <meter min="0" max="100" low="25" high="75" optimum="100" value="{{$obra->rft->cuarto_trimestre}}" class="barra-porcentaje">
+                                          </div>
+                                          <p class="text-base font-semibold text-center">Cuarto</p>
+                                        </div>
+                                        
+                                      </div>
+                                  </div>
+                                </div>
                             @endforeach
                           
                         </div>
                         
                       </div>
                     </div>
+                  </div>
+                    
                 </div>
             </div>
         </div>
@@ -685,65 +725,78 @@
                           class="text-base text-white bg-blue-500 p-2 rounded-lg px-6" onclick="toggleModal_1('modal-edit', {{$fuente_cliente}}, '{{$service->formatNumber($fuente_cliente->monto_proyectado)}}', '{{$service->formatNumber($fuente_cliente->monto_comprometido)}}')">{{$fuente_cliente->fuente_financiamiento_id == 2?'Editar':'Detalles'}}</button>
                         
                     </div>
-                    
-                    <div class="px-4 pt-4">
-                        <p for="first_name" class="block text-normal font-base text-gray-500">Nombre completo: <span class="text-black text-base font-semibold">{{$fuente_cliente->nombre_largo}}</span></p>
+                    <div class="px-6 py-4">
+                      <div class="">
+                          <p class="text-xs text-center">Nombre completo</p>
+                          <p class="text-base font-semibold bg-gray-100 p-1 text-center">{{$fuente_cliente->nombre_largo}}</p>
+                      </div>
+                      <div class="pt-2 grid grid-cols-6 gap-2">
+                          <div class="col-span-6 sm:col-span-2 mt-3 sm:mt-0">
+                              <p class="text-xs text-center">Monto recibido</p>
+                              <p class="text-base font-semibold bg-gray-100 p-1 text-center">{{$service->formatNumber($fuente_cliente->monto_proyectado)}}</p>
+                          </div>
+                          <div class="col-span-8 sm:col-span-2 mt-3 sm:mt-0">
+                              <p class="text-xs text-center">Monto comprometido</p>
+                              <p class="text-base font-semibold bg-gray-100 p-1 text-center">{{$service->formatNumber($fuente_cliente->monto_comprometido)}}</p>
+                          </div>
+                          <div class="col-span-8 sm:col-span-2 mt-3 sm:mt-0">
+                              <p class="text-xs text-center">Monto pendiente</p>
+                              <p class="text-base font-semibold bg-gray-100 p-1 text-center">{{$service->formatNumber($fuente_cliente->monto_proyectado - $fuente_cliente->monto_comprometido)}}</p>
+                          </div>
+                      </div>
                     </div>
-                    <div class="p-4 grid grid-cols-6 ">
-                        <div class="col-span-6 sm:col-span-2 mt-3 sm:mt-0">
-                            <p for="first_name" class="block text-normal font-base text-gray-500">Monto recibido: <span class="text-black text-base font-semibold">{{$service->formatNumber($fuente_cliente->monto_proyectado)}}</span></p>
-                        </div>
-                        <div class="col-span-8 sm:col-span-2 mt-3 sm:mt-0">
-                            <p for="first_name" class="block text-normal font-base text-gray-500">Monto comprometido: <span class="text-black text-base font-semibold">{{$service->formatNumber($fuente_cliente->monto_comprometido)}}</span></p>
-                        </div>
-                        <div class="col-span-8 sm:col-span-2 mt-3 sm:mt-0">
-                            <p for="first_name" class="block text-normal font-base text-gray-500">Monto pendiente: <span class="text-black text-base font-semibold">{{$service->formatNumber($fuente_cliente->monto_proyectado - $fuente_cliente->monto_comprometido)}}</span></p>
-                        </div>
-                    </div>
                     
-                    <div class="p-4 ">
+                    <div class="px-6 py-2">
                         <div class="">
+                          <p class="text-base font-semibold text-center">Obras</p>
                             <table id="example1" class="table table-striped bg-white" style="width:100%;">
                                 <thead>
                                     <tr>
-                                        <th>Nombre</th>
-                                        <th>Monto</th>
-                                        <th>Modalidad de ejecución</th>
-                                        <th>Porcentaje de avance</th>
-                                        <th>Acciones</th>
+                                        <th class="text-sm text-center" style="background: rgb(243, 244, 246)!important; border-top-color:rgb(243, 244, 246)!important; ">Nombre</th>
+                                        <th class="text-sm text-center" style="background: rgb(243, 244, 246)!important; border-top-color:rgb(243, 244, 246)!important; ">Monto</th>
+                                        <th class="text-sm text-center" style="background: rgb(243, 244, 246)!important; border-top-color:rgb(243, 244, 246)!important; ">Modalidad de ejecución</th>
+                                        <th class="text-sm text-center" style="background: rgb(243, 244, 246)!important; border-top-color:rgb(243, 244, 246)!important; ">Porcentaje de avance</th>
+                                        <th class="text-sm text-center" style="background: rgb(243, 244, 246)!important; border-top-color:rgb(243, 244, 246)!important; ">Acciones</th>
                                     </tr>
                                 </thead>
                                 <tbody>
                                   @foreach ($fuente_cliente->obrasFuente as $obra_fuente)
                                       <tr>
                                           <td>
-                                              <div class="text-base leading-5 font-medium text-gray-900">
-                                                  {{ $obras->where('id_obra', $obra_fuente->obra_id)->first()->nombre_corto }}
+                                              <div>
+                                                <p  class="text-sm leading-5 font-medium">
+                                                    {{ $obras->where('id_obra', $obra_fuente->obra_id)->first()->nombre_corto }}
+                                                </p>
                                               </div>
                                           </td>
                                           <td>
-                                              <div class="text-base leading-5 font-medium text-gray-900 text-right">
-                                                  {{ $service->formatNumber($obras->where('fuente_financiamiento_id', $fuente_cliente->fuente_financiamiento_id)->where('id_obra', $obra_fuente->obra_id)->first()->monto)}}
-                                                  
+                                              <div>
+                                                  <p class="text-sm leading-none font-medium text-right">
+                                                    {{ $service->formatNumber($obras->where('fuente_financiamiento_id', $fuente_cliente->fuente_financiamiento_id)->where('id_obra', $obra_fuente->obra_id)->first()->monto)}}
+                                                  </p>
                                               </div>
                                           </td>
                                           <td>
-                                              <div class="text-base leading-5 font-medium text-gray-900">
-                                                  @if ($obras->where('id_obra', $obra_fuente->obra_id)->first()->modalidad_ejecucion == 1)
-                                                      Administración Directa
-                                                  @else
-                                                      Contrato
-                                                  @endif                                                
+                                              <div class="">
+                                                  <p class="text-sm leading-5 font-medium ">
+                                                      @if ($obras->where('id_obra', $obra_fuente->obra_id)->first()->modalidad_ejecucion == 1)
+                                                          Administración Directa
+                                                      @else
+                                                          Contrato
+                                                      @endif                                                
+                                                  </p>
                                               </div>
                                           </td>
                                           <td>
-                                              <div class="text-base leading-5 font-medium text-gray-900 text-right">
-                                                  {{ round(($obras->where('id_obra', $obra_fuente->obra_id)->first()->avance_fisico + $obras->where('id_obra', $obra_fuente->obra_id)->first()->avance_tecnico + $obras->where('id_obra', $obra_fuente->obra_id)->first()->avance_economico) / 3) }} %
-                                                  
+                                              <div class="leading-none">
+                                                  <div class="flex justify-center">
+                                                      <meter min="0" max="100" low="0" high="100" optimum="100" value="{{ round(($obras->where('id_obra', $obra_fuente->obra_id)->first()->avance_fisico + $obras->where('id_obra', $obra_fuente->obra_id)->first()->avance_tecnico + $obras->where('id_obra', $obra_fuente->obra_id)->first()->avance_economico) / 3) }}" class="barra-porcentaje metter-azul"></meter>
+                                                  </div>
+                                                  <p class="text-xs leading-none font-medium text-center">{{ round(($obras->where('id_obra', $obra_fuente->obra_id)->first()->avance_fisico + $obras->where('id_obra', $obra_fuente->obra_id)->first()->avance_tecnico + $obras->where('id_obra', $obra_fuente->obra_id)->first()->avance_economico) / 3) }}%</p>
                                               </div>
                                           </td>
                                           <td>
-                                              <div class="text-base leading-5 font-medium text-gray-900">
+                                              <div class="">
                                                 <a type="button"
                                                       href="{{ route('obra.ver', $obra_fuente->obra_id) }}"
                                                       class="bg-white text-sm text-blue-500 font-normal text-ms p-2 rounded rounded-lg">Detalles</a>
@@ -768,18 +821,18 @@
     <!-- inicio modal -->
   <!-- inicio modal -->
   <div class="hidden overflow-x-hidden overflow-y-auto fixed inset-0 z-50 outline-none focus:outline-none justify-center items-center" id="modal">
-    <div class="relative w-auto my-6 mx-auto max-w-3xl">
+    <div class="relative w-auto my-28 mx-auto max-w-3xl">
       <!--content-->
       <div class="border-0 rounded-lg shadow-lg relative flex flex-col w-full bg-white outline-none focus:outline-none">
         <!--header-->
-        <div class="flex items-start justify-between p-5 border-b border-solid border-blueGray-200 rounded-t">
-          <h4 class="text-xl font-semibold">
-            Agregar nueva fuente
+        <div class="flex items-center justify-between px-5 py-3 border-b border-solid border-blueGray-200 rounded-t bg-blue-cmr1">
+          <h4 class="text-base font-normal uppercase text-white">
+              Agregar nueva fuente
           </h4>
-          <button class="p-1 ml-auto bg-transparent border-0 text-black opacity-5 float-right text-3xl leading-none font-semibold outline-none focus:outline-none" onclick="toggleModal('modal')">
-            <span class="bg-transparent text-black opacity-5 h-6 w-6 text-2xl block outline-none focus:outline-none">
-              
-            </span>
+          <button class="p-1 ml-auto bg-transparent border-0 text-white float-right text-2xl leading-none font-semibold outline-none focus:outline-none" onclick="toggleModal('modal')">
+              <span>
+                  <i class="fas fa-xmark"></i>
+              </span>
           </button>
         </div>
         <!--body-->
@@ -789,18 +842,18 @@
           <div class="relative p-6 flex-auto">
               <div class="grid grid-cols-10 gap-4">
                 <div class="col-span-5 sm:col-span-5 ">
-                  <label  id="label_cliente_id" for="cliente_id" class="block text-sm font-bold text-gray-700">Municipio</label>
-                  <label id="cliente_id" class="block text-base font-medium text-gray-700 py-3 px-2">{{$cliente->nombre_municipio}}</label>
+                  <label  id="label_cliente_id" for="cliente_id" class="block text-sm font-semibold text-center">Municipio</label>
+                  <p class="text-base font-semibold bg-gray-100 p-1 text-center">{{$cliente->nombre_municipio}}</p>
                   <input type="text" name="cliente_id" id="cliente_id" class="hidden border-none block text-base font-medium text-gray-700 py-3 px-2" value="{{$cliente->id_cliente}}">
                 </div>
                 <div class="col-span-3 sm:col-span-2">
-                  <label id="label_ejercicio" for="label_ejercicio" class="block text-sm font-bold text-gray-700">Ejercicio</label>
-                  <label class="block text-base font-medium text-gray-700 py-3 px-2">{{$anio}}</label>
+                  <label id="label_ejercicio" for="label_ejercicio" class="block text-sm font-semibold text-center">Ejercicio</label>
+                  <p class="text-base font-semibold bg-gray-100 p-1 text-center">{{$anio}}</p>
                   <input type="text" name="ejercicio" id="ejercicio" class="hidden border-none block text-base font-medium text-gray-700 py-3 px-2" value="{{$anio}}">
                 </div>
                 <div class="col-span-8 sm:col-span-3">
-                  <label id="label_monto_comprometido" for="label_monto_comprometido" class="block text-sm font-bold text-gray-700">Monto comprometido</label>
-                  <label id="label_mc" for="monto_comprometido" class="block text-base font-medium text-gray-700 py-3 px-2">$0.00</label>
+                  <label id="label_monto_comprometido" for="label_monto_comprometido" class="block text-sm font-semibold text-center">Monto comprometido</label>
+                  <p class="text-base font-semibold bg-gray-100 p-1 text-center">$0.00</p>
                   <input type="text" name="monto_comprometido" id="monto_comprometido" class="hidden border-none block text-base font-medium text-gray-700 py-3 px-2" value="0.00">
                 </div>
                 <div class="col-span-8 sm:col-span-5">
@@ -861,17 +914,19 @@
 
               
             </div>
+            <div class="mt-10">
+              <span class="block text-xs">Verifique los campos obligatorios marcados con un ( * ) </span>
+            </div>
             
           </div>
         <!--footer-->
         <div class=" p-4 border-t border-solid border-blueGray-200 rounded-b">
           
-          <span class="block text-xs">Verifique los campos obligatorios marcados con un ( * ) </span>
           <div class="text-right">
-          <button class="text-red-500 background-transparent font-bold uppercase px-6 py-2 text-sm outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150" type="button" onclick="toggleModal('modal')">
+          <button class="text-red-500 background-transparent font-bold uppercase px-6 text-sm outline-none focus:outline-none ease-linear transition-all duration-150" type="button" onclick="toggleModal('modal')">
             Cancelar
           </button>
-          <button type="submit" id="guardar" class="bg-green-500 text-white active:bg-green-600 font-bold uppercase text-sm px-6 py-3 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150" >
+          <button type="submit" id="guardar" class="text-blue-500 font-bold uppercase text-sm px-6 rounded outline-none focus:outline-none ease-linear transition-all duration-150" >
             Guardar
           </button>
           </div>
@@ -883,17 +938,17 @@
 
   <!-- inicio modal edit -->
   <div class="hidden overflow-x-hidden overflow-y-auto fixed inset-0 z-50 outline-none focus:outline-none justify-center items-center" id="modal-edit">
-    <div class="relative w-auto my-6 mx-auto max-w-3xl">
+    <div class="relative w-auto my-28 mx-auto max-w-3xl">
       <!--content-->
       <div class="border-0 rounded-lg shadow-lg relative flex flex-col w-full bg-white outline-none focus:outline-none">
         <!--header-->
-        <div class="flex items-start justify-between p-5 border-b border-solid border-blueGray-200 rounded-t">
-          <h4 class="text-xl font-semibold">
+        <div class="flex items-center justify-between px-5 py-3 border-b border-solid border-blueGray-200 rounded-t bg-blue-cmr1">
+          <h4 class="text-base font-normal uppercase text-white">
             Modificar fuente de financiamiento
           </h4>
-          <button class="p-1 ml-auto bg-transparent border-0 text-black float-right text-3xl leading-none font-semibold outline-none focus:outline-none" onclick="toggleModal('modal-edit')">
-            <span class="bg-transparent text-red-500 h-6 w-6 text-2xl block outline-none focus:outline-none">
-              X
+          <button class="p-1 ml-auto bg-transparent border-0 text-white float-right text-2xl leading-none font-semibold outline-none focus:outline-none" onclick="toggleModal('modal-edit')">
+            <span>
+                <i class="fas fa-xmark"></i>
             </span>
           </button>
 
@@ -944,28 +999,34 @@
                   <input type="date" name="adendum_priorizacion_edit" id="adendum_priorizacion_edit"  min="{{$anio}}-02-01" max="{{$anio}}-12-31" class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md" >
                   <label id="error_adendum_priorizacion_edit" name="error_adendum_priorizacion_edit" class="hidden text-base font-normal text-red-500" >Por favor ingresar una Fecha</label>  
               </div>
-            <div class="col-span-5 lg:col-span-5 fondo_3">
-                <div id="div_prodim_edit" class="mb-5">
-                  <label id="label_prodim" class="block text-sm font-bold text-gray-700" ></label>  
-                </div>
-                <div id="div_gastos_edit" class="mt-5 mb-5">
-                  <label id="label_gastos" class="block text-sm font-bold text-gray-700" ></label>  
-                </div>
+              <div class="col-span-5 lg:col-span-5 fondo_3">
+                  <div id="div_prodim_edit" class="mb-5">
+                    <label id="label_prodim" class="block text-sm font-bold text-gray-700" ></label>  
+                  </div>
+                  <div id="div_gastos_edit" class="mt-5 mb-5">
+                    <label id="label_gastos" class="block text-sm font-bold text-gray-700" ></label>  
+                  </div>
+                  
+              </div>
+
+            
+
+            
             </div>
-          </div>
+            <div class="mt-10">
+              <span class="block text-xs">Verifique los campos obligatorios marcados con un ( * ) </span>
+            </div>
           
         </div>
         <!--footer-->
         <div id="div_button_edit" class=" p-4 border-t border-solid border-blueGray-200 rounded-b">
-          
-          <span class="block text-xs">Verifique los campos obligatorios marcados con un ( * ) </span>
           <div class="text-right">
-          <button class="text-red-500 background-transparent font-bold uppercase px-6 py-2 text-sm outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150" type="button" onclick="toggleModal('modal-edit')">
-            Cancelar
-          </button>
-          <button type="submit" id="update" class="bg-green-500 text-white active:bg-green-600 font-bold uppercase text-sm px-6 py-3 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150" >
-            Guardar
-          </button>
+            <button class="text-red-500 background-transparent font-bold uppercase px-6 text-sm outline-none focus:outline-none ease-linear transition-all duration-150" type="button" onclick="toggleModal('modal-edit')">
+              Cancelar
+            </button>
+            <button type="submit" id="update" class="text-blue-500 font-bold uppercase text-sm px-6 rounded outline-none focus:outline-none ease-linear transition-all duration-150" >
+              Guardar
+            </button>
           </div>
         </div>
         </form>
@@ -976,16 +1037,18 @@
   <!-- inicio modal -->
   @if($prodim != null)
     <div class="hidden overflow-x-hidden overflow-y-auto fixed inset-0 z-50 outline-none focus:outline-none justify-center items-center" id="modal-comprometido">
-      <div class="relative w-auto my-6 mx-auto max-w-3xl">
+      <div class="relative w-auto my-28 mx-auto max-w-3xl">
         <!--content-->
         <div class="border-0 rounded-lg shadow-lg relative flex flex-col w-full bg-white outline-none focus:outline-none">
           <!--header-->
-          <div class="flex items-start justify-between p-5 border-b border-solid border-blueGray-200 rounded-t">
-            <h4 class="text-xl font-semibold">
+          <div class="flex items-center justify-between px-5 py-3 border-b border-solid border-blueGray-200 rounded-t bg-blue-cmr1">
+            <h4 class="text-base font-normal uppercase text-white">
               Agregar nuevo concepto al PRODIM
             </h4>
-            <button class="p-1 ml-auto bg-transparent border-0 text-black opacity-5 float-right text-3xl leading-none font-semibold outline-none focus:outline-none" onclick="toggleModal('modal-comprometido')">
-              <span class="bg-transparent text-black opacity-5 h-6 w-6 text-2xl block outline-none focus:outline-none"> </span>
+            <button class="p-1 ml-auto bg-transparent border-0 text-white float-right text-2xl leading-none font-semibold outline-none focus:outline-none" onclick="toggleModal('modal-comprometido')">
+                <span>
+                    <i class="fas fa-xmark"></i>
+                </span>
             </button>
           </div>
           <!--body-->
@@ -995,19 +1058,19 @@
             <div class="relative p-6 flex-auto">
                 <div class="grid grid-cols-10 gap-4">
                   <div class="col-span-5 sm:col-span-5 ">
-                    <label  id="label_cliente_id" for="cliente_id" class="block text-sm font-bold text-gray-700">Municipio</label>
-                    <label id="cliente_id" class="block text-base font-medium text-gray-700 py-3 px-2">{{$cliente->nombre_municipio}}</label>
+                    <p class="block text-sm font-semibold text-center">Municipio</p>
+                    <p class="text-base font-semibold bg-gray-100 p-1 text-center">{{$cliente->nombre_municipio}}</p>
                     <input type="text" name="cliente_id" class="hidden border-none block text-base font-medium text-gray-700 py-3 px-2" value="{{$cliente->id_cliente}}">
                     <input type="text" name="prodim_id" id="prodim_id" class="hidden border-none block text-base font-medium text-gray-700 py-3 px-2" value="{{$prodim->id_prodim}}">
                   </div>
                   <div class="col-span-3 sm:col-span-2">
-                    <label id="label_ejercicio" for="label_ejercicio" class="block text-sm font-bold text-gray-700">Ejercicio</label>
-                    <label class="block text-base font-medium text-gray-700 py-3 px-2">{{$anio}}</label>
+                    <p class="block text-sm font-semibold text-center">Ejercicio</p>
+                    <p class="text-base font-semibold bg-gray-100 p-1 text-center">{{$anio}}</p>
                     <input type="text" name="ejercicio" id="ejercicio" class="hidden border-none block text-base font-medium text-gray-700 py-3 px-2" value="{{$anio}}">
                   </div>
                   <div class="col-span-10 sm:col-span-3">
-                    <label for="label_monto_asignado_prodim" class="block text-sm font-bold text-gray-700">Monto asignado</label>
-                    <label id="label_monto_asignado_prodim" for="label_monto_asignado_prodim" class="block text-base font-medium text-gray-700 py-3 px-2">{{$service->formatNumber($fuentes_cliente->where('fuente_financiamiento_id', 2)->first()->monto_prodim)}}</label>
+                    <p class="block text-sm font-semibold text-center">Monto asignado</p>
+                    <p class="text-base font-semibold bg-gray-100 p-1 text-center">{{$service->formatNumber($fuentes_cliente->where('fuente_financiamiento_id', 2)->first()->monto_prodim)}}</p>
                   </div>
                   <div class="col-span-10 select2_modificado">
                     <label for="fuente_financiamiento_id" class="block text-sm font-bold text-gray-700">Programa*</label>
@@ -1035,20 +1098,21 @@
                       <label id="error_monto_prodim_superior" name="error_monto_prodim" class="hidden block text-base font-normal text-red-500" >El monto es mayor que el monto restante del PRODIM {{$service->formatNumber($fuentes_cliente->where('fuente_financiamiento_id', 2)->first()->monto_prodim - $total_prodim?$total_prodim:0 )}}.</label>
                       <label id="error_monto_prodim" name="error_monto_prodim" class="hidden block text-base font-normal text-red-500" >Ingrese una cantidad valida</label>
                   </div>
-              </div>
+                </div>
+                <div class="mt-10">
+                  <span class="block text-xs">Verifique los campos obligatorios marcados con un ( * ) </span>
+                </div>  
               
             </div>
           <!--footer-->
           <div class=" p-4 border-t border-solid border-blueGray-200 rounded-b">
-            
-            <span class="block text-xs">Verifique los campos obligatorios marcados con un ( * ) </span>
             <div class="text-right">
-            <button class="text-red-500 background-transparent font-bold uppercase px-6 py-2 text-sm outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150" type="button" onclick="toggleModal('modal-comprometido')">
-              Cancelar
-            </button>
-            <button type="submit" id="guardar_comp_prodim" class="bg-green-500 text-white active:bg-green-600 font-bold uppercase text-sm px-6 py-3 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150" >
-              Guardar
-            </button>
+                <button class="text-red-500 background-transparent font-bold uppercase px-6 text-sm outline-none focus:outline-none ease-linear transition-all duration-150" type="button" onclick="toggleModal('modal-comprometido')">
+                    Cancelar
+                </button>
+                <button type="submit" id="guardar_comp_prodim" class="text-blue-500 font-bold uppercase text-sm px-6 rounded outline-none focus:outline-none ease-linear transition-all duration-150" >
+                    Guardar
+                </button>
             </div>
           </div>
           </form>
@@ -1057,16 +1121,18 @@
     </div>
 
     <div class="hidden overflow-x-hidden overflow-y-auto fixed inset-0 z-50 outline-none focus:outline-none justify-center items-center" id="modal-concepto">
-      <div class="relative w-auto my-6 mx-auto max-w-3xl">
+      <div class="relative w-auto my-28 mx-auto max-w-3xl">
         <!--content-->
         <div class="border-0 rounded-lg shadow-lg relative flex flex-col w-full bg-white outline-none focus:outline-none">
           <!--header-->
-          <div class="flex items-start justify-between p-5 border-b border-solid border-blueGray-200 rounded-t">
-            <h4 class="text-xl font-semibold">
+          <div class="flex items-center justify-between px-5 py-3 border-b border-solid border-blueGray-200 rounded-t bg-blue-cmr1">
+            <h4 class="text-base font-normal uppercase text-white">
               Agregar nuevo concepto al PRODIM
             </h4>
-            <button class="p-1 ml-auto bg-transparent border-0 text-black opacity-5 float-right text-3xl leading-none font-semibold outline-none focus:outline-none" onclick="toggleModal('modal-concepto')">
-              <span class="bg-transparent text-black opacity-5 h-6 w-6 text-2xl block outline-none focus:outline-none"> </span>
+            <button class="p-1 ml-auto bg-transparent border-0 text-white float-right text-2xl leading-none font-semibold outline-none focus:outline-none" onclick="toggleModal('modal-concepto')">
+                <span>
+                    <i class="fas fa-xmark"></i>
+                </span>
             </button>
           </div>
           <!--body-->
@@ -1076,19 +1142,19 @@
             <div class="relative p-6 flex-auto">
                 <div class="grid grid-cols-10 gap-4">
                   <div class="col-span-5 sm:col-span-10 ">
-                    <label  id="label_programa_prodim" for="programa_prodim" class="block text-sm font-bold text-gray-700">Programa:</label>
-                    <label id="programa_prodim" class="block text-base font-medium text-gray-700 py-3 px-2"></label>
+                    <p id="label_programa_prodim" class="block text-sm font-semibold text-center">Programa</p>
+                    <p id="programa_prodim" class="text-base font-semibold bg-gray-100 p-1 text-center"></p>
                     <input type="text" name="cliente_id" class="hidden border-none block text-base font-medium text-gray-700 py-3 px-2" value="{{$cliente->id_cliente}}">
                     <input type="text" name="ejercicio" id="ejercicio" class="hidden border-none block text-base font-medium text-gray-700 py-3 px-2" value="{{$anio}}">
                     <input type="text" name="comprometido_id" id="comprometido_id" class="hidden border-none block text-base font-medium text-gray-700 py-3 px-2" value="">
                   </div>
                   <div class="col-span-10 sm:col-span-3">
-                    <label for="label_monto_asignado_conc" class="block text-sm font-bold text-gray-700">Monto correspondiente</label>
-                    <label id="label_monto_asignado_conc" for="label_monto_asignado_conc" class="block text-base font-medium text-gray-700 py-3 px-2"></label>
+                    <p class="block text-sm font-semibold text-center">Monto correspondiente</p>
+                    <p id="label_monto_asignado_conc" class="text-base font-semibold bg-gray-100 p-1 text-center"></p>
                   </div>
                   <div class="col-span-10 sm:col-span-3">
-                    <label for="label_monto_restante_conc" class="block text-sm font-bold text-gray-700">Monto restante</label>
-                    <label id="label_monto_restante_conc" for="label_monto_restante_conc" class="block text-base font-medium text-gray-700 py-3 px-2"></label>
+                    <p class="block text-sm font-semibold text-center">Monto restante</p>
+                    <p id="label_monto_restante_conc" class="text-base font-semibold bg-gray-100 p-1 text-center"></p>
                   </div>
                   <div class="col-span-10 sm:col-span-4">
                     <label id="label_monto_concepto" for="label_monto_concepto" class="block text-sm font-bold text-gray-700">Monto*</label>
@@ -1109,19 +1175,21 @@
                     <label id="error_concepto_prodim" name="error_concepto_prodim" class="hidden text-base font-normal text-red-500" >Ingrese un concepto valido</label>
                   </div>
               </div>
+              <div class="mt-10">
+                  <span class="block text-xs">Verifique los campos obligatorios marcados con un ( * ) </span>
+              </div>
               
             </div>
           <!--footer-->
           <div class=" p-4 border-t border-solid border-blueGray-200 rounded-b">
             
-            <span class="block text-xs">Verifique los campos obligatorios marcados con un ( * ) </span>
             <div class="text-right">
-            <button class="text-red-500 background-transparent font-bold uppercase px-6 py-2 text-sm outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150" type="button" onclick="toggleModal('modal-concepto')">
-              Cancelar
-            </button>
-            <button type="submit" id="guardar_concepto" class="bg-green-500 text-white active:bg-green-600 font-bold uppercase text-sm px-6 py-3 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150" >
-              Guardar
-            </button>
+                <button class="text-red-500 background-transparent font-bold uppercase px-6 text-sm outline-none focus:outline-none ease-linear transition-all duration-150" type="button" onclick="toggleModal('modal-concepto')">
+                    Cancelar
+                </button>
+                <button type="submit" id="guardar_concepto" class="text-blue-500 font-bold uppercase text-sm px-6 rounded outline-none focus:outline-none ease-linear transition-all duration-150" >
+                    Guardar
+                </button>
             </div>
           </div>
           </form>
@@ -1130,16 +1198,18 @@
     </div>
 
     <div class="hidden overflow-x-hidden overflow-y-auto fixed inset-0 z-50 outline-none focus:outline-none justify-center items-center" id="modal-proceso">
-      <div class="relative w-auto my-6 mx-auto max-w-3xl">
+      <div class="relative w-auto my-28 mx-auto max-w-3xl">
         <!--content-->
         <div class="border-0 rounded-lg shadow-lg relative flex flex-col w-full bg-white outline-none focus:outline-none">
           <!--header-->
-          <div class="flex items-start justify-between p-5 border-b border-solid border-blueGray-200 rounded-t">
-            <h4 class="text-xl font-semibold">
-              Actualizar proceso del PRODIM
+          <div class="flex items-center justify-between px-5 py-3 border-b border-solid border-blueGray-200 rounded-t bg-blue-cmr1">
+            <h4 class="text-base font-normal uppercase text-white">
+                Actualizar proceso del PRODIM
             </h4>
-            <button class="p-1 ml-auto bg-transparent border-0 text-black opacity-5 float-right text-3xl leading-none font-semibold outline-none focus:outline-none" onclick="toggleModal('modal-proceso')">
-              <span class="bg-transparent text-black opacity-5 h-6 w-6 text-2xl block outline-none focus:outline-none"> </span>
+            <button class="p-1 ml-auto bg-transparent border-0 text-white float-right text-2xl leading-none font-semibold outline-none focus:outline-none" onclick="toggleModal('modal-proceso')">
+                <span>
+                    <i class="fas fa-xmark"></i>
+                </span>
             </button>
           </div>
           <!--body-->
@@ -1148,11 +1218,11 @@
             @method('POST')
             <div class="relative p-6 flex-auto">
                 <div class="grid grid-cols-10 gap-4">
-                  <div class="hidden">
-                    <input type="text" name="cliente_id" class="hidden border-none block text-base font-medium text-gray-700 py-3 px-2" value="{{$cliente->id_cliente}}">
-                    <input type="text" name="ejercicio" id="ejercicio" class="hidden border-none block text-base font-medium text-gray-700 py-3 px-2" value="{{$anio}}">
-                    <input type="text" name="prodim_id" id="prodim_id" class="hidden border-none block text-base font-medium text-gray-700 py-3 px-2" value="{{$prodim->id_prodim}}">
-                  </div>
+                    <div class="hidden">
+                      <input type="text" name="cliente_id" class="hidden border-none block text-base font-medium text-gray-700 py-3 px-2" value="{{$cliente->id_cliente}}">
+                      <input type="text" name="ejercicio" id="ejercicio" class="hidden border-none block text-base font-medium text-gray-700 py-3 px-2" value="{{$anio}}">
+                      <input type="text" name="prodim_id" id="prodim_id" class="hidden border-none block text-base font-medium text-gray-700 py-3 px-2" value="{{$prodim->id_prodim}}">
+                    </div>
                     @if($prodim->presentado == 1)
                         <div class="col-span-5">
                             <label class="block text-sm font-semibold text-gray-700">Fecha de presentación*</label>
@@ -1210,20 +1280,21 @@
                             <label id="error_fecha_convenio" class="hidden text-base font-normal text-red-500" >Ingrese una fecha valida</label>    
                         </div>
                     @endif
-              </div>
+                </div>
+                <div class="mt-10">
+                    <span class="block text-xs">Verifique los campos obligatorios marcados con un ( * ) </span>
+                </div>
               
             </div>
           <!--footer-->
           <div class=" p-4 border-t border-solid border-blueGray-200 rounded-b">
-            
-            <span class="block text-xs">Verifique los campos obligatorios marcados con un ( * ) </span>
             <div class="text-right">
-            <button class="text-red-500 background-transparent font-bold uppercase px-6 py-2 text-sm outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150" type="button" onclick="toggleModal('modal-proceso')">
-              Cancelar
-            </button>
-            <button type="submit" id="guardar_proceso" class="bg-green-500 text-white active:bg-green-600 font-bold uppercase text-sm px-6 py-3 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150" >
-              Guardar
-            </button>
+                <button class="text-red-500 background-transparent font-bold uppercase px-6 text-sm outline-none focus:outline-none ease-linear transition-all duration-150" type="button" onclick="toggleModal('modal-proceso')">
+                    Cancelar
+                </button>
+                <button type="submit" id="guardar_proceso" class="text-blue-500 font-bold uppercase text-sm px-6 rounded outline-none focus:outline-none ease-linear transition-all duration-150" >
+                    Guardar
+                </button>
             </div>
           </div>
           </form>
@@ -1234,16 +1305,18 @@
 
   @if($fuentes_cliente->where('fuente_financiamiento_id', 2)->first() != null && $fuentes_cliente->where('fuente_financiamiento_id', 2)->first()->gastos_indirectos)
     <div class="hidden overflow-x-hidden overflow-y-auto fixed inset-0 z-50 outline-none focus:outline-none justify-center items-center" id="modal-gi">
-      <div class="relative w-auto my-6 mx-auto max-w-3xl">
+      <div class="relative w-auto my-28 mx-auto max-w-3xl">
         <!--content-->
         <div class="border-0 rounded-lg shadow-lg relative flex flex-col w-full bg-white outline-none focus:outline-none">
           <!--header-->
-          <div class="flex items-start justify-between p-5 border-b border-solid border-blueGray-200 rounded-t">
-            <h4 class="text-xl font-semibold">
+          <div class="flex items-center justify-between px-5 py-3 border-b border-solid border-blueGray-200 rounded-t bg-blue-cmr1">
+            <h4 class="text-base font-normal uppercase text-white">
               Agregar nuevo concepto a Gastos Indirectos
             </h4>
-            <button class="p-1 ml-auto bg-transparent border-0 text-black opacity-5 float-right text-3xl leading-none font-semibold outline-none focus:outline-none" onclick="toggleModal('modal-gi')">
-              <span class="bg-transparent text-black opacity-5 h-6 w-6 text-2xl block outline-none focus:outline-none"> </span>
+            <button class="p-1 ml-auto bg-transparent border-0 text-white float-right text-2xl leading-none font-semibold outline-none focus:outline-none" onclick="toggleModal('modal-gi')">
+                <span>
+                    <i class="fas fa-xmark"></i>
+                </span>
             </button>
           </div>
           <!--body-->
@@ -1253,19 +1326,19 @@
             <div class="relative p-6 flex-auto">
                 <div class="grid grid-cols-10 gap-4">
                   <div class="col-span-5 sm:col-span-5 ">
-                    <label  id="label_cliente_id" for="cliente_id" class="block text-sm font-bold text-gray-700">Municipio</label>
-                    <label id="cliente_id" class="block text-base font-medium text-gray-700 py-3 px-2">{{$cliente->nombre_municipio}}</label>
+                    <p class="block text-sm font-semibold text-center">Municipio</p>
+                    <p class="text-base font-semibold bg-gray-100 p-1 text-center">{{$cliente->nombre_municipio}}</p>
                     <input type="text" name="cliente_id" class="hidden border-none block text-base font-medium text-gray-700 py-3 px-2" value="{{$cliente->id_cliente}}">
                     <input type="text" name="fuente_id" id="fuente_id" class="hidden border-none block text-base font-medium text-gray-700 py-3 px-2" value="{{$fuentes_cliente->where('fuente_financiamiento_id', 2)->first()->id_fuente_financ_cliente}}">
                   </div>
                   <div class="col-span-3 sm:col-span-2">
-                    <label id="label_ejercicio" for="label_ejercicio" class="block text-sm font-bold text-gray-700">Ejercicio</label>
-                    <label class="block text-base font-medium text-gray-700 py-3 px-2">{{$anio}}</label>
+                    <p class="block text-sm font-semibold text-center">Ejercicio</p>
+                    <p class="text-base font-semibold bg-gray-100 p-1 text-center">{{$anio}}</p>
                     <input type="text" name="ejercicio" id="ejercicio" class="hidden border-none block text-base font-medium text-gray-700 py-3 px-2" value="{{$anio}}">
                   </div>
                   <div class="col-span-10 sm:col-span-3">
-                    <label for="label_monto_asignado_gi" class="block text-sm font-bold text-gray-700">Monto asignado</label>
-                    <label id="label_monto_asignado_gi" for="label_monto_asignado_gi" class="block text-base font-medium text-gray-700 py-3 px-2">{{$service->formatNumber($fuentes_cliente->where('fuente_financiamiento_id', 2)->first()->monto_gastos)}}</label>
+                    <p class="block text-sm font-semibold text-center">Monto asignado</p>
+                    <p class="text-base font-semibold bg-gray-100 p-1 text-center">{{$service->formatNumber($fuentes_cliente->where('fuente_financiamiento_id', 2)->first()->monto_gastos)}}</p>
                   </div>
                   <div class="col-span-10 select2_modificado">
                     <label for="gi_catalogo_id" class="block text-sm font-bold text-gray-700">Programa*</label>
@@ -1293,20 +1366,21 @@
                       <label id="error_monto_gi_superior" name="error_monto_gi_superior" class="hidden block text-base font-normal text-red-500" >El monto es mayor que el total restante de Gastos Indirectos {{$service->formatNumber($fuentes_cliente->where('fuente_financiamiento_id', 2)->first()->monto_gastos -$total_gi )}}.</label>
                       <label id="error_monto_gi" name="error_monto_gi" class="hidden block text-base font-normal text-red-500" >Ingrese una cantidad valida</label>
                   </div>
-              </div>
+                </div>
+                <div class="mt-10">
+                  <span class="block text-xs">Verifique los campos obligatorios marcados con un ( * ) </span>
+                </div>
               
             </div>
           <!--footer-->
           <div class=" p-4 border-t border-solid border-blueGray-200 rounded-b">
-            
-            <span class="block text-xs">Verifique los campos obligatorios marcados con un ( * ) </span>
             <div class="text-right">
-            <button class="text-red-500 background-transparent font-bold uppercase px-6 py-2 text-sm outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150" type="button" onclick="toggleModal('modal-gi')">
-              Cancelar
-            </button>
-            <button type="submit" id="guardar_comp_gi" class="bg-green-500 text-white active:bg-green-600 font-bold uppercase text-sm px-6 py-3 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150" >
-              Guardar
-            </button>
+                <button class="text-red-500 background-transparent font-bold uppercase px-6 text-sm outline-none focus:outline-none ease-linear transition-all duration-150" type="button" onclick="toggleModal('modal-gi')">
+                    Cancelar
+                </button>
+                <button type="submit" id="guardar_comp_gi" class="text-blue-500 font-bold uppercase text-sm px-6 rounded outline-none focus:outline-none ease-linear transition-all duration-150" >
+                    Guardar
+                </button>
             </div>
           </div>
           </form>
@@ -1316,16 +1390,18 @@
   @endif
   @if($fuente_f3)
     <div class="hidden overflow-x-hidden overflow-y-auto fixed inset-0 z-50 outline-none focus:outline-none justify-center items-center" id="modal-sisplade">
-      <div class="relative w-auto my-6 mx-auto max-w-3xl">
+      <div class="relative w-auto my-28 mx-auto max-w-3xl">
         <!--content-->
         <div class="border-0 rounded-lg shadow-lg relative flex flex-col w-full bg-white outline-none focus:outline-none">
           <!--header-->
-          <div class="flex items-start justify-between p-5 border-b border-solid border-blueGray-200 rounded-t">
-            <h4 class="text-xl font-semibold">
+          <div class="flex items-center justify-between px-5 py-3 border-b border-solid border-blueGray-200 rounded-t bg-blue-cmr1">
+            <h4 class="text-base font-normal uppercase text-white">
               Modificar proceso SISPLADE
             </h4>
-            <button class="p-1 ml-auto bg-transparent border-0 text-black opacity-5 float-right text-3xl leading-none font-semibold outline-none focus:outline-none" onclick="toggleModal('modal-sisplade')">
-              <span class="bg-transparent text-black opacity-5 h-6 w-6 text-2xl block outline-none focus:outline-none"> </span>
+            <button class="p-1 ml-auto bg-transparent border-0 text-white float-right text-2xl leading-none font-semibold outline-none focus:outline-none" onclick="toggleModal('modal-sisplade')">
+              <span>
+                <i class="fas fa-xmark"></i>
+              </span>
             </button>
           </div>
           <!--body-->
@@ -1335,9 +1411,9 @@
             <div class="relative p-6 flex-auto">
                 <div class="grid grid-cols-10 gap-4">
                   <div class="col-span-5 sm:col-span-10 ">
-                    <input type="text" name="cliente_id" class="hidden border-none block text-base font-medium text-gray-700 py-3 px-2" value="{{$cliente->id_cliente}}">
-                    <input type="text" name="ejercicio" class="hidden border-none block text-base font-medium text-gray-700 py-3 px-2" value="{{$anio}}">
-                    <input type="text" name="sisplade_id" id="sisplade_id" class="hidden border-none block text-base font-medium text-gray-700 py-3 px-2" value="{{$sisplade->id_sisplade}}">
+                      <input type="text" name="cliente_id" class="hidden border-none block text-base font-medium text-gray-700 py-3 px-2" value="{{$cliente->id_cliente}}">
+                      <input type="text" name="ejercicio" class="hidden border-none block text-base font-medium text-gray-700 py-3 px-2" value="{{$anio}}">
+                      <input type="text" name="sisplade_id" id="sisplade_id" class="hidden border-none block text-base font-medium text-gray-700 py-3 px-2" value="{{$sisplade->id_sisplade}}">
                   </div>
                   <div class="col-span-10 sm:col-span-5">
                     <label id="label_fecha_capturado" for="fecha_capturado" class="block text-sm font-bold text-gray-700">Fecha de captura*</label>
@@ -1349,20 +1425,21 @@
                     <input type="date" name="fecha_validacion" id="fecha_validacion" min="{{$sisplade->capturado==2?$fuente_f3->acta_priorizacion:$sisplade->fecha_capturado}}" max="{{$anio}}-12-31" class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md" value="{{$sisplade->fecha_validado}}">
                     <label id="error_fecha_validacion" name="error_fecha_validacion" class="hidden text-base font-normal text-red-500" >Ingrese una fecha valida</label>  
                   </div>
-              </div>
+                </div>
+                <div class="mt-10">
+                  <span class="block text-xs">Verifique los campos obligatorios marcados con un ( * ) </span>
+                </div>
               
             </div>
           <!--footer-->
           <div class=" p-4 border-t border-solid border-blueGray-200 rounded-b">
-            
-            <span class="block text-xs">Verifique los campos obligatorios marcados con un ( * ) </span>
             <div class="text-right">
-            <button class="text-red-500 background-transparent font-bold uppercase px-6 py-2 text-sm outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150" type="button" onclick="toggleModal('modal-sisplade')">
-              Cancelar
-            </button>
-            <button type="submit" id="guardar_sisplade" class="bg-green-500 text-white active:bg-green-600 font-bold uppercase text-sm px-6 py-3 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150" >
-              Guardar
-            </button>
+                <button class="text-red-500 background-transparent font-bold uppercase px-6 text-sm outline-none focus:outline-none ease-linear transition-all duration-150" type="button" onclick="toggleModal('modal-sisplade')">
+                    Cancelar
+                </button>
+                <button type="submit" id="guardar_sisplade" class="text-blue-500 font-bold uppercase text-sm px-6 rounded outline-none focus:outline-none ease-linear transition-all duration-150" >
+                    Guardar
+                </button>
             </div>
           </div>
           </form>
@@ -1371,59 +1448,185 @@
     </div>
 
     <div class="hidden overflow-x-hidden overflow-y-auto fixed inset-0 z-50 outline-none focus:outline-none justify-center items-center" id="modal-mids">
-      <div class="relative w-auto my-6 mx-auto max-w-3xl">
+      <div class="relative w-auto my-28 mx-auto max-w-3xl">
         <!--content-->
         <div class="border-0 rounded-lg shadow-lg relative flex flex-col w-full bg-white outline-none focus:outline-none">
           <!--header-->
-          <div class="flex items-start justify-between p-5 border-b border-solid border-blueGray-200 rounded-t">
-            <h4 class="text-xl font-semibold">
+          <div class="flex items-center justify-between px-5 py-3 border-b border-solid border-blueGray-200 rounded-t bg-blue-cmr1">
+            <h4 class="text-base font-normal uppercase text-white">
               Modificar proceso MIDS
             </h4>
-            <button class="p-1 ml-auto bg-transparent border-0 text-black opacity-5 float-right text-3xl leading-none font-semibold outline-none focus:outline-none" onclick="toggleModal('modal-mids')">
-              <span class="bg-transparent text-black opacity-5 h-6 w-6 text-2xl block outline-none focus:outline-none"> </span>
+            <button class="p-1 ml-auto bg-transparent border-0 text-white float-right text-2xl leading-none font-semibold outline-none focus:outline-none" onclick="toggleModal('modal-mids')">
+                <span>
+                    <i class="fas fa-xmark"></i>
+                </span>
             </button>
           </div>
           <!--body-->
-          <form action="{{ route('update_mids') }}" method="POST" id="formulario_mids" name="formulario_mids">
+          <form action="{{ route('update_mids') }}" method="POST" id="formulario_mids" name="formulario_mids" enctype="multipart/form-data">
             @csrf
             @method('POST')
             <div class="relative p-6 flex-auto">
                 <div class="grid grid-cols-10 gap-4">
+                  
                   <div class="col-span-5 sm:col-span-10 ">
                     <input type="text" name="cliente_id" class="hidden border-none block text-base font-medium text-gray-700 py-3 px-2" value="{{$cliente->id_cliente}}">
                     <input type="text" name="ejercicio" class="hidden border-none block text-base font-medium text-gray-700 py-3 px-2" value="{{$anio}}">
                     <input type="text" name="mids_id" id="mids_id" class="hidden border-none block text-base font-medium text-gray-700 py-3 px-2" value="">
+                    <input type="text" name="municipio_id" class="hidden border-none block text-base font-medium text-gray-700 py-3 px-2" value="{{$cliente->id_municipio}}">
                   </div>
-                  <div class="col-span-10 sm:col-span-5">
-                    <label id="label_fecha_planeacion" for="fecha_planeacion" class="block text-sm font-bold text-gray-700">Fecha de captura*</label>
-                    <input type="date" name="fecha_planeacion" id="fecha_planeacion" min="{{$fuente_f3->acta_priorizacion}}" max="{{$anio}}-12-31" class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md" value="{{$sisplade->fecha_capturado}}">
-                    <label id="error_fecha_planeacion" name="error_fecha_planeacion" class="hidden text-base font-normal text-red-500" >Ingrese una fecha valida</label>  
+
+                  <div class="col-span-10" id="mids_capturado">
+                    <div class="grid grid-cols-10 gap-4">
+                      <div class="col-span-10" id="proceso_capturado_mids">
+                        <p class="text-sm font-semibold text-center pb-2"> Proceso de captura</p>
+                        <div class="grid grid-cols-10 gap-4">
+                          <div class="col-span-10 sm:col-span-5">
+                            <input type="date" name="fecha_planeacion" id="fecha_planeacion" min="{{$fuente_f3->acta_priorizacion}}" max="{{$anio}}-12-31" class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md" value="{{$sisplade->fecha_capturado}}">
+                            <label id="label_fecha_planeacion" for="fecha_planeacion" class="block text-xs font-semibold text-gray-700 text-center">Fecha*</label>
+                            <label id="error_fecha_planeacion" name="error_fecha_planeacion" class="hidden text-base font-normal text-red-500" >Ingrese una fecha valida</label>  
+                          </div>
+                          <div class="col-span-10 sm:col-span-5">
+                            <div class="container-input flex justify-center items-center">
+                              <input type="file" name="archivo_capturado" id="archivo_capturado" class="inputfile inputfile-2" multiple accept="application/pdf"/>
+                              <label for="archivo_capturado" class="flex justify-center items-center" style="border: 1px solid #D1D5DB; border-radius: 0.375rem; margin-top: 0.25rem; font-size: 0.875rem; line-height: 1.25rem; max-width: 100%; min-width: 100%">
+                                  <svg xmlns="http://www.w3.org/2000/svg" class="iborrainputfile" width="20" height="17" viewBox="0 0 20 17"><path d="M10 0l-5.2 4.9h3.3v5.1h3.8v-5.1h3.3l-5.2-4.9zm9.3 11.5l-3.2-2.1h-2l3.4 2.6h-3.5c-.1 0-.2.1-.2.1l-.8 2.3h-6l-.8-2.2c-.1-.1-.1-.2-.2-.2h-3.6l3.4-2.6h-2l-3.2 2.1c-.4.3-.7 1-.6 1.5l.6 3.1c.1.5.7.9 1.2.9h16.3c.6 0 1.1-.4 1.3-.9l.6-3.1c.1-.5-.2-1.2-.7-1.5z"></path></svg>
+                                  <span class="iborrainputfile aux-arch">Seleccionar archivo</span>
+                              </label>
+                            </div>
+                            <label id="label_archivo_planeacion" class="block text-xs font-semibold text-gray-700 text-center">Archivo*</label>
+                            <label id="error_archivo_planeacion" name="error_archivo_planeacion" class="hidden text-base font-normal text-red-500" >Ingrese una fecha valida</label>  
+                          </div>
+                        </div>
+                      </div>
+    
+                      <div class="col-span-10" id="proceso_capturado_mids_ok">
+                        <p class="text-sm font-semibold text-center pb-2"> Proceso de captura</p>
+                        <div class="grid grid-cols-10 gap-4 bg-gray-100">
+                          <div class="col-span-10 sm:col-span-5 m-3">
+                            <p id="fecha_capturado_mids" class="text-base font-semibold p-1 text-center leading-none">hola</p>
+                            <p id="label_fecha_planeacion" for="fecha_planeacion" class="text-xs font-semibold text-center leading-none">Fecha</p>
+                          </div>
+                          <div class="col-span-10 sm:col-span-5">
+                            <div class="flex justify-center items-center h-full">
+                              <a id="link_capturado_mids" href="" target="_blank">
+                                <p class="block text-base font-semibold text-blue-700 text-center">
+                                  <i class="fas fa-eye"></i> Visualizar
+                                </p>
+                              </a>
+                            </div>  
+                          </div>
+                        </div>
+                      </div>
+                    </div>
                   </div>
-                  <div id="div_fecha_firma" class="col-span-10 sm:col-span-5">
-                    <label id="label_fecha_firma" for="fecha_firma" class="block text-sm font-bold text-gray-700">Fecha de firma*</label>
-                    <input type="date" name="fecha_firma" id="fecha_firma" min="{{$fuente_f3->acta_priorizacion}}" max="{{$anio}}-12-31" class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md" value="{{$sisplade->fecha_capturado}}">
-                    <label id="error_fecha_firma" name="error_fecha_firma" class="hidden text-base font-normal text-red-500" >Ingrese una fecha valida</label>  
+
+                  <div class="col-span-10" id="mids_firma">
+                    <div class="grid grid-cols-10 gap-4">
+                      <div class="col-span-10" id="proceso_firma_mids">
+                        <p class="text-sm font-semibold text-center pb-2"> Proceso de firma</p>
+                        <div class="grid grid-cols-10 gap-4">
+                          <div class="col-span-10 sm:col-span-5">
+                            <input type="date" name="fecha_firma" id="fecha_firma" min="{{$fuente_f3->acta_priorizacion}}" max="{{$anio}}-12-31" class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md" value="{{$sisplade->fecha_capturado}}">
+                            <label id="label_fecha_firma" for="fecha_firma" class="block text-xs font-semibold text-gray-700 text-center">Fecha*</label>
+                            <label id="error_fecha_firma" name="error_fecha_firma" class="hidden text-base font-normal text-red-500" >Ingrese una fecha valida</label>  
+                          </div>
+                          <div class="col-span-10 sm:col-span-5">
+                            <div class="container-input flex justify-center items-center">
+                              <input type="file" name="archivo_firma" id="archivo_firma" class="inputfile inputfile-2" multiple accept="application/pdf"/>
+                              <label for="archivo_firma" class="flex justify-center items-center" style="border: 1px solid #D1D5DB; border-radius: 0.375rem; margin-top: 0.25rem; font-size: 0.875rem; line-height: 1.25rem; max-width: 100%; min-width: 100%">
+                                  <svg xmlns="http://www.w3.org/2000/svg" class="iborrainputfile" width="20" height="17" viewBox="0 0 20 17"><path d="M10 0l-5.2 4.9h3.3v5.1h3.8v-5.1h3.3l-5.2-4.9zm9.3 11.5l-3.2-2.1h-2l3.4 2.6h-3.5c-.1 0-.2.1-.2.1l-.8 2.3h-6l-.8-2.2c-.1-.1-.1-.2-.2-.2h-3.6l3.4-2.6h-2l-3.2 2.1c-.4.3-.7 1-.6 1.5l.6 3.1c.1.5.7.9 1.2.9h16.3c.6 0 1.1-.4 1.3-.9l.6-3.1c.1-.5-.2-1.2-.7-1.5z"></path></svg>
+                                  <span class="iborrainputfile aux-arch">Seleccionar archivo</span>
+                              </label>
+                            </div>
+                            <label id="label_archivo_firma" class="block text-xs font-semibold text-gray-700 text-center">Archivo*</label>
+                            <label id="error_archivo_firma" name="error_archivo_firma" class="hidden text-base font-normal text-red-500" >Ingrese una fecha valida</label>  
+                          </div>
+                        </div>
+                      </div>
+    
+                      <div class="col-span-10" id="proceso_firma_mids_ok">
+                        <p class="text-sm font-semibold text-center pb-2"> Proceso de firma</p>
+                        <div class="grid grid-cols-10 gap-4 bg-gray-100">
+                          <div class="col-span-10 sm:col-span-5 m-3">
+                            <p id="fecha_firma_mids" class="text-base font-semibold p-1 text-center leading-none">hola</p>
+                            <p class="text-xs font-semibold text-center leading-none">Fecha</p>
+                          </div>
+                          <div class="col-span-10 sm:col-span-5">
+                            <div class="flex justify-center items-center h-full">
+                              <a id="link_firma_mids" href="" target="_blank">
+                                <p class="block text-base text-blue-700 font-semibold text-center">
+                                  <i class="fas fa-eye"></i> Visualizar
+                                </p>
+                              </a>
+                            </div>  
+                          </div>
+                        </div>
+                      </div>
+                    </div>
                   </div>
-                  <div id="div_fecha_revision" class="col-span-10 sm:col-span-5">
-                    <label id="label_fecha_revision" for="fecha_revision" class="block text-sm font-bold text-gray-700">Fecha de revisión*</label>
-                    <input type="date" name="fecha_revision" id="fecha_revision" min="{{$fuente_f3->acta_priorizacion}}" max="{{$anio}}-12-31" class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md" value="{{$sisplade->fecha_capturado}}">
-                    <label id="error_fecha_revision" name="error_fecha_revision " class="hidden text-base font-normal text-red-500" >Ingrese una fecha valida</label>  
+
+                  <div class="col-span-10" id="mids_revision">
+                    <div class="grid grid-cols-10 gap-4">
+                      <div class="col-span-10" id="proceso_revision_mids">
+                        <p class="text-sm font-semibold text-center pb-2"> Proceso de revisión</p>
+                        <div class="grid grid-cols-10 gap-4">
+                          <div class="col-span-10 sm:col-span-5">
+                            <input type="date" name="fecha_revision" id="fecha_revision" min="{{$fuente_f3->acta_priorizacion}}" max="{{$anio}}-12-31" class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md" value="{{$sisplade->fecha_capturado}}">
+                            <label id="label_fecha_revision" for="fecha_revision" class="block text-xs font-semibold text-gray-700 text-center">Fecha*</label>
+                            <label id="error_fecha_revision" name="error_fecha_revision" class="hidden text-base font-normal text-red-500" >Ingrese una fecha valida</label>  
+                          </div>
+                          <div class="col-span-10 sm:col-span-5">
+                            <div class="container-input flex justify-center items-center">
+                              <input type="file" name="archivo_revision" id="archivo_revision" class="inputfile inputfile-2" multiple accept="application/pdf"/>
+                              <label for="archivo_revision" class="flex justify-center items-center" style="border: 1px solid #D1D5DB; border-radius: 0.375rem; margin-top: 0.25rem; font-size: 0.875rem; line-height: 1.25rem; max-width: 100%; min-width: 100%">
+                                  <svg xmlns="http://www.w3.org/2000/svg" class="iborrainputfile" width="20" height="17" viewBox="0 0 20 17"><path d="M10 0l-5.2 4.9h3.3v5.1h3.8v-5.1h3.3l-5.2-4.9zm9.3 11.5l-3.2-2.1h-2l3.4 2.6h-3.5c-.1 0-.2.1-.2.1l-.8 2.3h-6l-.8-2.2c-.1-.1-.1-.2-.2-.2h-3.6l3.4-2.6h-2l-3.2 2.1c-.4.3-.7 1-.6 1.5l.6 3.1c.1.5.7.9 1.2.9h16.3c.6 0 1.1-.4 1.3-.9l.6-3.1c.1-.5-.2-1.2-.7-1.5z"></path></svg>
+                                  <span class="iborrainputfile aux-arch">Seleccionar archivo</span>
+                              </label>
+                            </div>
+                            <label id="label_archivo_revision" class="block text-xs font-semibold text-gray-700 text-center">Archivo*</label>
+                            <label id="error_archivo_revision" name="error_archivo_revision" class="hidden text-base font-normal text-red-500" >Ingrese una fecha valida</label>  
+                          </div>
+                        </div>
+                      </div>
+    
+                      <div class="col-span-10" id="proceso_revision_mids_ok">
+                        <p class="text-sm font-semibold text-center pb-2"> Proceso de revision</p>
+                        <div class="grid grid-cols-10 gap-4 bg-gray-100 ">
+                          <div class="col-span-10 sm:col-span-5 m-3">
+                            <p id="fecha_revision_mids" class="text-base font-semibold p-1 text-center leading-none">hola</p>
+                            <p class="text-xs font-semibold text-center leading-none">Fecha</p>
+                          </div>
+                          <div class="col-span-10 sm:col-span-5">
+                            <div class="flex justify-center items-center h-full">
+                              <a id="link_revision_mids" href="" target="_blank">
+                                <p class="block text-base font-semibold text-blue-700 text-center">
+                                  <i class="fas fa-eye"></i> Visualizar
+                                </p>
+                              </a>
+                            </div>  
+                          </div>
+                        </div>
+                      </div>
+                    </div>
                   </div>
+
                   
-              </div>
+                </div>
+                <div class="mt-10">
+                    <span class="block text-xs">Verifique los campos obligatorios marcados con un ( * ) </span>
+                </div>
               
             </div>
           <!--footer-->
           <div class=" p-4 border-t border-solid border-blueGray-200 rounded-b">
-            
-            <span class="block text-xs">Verifique los campos obligatorios marcados con un ( * ) </span>
             <div class="text-right">
-            <button class="text-red-500 background-transparent font-bold uppercase px-6 py-2 text-sm outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150" type="button" onclick="toggleModal('modal-mids')">
-              Cancelar
-            </button>
-            <button type="submit" id="guardar_sisplade" class="bg-green-500 text-white active:bg-green-600 font-bold uppercase text-sm px-6 py-3 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150" >
-              Guardar
-            </button>
+                <button class="text-red-500 background-transparent font-bold uppercase px-6 text-sm outline-none focus:outline-none ease-linear transition-all duration-150" type="button" onclick="toggleModal('modal-mids')">
+                    Cancelar
+                </button>
+                <button type="submit" id="guardar_mids" class="text-blue-500 font-bold uppercase text-sm px-6 rounded outline-none focus:outline-none ease-linear transition-all duration-150" >
+                    Guardar
+                </button>
             </div>
           </div>
           </form>
@@ -1432,16 +1635,18 @@
     </div>
     
     <div class="hidden overflow-x-hidden overflow-y-auto fixed inset-0 z-50 outline-none focus:outline-none justify-center items-center" id="modal-rft">
-      <div class="relative w-auto my-6 mx-auto max-w-3xl">
+      <div class="relative w-auto my-28 mx-auto max-w-3xl">
         <!--content-->
         <div class="border-0 rounded-lg shadow-lg relative flex flex-col w-full bg-white outline-none focus:outline-none">
           <!--header-->
-          <div class="flex items-start justify-between p-5 border-b border-solid border-blueGray-200 rounded-t">
-            <h4 class="text-xl font-semibold">
+          <div class="flex items-center justify-between px-5 py-3 border-b border-solid border-blueGray-200 rounded-t bg-blue-cmr1">
+            <h4 class="text-base font-normal uppercase text-white">
               Modificar proceso RFT
             </h4>
-            <button class="p-1 ml-auto bg-transparent border-0 text-black opacity-5 float-right text-3xl leading-none font-semibold outline-none focus:outline-none" onclick="toggleModal('modal-rft')">
-              <span class="bg-transparent text-black opacity-5 h-6 w-6 text-2xl block outline-none focus:outline-none"> </span>
+            <button class="p-1 ml-auto bg-transparent border-0 text-white float-right text-2xl leading-none font-semibold outline-none focus:outline-none" onclick="toggleModal('modal-rft')">
+              <span>
+                <i class="fas fa-xmark"></i>
+              </span>
             </button>
           </div>
           <!--body-->
@@ -1485,20 +1690,21 @@
                     </div>
                   @endif
                   
-              </div>
+                </div>
+                <div class="mt-10">
+                    <span class="block text-xs">Verifique los campos obligatorios marcados con un ( * ) </span>
+                </div>
               
             </div>
           <!--footer-->
           <div class=" p-4 border-t border-solid border-blueGray-200 rounded-b">
-            
-            <span class="block text-xs">Verifique los campos obligatorios marcados con un ( * ) </span>
             <div class="text-right">
-            <button class="text-red-500 background-transparent font-bold uppercase px-6 py-2 text-sm outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150" type="button" onclick="toggleModal('modal-rft')">
-              Cancelar
-            </button>
-            <button type="submit" id="guardar_sisplade" class="bg-green-500 text-white active:bg-green-600 font-bold uppercase text-sm px-6 py-3 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150" >
-              Guardar
-            </button>
+              <button class="text-red-500 background-transparent font-bold uppercase px-6 text-sm outline-none focus:outline-none ease-linear transition-all duration-150" type="button" onclick="toggleModal('modal-rft')">
+                Cancelar
+              </button>
+              <button type="submit" id="guardar_sisplade" class="text-blue-500 font-bold uppercase text-sm px-6 rounded outline-none focus:outline-none ease-linear transition-all duration-150" >
+                Guardar
+              </button>
             </div>
           </div>
           </form>
@@ -1523,21 +1729,41 @@
   <div class="hidden opacity-25 fixed inset-0 z-40 bg-black" id="modal-mids-backdrop"></div>
     
     <script src="//cdn.jsdelivr.net/npm/sweetalert2@10"></script>
-    <script type="text/javascript"
-        charset="utf8"
-        src="https://code.jquery.com/jquery-3.5.1.js"></script>
+    <script type="text/javascript" charset="utf8" src="https://code.jquery.com/jquery-3.5.1.js"></script>
     <script src="{{ asset('js/jquery.dataTables.min.js') }}"></script>
     <script src="{{ asset('js/dataTables.responsive.min.js') }}"></script>
-    <script src="https://unpkg.com/@popperjs/core@2.9.1/dist/umd/popper.min.js"
-        charset="utf-8"></script>
-        <script type="text/javascript"
-        src="https://cdn.datatables.net/v/dt/jszip-2.5.0/dt-1.10.22/b-1.6.4/b-flash-1.6.4/b-html5-1.6.4/b-print-1.6.4/datatables.min.js">
-    </script>
-    <script type="text/javascript"
-        src="https://cdn.datatables.net/v/dt/jszip-2.5.0/dt-1.10.22/b-1.6.4/b-flash-1.6.4/b-html5-1.6.4/b-print-1.6.4/datatables.min.js">
-    </script>
+    <script src="{{ asset('js/mk_charts.js') }}"></script>
+    <script src="https://unpkg.com/@popperjs/core@2.9.1/dist/umd/popper.min.js"charset="utf-8"></script>
+    <script type="text/javascript" src="https://cdn.datatables.net/v/dt/jszip-2.5.0/dt-1.10.22/b-1.6.4/b-flash-1.6.4/b-html5-1.6.4/b-print-1.6.4/datatables.min.js"></script>
+    <script type="text/javascript" src="https://cdn.datatables.net/v/dt/jszip-2.5.0/dt-1.10.22/b-1.6.4/b-flash-1.6.4/b-html5-1.6.4/b-print-1.6.4/datatables.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.1/jquery.validate.min.js"></script>  
     <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+
+
+    <script>
+        "use strict";
+        (function (document, window, index) {
+          var inputs = document.querySelectorAll(".inputfile");
+          Array.prototype.forEach.call(inputs, function (input) {
+              var label = input.nextElementSibling,
+              labelVal = label.innerHTML;
+
+              input.addEventListener("change", function (e) {
+              var fileName = "";
+              if (this.files && this.files.length > 1)
+                  fileName = (this.getAttribute("data-multiple-caption") || "").replace(
+                  "{count}",
+                  this.files.length
+                  );
+              else fileName = e.target.value.split("\\").pop();
+
+              if (fileName) label.querySelector("span").innerHTML = fileName;
+              else label.innerHTML = labelVal;
+              });
+          });
+          })(document, window, 0);
+    </script>
+    
     
     @if(session('eliminar')=='ok')
       <script>
@@ -1599,17 +1825,51 @@
       document.getElementById(modalID + "-backdrop").classList.toggle("hidden");
     }
 
+    function midsPlantilla(texto, archivo, fecha){
+        $("#proceso_"+texto+"_mids").addClass('hidden');
+        $("#proceso_"+texto+"_mids_ok").removeClass("hidden");
+        $("#link_"+texto+"_mids").attr("href", archivo);
+        $("#fecha_"+texto+"_mids").html(fecha);
+    }
+    function midsPlantilla2(texto){
+        $("#proceso_"+texto+"_mids").removeClass('hidden');
+        $("#proceso_"+texto+"_mids_ok").addClass("hidden");
+        $("#link_"+texto+"_mids").attr("href", "");
+        $("#fecha_"+texto+"_mids").html("");
+    }
+
     function toggleModalMids(modalID, mids){
-      $("#fecha_planeacion").val(mids.fecha_planeado);
-      $("#fecha_planeacion").change();
-      $("#fecha_firma").val(mids.fecha_planeado?mids.fecha_firmado:'');
-      $("#fecha_revision").val(mids.fecha_firmado?mids.fecha_validado:'');
-      mids.fecha_planeado? $("#div_fecha_firma").removeClass('hidden'): $("#div_fecha_firma").addClass('hidden');
-      mids.fecha_firmado? $("#div_fecha_revision").removeClass('hidden'): $("#div_fecha_revision").addClass('hidden');
-    
-      $("#mids_id").val(mids.id_mids);
-      document.getElementById(modalID).classList.toggle("hidden");
-      document.getElementById(modalID + "-backdrop").classList.toggle("hidden");
+        $("#archivo_capturado").val('');
+        $("#archivo_firma").val('');
+        $("#archivo_revision").val('');
+        $(".aux-arch").html("Seleccionar un archivo")
+
+        if(mids.planeado == 1){
+            midsPlantilla("capturado", mids.archivo_planeado, mids.fecha_planeado);
+        }
+        else{
+            midsPlantilla2("capturado");
+        }
+        if(mids.firmado == 1){
+            midsPlantilla("firma", mids.archivo_firmado, mids.fecha_firmado);
+        }
+        else{
+            midsPlantilla2("firma");
+        }
+
+        if(mids.validado == 1){
+            midsPlantilla("revision", mids.archivo_validado, mids.fecha_validado);
+        }
+        else{
+            midsPlantilla2("revision");
+        }
+        
+        mids.planeado == 1? $("#mids_firma").removeClass('hidden'): $("#mids_firma").addClass('hidden');
+        mids.firmado == 1? $("#mids_revision").removeClass('hidden'): $("#mids_revision").addClass('hidden');
+      
+        $("#mids_id").val(mids.id_mids);
+        document.getElementById(modalID).classList.toggle("hidden");
+        document.getElementById(modalID + "-backdrop").classList.toggle("hidden");
       
     }
 
@@ -1635,16 +1895,15 @@
 
     //Modal agregar nuevo concepto al programa
     function toggleModal_compPro(modalID, comprometido, total_desglose){
-      
-      $("#programa_prodim").html(comprometido.nombre);
-      total_prodim = parseFloat(comprometido.monto).toFixed(2); 
-      console.log(comprometido.id_comprometido)     
-      $("#comprometido_id").val(comprometido.id_comprometido);
-      $("#label_monto_asignado_conc").html("$ "+("" + total_prodim).replace(/\D/g, "").replace(/([0-9])([0-9]{2})$/, '$1.$2').replace(/\B(?=(\d{3})+(?!\d)\.?)/g, ","));      
-      $("#label_monto_restante_conc").html("$ " + total_desglose.replaceAll("$", ""))
-      $("#total_restante_programa").html("$ " + total_desglose.replaceAll("$", ""))
-      document.getElementById(modalID).classList.toggle("hidden");
-      document.getElementById(modalID + '-backdrop').classList.toggle("hidden");
+        $("#programa_prodim").html(comprometido.nombre);
+        total_prodim = parseFloat(comprometido.monto).toFixed(2); 
+        console.log(comprometido.id_comprometido)     
+        $("#comprometido_id").val(comprometido.id_comprometido);
+        $("#label_monto_asignado_conc").html("$ "+("" + total_prodim).replace(/\D/g, "").replace(/([0-9])([0-9]{2})$/, '$1.$2').replace(/\B(?=(\d{3})+(?!\d)\.?)/g, ","));      
+        $("#label_monto_restante_conc").html("$ " + total_desglose.replaceAll("$", ""))
+        $("#total_restante_programa").html("$ " + total_desglose.replaceAll("$", ""))
+        document.getElementById(modalID).classList.toggle("hidden");
+        document.getElementById(modalID + '-backdrop').classList.toggle("hidden");
     }
 
     function toggleModal_1(modalID, fuente, mp, mc){
@@ -1674,9 +1933,9 @@
 
 
       if(fuente.id_fuente_financiamiento == 2)
-        $(".fondo_3").removeClass("hidden");
+          $(".fondo_3").removeClass("hidden");
       else
-        $(".fondo_3").addClass("hidden");
+          $(".fondo_3").addClass("hidden");
       document.getElementById(modalID).classList.toggle("hidden");
       document.getElementById(modalID + "-backdrop").classList.toggle("hidden");
       
@@ -2197,6 +2456,7 @@
           }
         }
     });
+
     $("#fecha_revisado").on({
         'change': function(event){
           fecha = new Date($(this).val());
@@ -2384,41 +2644,46 @@
 
     //validación MIDS
 
-    $("#fecha_planeacion").on({
+    $("#fecha_planeacion, #archivo_capturado").on({
         'change': function(event){
-          fecha = new Date($(this).val());
-          if(fecha != "Invalid Date"){
-              $("#fecha_firma").attr('min', $(this).val());
-              $("#div_fecha_firma").removeClass("hidden");
+          fecha = new Date($("#fecha_planeacion").val());
+          archivo = $("#archivo_capturado").val().length;
+          if(fecha != "Invalid Date" && archivo != 0){
+            console.log(fecha);
+              $("#fecha_firma").attr('min', $("#fecha_planeacion").val());
+              $("#fecha_firma").val($("#fecha_planeacion").val());
+              $("#mids_revision").addClass("hidden");
+              $("#mids_firma").removeClass("hidden");
               
           }else{
-            $("#fecha_firma").val("");
-            $("#fecha_revision").val("");
-            $("#div_fecha_firma").addClass("hidden");
-            $("#div_fecha_revision").addClass("hidden");
+              $("#mids_firma").addClass("hidden");
+              $("#mids_revision").addClass("hidden");
           }
         }
     });
 
-    $("#fecha_firma").on({
+    $("#fecha_firma, #archivo_firma").on({
         'change': function(event){
-          fecha = new Date($(this).val());
-          if(fecha != "Invalid Date"){
-              $("#fecha_planeacion").attr('max', $(this).val());
-              $("#fecha_revision").attr('min', $(this).val());
-              $("#div_fecha_revision").removeClass("hidden");
+          console.log("ejemplo de hola mundo");
+          fecha = new Date($("#fecha_firma").val());
+          archivo = $("#archivo_firma").val().length;
+          if(fecha != "Invalid Date" && archivo != 0){
+              $("#fecha_planeacion").attr('max', $("#fecha_planeacion").val());
+              $("#fecha_revision").val($("#fecha_firma").val());
+              $("#fecha_revision").attr('min', $("#fecha_planeacion").val());
+              $("#mids_revision").removeClass("hidden");
+              
           }else{
-            $("#fecha_firma").val("");
-            $("#fecha_revision").val("");
-            $("#div_fecha_revision").addClass("hidden");
+              $("#mids_revision").addClass("hidden");
           }
         }
     });
+    
     $("#fecha_revision").on({
         'change': function(event){
           fecha = new Date($(this).val());
           if(fecha != "Invalid Date"){
-              $("#fecha_firma").attr('max', $(this).val());
+              $("#fecha_firma").attr('max', $("#fecha_revision").val());
           }
         }
     });
@@ -2427,18 +2692,19 @@
       onfocusout: false,
       onclick: false,
       rules: {
-        fecha_planeacion: { required: true},
+        cliente_id: { required: true},
+        ejercicio: { required: true},
+        mids_id: { required: true},
       },
       errorPlacement: function(error, element) {
-        console.log(element.val());
-        if(error != null){
-            $('#error_'+element.attr('id')).fadeIn();
-            $("#label_"+element.attr('id')).addClass('text-red-500');
-            $("#label_"+element.attr('id')).removeClass('text-gray-700');
-        }else{
-            $('#error_'+element.attr('id')).fadeOut();
-            $("#label_"+element.attr('id')).removeClass('text-red-500');
-            $("#label_"+element.attr('id')).addClass('text-gray-700');
+        if(!$("#mids_firma").hasClass('hidden') && !$("#mids_capturado").hasClass('hidden')){
+          if($("#archivo_capturado").val().length == 0)
+            return false;
+        }
+
+        if(!$("#mids_revisado").hasClass('hidden') && !$("#mids_firma").hasClass('hidden')){
+          if($("#archivo_firma").val().length == 0)
+            return false;
         }
        // console.log(element.attr('id'));
       },
