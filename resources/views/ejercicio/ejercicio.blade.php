@@ -11,6 +11,7 @@
         <link rel="stylesheet" href="{{ asset('css/styles_personalizados_general.css') }}">
         <link rel="stylesheet" href="{{ asset('css/swalfire.css')}}">
         <link rel="stylesheet" href="{{ asset('css/style-file.css') }}">
+        <link rel="stylesheet" href="{{ asset('css/range.css') }}">
         
     <!--Responsive Extension Datatables CSS-->
     <link href="https://cdn.datatables.net/responsive/2.2.3/css/responsive.dataTables.min.css"
@@ -554,22 +555,26 @@
                                             <p class="font-semibold text-base text-center uppercase">Matriz de Inversión para el Desarrollo Social</p>
                                         </div>
                                       </div>
-                                      <div class="flex justify-center px-5">
-                                        <button type="button" href="" class="font-semibold text-sm text-blue-500 underline px-3 text-center" onclick="toggleModalMids('modal-mids', {{$obra->mids}})">Modificar proceso</button>
-                                      </div>
+                                      @if($obra->mids->validado != 1)
+                                          <div class="flex justify-center px-5">
+                                              <button type="button" href="" class="font-semibold text-sm text-blue-500 underline px-3 text-center" onclick="toggleModalMids('modal-mids', {{$obra->mids}})">Modificar proceso</button>
+                                          </div>
+                                      @endif
                                       <div class="grid grid-cols-6 mt-5 px-5">
                                         <div class="col-span-2 border">
-                                          <p class="bg-gray-100 text-base font-semibold text-center p-3">Planeación</p>
+                                          <p class="bg-gray-100 text-base font-semibold text-center p-3">Proceso de planeación</p>
                                           <div class="mt-2 py-5 px-2 flex justify-center items-center">
                                             <div>
                                               @switch($obra->mids->planeado)
                                                 @case(1)
-                                                    <div class="flex justify-center max-h-8">
-                                                        <img src="{{ asset('image/Bien.svg') }}" alt="Workflow" >
-                                                    </div>
-                                                    <div>
-                                                        <p class="block text-base font-semibold text-gray-900 text-center">{{$service->formatDate($obra->mids->fecha_planeado)}}</p>
-                                                    </div>
+                                                    <a href="{{$obra->mids->archivo_planeado}}" target="_blank">
+                                                        <div class="flex justify-center max-h-8">
+                                                            <img src="{{ asset('image/Bien.svg') }}" alt="Workflow" >
+                                                        </div>
+                                                        <div>
+                                                            <p class="block text-base font-semibold text-gray-900 text-center">{{$service->formatDate($obra->mids->fecha_planeado)}}</p>
+                                                        </div>
+                                                    </a>
                                                 @break
                                                 @default
                                                   <div class="flex justify-center max-h-8">
@@ -586,12 +591,14 @@
                                             <div>
                                               @switch($obra->mids->firmado)
                                                 @case(1)
-                                                    <div class="flex justify-center max-h-8">
-                                                        <img src="{{ asset('image/Bien.svg') }}" alt="Workflow" >
-                                                    </div>
-                                                    <div>
-                                                        <p class="block text-base font-semibold text-gray-900 text-center">{{$service->formatDate($obra->mids->fecha_firmado)}}</p>
-                                                    </div>
+                                                    <a href="{{$obra->mids->archivo_firmado}}" target="_blank">
+                                                        <div class="flex justify-center max-h-8">
+                                                            <img src="{{ asset('image/Bien.svg') }}" alt="Workflow" >
+                                                        </div>
+                                                        <div>
+                                                            <p class="block text-base font-semibold text-gray-900 text-center">{{$service->formatDate($obra->mids->fecha_firmado)}}</p>
+                                                        </div>
+                                                    </a>
                                                 @break
                                                 @default
                                                     @if($obra->mids->planeado == 0)
@@ -606,17 +613,19 @@
                                           </div>
                                         </div>
                                         <div class="col-span-2 border">
-                                          <p class="bg-gray-100 text-base font-semibold text-center p-3">Revisión</p>
+                                          <p class="bg-gray-100 text-base font-semibold text-center p-3">Proceso de revisión</p>
                                           <div class="mt-2 py-5 px-2 flex justify-center items-center">
                                             <div>
                                               @switch($obra->mids->validado)
                                                 @case(1)
-                                                    <div class="flex justify-center max-h-8">
-                                                        <img src="{{ asset('image/Bien.svg') }}" alt="Workflow" >
-                                                    </div>
-                                                    <div>
-                                                        <p class="block text-base font-semibold text-gray-900 text-center">{{$service->formatDate($obra->mids->fecha_validado)}}</p>
-                                                    </div>
+                                                    <a href="{{$obra->mids->archivo_validado}}" target="_blank">
+                                                        <div class="flex justify-center max-h-8">
+                                                            <img src="{{ asset('image/Bien.svg') }}" alt="Workflow" >
+                                                        </div>
+                                                        <div>
+                                                            <p class="block text-base font-semibold text-gray-900 text-center">{{$service->formatDate($obra->mids->fecha_validado)}}</p>
+                                                        </div>
+                                                    </a>
                                                 @break
                                                 @default
                                                     @if($obra->mids->planeado == 0)
@@ -1641,7 +1650,7 @@
           <!--header-->
           <div class="flex items-center justify-between px-5 py-3 border-b border-solid border-blueGray-200 rounded-t bg-blue-cmr1">
             <h4 class="text-base font-normal uppercase text-white">
-              Modificar proceso RFT
+              Modificar proceso RFT por trimestre
             </h4>
             <button class="p-1 ml-auto bg-transparent border-0 text-white float-right text-2xl leading-none font-semibold outline-none focus:outline-none" onclick="toggleModal('modal-rft')">
               <span>
@@ -1659,36 +1668,192 @@
                     <input type="text" name="cliente_id" class="hidden border-none block text-base font-medium text-gray-700 py-3 px-2" value="{{$cliente->id_cliente}}">
                     <input type="text" name="ejercicio" class="hidden border-none block text-base font-medium text-gray-700 py-3 px-2" value="{{$anio}}">
                     <input type="text" name="rft_id" id="rft_id" class="hidden border-none block text-base font-medium text-gray-700 py-3 px-2" value="">
-                    <label class="block text-sm font-bold text-gray-700">Avance por trimestre</label>
                   </div>
-                  @if(strftime("%m") == 4 && strftime("%d") > 19 && strftime("%d") < 31 && strftime("%Y") == $anio)
-                    <div class="col-span-10 sm:col-span-5">
-                      <label id="label_primer_trimestre" for="primer_trimestre" class="block text-sm font-bold text-gray-700">Primero*</label>
-                      <input type="text" name="primer_trimestre" id="primer_trimestre" class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md" value="{{$sisplade->fecha_capturado}}">
-                      <label id="error_primer_trimestre" name="error_primer_trimestre" class="hidden text-base font-normal text-red-500" >Ingrese un porcentaje valido</label>  
+
+                  <div class="col-span-10" id="pt">
+                    <div class="grid grid-cols-10 gap-4">
+                      <div class="col-span-10" id="proceso_pt">
+                        <p class="text-sm font-semibold text-center pb-2"> Primer trimestre</p>
+                        <div class="grid grid-cols-10 gap-4">
+                          <div class="col-span-10 sm:col-span-5">
+                            <input type="range" name="primer_trimestre" id="primer_trimestre"  class=" w-full" onmousedown
+                            ="porcentaje(this.id)">
+                            <label for="" class="block text-base font-bold text-center leading-none" id="porcentaje_primer_trimestre">0%</label>
+                            <label id="label_fecha_pt" for="fecha_pt" class="block text-xs font-semibold text-gray-700 text-center">Porcentaje*</label>
+                            <label id="error_fecha_pt" name="error_fecha_pt" class="hidden text-base font-normal text-red-500" >Ingrese una fecha valida</label>  
+                          </div>
+                          <div class="col-span-10 sm:col-span-5">
+                            <div class="container-input flex justify-center items-center">
+                              <input type="file" name="archivo_pt" id="archivo_pt" class="inputfile inputfile-2" multiple accept="application/pdf"/>
+                              <label for="archivo_pt" class="flex justify-center items-center" style="border: 1px solid #D1D5DB; border-radius: 0.375rem; margin-top: 0.25rem; font-size: 0.875rem; line-height: 1.25rem; max-width: 100%; min-width: 100%">
+                                  <svg xmlns="http://www.w3.org/2000/svg" class="iborrainputfile" width="20" height="17" viewBox="0 0 20 17"><path d="M10 0l-5.2 4.9h3.3v5.1h3.8v-5.1h3.3l-5.2-4.9zm9.3 11.5l-3.2-2.1h-2l3.4 2.6h-3.5c-.1 0-.2.1-.2.1l-.8 2.3h-6l-.8-2.2c-.1-.1-.1-.2-.2-.2h-3.6l3.4-2.6h-2l-3.2 2.1c-.4.3-.7 1-.6 1.5l.6 3.1c.1.5.7.9 1.2.9h16.3c.6 0 1.1-.4 1.3-.9l.6-3.1c.1-.5-.2-1.2-.7-1.5z"></path></svg>
+                                  <span class="iborrainputfile aux-arch">Seleccionar archivo</span>
+                              </label>
+                            </div>
+                            <label id="label_pt" class="block text-xs font-semibold text-gray-700 text-center">Archivo*</label>
+                            <label id="error_pt" name="error_archivo_pt" class="hidden text-base font-normal text-red-500" >Ingrese una fecha valida</label>  
+                          </div>
+                        </div>
+                      </div>
+    
+                      <div class="col-span-10" id="proceso_pt_ok">
+                        <p class="text-sm font-semibold text-center pb-2"> Primer trimestre</p>
+                        <div class="grid grid-cols-10 gap-4 bg-gray-100">
+                          <div class="col-span-10 sm:col-span-5 m-3">
+                            <p id="fecha_pt_rft" class="text-base font-semibold p-1 text-center leading-none">hola</p>
+                            <p class="text-xs font-semibold text-center leading-none">Fecha</p>
+                          </div>
+                          <div class="col-span-10 sm:col-span-5">
+                            <div class="flex justify-center items-center h-full">
+                              <a id="link_pt_rft" href="" target="_blank">
+
+
+                                
+                                <p class="block text-base font-semibold text-blue-700 text-center">
+                                  <i class="fas fa-eye"></i> Visualizar
+                                </p>
+                              </a>
+                            </div>  
+                          </div>
+                        </div>
+                      </div>
                     </div>
-                  @endif
-                  @if(strftime("%m") == 7 && strftime("%d") > 19 && strftime("%d") < 31 && strftime("%Y") == $anio)
-                    <div class="col-span-10 sm:col-span-5">
-                      <label id="label_segundo_trimestre" for="segundo_trimestre" class="block text-sm font-bold text-gray-700">Segundo*</label>
-                      <input type="text" name="segundo_trimestre" id="segundo_trimestre" class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md" value="{{$sisplade->fecha_capturado}}">
-                      <label id="error_segundo_trimestre" name="error_segundo_trimestre" class="hidden text-base font-normal text-red-500" >Ingrese un porcentaje valido</label>  
+                  </div>
+
+                  <div class="col-span-10" id="st">
+                    <div class="grid grid-cols-10 gap-4">
+                      <div class="col-span-10" id="proceso_pt">
+                        <p class="text-sm font-semibold text-center pb-2">Segundo trimestre</p>
+                        <div class="grid grid-cols-10 gap-4">
+                          <div class="col-span-10 sm:col-span-5">
+                            <input type="range" name="segundo_trimestre" id="segundo_trimestre"  class="mt-1 w-full" value="{{$sisplade->fecha_capturado}}">
+                            <label id="label_fecha_st" for="fecha_st" class="block text-xs font-semibold text-gray-700 text-center">Fecha*</label>
+                            <label id="error_fecha_st" name="error_fecha_st" class="hidden text-base font-normal text-red-500" >Ingrese una fecha valida</label>  
+                          </div>
+                          <div class="col-span-10 sm:col-span-5">
+                            <div class="container-input flex justify-center items-center">
+                              <input type="file" name="archivo_st" id="archivo_st" class="inputfile inputfile-2" multiple accept="application/pdf"/>
+                              <label for="archivo_st" class="flex justify-center items-center" style="border: 1px solid #D1D5DB; border-radius: 0.375rem; margin-top: 0.25rem; font-size: 0.875rem; line-height: 1.25rem; max-width: 100%; min-width: 100%">
+                                  <svg xmlns="http://www.w3.org/2000/svg" class="iborrainputfile" width="20" height="17" viewBox="0 0 20 17"><path d="M10 0l-5.2 4.9h3.3v5.1h3.8v-5.1h3.3l-5.2-4.9zm9.3 11.5l-3.2-2.1h-2l3.4 2.6h-3.5c-.1 0-.2.1-.2.1l-.8 2.3h-6l-.8-2.2c-.1-.1-.1-.2-.2-.2h-3.6l3.4-2.6h-2l-3.2 2.1c-.4.3-.7 1-.6 1.5l.6 3.1c.1.5.7.9 1.2.9h16.3c.6 0 1.1-.4 1.3-.9l.6-3.1c.1-.5-.2-1.2-.7-1.5z"></path></svg>
+                                  <span class="iborrainputfile aux-arch">Seleccionar archivo</span>
+                              </label>
+                            </div>
+                            <label id="label_st" class="block text-xs font-semibold text-gray-700 text-center">Archivo*</label>
+                            <label id="error_st" name="error_archivo_st" class="hidden text-base font-normal text-red-500" >Ingrese una fecha valida</label>  
+                          </div>
+                        </div>
+                      </div>
+    
+                      <div class="col-span-10" id="proceso_st_ok">
+                        <p class="text-sm font-semibold text-center pb-2">Segundo trimestre</p>
+                        <div class="grid grid-cols-10 gap-4 bg-gray-100">
+                          <div class="col-span-10 sm:col-span-5 m-3">
+                            <p id="fecha_st_rft" class="text-base font-semibold p-1 text-center leading-none">hola</p>
+                            <p class="text-xs font-semibold text-center leading-none">Fecha</p>
+                          </div>
+                          <div class="col-span-10 sm:col-span-5">
+                            <div class="flex justify-center items-center h-full">
+                              <a id="link_st_rft" href="" target="_blank">
+                                <p class="block text-base font-semibold text-blue-700 text-center">
+                                  <i class="fas fa-eye"></i> Visualizar
+                                </p>
+                              </a>
+                            </div>  
+                          </div>
+                        </div>
+                      </div>
                     </div>
-                  @endif
-                  @if(strftime("%m") == 10 && strftime("%d") > 19 && strftime("%d") < 31 && strftime("%Y") == $anio)
-                    <div class="col-span-10 sm:col-span-5">
-                      <label id="label_tercer_trimestre" for="tercer_trimestre" class="block text-sm font-bold text-gray-700">Tercero*</label>
-                      <input type="text" name="tercer_trimestre" id="tercer_trimestre" class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md" value="{{$sisplade->fecha_capturado}}">
-                      <label id="error_tercer_trimestre" name="error_tercer_trimestre" class="hidden text-base font-normal text-red-500" >Ingrese un porcentaje valido</label>  
+                  </div>
+
+                  <div class="col-span-10" id="tt">
+                    <div class="grid grid-cols-10 gap-4">
+                      <div class="col-span-10" id="proceso_tt">
+                        <p class="text-sm font-semibold text-center pb-2">Tercer trimestre</p>
+                        <div class="grid grid-cols-10 gap-4">
+                          <div class="col-span-10 sm:col-span-5">
+                            <input type="range" name="tercer_trimestre" id="tercer_trimestre"  class="mt-1 w-full" value="{{$sisplade->fecha_capturado}}">
+                            <label id="label_fecha_tt" for="fecha_tt" class="block text-xs font-semibold text-gray-700 text-center">Fecha*</label>
+                            <label id="error_fecha_tt" name="error_fecha_tt" class="hidden text-base font-normal text-red-500" >Ingrese una fecha valida</label>  
+                          </div>
+                          <div class="col-span-10 sm:col-span-5">
+                            <div class="container-input flex justify-center items-center">
+                              <input type="file" name="archivo_tt" id="archivo_tt" class="inputfile inputfile-2" multiple accept="application/pdf"/>
+                              <label for="archivo_tt" class="flex justify-center items-center" style="border: 1px solid #D1D5DB; border-radius: 0.375rem; margin-top: 0.25rem; font-size: 0.875rem; line-height: 1.25rem; max-width: 100%; min-width: 100%">
+                                  <svg xmlns="http://www.w3.org/2000/svg" class="iborrainputfile" width="20" height="17" viewBox="0 0 20 17"><path d="M10 0l-5.2 4.9h3.3v5.1h3.8v-5.1h3.3l-5.2-4.9zm9.3 11.5l-3.2-2.1h-2l3.4 2.6h-3.5c-.1 0-.2.1-.2.1l-.8 2.3h-6l-.8-2.2c-.1-.1-.1-.2-.2-.2h-3.6l3.4-2.6h-2l-3.2 2.1c-.4.3-.7 1-.6 1.5l.6 3.1c.1.5.7.9 1.2.9h16.3c.6 0 1.1-.4 1.3-.9l.6-3.1c.1-.5-.2-1.2-.7-1.5z"></path></svg>
+                                  <span class="iborrainputfile aux-arch">Seleccionar archivo</span>
+                              </label>
+                            </div>
+                            <label id="label_tt" class="block text-xs font-semibold text-gray-700 text-center">Archivo*</label>
+                            <label id="error_tt" name="error_archivo_tt" class="hidden text-base font-normal text-red-500" >Ingrese una fecha valida</label>  
+                          </div>
+                        </div>
+                      </div>
+    
+                      <div class="col-span-10" id="proceso_tt_ok">
+                        <p class="text-sm font-semibold text-center pb-2">Tercer trimestre</p>
+                        <div class="grid grid-cols-10 gap-4 bg-gray-100">
+                          <div class="col-span-10 sm:col-span-5 m-3">
+                            <p id="fecha_tt_rft" class="text-base font-semibold p-1 text-center leading-none">hola</p>
+                            <p class="text-xs font-semibold text-center leading-none">Fecha</p>
+                          </div>
+                          <div class="col-span-10 sm:col-span-5">
+                            <div class="flex justify-center items-center h-full">
+                              <a id="link_tt_rft" href="" target="_blank">
+                                <p class="block text-base font-semibold text-blue-700 text-center">
+                                  <i class="fas fa-eye"></i> Visualizar
+                                </p>
+                              </a>
+                            </div>  
+                          </div>
+                        </div>
+                      </div>
                     </div>
-                  @endif
-                  @if(strftime("%m") == 1 && strftime("%d") > 19 && strftime("%d") < 31 && strftime("%Y") == ($anio + 1))
-                    <div class="col-span-10 sm:col-span-5">
-                      <label id="label_cuarto_trimestre" for="cuarto_trimestre" class="block text-sm font-bold text-gray-700">Cuarto*</label>
-                      <input type="text" name="cuarto_trimestre" id="cuarto_trimestre" class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md" value="{{$sisplade->fecha_capturado}}">
-                      <label id="error_cuarto_trimestre" name="cuarto_trimestre" class="hidden text-base font-normal text-red-500" >Ingrese un porcentaje valido</label>  
+                  </div>
+
+                  <div class="col-span-10" id="ct">
+                    <div class="grid grid-cols-10 gap-4">
+                      <div class="col-span-10" id="proceso_ct">
+                        <p class="text-sm font-semibold text-center pb-2">Cuarto trimestre</p>
+                        <div class="grid grid-cols-10 gap-4">
+                          <div class="col-span-10 sm:col-span-5">
+                            <input type="range" name="cuarto_trimestre" id="cuarto_trimestre" class="mt-1 w-full" value="{{$sisplade->fecha_capturado}}">
+                            <label id="label_fecha_ct" for="fecha_ct" class="block text-xs font-semibold text-gray-700 text-center">Fecha*</label>
+                            <label id="error_fecha_ct" name="error_fecha_ct" class="hidden text-base font-normal text-red-500" >Ingrese una fecha valida</label>  
+                          </div>
+                          <div class="col-span-10 sm:col-span-5">
+                            <div class="container-input flex justify-center items-center">
+                              <input type="file" name="archivo_ct" id="archivo_ct" class="inputfile inputfile-2" multiple accept="application/pdf"/>
+                              <label for="archivo_ct" class="flex justify-center items-center" style="border: 1px solid #D1D5DB; border-radius: 0.375rem; margin-top: 0.25rem; font-size: 0.875rem; line-height: 1.25rem; max-width: 100%; min-width: 100%">
+                                  <svg xmlns="http://www.w3.org/2000/svg" class="iborrainputfile" width="20" height="17" viewBox="0 0 20 17"><path d="M10 0l-5.2 4.9h3.3v5.1h3.8v-5.1h3.3l-5.2-4.9zm9.3 11.5l-3.2-2.1h-2l3.4 2.6h-3.5c-.1 0-.2.1-.2.1l-.8 2.3h-6l-.8-2.2c-.1-.1-.1-.2-.2-.2h-3.6l3.4-2.6h-2l-3.2 2.1c-.4.3-.7 1-.6 1.5l.6 3.1c.1.5.7.9 1.2.9h16.3c.6 0 1.1-.4 1.3-.9l.6-3.1c.1-.5-.2-1.2-.7-1.5z"></path></svg>
+                                  <span class="iborrainputfile aux-arch">Seleccionar archivo</span>
+                              </label>
+                            </div>
+                            <label id="label_ct" class="block text-xs font-semibold text-gray-700 text-center">Archivo*</label>
+                            <label id="error_ct" name="error_archivo_ct" class="hidden text-base font-normal text-red-500" >Ingrese una fecha valida</label>  
+                          </div>
+                        </div>
+                      </div>
+    
+                      <div class="col-span-10" id="proceso_ct_ok">
+                        <p class="text-sm font-semibold text-center pb-2">Cuarto trimestre</p>
+                        <div class="grid grid-cols-10 gap-4 bg-gray-100">
+                          <div class="col-span-10 sm:col-span-5 m-3">
+                            <p id="fecha_ct_rft" class="text-base font-semibold p-1 text-center leading-none">hola</p>
+                            <p class="text-xs font-semibold text-center leading-none">Fecha</p>
+                          </div>
+                          <div class="col-span-10 sm:col-span-5">
+                            <div class="flex justify-center items-center h-full">
+                              <a id="link_ct_rft" href="" target="_blank">
+                                <p class="block text-base font-semibold text-blue-700 text-center">
+                                  <i class="fas fa-eye"></i> Visualizar
+                                </p>
+                              </a>
+                            </div>  
+                          </div>
+                        </div>
+                      </div>
                     </div>
-                  @endif
+                  </div>
                   
                 </div>
                 <div class="mt-10">
@@ -1974,6 +2139,11 @@
       oculto = $("#"+id_div_obra).hasClass("hidden");
       
       oculto? $("#"+id_div_obra).removeClass("hidden"): $("#"+id_div_obra).addClass("hidden");;
+    }
+
+    function porcentaje(id){
+      $(this).attr('id');
+      console.log(id);
     }
   
   
@@ -2726,7 +2896,10 @@
             if(valor == "")
               $(this).val("0");
             
-        }
+        },
+        "change": function(event) {
+            console.log($(this).val())
+        },
     });
     $('#segundo_trimestre').on({
         "keydown": function(event) {

@@ -175,7 +175,7 @@ class GeneralController extends Controller
         ->whereIn('fuente_financiamiento_id', [2,3])
         ->select('nombre_corto', 'nombre_obra', 'id_obra')
         ->get();
-
+        
 
         $sisplade = null;
 
@@ -1876,7 +1876,7 @@ class GeneralController extends Controller
             //Move Uploaded File
             
             $destinationPath = './uploads/municipios/'.$request->municipio_id.'/'.$request->ejercicio.'/'.$mids->obra_id.'/'.'mids/';
-            $name = 'acuse revisión MIDS obra '.$mids->obra_id.' '.$request->ejercicio.'.'.$file->getClientOriginalExtension();
+            $name = 'Acuse revisión MIDS obra '.$mids->obra_id.' '.$request->ejercicio.'.'.$file->getClientOriginalExtension();
             $file->move($destinationPath, $name);
             $destinationPath = '/uploads/municipios/'.$request->municipio_id.'/'.$request->ejercicio.'/'.$mids->obra_id.'/'.'mids/'.$name;
             $mids->archivo_validado = $destinationPath;
