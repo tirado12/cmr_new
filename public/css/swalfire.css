@@ -1,0 +1,24 @@
+.swal2-popup{
+    width: 25em;
+}
+
+.swal2-title{
+    margin: 0;
+    font-size: 1.1rem;
+    color: #000;
+}
+
+.swal2-icon{
+    margin: 0 auto 0.85em;
+    border: .25em solid transparent;
+}
+
+.swal2-content{
+    color: #000;
+    font-size: 0.85rem;
+}
+
+.swal2-styled.swal2-confirm{
+    font-size: 0.85rem;
+    background-color: rgba(59, 130, 246, var(--tw-bg-opacity));
+}
