@@ -120,6 +120,7 @@ Route::post('obra/update/prodim', [GeneralController::class, 'update_prodim'])->
 Route::post('obra/store/gi', [GeneralController::class, 'store_gi'])->name('store_gi');
 Route::post('obra/update/sisplade', [GeneralController::class, 'update_sisplade'])->name('update_sisplade');
 Route::post('obra/update/mids', [GeneralController::class, 'update_mids'])->name('update_mids');
+Route::post('obra/update/rft', [GeneralController::class, 'update_rft'])->name('update_rft');
 
 Route::get('/imprimir/{id}', [GeneralController::class, 'imprimir'])->name('imprimir');
 Route::post('obra/upload/checklist', [GeneralController::class, 'upload_checklist'])->name('upload_checklist');

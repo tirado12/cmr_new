@@ -139,7 +139,7 @@ class GeneralController extends Controller
         $comprometido_gi = [];
         $catalogo_gi = null;
         $total_gi = 0;
-        
+
         
         
         
@@ -182,6 +182,8 @@ class GeneralController extends Controller
         if($fuente_f3 != null){
             $sisplade = Sisplade::where('fuentes_clientes_id', $fuente_f3->id_fuente_financ_cliente)->first();
         }
+
+
         
         return view('ejercicio.ejercicio', 
         compact(
@@ -248,7 +250,7 @@ class GeneralController extends Controller
     {
 
         $mensaje = 'ok';
-        $datos = ['success', '¡PROCESO EXITOSO!', 'El expediente de obra se actualizo correctamente'];
+        $datos = ['success', '¡PROCESO EXITOSO!', 'El expediente de obra se actualizó correctamente'];
         
         DB::beginTransaction();
         try {
@@ -1007,7 +1009,7 @@ class GeneralController extends Controller
     public function update_convenio_modificatorio (Request $request){
         
         $mensaje = 'ok';
-        $datos = ['success', '¡PROCESO EXITOSO!', 'El convenio modificatorio se actualizo correctamente'];
+        $datos = ['success', '¡PROCESO EXITOSO!', 'El convenio modificatorio se actualizó correctamente'];
         
         DB::beginTransaction();
         try {
@@ -1106,7 +1108,7 @@ class GeneralController extends Controller
     public function update_estimacion (Request $request){
 
         $mensaje = 'ok';
-        $datos = ['success', '¡PROCESO EXITOSO!', 'La estimación se actualizo correctamente'];
+        $datos = ['success', '¡PROCESO EXITOSO!', 'La estimación se actualizó correctamente'];
         
         DB::beginTransaction();
         try {
@@ -1365,7 +1367,7 @@ class GeneralController extends Controller
         ]);
 
         $mensaje = 'ok';
-        $datos = ['success', '¡PROCESO EXITOSO!', 'La lista de raya se actualizo correctamente'];
+        $datos = ['success', '¡PROCESO EXITOSO!', 'La lista de raya se actualizó correctamente'];
         
         DB::beginTransaction();
         try {
@@ -1542,7 +1544,7 @@ class GeneralController extends Controller
         ]);
 
         $mensaje = 'ok';
-        $datos = ['success', '¡PROCESO EXITOSO!', 'La factura se actualizo correctamente'];
+        $datos = ['success', '¡PROCESO EXITOSO!', 'La factura se actualizó correctamente'];
         
         DB::beginTransaction();
         try {
@@ -1712,23 +1714,32 @@ class GeneralController extends Controller
             'acta_integracion_consejo_edit' => 'required',
             'acta_priorizacion_edit' => 'required',
         ]);
-        $fuenteCliente = FuentesCliente::find($request->fuente_id_edit);        
+        $mensaje = 'ok';
+        $datos = ['success', '¡PROCESO EXITOSO!', 'Se actualizó la información de la fuente de financiamiento'];
+        
+        DB::beginTransaction();
+        try {
+            $fuenteCliente = FuentesCliente::find($request->fuente_id_edit);        
 
-        if($fuenteCliente->fuente_financiamiento_id == 2){
-            $anexos_fondo3 = AnexosFondoIII::where("fuente_financiamiento_cliente_id", $request->fuente_id_edit)->first();
-            $anexos_fondo3->acta_integracion_consejo = $request->acta_integracion_consejo_edit;
-            $anexos_fondo3->acta_priorizacion = $request->acta_priorizacion_edit;
-            $anexos_fondo3->adendum_priorizacion = $request->adendum_priorizacion_edit;
-            $anexos_fondo3->update();
-        }        
+            if($fuenteCliente->fuente_financiamiento_id == 2){
+                $anexos_fondo3 = AnexosFondoIII::where("fuente_financiamiento_cliente_id", $request->fuente_id_edit)->first();
+                $anexos_fondo3->acta_integracion_consejo = $request->acta_integracion_consejo_edit;
+                $anexos_fondo3->acta_priorizacion = $request->acta_priorizacion_edit;
+                $anexos_fondo3->adendum_priorizacion = $request->adendum_priorizacion_edit;
+                $anexos_fondo3->update();
+            }
 
-        return redirect()->route('cliente.ejercicio', ['id' => $fuenteCliente->cliente_id, 'anio' => $fuenteCliente->ejercicio]);
+            DB::commit();
+        } catch (\Exception $e) {
+            DB::rollback();
+            $datos = ['error', '¡ERROR!', 'La información no se actualizó correctamente'];
+        }
+
+        return redirect()->route('cliente.ejercicio', ['id' => $fuenteCliente->cliente_id, 'anio' => $fuenteCliente->ejercicio])->with('mensaje', 'ok')->with('datos', $datos);
     }
 
     public function store_prodim(Request $request)
     {
-        
-
         $request->validate([
             'cliente_id' => 'required',
             'prodim_id' => 'required',
@@ -1738,13 +1749,25 @@ class GeneralController extends Controller
             'monto_prodim' => 'required',
         ]);
 
-        $prodim_comprometido = ProdimComprometido::create([
-            'prodim_id' => $request->prodim_id,
-            'fecha_comprometido'=> $request->fecha_asignacion,
-            'monto'=>str_replace(",", '', $request->monto_prodim),
-            'prodim_catalogo_id' => $request->programa_id,
-        ]);
-        return redirect()->route('cliente.ejercicio', ['id' => $request->cliente_id, 'anio' => $request->ejercicio]);
+        $mensaje = 'ok';
+        $datos = ['success', '¡PROCESO EXITOSO!', 'Se guardo correctamente el monto comprometido del PRODIM'];
+        
+        DB::beginTransaction();
+        try {
+
+            $prodim_comprometido = ProdimComprometido::create([
+                'prodim_id' => $request->prodim_id,
+                'fecha_comprometido'=> $request->fecha_asignacion,
+                'monto'=>str_replace(",", '', $request->monto_prodim),
+                'prodim_catalogo_id' => $request->programa_id,
+            ]);
+
+            DB::commit();
+        } catch (\Exception $e) {
+            DB::rollback();
+            $datos = ['error', '¡ERROR!', 'La información no se guardo correctamente'];
+        }
+        return redirect()->route('cliente.ejercicio', ['id' => $request->cliente_id, 'anio' => $request->ejercicio])->with('mensaje', 'ok')->with('datos', $datos);
     }
 
     public function store_concepto(Request $request)
@@ -1759,33 +1782,55 @@ class GeneralController extends Controller
             'concepto_prodim' => 'required',
         ]);
 
-        $comprometido = ComprometidoDesglose::create([
-            'comprometido_id' =>$request->comprometido_id ,
-            'concepto'=>$request->concepto_prodim,
-            'monto_desglose' => str_replace(",", '', $request->monto_concepto),
-        ]);
+        $mensaje = 'ok';
+        $datos = ['success', '¡PROCESO EXITOSO!', 'Se guardo correctamente el nuevo concepto del PRODIM'];
         
-        return redirect()->route('cliente.ejercicio', ['id' => $request->cliente_id, 'anio' => $request->ejercicio]);
+        DB::beginTransaction();
+        try {
+
+            $comprometido = ComprometidoDesglose::create([
+                'comprometido_id' =>$request->comprometido_id ,
+                'concepto'=>$request->concepto_prodim,
+                'monto_desglose' => str_replace(",", '', $request->monto_concepto),
+            ]);
+
+            DB::commit();
+        } catch (\Exception $e) {
+            DB::rollback();
+            $datos = ['error', '¡ERROR!', 'La información no se guardo correctamente'];
+        }
+        
+        return redirect()->route('cliente.ejercicio', ['id' => $request->cliente_id, 'anio' => $request->ejercicio])->with('mensaje', 'ok')->with('datos', $datos);
     }
 
     public function update_prodim(Request $request)
     {
-        $prodim = Prodim::find($request->prodim_id);
-        $prodim->presentado = $request->fecha_presentado?1:$prodim->presentado;
-        $prodim->fecha_presentado = $request->fecha_presentado?$request->fecha_presentado:$prodim->fecha_presentado;
 
-        $prodim->revisado = $request->fecha_revisado?1:$prodim->revisado;
-        $prodim->fecha_revisado = $request->fecha_revisado?$request->fecha_revisado:$prodim->fecha_revisado;
-
-        $prodim->aprovado = $request->fecha_aprovado?1:$prodim->aprovado;
-        $prodim->fecha_aprovado = $request->fecha_aprovado?$request->fecha_aprovado:$prodim->fecha_aprovado;
-
-        $prodim->convenio = $request->fecha_convenio?1:$prodim->convenio;
-        $prodim->fecha_convenio = $request->fecha_convenio?$request->fecha_convenio:$prodim->fecha_convenio;
-        $prodim->update();
-    
+        $mensaje = 'ok';
+        $datos = ['success', '¡PROCESO EXITOSO!', 'Se actualizó correctamente el proceso del PRODIM'];
         
-        return redirect()->route('cliente.ejercicio', ['id' => $request->cliente_id, 'anio' => $request->ejercicio]);
+        DB::beginTransaction();
+        try {
+            $prodim = Prodim::find($request->prodim_id);
+            $prodim->presentado = $request->fecha_presentado?1:$prodim->presentado;
+            $prodim->fecha_presentado = $request->fecha_presentado?$request->fecha_presentado:$prodim->fecha_presentado;
+
+            $prodim->revisado = $request->fecha_revisado?1:$prodim->revisado;
+            $prodim->fecha_revisado = $request->fecha_revisado?$request->fecha_revisado:$prodim->fecha_revisado;
+
+            $prodim->aprovado = $request->fecha_aprovado?1:$prodim->aprovado;
+            $prodim->fecha_aprovado = $request->fecha_aprovado?$request->fecha_aprovado:$prodim->fecha_aprovado;
+
+            $prodim->convenio = $request->fecha_convenio?1:$prodim->convenio;
+            $prodim->fecha_convenio = $request->fecha_convenio?$request->fecha_convenio:$prodim->fecha_convenio;
+            $prodim->update();
+            DB::commit();
+        } catch (\Exception $e) {
+            DB::rollback();
+            $datos = ['error', '¡ERROR!', 'La información no se guardo correctamente'];
+        }
+        
+        return redirect()->route('cliente.ejercicio', ['id' => $request->cliente_id, 'anio' => $request->ejercicio])->with('mensaje', 'ok')->with('datos', $datos);
     }
 
     public function store_gi(Request $request)
@@ -1817,76 +1862,176 @@ class GeneralController extends Controller
             'ejercicio' => 'required',
         ]);
 
-        $sisplade = Sisplade::find($request->sisplade_id);
-        $sisplade->capturado = $request->fecha_capturado?1:2;
-        $sisplade->fecha_capturado = $request->fecha_capturado;
-        $sisplade->validado = $request->fecha_validacion?1:2;
-        $sisplade->fecha_validado = $request->fecha_validacion;
-
-        $sisplade->update();
+        $mensaje = 'ok';
+        $datos = ['success', '¡PROCESO EXITOSO!', 'Se actualizó la información del proceso de SISPLADE'];
         
-        return redirect()->route('cliente.ejercicio', ['id' => $request->cliente_id, 'anio' => $request->ejercicio]);
+        DB::beginTransaction();
+        try {
+
+            $sisplade = Sisplade::find($request->sisplade_id);
+            $sisplade->capturado = $request->fecha_capturado?1:2;
+            $sisplade->fecha_capturado = $request->fecha_capturado;
+            $sisplade->validado = $request->fecha_validacion?1:2;
+            $sisplade->fecha_validado = $request->fecha_validacion;
+
+            $sisplade->update();
+
+            DB::commit();
+        } catch (\Exception $e) {
+            DB::rollback();
+            $datos = ['error', '¡ERROR!', 'La información no se actualizó correctamente'];
+        }
+        
+        return redirect()->route('cliente.ejercicio', ['id' => $request->cliente_id, 'anio' => $request->ejercicio])->with('mensaje', 'ok')->with('datos', $datos);
     }
 
     public function update_mids(Request $request)
     {   
 
         //return $request;
-        
-        $mids = Mids::find($request->mids_id);
-        
-        
 
-        if (!empty($request->file('archivo_capturado'))) {
-
-
-            $file = $request->file('archivo_capturado');
+        $mensaje = 'ok';
+        $datos = ['success', '¡PROCESO EXITOSO!', 'Se actualizó la información de MIDS'];
+        
+        DB::beginTransaction();
+        try {
+        
+            $mids = Mids::find($request->mids_id);
             
-            //Move Uploaded File
-            
+            if (!empty($request->file('archivo_capturado'))) {
 
-            $destinationPath = './uploads/municipios/'.$request->municipio_id.'/'.$request->ejercicio.'/'.$mids->obra_id.'/'.'mids/';
-            $name = 'acuse planeación MIDS obra '.$mids->obra_id.' '.$request->ejercicio.'.'.$file->getClientOriginalExtension();
-            $file->move($destinationPath, $name);
-            $destinationPath = '/uploads/municipios/'.$request->municipio_id.'/'.$request->ejercicio.'/'.$mids->obra_id.'/'.'mids/'.$name;
-            $mids->archivo_planeado = $destinationPath;
-            $mids->planeado = 1;
-            $mids->fecha_planeado = $request->fecha_planeacion;
+
+                $file = $request->file('archivo_capturado');
+                
+                //Move Uploaded File
+                
+
+                $destinationPath = './uploads/municipios/'.$request->municipio_id.'/'.$request->ejercicio.'/'.$mids->obra_id.'/'.'mids/';
+                $name = 'acuse planeación MIDS obra '.$mids->obra_id.' '.$request->ejercicio.'.'.$file->getClientOriginalExtension();
+                $file->move($destinationPath, $name);
+                $destinationPath = '/uploads/municipios/'.$request->municipio_id.'/'.$request->ejercicio.'/'.$mids->obra_id.'/'.'mids/'.$name;
+                $mids->archivo_planeado = $destinationPath;
+                $mids->planeado = 1;
+                $mids->fecha_planeado = $request->fecha_planeacion;
+            }
+
+            if (!empty($request->file('archivo_firma')) && $mids->archivo_planeado != null) {
+
+                $file = $request->file('archivo_firma');
+                
+                //Move Uploaded File
+                
+                $destinationPath = './uploads/municipios/'.$request->municipio_id.'/'.$request->ejercicio.'/'.$mids->obra_id.'/'.'mids/';
+                $name = 'Acuse de la firma MIDS obra '.$mids->obra_id.' '.$request->ejercicio.'.'.$file->getClientOriginalExtension();
+                $file->move($destinationPath, $name);
+                $destinationPath = '/uploads/municipios/'.$request->municipio_id.'/'.$request->ejercicio.'/'.$mids->obra_id.'/'.'mids/'.$name;
+                $mids->archivo_firmado = $destinationPath;
+                $mids->firmado = 1;
+                $mids->fecha_firmado = $request->fecha_planeacion;
+            }
+
+            if (!empty($request->file('archivo_revision')) && $mids->archivo_firmado != null) {
+
+                $file = $request->file('archivo_revision');
+                
+                //Move Uploaded File
+                
+                $destinationPath = './uploads/municipios/'.$request->municipio_id.'/'.$request->ejercicio.'/'.$mids->obra_id.'/'.'mids/';
+                $name = 'Acuse revisión MIDS obra '.$mids->obra_id.' '.$request->ejercicio.'.'.$file->getClientOriginalExtension();
+                $file->move($destinationPath, $name);
+                $destinationPath = '/uploads/municipios/'.$request->municipio_id.'/'.$request->ejercicio.'/'.$mids->obra_id.'/'.'mids/'.$name;
+                $mids->archivo_validado = $destinationPath;
+                $mids->validado = 1;
+                $mids->fecha_validado = $request->fecha_planeacion;
+            }
+
+            $mids->update();
+            DB::commit();
+        } catch (\Exception $e) {
+            DB::rollback();
+            $datos = ['error', '¡ERROR!', 'La información no se actualizó correctamente'];
         }
 
-        if (!empty($request->file('archivo_firma'))) {
+        return redirect()->route('cliente.ejercicio', ['id' => $request->cliente_id, 'anio' => $request->ejercicio])->with('mensaje', 'ok')->with('datos', $datos);
+    }
 
-            $file = $request->file('archivo_firma');
-            
-            //Move Uploaded File
-            
-            $destinationPath = './uploads/municipios/'.$request->municipio_id.'/'.$request->ejercicio.'/'.$mids->obra_id.'/'.'mids/';
-            $name = 'Acuse de la firma MIDS obra '.$mids->obra_id.' '.$request->ejercicio.'.'.$file->getClientOriginalExtension();
-            $file->move($destinationPath, $name);
-            $destinationPath = '/uploads/municipios/'.$request->municipio_id.'/'.$request->ejercicio.'/'.$mids->obra_id.'/'.'mids/'.$name;
-            $mids->archivo_firmado = $destinationPath;
-            $mids->firmado = 1;
-            $mids->fecha_firmado = $request->fecha_planeacion;
-        }
-
-        if (!empty($request->file('archivo_revision'))) {
-
-            $file = $request->file('archivo_revision');
-            
-            //Move Uploaded File
-            
-            $destinationPath = './uploads/municipios/'.$request->municipio_id.'/'.$request->ejercicio.'/'.$mids->obra_id.'/'.'mids/';
-            $name = 'Acuse revisión MIDS obra '.$mids->obra_id.' '.$request->ejercicio.'.'.$file->getClientOriginalExtension();
-            $file->move($destinationPath, $name);
-            $destinationPath = '/uploads/municipios/'.$request->municipio_id.'/'.$request->ejercicio.'/'.$mids->obra_id.'/'.'mids/'.$name;
-            $mids->archivo_validado = $destinationPath;
-            $mids->validado = 1;
-            $mids->fecha_validado = $request->fecha_planeacion;
-        }
-
-        $mids->update();
+    public function update_rft(Request $request){
+        $mensaje = 'ok';
+        $datos = ['success', '¡PROCESO EXITOSO!', 'Se actualizó la información de RFT'];
         
-        return redirect()->route('cliente.ejercicio', ['id' => $request->cliente_id, 'anio' => $request->ejercicio]);
+        DB::beginTransaction();
+        try {
+            $rft = Rft::find($request->rft_id);
+            if (!empty($request->file('archivo_pt'))) {
+
+                $file = $request->file('archivo_pt');
+                
+                //Move Uploaded File
+                
+                $destinationPath = './uploads/municipios/'.$request->municipio_id.'/'.$request->ejercicio.'/'.$rft->obra_id.'/'.'rft/';
+                $name = 'Acuse RFT 1re Trimestre obra '.$rft->obra_id.' '.$request->ejercicio.'.'.$file->getClientOriginalExtension();
+                $file->move($destinationPath, $name);
+                $destinationPath = '/uploads/municipios/'.$request->municipio_id.'/'.$request->ejercicio.'/'.$rft->obra_id.'/'.'rft/'.$name;
+                $rft->archivo_primer = $destinationPath;
+                $rft->primer_trimestre = $request->p_trimestre;
+            }
+            
+            if (!empty($request->file('archivo_st')) && $rft->archivo_primer != null) {
+
+                $file = $request->file('archivo_st');
+                
+                //Move Uploaded File
+                
+                $destinationPath = './uploads/municipios/'.$request->municipio_id.'/'.$request->ejercicio.'/'.$rft->obra_id.'/'.'rft/';
+                $name = 'Acuse RFT 2do Trimestre obra '.$rft->obra_id.' '.$request->ejercicio.'.'.$file->getClientOriginalExtension();
+                $file->move($destinationPath, $name);
+                $destinationPath = '/uploads/municipios/'.$request->municipio_id.'/'.$request->ejercicio.'/'.$rft->obra_id.'/'.'rft/'.$name;
+                $rft->archivo_segundo = $destinationPath;
+                $rft->segundo_trimestre = $request->s_trimestre;
+            }
+
+            if (!empty($request->file('archivo_tt')) && $rft->archivo_segundo != null) {
+
+                $file = $request->file('archivo_tt');
+                
+                //Move Uploaded File
+                
+                $destinationPath = './uploads/municipios/'.$request->municipio_id.'/'.$request->ejercicio.'/'.$rft->obra_id.'/'.'rft/';
+                $name = 'Acuse RFT 3er Trimestre obra '.$rft->obra_id.' '.$request->ejercicio.'.'.$file->getClientOriginalExtension();
+                $file->move($destinationPath, $name);
+                $destinationPath = '/uploads/municipios/'.$request->municipio_id.'/'.$request->ejercicio.'/'.$rft->obra_id.'/'.'rft/'.$name;
+                $rft->archivo_tercer = $destinationPath;
+                $rft->tercer_trimestre = $request->t_trimestre;
+            }
+
+            if (!empty($request->file('archivo_ct')) && $rft->archivo_tercer != null) {
+
+                $file = $request->file('archivo_ct');
+                
+                //Move Uploaded File
+                
+                $destinationPath = './uploads/municipios/'.$request->municipio_id.'/'.$request->ejercicio.'/'.$rft->obra_id.'/'.'rft/';
+                $name = 'Acuse RFT 4to Trimestre obra '.$rft->obra_id.' '.$request->ejercicio.'.'.$file->getClientOriginalExtension();
+                $file->move($destinationPath, $name);
+                $destinationPath = '/uploads/municipios/'.$request->municipio_id.'/'.$request->ejercicio.'/'.$rft->obra_id.'/'.'rft/'.$name;
+                $rft->archivo_cuarto = $destinationPath;
+                $rft->cuarto_trimestre = $request->c_trimestre;
+            }
+            
+            $rft->update();
+
+            DB::commit();
+        } catch (\Exception $e) {
+            DB::rollback();
+            $datos = ['error', '¡ERROR!', 'La información no se actualizó correctamente'];
+        }
+
+        return redirect()->route('cliente.ejercicio', ['id' => $request->cliente_id, 'anio' => $request->ejercicio])->with('mensaje', 'ok')->with('datos', $datos);
+
+
+        
+        //return $rft;
+        //return $request;
     }
 
     public function imprimir($id){

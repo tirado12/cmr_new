@@ -59,49 +59,63 @@ class FuenteClienteController extends Controller
             'cliente_id' =>'required',
             'fuente_financiamiento_id'=> 'required'
         ]);
-        $fuenteCliente = FuentesCliente::create([
-            'monto_proyectado' => str_replace(",", '', $request->monto_proyectado),
-            'monto_comprometido' => $request->monto_comprometido,
-            'ejercicio' => $request->ejercicio,
-            'cliente_id' => $request->cliente_id,
-            'fuente_financiamiento_id' => $request->fuente_financiamiento_id
-        ]);
-        if($request->fuente_financiamiento_id == 2){
-            $request->prodim = $request->prodim == null? false:true;
-            $request->gastos_indirectos = $request->gastos_indirectos == null? false:true;
 
-            $monto_prodim = str_replace(",", '', $request->monto_proyectado) * ($request->porcentaje_prodim * 0.01);
-            $monto_gastos = str_replace(",", '', $request->monto_proyectado) * ($request->porcentaje_gastos * 0.01);
+        $mensaje = 'ok';
+        $datos = ['success', '¡PROCESO EXITOSO!', 'Se guardo correctamente la fuente de financiamiento'];
+        
+        DB::beginTransaction();
+        try {
+            $fuenteCliente = FuentesCliente::create([
+                'monto_proyectado' => str_replace(",", '', $request->monto_proyectado),
+                'monto_comprometido' => $request->monto_comprometido,
+                'ejercicio' => $request->ejercicio,
+                'cliente_id' => $request->cliente_id,
+                'fuente_financiamiento_id' => $request->fuente_financiamiento_id
+            ]);
+            if($request->fuente_financiamiento_id == 2){
+                $request->prodim = $request->prodim == null? false:true;
+                $request->gastos_indirectos = $request->gastos_indirectos == null? false:true;
 
-            if($request->prodim != null){ //agregar a tabla prodim
-                Prodim::create([
-                    'fuente_id' => $fuenteCliente->id_fuente_financ_cliente
-                ]);
+                $monto_prodim = str_replace(",", '', $request->monto_proyectado) * ($request->porcentaje_prodim * 0.01);
+                $monto_gastos = str_replace(",", '', $request->monto_proyectado) * ($request->porcentaje_gastos * 0.01);
 
-                Sisplade::create([
-                    'fuentes_clientes_id' => $fuenteCliente->id_fuente_financ_cliente
+                if($request->prodim != null){ //agregar a tabla prodim
+                    Prodim::create([
+                        'fuente_id' => $fuenteCliente->id_fuente_financ_cliente
+                    ]);
+
+                    Sisplade::create([
+                        'fuentes_clientes_id' => $fuenteCliente->id_fuente_financ_cliente
+                    ]);
+                }
+                
+
+                AnexosFondoIII::create([
+                    'acta_integracion_consejo' => $request->acta_integracion_consejo,
+                    'acta_priorizacion' => $request->acta_priorizacion,
+                    'adendum_priorizacion' => $request->adendum_priorizacion,
+                    'prodim' => $request->prodim,
+                    'gastos_indirectos' => $request->gastos_indirectos,
+                    'porcentaje_prodim' => $request->porcentaje_prodim,
+                    'monto_prodim' => round($monto_prodim,2),
+                    'porcentaje_gastos' => $request->porcentaje_gastos,
+                    'monto_gastos' => round($monto_gastos,2),
+                    'fuente_financiamiento_cliente_id' => $fuenteCliente->id_fuente_financ_cliente,
                 ]);
             }
-            
 
-            AnexosFondoIII::create([
-                'acta_integracion_consejo' => $request->acta_integracion_consejo,
-                'acta_priorizacion' => $request->acta_priorizacion,
-                'adendum_priorizacion' => $request->adendum_priorizacion,
-                'prodim' => $request->prodim,
-                'gastos_indirectos' => $request->gastos_indirectos,
-                'porcentaje_prodim' => $request->porcentaje_prodim,
-                'monto_prodim' => round($monto_prodim,2),
-                'porcentaje_gastos' => $request->porcentaje_gastos,
-                'monto_gastos' => round($monto_gastos,2),
-                'fuente_financiamiento_cliente_id' => $fuenteCliente->id_fuente_financ_cliente,
-            ]);
+            DB::commit();
+        } catch (\Exception $e) {
+            DB::rollback();
+            $datos = ['error', '¡ERROR!', 'La información no se actualizó correctamente'];
         }
 
-        if(auth()->user()->getRoleNames()[0] == 'Administrador')
-            return redirect()->route('fuenteCliente.index');
-        else
-            return redirect()->route('cliente.ejercicio', ['id' => $request->cliente_id, 'anio' => $request->ejercicio]);
+
+        
+        /*if(auth()->user()->getRoleNames()[0] == 'Administrador')
+            return redirect()->route('fuenteCliente.index')->with('mensaje', 'ok')->with('datos', $datos);
+        else*/
+            return redirect()->route('cliente.ejercicio', ['id' => $request->cliente_id, 'anio' => $request->ejercicio])->with('mensaje', 'ok')->with('datos', $datos);
     }
     /**
      * Display the specified resource.

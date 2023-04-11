@@ -205,7 +205,7 @@
                                   </div>
                                 </div>
                               @endif
-                                <div class="col-span-2">
+                                <div class="col-span-8 sm:col-span-2">
                                     <p for="first_name" class="block text-base font-bold text-gray-700 text-center">Presentado</p>
                                     <div class="mt-2">
                                         @switch($prodim->presentado)
@@ -224,7 +224,7 @@
                                         @endswitch
                                     </div>
                                 </div>
-                                <div class="col-span-2">
+                                <div class="col-span-8 sm:col-span-2">
                                     <p for="first_name" class="block text-base font-bold text-gray-700 text-center">Revisado</p>
                                     <div class="mt-2">
                                         @switch($prodim->revisado)
@@ -243,8 +243,8 @@
                                         @endswitch
                                     </div>
                                 </div>
-                                <div class="col-span-2">
-                                    <p for="first_name" class="block text-base font-bold text-gray-700 text-center">Aprovado</p>
+                                <div class="col-span-8 sm:col-span-2">
+                                    <p for="first_name" class="block text-base font-bold text-gray-700 text-center">Aprobado</p>
                                     <div class="mt-2">
                                         @switch($prodim->aprovado)
                                           @case(1)
@@ -262,7 +262,7 @@
                                         @endswitch
                                     </div>
                                 </div>
-                                <div class="col-span-2">
+                                <div class="col-span-8 sm:col-span-2">
                                     <p for="first_name" class="block text-base font-bold text-gray-700 text-center">Firma de convenio</p>
                                     <div class="mt-2">
                                         @switch($prodim->convenio)
@@ -1079,7 +1079,7 @@
                   </div>
                   <div class="col-span-10 sm:col-span-3">
                     <p class="block text-sm font-semibold text-center">Monto asignado</p>
-                    <p class="text-base font-semibold bg-gray-100 p-1 text-center">{{$service->formatNumber($fuentes_cliente->where('fuente_financiamiento_id', 2)->first()->monto_prodim)}}</p>
+                    <p class="text-base font-semibold bg-gray-100 p-1 text-center" id="label_monto_asignado_prodim">{{$service->formatNumber($fuentes_cliente->where('fuente_financiamiento_id', 2)->first()->monto_prodim)}}</p>
                   </div>
                   <div class="col-span-10 select2_modificado">
                     <label for="fuente_financiamiento_id" class="block text-sm font-bold text-gray-700">Programa*</label>
@@ -1104,7 +1104,7 @@
                       </div>
                       <input type="text" name="monto_prodim" id="monto_prodim" maxlength="20" class="pl-7  mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md" placeholder="0.00">
                     </div>
-                      <label id="error_monto_prodim_superior" name="error_monto_prodim" class="hidden block text-base font-normal text-red-500" >El monto es mayor que el monto restante del PRODIM {{$service->formatNumber($fuentes_cliente->where('fuente_financiamiento_id', 2)->first()->monto_prodim - $total_prodim?$total_prodim:0 )}}.</label>
+                      <label id="error_monto_prodim_superior" name="error_monto_prodim" class="hidden block text-base font-normal text-red-500" >El monto es mayor que el monto restante del PRODIM {{$service->formatNumber($fuentes_cliente->where('fuente_financiamiento_id', 2)->first()->monto_prodim - $total_prodim?$fuentes_cliente->where('fuente_financiamiento_id', 2)->first()->monto_prodim - $total_prodim:0)}}.</label>
                       <label id="error_monto_prodim" name="error_monto_prodim" class="hidden block text-base font-normal text-red-500" >Ingrese una cantidad valida</label>
                   </div>
                 </div>
@@ -1659,7 +1659,7 @@
             </button>
           </div>
           <!--body-->
-          <form action="{{ route('update_sisplade') }}" method="POST" id="formulario_rft" name="formulario_rft">
+          <form action="{{ route('update_rft') }}" method="POST" id="formulario_rft" name="formulario_rft" enctype="multipart/form-data">
             @csrf
             @method('POST')
             <div class="relative p-6 flex-auto">
@@ -1668,6 +1668,7 @@
                     <input type="text" name="cliente_id" class="hidden border-none block text-base font-medium text-gray-700 py-3 px-2" value="{{$cliente->id_cliente}}">
                     <input type="text" name="ejercicio" class="hidden border-none block text-base font-medium text-gray-700 py-3 px-2" value="{{$anio}}">
                     <input type="text" name="rft_id" id="rft_id" class="hidden border-none block text-base font-medium text-gray-700 py-3 px-2" value="">
+                    <input type="text" name="municipio_id" class="hidden border-none block text-base font-medium text-gray-700 py-3 px-2" value="{{$cliente->id_municipio}}">
                   </div>
 
                   <div class="col-span-10" id="pt">
@@ -1676,9 +1677,8 @@
                         <p class="text-sm font-semibold text-center pb-2"> Primer trimestre</p>
                         <div class="grid grid-cols-10 gap-4">
                           <div class="col-span-10 sm:col-span-5">
-                            <input type="range" name="primer_trimestre" id="primer_trimestre"  class=" w-full" onmousedown
-                            ="porcentaje(this.id)">
-                            <label for="" class="block text-base font-bold text-center leading-none" id="porcentaje_primer_trimestre">0%</label>
+                            <input type="range" name="p_trimestre" id="p_trimestre"  class=" w-full" >
+                            <label for="" class="block text-base font-bold text-center leading-none" id="porcentaje_p_trimestre">0%</label>
                             <label id="label_fecha_pt" for="fecha_pt" class="block text-xs font-semibold text-gray-700 text-center">Porcentaje*</label>
                             <label id="error_fecha_pt" name="error_fecha_pt" class="hidden text-base font-normal text-red-500" >Ingrese una fecha valida</label>  
                           </div>
@@ -1700,8 +1700,8 @@
                         <p class="text-sm font-semibold text-center pb-2"> Primer trimestre</p>
                         <div class="grid grid-cols-10 gap-4 bg-gray-100">
                           <div class="col-span-10 sm:col-span-5 m-3">
-                            <p id="fecha_pt_rft" class="text-base font-semibold p-1 text-center leading-none">hola</p>
-                            <p class="text-xs font-semibold text-center leading-none">Fecha</p>
+                            <p id="ppt_rft" class="text-base font-semibold p-1 text-center leading-none">hola</p>
+                            <p class="text-xs font-semibold text-center leading-none">Porcentaje</p>
                           </div>
                           <div class="col-span-10 sm:col-span-5">
                             <div class="flex justify-center items-center h-full">
@@ -1722,20 +1722,21 @@
 
                   <div class="col-span-10" id="st">
                     <div class="grid grid-cols-10 gap-4">
-                      <div class="col-span-10" id="proceso_pt">
+                      <div class="col-span-10" id="proceso_st">
                         <p class="text-sm font-semibold text-center pb-2">Segundo trimestre</p>
                         <div class="grid grid-cols-10 gap-4">
                           <div class="col-span-10 sm:col-span-5">
-                            <input type="range" name="segundo_trimestre" id="segundo_trimestre"  class="mt-1 w-full" value="{{$sisplade->fecha_capturado}}">
-                            <label id="label_fecha_st" for="fecha_st" class="block text-xs font-semibold text-gray-700 text-center">Fecha*</label>
-                            <label id="error_fecha_st" name="error_fecha_st" class="hidden text-base font-normal text-red-500" >Ingrese una fecha valida</label>  
+                            <input type="range" name="s_trimestre" id="s_trimestre"  class="mt-1 w-full">
+                            <label for="" class="block text-base font-bold text-center leading-none" id="porcentaje_s_trimestre">0%</label>
+                            <label id="label_por_st" for="por_st" class="block text-xs font-semibold text-gray-700 text-center">Porcentaje*</label>
+                            <label id="error_por_st" name="error_por_st" class="hidden text-base font-normal text-red-500" >Porcentaje invalido, debe ser mayor o igual que el anterior</label>  
                           </div>
                           <div class="col-span-10 sm:col-span-5">
                             <div class="container-input flex justify-center items-center">
                               <input type="file" name="archivo_st" id="archivo_st" class="inputfile inputfile-2" multiple accept="application/pdf"/>
                               <label for="archivo_st" class="flex justify-center items-center" style="border: 1px solid #D1D5DB; border-radius: 0.375rem; margin-top: 0.25rem; font-size: 0.875rem; line-height: 1.25rem; max-width: 100%; min-width: 100%">
                                   <svg xmlns="http://www.w3.org/2000/svg" class="iborrainputfile" width="20" height="17" viewBox="0 0 20 17"><path d="M10 0l-5.2 4.9h3.3v5.1h3.8v-5.1h3.3l-5.2-4.9zm9.3 11.5l-3.2-2.1h-2l3.4 2.6h-3.5c-.1 0-.2.1-.2.1l-.8 2.3h-6l-.8-2.2c-.1-.1-.1-.2-.2-.2h-3.6l3.4-2.6h-2l-3.2 2.1c-.4.3-.7 1-.6 1.5l.6 3.1c.1.5.7.9 1.2.9h16.3c.6 0 1.1-.4 1.3-.9l.6-3.1c.1-.5-.2-1.2-.7-1.5z"></path></svg>
-                                  <span class="iborrainputfile aux-arch">Seleccionar archivo</span>
+                                  <span class="iborrainputfile aux-arch" id="aux-arch-st">Seleccionar archivo</span>
                               </label>
                             </div>
                             <label id="label_st" class="block text-xs font-semibold text-gray-700 text-center">Archivo*</label>
@@ -1748,8 +1749,8 @@
                         <p class="text-sm font-semibold text-center pb-2">Segundo trimestre</p>
                         <div class="grid grid-cols-10 gap-4 bg-gray-100">
                           <div class="col-span-10 sm:col-span-5 m-3">
-                            <p id="fecha_st_rft" class="text-base font-semibold p-1 text-center leading-none">hola</p>
-                            <p class="text-xs font-semibold text-center leading-none">Fecha</p>
+                            <p id="pst_rft" class="text-base font-semibold p-1 text-center leading-none">hola</p>
+                            <p class="text-xs font-semibold text-center leading-none">Porcentaje</p>
                           </div>
                           <div class="col-span-10 sm:col-span-5">
                             <div class="flex justify-center items-center h-full">
@@ -1771,8 +1772,9 @@
                         <p class="text-sm font-semibold text-center pb-2">Tercer trimestre</p>
                         <div class="grid grid-cols-10 gap-4">
                           <div class="col-span-10 sm:col-span-5">
-                            <input type="range" name="tercer_trimestre" id="tercer_trimestre"  class="mt-1 w-full" value="{{$sisplade->fecha_capturado}}">
-                            <label id="label_fecha_tt" for="fecha_tt" class="block text-xs font-semibold text-gray-700 text-center">Fecha*</label>
+                            <input type="range" name="t_trimestre" id="t_trimestre"  class="mt-1 w-full" >
+                            <label for="" class="block text-base font-bold text-center leading-none" id="porcentaje_t_trimestre">0%</label>
+                            <label id="label_fecha_tt" for="fecha_tt" class="block text-xs font-semibold text-gray-700 text-center">Porcentaje*</label>
                             <label id="error_fecha_tt" name="error_fecha_tt" class="hidden text-base font-normal text-red-500" >Ingrese una fecha valida</label>  
                           </div>
                           <div class="col-span-10 sm:col-span-5">
@@ -1780,7 +1782,7 @@
                               <input type="file" name="archivo_tt" id="archivo_tt" class="inputfile inputfile-2" multiple accept="application/pdf"/>
                               <label for="archivo_tt" class="flex justify-center items-center" style="border: 1px solid #D1D5DB; border-radius: 0.375rem; margin-top: 0.25rem; font-size: 0.875rem; line-height: 1.25rem; max-width: 100%; min-width: 100%">
                                   <svg xmlns="http://www.w3.org/2000/svg" class="iborrainputfile" width="20" height="17" viewBox="0 0 20 17"><path d="M10 0l-5.2 4.9h3.3v5.1h3.8v-5.1h3.3l-5.2-4.9zm9.3 11.5l-3.2-2.1h-2l3.4 2.6h-3.5c-.1 0-.2.1-.2.1l-.8 2.3h-6l-.8-2.2c-.1-.1-.1-.2-.2-.2h-3.6l3.4-2.6h-2l-3.2 2.1c-.4.3-.7 1-.6 1.5l.6 3.1c.1.5.7.9 1.2.9h16.3c.6 0 1.1-.4 1.3-.9l.6-3.1c.1-.5-.2-1.2-.7-1.5z"></path></svg>
-                                  <span class="iborrainputfile aux-arch">Seleccionar archivo</span>
+                                  <span class="iborrainputfile aux-arch" id="aux-arch-tt">Seleccionar archivo</span>
                               </label>
                             </div>
                             <label id="label_tt" class="block text-xs font-semibold text-gray-700 text-center">Archivo*</label>
@@ -1793,8 +1795,8 @@
                         <p class="text-sm font-semibold text-center pb-2">Tercer trimestre</p>
                         <div class="grid grid-cols-10 gap-4 bg-gray-100">
                           <div class="col-span-10 sm:col-span-5 m-3">
-                            <p id="fecha_tt_rft" class="text-base font-semibold p-1 text-center leading-none">hola</p>
-                            <p class="text-xs font-semibold text-center leading-none">Fecha</p>
+                            <p id="ptt_rft" class="text-base font-semibold p-1 text-center leading-none">hola</p>
+                            <p class="text-xs font-semibold text-center leading-none">Porcentaje</p>
                           </div>
                           <div class="col-span-10 sm:col-span-5">
                             <div class="flex justify-center items-center h-full">
@@ -1816,16 +1818,17 @@
                         <p class="text-sm font-semibold text-center pb-2">Cuarto trimestre</p>
                         <div class="grid grid-cols-10 gap-4">
                           <div class="col-span-10 sm:col-span-5">
-                            <input type="range" name="cuarto_trimestre" id="cuarto_trimestre" class="mt-1 w-full" value="{{$sisplade->fecha_capturado}}">
-                            <label id="label_fecha_ct" for="fecha_ct" class="block text-xs font-semibold text-gray-700 text-center">Fecha*</label>
-                            <label id="error_fecha_ct" name="error_fecha_ct" class="hidden text-base font-normal text-red-500" >Ingrese una fecha valida</label>  
+                            <input type="range" name="c_trimestre" id="c_trimestre" class="mt-1 w-full">
+                            <label for="" class="block text-base font-bold text-center leading-none" id="porcentaje_c_trimestre">0%</label>
+                            <label id="label_fecha_ct" for="fecha_ct" class="block text-xs font-semibold text-gray-700 text-center">Porcentaje*</label>
+                            <label id="error_fecha_ct" name="error_fecha_ct" class="hidden text-base font-normal text-red-500" >Ingrese un porcentaje valida</label>  
                           </div>
                           <div class="col-span-10 sm:col-span-5">
                             <div class="container-input flex justify-center items-center">
                               <input type="file" name="archivo_ct" id="archivo_ct" class="inputfile inputfile-2" multiple accept="application/pdf"/>
                               <label for="archivo_ct" class="flex justify-center items-center" style="border: 1px solid #D1D5DB; border-radius: 0.375rem; margin-top: 0.25rem; font-size: 0.875rem; line-height: 1.25rem; max-width: 100%; min-width: 100%">
                                   <svg xmlns="http://www.w3.org/2000/svg" class="iborrainputfile" width="20" height="17" viewBox="0 0 20 17"><path d="M10 0l-5.2 4.9h3.3v5.1h3.8v-5.1h3.3l-5.2-4.9zm9.3 11.5l-3.2-2.1h-2l3.4 2.6h-3.5c-.1 0-.2.1-.2.1l-.8 2.3h-6l-.8-2.2c-.1-.1-.1-.2-.2-.2h-3.6l3.4-2.6h-2l-3.2 2.1c-.4.3-.7 1-.6 1.5l.6 3.1c.1.5.7.9 1.2.9h16.3c.6 0 1.1-.4 1.3-.9l.6-3.1c.1-.5-.2-1.2-.7-1.5z"></path></svg>
-                                  <span class="iborrainputfile aux-arch">Seleccionar archivo</span>
+                                  <span class="iborrainputfile aux-arch" id="aux-arch-ct">Seleccionar archivo</span>
                               </label>
                             </div>
                             <label id="label_ct" class="block text-xs font-semibold text-gray-700 text-center">Archivo*</label>
@@ -1838,8 +1841,8 @@
                         <p class="text-sm font-semibold text-center pb-2">Cuarto trimestre</p>
                         <div class="grid grid-cols-10 gap-4 bg-gray-100">
                           <div class="col-span-10 sm:col-span-5 m-3">
-                            <p id="fecha_ct_rft" class="text-base font-semibold p-1 text-center leading-none">hola</p>
-                            <p class="text-xs font-semibold text-center leading-none">Fecha</p>
+                            <p id="pct_rft" class="text-base font-semibold p-1 text-center leading-none">hola</p>
+                            <p class="text-xs font-semibold text-center leading-none">Porcentaje</p>
                           </div>
                           <div class="col-span-10 sm:col-span-5">
                             <div class="flex justify-center items-center h-full">
@@ -1867,7 +1870,7 @@
               <button class="text-red-500 background-transparent font-bold uppercase px-6 text-sm outline-none focus:outline-none ease-linear transition-all duration-150" type="button" onclick="toggleModal('modal-rft')">
                 Cancelar
               </button>
-              <button type="submit" id="guardar_sisplade" class="text-blue-500 font-bold uppercase text-sm px-6 rounded outline-none focus:outline-none ease-linear transition-all duration-150" >
+              <button type="submit" id="guardar_rft" class="text-blue-500 font-bold uppercase text-sm px-6 rounded outline-none focus:outline-none ease-linear transition-all duration-150" >
                 Guardar
               </button>
             </div>
@@ -1930,16 +1933,16 @@
     </script>
     
     
-    @if(session('eliminar')=='ok')
-      <script>
-        Swal.fire({  
-          title: "Good job!",
-          text: "You clicked the button!",
-          icon: "success",
-          button: "Aww yiss!",
+    @if(session('mensaje')=='ok')
+        <script>
+            Swal.fire({  
+            title: '{{session('datos')[1]}}',
+            text: '{{session('datos')[2]}}',
+            icon: '{{session('datos')[0]}}',
+            button: "Ok",
 
-        })
-      </script>
+            })
+        </script>
     @endif
     
     <script>
@@ -2038,14 +2041,46 @@
       
     }
 
+    function rft_info(id, valor, archivo){
+      $("#"+id+"_trimestre").val(valor);
+      $("#p"+id+"t_rft").html(valor+"%");
+      $("#porcentaje_"+id+"_trimestre").html(valor+"%");
+      $("#link_"+id+"t_rft").attr("href", archivo);
+      $("#archivo_"+id+"t").val('');
+      if(archivo != null){
+        $("#proceso_"+id+"t_ok").removeClass('hidden');
+        $("#proceso_"+id+"t").addClass('hidden');
+      }else{
+        $("#proceso_"+id+"t_ok").addClass('hidden');
+        $("#proceso_"+id+"t").removeClass('hidden');
+      }
+    }
+
     function toggleModalRFT(modalID, rft){
-      $("#primer_trimestre").val(rft.primer_trimestre);
-      $("#segundo_trimestre").val(rft.primer_trimestre?rft.segundo_trimestre:'');
-      $("#tercer_trimestre").val(rft.segundo_trimestre?rft.tercer_trimestre:'');
-      $("#cuarto_trimestre").val(rft.tercer_trimestre?rft.cuarto_trimestre:'');
-      rft.primer_trimestre? $("#div_segundo_trimestre").removeClass('hidden'): $("#div_segundo_trimestre").addClass('hidden');
-      rft.segundo_trimestre? $("#div_tercer_trimestre").removeClass('hidden'): $("#div_tercer_trimestre").addClass('hidden');
-      rft.tercer_trimestre? $("#div_cuarto_trimestre").removeClass('hidden'): $("#div_cuarto_trimestre").addClass('hidden');
+
+      $("#rft_id").val(rft.id_rft);
+      $(".aux-arch").html("Seleccionar archivo")
+      rft_info("p",rft.primer_trimestre,rft.archivo_primer);
+      rft_info("s",rft.segundo_trimestre,rft.archivo_segundo);
+      rft_info("t",rft.tercer_trimestre,rft.archivo_tercer);
+      rft_info("c",rft.cuarto_trimestre,rft.archivo_cuarto ); 
+      
+      
+      if(rft.archivo_primer == null){
+        $("#st").addClass('hidden');
+        $("#tt").addClass('hidden');
+        $("#ct").addClass('hidden');
+
+        if(rft.archivo_segundo == null){
+          $("#tt").addClass('hidden');
+          $("#ct").addClass('hidden');
+
+          if(rft.archivo_tercero != null){
+            $("#ct").addClass('hidden');
+          } 
+        }
+      }
+
       $("#rft_id").val(rft.id_rft);
 
       document.getElementById(modalID).classList.toggle("hidden");
@@ -2439,6 +2474,8 @@
 
             monto_asignado = parseFloat($("#label_monto_asignado_prodim").html().replaceAll("$", "").replaceAll(",","") - {{$total_prodim?$total_prodim:0 }});
             monto_capturado = $(this).val().length == 0?0:parseFloat($(this).val().replaceAll(",", ""));
+
+            console.log(monto_asignado);
             
             if(monto_capturado > monto_asignado){
               $("#error_monto_prodim_superior").removeClass('hidden');
@@ -2486,6 +2523,7 @@
         monto_prodim: { required: true},        
       },
       errorPlacement: function(error, element) {
+        alert("HOLA MUNDO JAJA");
         if(error != null){
             $('#error_'+element.attr('id')).fadeIn();
             $("#label_"+element.attr('id')).addClass('text-red-500');
@@ -2556,19 +2594,19 @@
     $("#guardar_concepto").click(function () {
         monto_asignado = parseFloat($("#label_monto_restante_conc").html().replaceAll("$ ", "").replaceAll(",",""));
         monto_capturado = parseFloat($("#monto_concepto").val().replaceAll(",", ""));
-        
+        mensaje = true;
             
         if(monto_capturado > monto_asignado){
             $("#error_monto_concepto_superior").removeClass('hidden');
             $("#error_monto_concepto").removeClass('hidden');
-            $("#fecha_asignacion").change();
-            $("#fecha_asignacion").keyUp();
-            return false;
+            mensaje = false;
         }else{
             $("#error_monto_concepto_superior").addClass('hidden');
             $("#error_monto_concepto").addClass('hidden');
-            return true;
+            
         }
+
+        return mensaje;
     });
 
     $("#formulario_concepto").validate({
@@ -2834,7 +2872,6 @@
 
     $("#fecha_firma, #archivo_firma").on({
         'change': function(event){
-          console.log("ejemplo de hola mundo");
           fecha = new Date($("#fecha_firma").val());
           archivo = $("#archivo_firma").val().length;
           if(fecha != "Invalid Date" && archivo != 0){
@@ -2880,94 +2917,121 @@
       },
     });
 
-    $('#primer_trimestre').on({
-        "keydown": function(event) {
-          console.log(event.keyCode);
-            if(event.keyCode > 8 && event.keyCode < 96 || event.keyCode > 105){                
-                return false;
-            }
-
+    $('#p_trimestre').on({
+        "mousemove": function(event) {
+          $("#porcentaje_p_trimestre").text($(this).val()+"%")
+          $("#ppt_rft").text($(this).val()+"%")
         },
-        "keyup": function(event) {
-            valor = $(this).val();
-            if(valor > 100)
-                $(this).val("100");
-
-            if(valor == "")
-              $(this).val("0");
-            
+        "click": function(event) {
+          $("#porcentaje_p_trimestre").text($(this).val()+"%")
+          $("#ppt_rft").text($(this).val()+"%")
+        }
+        
+    });
+    $('#s_trimestre').on({
+        "mousemove": function(event) {
+          $("#porcentaje_s_trimestre").text($(this).val()+"%")
+          $("#pst_rft").text($(this).val()+"%")
         },
-        "change": function(event) {
-            console.log($(this).val())
+        "click": function(event) {
+          $("#porcentaje_s_trimestre").text($(this).val()+"%")
+          $("#pst_rft").text($(this).val()+"%")
         },
     });
-    $('#segundo_trimestre').on({
-        "keydown": function(event) {
-          console.log(event.keyCode);
-            if(event.keyCode > 8 && event.keyCode < 96 || event.keyCode > 105){                
-                return false;
-            }
 
+    $('#t_trimestre').on({
+        "mousemove": function(event) {
+          $("#porcentaje_t_trimestre").text($(this).val()+"%")
+          $("#ptt_rft").text($(this).val()+"%")
         },
-        "keyup": function(event) {
-            valor = $(this).val();
-            valor_primer = $("#primer_trimestre").val();
-            if(valor < valor_primer)
-                $(this).val(valor_primer);
-
-            if(valor > 100)
-                $(this).val("100");
-
-            if(valor == "")
-              $(this).val(valor_primer);
-            
-        }
+        "click": function(event) {
+          $("#porcentaje_t_trimestre").text($(this).val()+"%")
+          $("#ptt_rft").text($(this).val()+"%")
+        },
     });
 
-    $('#tercer_trimestre').on({
-        "keydown": function(event) {
-          console.log(event.keyCode);
-            if(event.keyCode > 8 && event.keyCode < 96 || event.keyCode > 105){                
-                return false;
-            }
-
+    $('#c_trimestre').on({
+        "mousemove": function(event) {
+          $("#porcentaje_c_trimestre").text($(this).val()+"%")
+          $("#pct_rft").text($(this).val()+"%")
         },
-        "keyup": function(event) {
-            valor = $(this).val();
-            valor_primer = $("#segundo_trimestre").val();
-            if(valor < valor_primer)
-                $(this).val(valor_primer);
-
-            if(valor > 100)
-                $(this).val("100");
-
-            if(valor == "")
-              $(this).val(valor_primer);
-            
-        }
+        "click": function(event) {
+          $("#porcentaje_c_trimestre").text($(this).val()+"%")
+          $("#pct_rft").text($(this).val()+"%")
+        },
     });
 
-    $('#cuarto_trimestre').on({
-        "keydown": function(event) {
-          console.log(event.keyCode);
-            if(event.keyCode > 8 && event.keyCode < 96 || event.keyCode > 105){                
-                return false;
-            }
-
-        },
-        "keyup": function(event) {
-            valor = $(this).val();
-            valor_primer = $("#tercer_trimestre").val();
-            if(valor < valor_primer)
-                $(this).val(valor_primer);
-
-            if(valor > 100)
-                $(this).val("100");
-
-            if(valor == "")
-              $(this).val(valor_primer);
-            
+    $("#archivo_pt").on({
+      'change': function(event){
+        archivo = $(this).val().length;
+        if(archivo > 0){
+          $("#st").removeClass("hidden");
+        }else{
+          $("#st").addClass("hidden");
+          $("#archivo_st").val('');
+          $("#aux-arch-st").html("Seleccionar archivo");
+          $("#tt").addClass("hidden");
+          $("#archivo_tt").val('');
+          $("#aux-arch-tt").html("Seleccionar archivo");
+          $("#ct").addClass("hidden");
+          $("#archivo_ct").val('');
+          $("#aux-arch-ct").html("Seleccionar archivo");
         }
+      }
+    });
+    $("#archivo_st").on({
+      'change': function(event){
+        archivo = $(this).val().length;
+        anterior = $("#ppt_rft").text().replace("%",'');
+        actual = $("#pst_rft").text().replace("%",'');
+        console.log(actual > anterior)
+        if(archivo > 0){
+          $("#tt").removeClass("hidden");
+        }else{
+          $("#tt").addClass("hidden");
+          $("#archivo_tt").val('');
+          $("#aux-arch-tt").html("Seleccionar archivo");
+          $("#ct").addClass("hidden");
+          $("#archivo_ct").val('');
+          $("#aux-arch-ct").html("Seleccionar archivo");
+        }
+      }
+    });
+    $("#archivo_tt").on({
+      'change': function(event){
+        archivo = $(this).val().length;
+        if(archivo > 0){
+          $("#ct").removeClass("hidden");
+        }else{
+          $("#ct").addClass("hidden");
+          $("#archivo_ct").val('');
+          $("#aux-arch-ct").html("Seleccionar archivo");
+        }
+      }
+    });
+    $("#guardar_rft").click(function () {
+      
+      pt = parseInt($('#ppt_rft').text().replace("%",''));
+      st = parseInt($('#pst_rft').text().replace("%",''));
+      tt = parseInt($('#ptt_rft').text().replace("%",''));
+      ct = parseInt($('#pct_rft').text().replace("%",''));
+      valido = true;
+      console.log(tt)
+      console.log(ct)
+      if(!$("#proceso_st").hasClass("hidden") && $("#archivo_st").val().length > 0 && pt > st){
+          valido = false;
+          console.log("errror 1");
+      }
+      if(!$("#proceso_tt").hasClass("hidden") && $("#archivo_tt").val().length > 0 && st > tt){
+          valido = false;
+          console.log("errror 2");
+      }
+      if(!$("#proceso_ct").hasClass("hidden") && $("#archivo_ct").val().length > 0 && tt > ct){
+          valido = false;
+          console.log("errror 3");
+      }
+      
+      return valido;
     });
   });
   
@@ -2977,3 +3041,4 @@
   </script>
 
 @endsection
+
