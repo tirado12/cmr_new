@@ -12,6 +12,15 @@
     <h1 class="font-bold text-xl ml-2">Crear obra</h1>
 </div>
 
+    <div class="flex flex-row items-center ">
+        <img class="block h-24 w-24 rounded-full shadow-2xl" src="{{$cliente->logo}}" alt="cmr">
+        <div class="ml-4 grid grid-col-1">
+            <p class="block font-black text-xl">Crear obra pública</p>
+            <p class="block font-black text-xl">{{$cliente->id_municipio}} - {{$cliente->nombre_municipio}}</p>
+            <p class="text-gray-600">{{$cliente->id_distrito}} {{$cliente->nombre_distrito}} - {{$cliente->id_region}} {{$cliente->nombre_region}}</p>
+        </div>
+    </div>
+
     @if ($errors->any())
       <div class="alert flex flex-row items-center bg-yellow-200 p-2 rounded-lg border-b-2 border-yellow-300 mb-4 shadow">
         <div class="alert-icon flex items-center bg-yellow-100 border-2 border-yellow-500 justify-center h-10 w-10 flex-shrink-0 rounded-full">
@@ -37,6 +46,27 @@
       </div>
     @endif
 
+    <div class="mt-7">
+        <div class="w-full  px-3">
+            <p class="text-gray-600">
+                <a href="/inicio" class="text-blue-500">
+                    <i class="fas fa-home" aria-hidden="true"></i> Inicio
+                </a>
+                - 
+                <a href="/cliente/ver/{{$cliente->id_cliente}}" class="text-blue-500">
+                    <i class="fas fa-user" aria-hidden="true"></i> Cliente
+                </a> 
+                -
+                <a href="/cliente/ejercicio/{{$cliente->id_cliente}},{{$anio}}" class="text-blue-500">
+                    <i class="fas fa-calendar" aria-hidden="true"></i> {{$anio}} 
+                </a> 
+                - 
+                
+                <i class="fas fa-pen-to-square" aria-hidden="true"></i> Crear obra
+            </p>
+        </div>
+    </div>
+
 <div class="mt-10 sm:mt-0 shadow-2xl bg-white rounded-lg container">
     <div class="mt-6 contenedor p-8 shadow-2xl bg-white rounded-lg">
         
@@ -50,7 +80,7 @@
                     <div class="grid grid-cols-8 gap-6 mt-10">
                         <div class="col-span-10 md:col-span-4">
                             <label  id="label_cliente_id" for="cliente_id" class="block text-sm font-bold text-gray-700">Municipio</label>
-                            <label id="cliente_nombre" class="block text-base font-medium text-gray-700 py-3 px-2">{{$cliente->nombre}}</label>
+                            <label id="cliente_nombre" class="block text-base font-medium text-gray-700 py-3 px-2">{{$cliente->nombre_municipio}}</label>
                             <input type="text" name="cliente_id" id="cliente_id" class="hidden border-none block text-base font-medium text-gray-700 py-3 px-2" value="{{$cliente->id_cliente}}">
                         </div>
                         <div class="col-span-5 md:col-span-2">

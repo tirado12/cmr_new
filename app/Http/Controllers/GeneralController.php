@@ -183,7 +183,6 @@ class GeneralController extends Controller
             $sisplade = Sisplade::where('fuentes_clientes_id', $fuente_f3->id_fuente_financ_cliente)->first();
         }
 
-
         
         return view('ejercicio.ejercicio', 
         compact(
@@ -218,7 +217,12 @@ class GeneralController extends Controller
 
         $cliente = Cliente::find($id)
         ->join('municipios','municipios.id_municipio','=','municipio_id')
+        ->join('distritos','distritos.id_distrito', '=', 'distrito_id')
+        ->join('regiones','regiones.id_region', '=', 'region_id')
+        ->select('id_cliente', 'anio_inicio', 'anio_fin', 'logo', 'id_municipio', 'id_distrito', 'id_region', 'municipios.nombre as nombre_municipio', 'regiones.nombre as nombre_region', 'distritos.nombre as nombre_distrito')
         ->first();
+
+        
 
         $fuentes_cliente = FuentesCliente::where("cliente_id",$id)
         ->where('ejercicio',$anio)
@@ -252,8 +256,8 @@ class GeneralController extends Controller
         $mensaje = 'ok';
         $datos = ['success', '¡PROCESO EXITOSO!', 'El expediente de obra se actualizó correctamente'];
         
-        DB::beginTransaction();
-        try {
+        /*DB::beginTransaction();
+        try {*/
 
             $obra_relaciones = ObraModalidadEjecucion::where('obra_id', $request->id_obra)->first();
             
@@ -449,11 +453,11 @@ class GeneralController extends Controller
                 $observaciones->update();
             }
 
-            DB::commit();
+            /*DB::commit();
         } catch (\Exception $e) {
             DB::rollback();
             $datos = ['error', '¡ERROR!', 'No se ha podido actualizar el expediente'];
-        }
+        }*/
         
         return redirect()->route('obra.ver', ['id' => $request->id_obra])->with('mensaje', 'ok')->with('datos', $datos);
     }
@@ -470,8 +474,9 @@ class GeneralController extends Controller
         ->join('distritos', 'distritos.id_distrito', '=', 'distrito_id')
         ->join('regiones', 'regiones.id_region', '=', 'region_id')
         ->join('estados', 'estados.id_estado', '=', 'estado_id')
-        ->select('id_obra','nombre_localidad','municipios.nombre as nombre_municipio', 'distritos.nombre as nombre_distrito', 'regiones.nombre as nombre_region', 'estados.nombre as nombre_estado', 'oficio_notificacion', 'monto_contratado', 'monto_modificado', 'nombre_obra', 'fecha_inicio_programada', 'fecha_final_programada', 'id_obra', 'anticipo_porcentaje', 'modalidad_ejecucion', 'obras.nombre_corto as nombre_corto_obra', 'ejercicio')
+        ->select('id_obra','nombre_localidad','municipios.nombre as nombre_municipio', 'distritos.nombre as nombre_distrito', 'regiones.nombre as nombre_region', 'estados.nombre as nombre_estado', 'oficio_notificacion', 'monto_contratado', 'monto_modificado', 'nombre_obra', 'fecha_inicio_programada', 'fecha_final_programada', 'id_obra', 'anticipo_porcentaje', 'modalidad_ejecucion', 'obras.nombre_corto as nombre_corto_obra', 'ejercicio', 'id_municipio', 'id_region', 'id_distrito')
         ->first();
+
 
         $observaciones = ObraObservaciones::where('obra_id', $obra->id_obra)->first();
 
@@ -625,8 +630,9 @@ class GeneralController extends Controller
         ->join('distritos', 'distritos.id_distrito', '=', 'distrito_id')
         ->join('regiones', 'regiones.id_region', '=', 'region_id')
         ->join('estados', 'estados.id_estado', '=', 'estado_id')
-        ->select('id_obra', 'numero_obra', 'nombre_localidad','municipios.nombre as nombre_municipio', 'distritos.nombre as nombre_distrito', 'regiones.nombre as nombre_region', 'estados.nombre as nombre_estado', 'oficio_notificacion', 'monto_contratado', 'monto_modificado', 'nombre_obra', 'fecha_inicio_programada', 'fecha_final_programada', 'fecha_final_real', 'id_obra', 'anticipo_porcentaje', 'modalidad_ejecucion', 'obras.nombre_corto as nombre_corto_obra', 'ejercicio', 'anticipo_monto', 'id_municipio', 'avance_fisico', 'avance_economico', 'avance_tecnico', 'nombre_archivo', 'fecha_oficio_notificacion')
+        ->select('id_cliente', 'logo', 'id_obra', 'numero_obra', 'nombre_localidad','municipios.nombre as nombre_municipio', 'distritos.nombre as nombre_distrito', 'regiones.nombre as nombre_region', 'estados.nombre as nombre_estado', 'oficio_notificacion', 'monto_contratado', 'monto_modificado', 'nombre_obra', 'fecha_inicio_programada', 'fecha_final_programada', 'fecha_final_real', 'id_obra', 'anticipo_porcentaje', 'modalidad_ejecucion', 'obras.nombre_corto as nombre_corto_obra', 'ejercicio', 'anticipo_monto', 'id_municipio', 'avance_fisico', 'avance_economico', 'avance_tecnico', 'nombre_archivo', 'fecha_oficio_notificacion')
         ->first();
+
 
         $observaciones = ObraObservaciones::where('obra_id', $obra->id_obra)->first();
 
@@ -782,7 +788,7 @@ class GeneralController extends Controller
             ->select('id_proveedor', 'razon_social', 'rfc')
             ->get();
         }        
-
+        //return $obra;
 
         $obj_obra = collect(
             ['obra' => $obra,
@@ -798,7 +804,6 @@ class GeneralController extends Controller
 
     public function store_obra(Request $request)
     {
-        return $request;
 
         $request->validate([
             "monto_contratado" => 'required',
@@ -1159,8 +1164,9 @@ class GeneralController extends Controller
         ->join('distritos', 'distritos.id_distrito', '=', 'distrito_id')
         ->join('regiones', 'regiones.id_region', '=', 'region_id')
         ->join('estados', 'estados.id_estado', '=', 'estado_id')
-        ->select('id_obra','avance_fisico','nombre_localidad','municipios.nombre as nombre_municipio', 'distritos.nombre as nombre_distrito', 'regiones.nombre as nombre_region', 'estados.nombre as nombre_estado', 'oficio_notificacion', 'monto_contratado', 'monto_modificado', 'nombre_obra', 'fecha_inicio_programada', 'fecha_final_programada', 'id_obra', 'anticipo_porcentaje', 'anticipo_monto', 'modalidad_ejecucion', 'obras.nombre_corto as nombre_corto_obra', 'ejercicio', 'numero_obra')
+        ->select('id_cliente' ,'id_obra', 'logo', 'avance_fisico','nombre_localidad','municipios.nombre as nombre_municipio', 'distritos.nombre as nombre_distrito', 'regiones.nombre as nombre_region', 'estados.nombre as nombre_estado', 'oficio_notificacion', 'monto_contratado', 'monto_modificado', 'nombre_obra', 'fecha_inicio_programada', 'fecha_final_programada', 'id_obra', 'anticipo_porcentaje', 'anticipo_monto', 'modalidad_ejecucion', 'obras.nombre_corto as nombre_corto_obra', 'ejercicio', 'numero_obra', 'id_municipio', 'id_distrito', 'id_region')
         ->first();
+
         
         $obra_contrato = ObrasContrato::where('id_obra_contrato',$pagos_obra->obra_contrato_id)
         ->select('fianza_anticipo', 'factura_anticipo', 'fianza_cumplimiento', 'id_obra_contrato')
@@ -1806,8 +1812,12 @@ class GeneralController extends Controller
     public function update_prodim(Request $request)
     {
 
+        //return $request;
+
         $mensaje = 'ok';
         $datos = ['success', '¡PROCESO EXITOSO!', 'Se actualizó correctamente el proceso del PRODIM'];
+
+        
         
         DB::beginTransaction();
         try {
@@ -1823,6 +1833,22 @@ class GeneralController extends Controller
 
             $prodim->convenio = $request->fecha_convenio?1:$prodim->convenio;
             $prodim->fecha_convenio = $request->fecha_convenio?$request->fecha_convenio:$prodim->fecha_convenio;
+
+            $cliente = Cliente::find($request->cliente_id);
+
+            if (!empty($request->file('convenio_archivo')) && $prodim->convenio == 1) {
+
+                $file = $request->file('convenio_archivo');
+                
+                //Move Uploaded File
+                
+                $destinationPath = './uploads/municipios/'.$cliente->municipio_id.'/'.$request->ejercicio.'/'.'prodim/';
+                $name = 'Convenio PRODIM '.$cliente->municipio_id.' '.$request->ejercicio.'.'.$file->getClientOriginalExtension();
+                $file->move($destinationPath, $name);
+                $destinationPath = '/uploads/municipios/'.$cliente->municipio_id.'/'.$request->ejercicio.'/'.'prodim/'.$name;
+                $prodim->acuse_prodim = $destinationPath;
+            }
+
             $prodim->update();
             DB::commit();
         } catch (\Exception $e) {

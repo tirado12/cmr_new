@@ -10,14 +10,26 @@
         rel="stylesheet">
     <link rel="stylesheet"
         href="https://cdn.datatables.net/buttons/1.6.4/css/buttons.dataTables.min.css">
-<div class="flex flex-row items-center ">
-    <img class="block ml-8 h-24 w-24 rounded-full shadow-2xl" src="{{$cliente->logo}}" alt="cmr">
-    <div class="ml-4 grid grid-col-1">
-        <p class="block font-black text-xl">{{$cliente->id_municipio}} - {{$cliente->nombre_municipio}}</p>
-        <p class="text-gray-600">{{$cliente->id_distrito}} {{$cliente->nombre_distrito}} - {{$cliente->id_region}} {{$cliente->nombre_region}}</p>
-        <p class="text-gray-600"></p>
+    <div class="flex flex-row items-center ">
+        <img class="block ml-8 h-24 w-24 rounded-full shadow-2xl" src="{{$cliente->logo}}" alt="cmr">
+        <div class="ml-4 grid grid-col-1">
+            <p class="block font-black text-xl">{{$cliente->id_municipio}} - {{$cliente->nombre_municipio}}</p>
+            <p class="text-gray-600">{{$cliente->id_distrito}} {{$cliente->nombre_distrito}} - {{$cliente->id_region}} {{$cliente->nombre_region}}</p>
+            
+        </div>
     </div>
-</div>
+
+    <div class="mt-7">
+        <div class="w-full  px-3">
+            <p class="text-gray-600">
+                <a href="/inicio" class="text-blue-500">
+                <i class="fas fa-home" aria-hidden="true"></i> Inicio
+                </a>
+                - 
+                <i class="fas fa-user" aria-hidden="true"></i> Cliente  
+            </p>
+        </div>
+    </div>
 
 
     <div class="grid sm:grid-cols-4 sm:gap-4">

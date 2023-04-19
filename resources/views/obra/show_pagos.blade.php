@@ -10,6 +10,39 @@
     <link href="https://cdn.datatables.net/responsive/2.2.3/css/responsive.dataTables.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.datatables.net/buttons/1.6.4/css/buttons.dataTables.min.css">
 
+    <div class="flex flex-row items-center ">
+        <img class="block h-24 w-24 rounded-full shadow-2xl" src="{{$obra->logo}}" alt="cmr">
+        <div class="ml-4 grid grid-col-1">
+            <p class="block font-black text-xl">Detalles de la obra</p>
+            <p class="block font-black text-xl">{{$obra->id_municipio}} - {{$obra->nombre_municipio}}</p>
+            <p class="text-gray-600">{{$obra->id_distrito}} {{$obra->nombre_distrito}} - {{$obra->id_region}} {{$obra->nombre_region}}</p>
+        </div>
+    </div>
+
+    <div class="mt-7 mb-7">
+        <div class="w-full  px-3">
+            <p class="text-gray-600">
+                <a href="/inicio" class="text-blue-500">
+                    <i class="fas fa-home" aria-hidden="true"></i> Inicio
+                </a>
+                - 
+                <a href="/cliente/ver/{{$obra->id_cliente}}" class="text-blue-500">
+                    <i class="fas fa-user" aria-hidden="true"></i> Cliente
+                </a> 
+                -
+                <a href="/cliente/ejercicio/{{$obra->id_cliente}},{{$obra->ejercicio}}" class="text-blue-500">
+                    <i class="fas fa-calendar" aria-hidden="true"></i> {{$obra->ejercicio}}
+                </a> 
+                - 
+                <a href="/obra/ver/{{$obra->id_obra}}" class="text-blue-500">
+                    <i class="fas fa-calendar" aria-hidden="true"></i> Obra
+                </a> 
+                -                 
+                <i class="fas fa-pen-to-square" aria-hidden="true"></i> Modificar expediente técnico
+            </p>
+        </div>
+    </div>
+
 
     @if ($errors->any())
       <div class="alert flex flex-row items-center bg-yellow-200 p-2 rounded-lg border-b-2 border-yellow-300 mb-4 shadow">

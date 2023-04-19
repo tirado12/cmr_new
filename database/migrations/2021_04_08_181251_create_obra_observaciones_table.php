@@ -16,7 +16,7 @@ class CreateObraObservacionesTable extends Migration
         Schema::create('obra_observaciones', function (Blueprint $table) {
             $table->unsignedBigInteger('obra_id');
             $table->foreign('obra_id')->references('id_obra')->on('obras');
-            $table->text('observacion');
+            $table->text('observacion')->nullable();
             $table->timestamps();
         });
     }

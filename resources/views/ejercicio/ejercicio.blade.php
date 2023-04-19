@@ -25,7 +25,6 @@
             <p class="block font-black text-xl">Ejercicio {{$anio}}</p>
             <p class="block font-black text-xl">{{$cliente->id_municipio}} - {{$cliente->nombre_municipio}}</p>
             <p class="text-gray-600">{{$cliente->id_distrito}} {{$cliente->nombre_distrito}} - {{$cliente->id_region}} {{$cliente->nombre_region}}</p>
-            <p class="text-gray-600"></p>
         </div>
     </div>
     
@@ -53,6 +52,21 @@
         </div>
       </div>
     @endif
+    <div class="mt-7">
+        <div class="w-full  px-3">
+            <p class="text-gray-600">
+                <a href="/inicio" class="text-blue-500">
+                    <i class="fas fa-home" aria-hidden="true"></i> Inicio
+                </a>
+                - 
+                <a href="/cliente/ver/{{$cliente->id_cliente}}" class="text-blue-500">
+                    <i class="fas fa-user" aria-hidden="true"></i> Cliente
+                </a> 
+                -
+                <i class="fas fa-calendar" aria-hidden="true"></i> {{$anio}} 
+            </p>
+        </div>
+    </div>
     @if($fuentes_cliente->where('fuente_financiamiento_id', 2)->first() != null && $fuentes_cliente->where('fuente_financiamiento_id', 2)->first()->prodim)
       <div class="mt-4">
         <div class="w-full ">
@@ -195,7 +209,7 @@
                       </div>
                       @if($fuentes_cliente->where('fuente_financiamiento_id', 2)->first()->monto_prodim == $total_prodim)
                         <div class="col-span-8">
-                            <div class="p-4 grid grid-cols-8">
+                            <div class="p-4 grid grid-cols-8 gap-2">
                               @if($prodim->convenio == 2)
                                 <div class="col-span-8">
                                   <div class="font-semibold text-center mt-2 ">
@@ -205,16 +219,31 @@
                                   </div>
                                 </div>
                               @endif
-                                <div class="col-span-8 sm:col-span-2">
-                                    <p for="first_name" class="block text-base font-bold text-gray-700 text-center">Presentado</p>
-                                    <div class="mt-2">
+                              @if($prodim->convenio == 1)
+                                <div class="col-span-8">
+                                  <div class="font-semibold text-center mt-2 ">
+                                    <div class="flex justify-center">
+                                      <a id="link_capturado_mids" href="{{$prodim->acuse_prodim}}" target="_blank">
+                                        <p class="block text-base font-semibold text-blue-700 text-center">
+                                          <i class="fas fa-eye"></i> Convenio PRODIM
+                                        </p>
+                                      </a>
+                                    </div>
+                                  </div>
+                                </div>
+                              @endif
+                                <div class="col-span-8 sm:col-span-2 border">
+                                    <div class="bg-gray-100 border-b-1 p-2">
+                                        <p for="first_name" class="block text-base font-semibold text-center">Presentado</p>
+                                    </div>
+                                    <div class="p-2">
                                         @switch($prodim->presentado)
                                           @case(1)
                                               <div class="flex justify-center max-h-8">
                                                   <img src="{{ asset('image/Bien.svg') }}" alt="Workflow" >
                                               </div>
                                               <div>
-                                                  <p class="block text-base font-semibold text-gray-500 text-center">{{$service->formatDate($prodim->fecha_presentado)}}</p>
+                                                  <p class="block text-base font-normal text-center">{{$service->formatDate($prodim->fecha_presentado)}}</p>
                                               </div>
                                           @break
                                           @default
@@ -224,16 +253,18 @@
                                         @endswitch
                                     </div>
                                 </div>
-                                <div class="col-span-8 sm:col-span-2">
-                                    <p for="first_name" class="block text-base font-bold text-gray-700 text-center">Revisado</p>
-                                    <div class="mt-2">
+                                <div class="col-span-8 sm:col-span-2 border">
+                                    <div class="bg-gray-100 border-b-1 p-2">
+                                        <p for="first_name" class="block text-base font-semibold text-center">Revisado</p>
+                                    </div>
+                                    <div class="p-2">
                                         @switch($prodim->revisado)
                                           @case(1)
                                               <div class="flex justify-center max-h-8">
                                                   <img src="{{ asset('image/Bien.svg') }}" alt="Workflow" >
                                               </div>
                                               <div>
-                                                  <p class="block text-base font-semibold text-gray-500 text-center">{{$service->formatDate($prodim->fecha_revisado)}}</p>
+                                                  <p class="block text-base font-normal text-center">{{$service->formatDate($prodim->fecha_revisado)}}</p>
                                               </div>
                                           @break
                                           @default
@@ -243,16 +274,18 @@
                                         @endswitch
                                     </div>
                                 </div>
-                                <div class="col-span-8 sm:col-span-2">
-                                    <p for="first_name" class="block text-base font-bold text-gray-700 text-center">Aprobado</p>
-                                    <div class="mt-2">
+                                <div class="col-span-8 sm:col-span-2 border">
+                                    <div class="bg-gray-100 border-b-1 p-2">
+                                        <p for="first_name" class="block text-base font-semibold text-center">Aprobado</p>
+                                    </div>
+                                    <div class="p-2">
                                         @switch($prodim->aprovado)
                                           @case(1)
                                               <div class="flex justify-center max-h-8">
                                                   <img src="{{ asset('image/Bien.svg') }}" alt="Workflow" >
                                               </div>
                                               <div>
-                                                  <p class="block text-base font-semibold text-gray-500 text-center">{{$service->formatDate($prodim->fecha_aprovado)}}</p>
+                                                  <p class="block text-base font-normal text-center">{{$service->formatDate($prodim->fecha_aprovado)}}</p>
                                               </div>
                                           @break
                                           @default
@@ -262,16 +295,18 @@
                                         @endswitch
                                     </div>
                                 </div>
-                                <div class="col-span-8 sm:col-span-2">
-                                    <p for="first_name" class="block text-base font-bold text-gray-700 text-center">Firma de convenio</p>
-                                    <div class="mt-2">
+                                <div class="col-span-8 sm:col-span-2 border">
+                                    <div class="bg-gray-100 border-b-1 p-2">
+                                        <p for="first_name" class="block text-base font-semibold text-center">Firma de convenio</p>
+                                    </div>
+                                    <div class="p-2">
                                         @switch($prodim->convenio)
                                           @case(1)
                                               <div class="flex justify-center max-h-8">
                                                   <img src="{{ asset('image/Bien.svg') }}" alt="Workflow" >
                                               </div>
                                               <div>
-                                                  <p class="block text-base font-semibold text-gray-500 text-center">{{$service->formatDate($prodim->fecha_convenio)}}</p>
+                                                  <p class="block text-base font-normal text-center">{{$service->formatDate($prodim->fecha_convenio)}}</p>
                                               </div>
                                           @break
                                           @default
@@ -1222,7 +1257,7 @@
             </button>
           </div>
           <!--body-->
-          <form action="{{ route('update_prodim') }}" method="POST" id="formulario_proceso" name="formulario_proceso">
+          <form action="{{ route('update_prodim') }}" method="POST" id="formulario_proceso" name="formulario_proceso" enctype="multipart/form-data">
             @csrf
             @method('POST')
             <div class="relative p-6 flex-auto">
@@ -1262,14 +1297,14 @@
                     @endif
                     @if($prodim->aprovado == 1)
                         <div class="col-span-5">
-                            <label class="block text-sm font-semibold text-gray-700">Fecha de aprovación*</label>
+                            <label class="block text-sm font-semibold text-gray-700">Fecha de aprobación*</label>
                             <div id="label_fecha_aprovado" class="mt-1 py-2 px-3">
                                 <label class="text-base font-bold text-gay-500" >{{$service->formatDate($prodim->fecha_aprovado)}}</label>
                             </div>
                         </div>
                     @else
                         <div  id="div_aprovado" class="{{$prodim->revisado == 1?'':'hidden'}} col-span-5">
-                            <label id="label_fecha_aprovado" class="block text-sm font-semibold text-gray-700">Fecha de aprovación * </label>
+                            <label id="label_fecha_aprovado" class="block text-sm font-semibold text-gray-700">Fecha de aprobación * </label>
                             <input type="date" name="fecha_aprovado" id="fecha_aprovado" min="{{$prodim->fecha_revisado?$prodim->fecha_revisado:$anio.'-02-01'}}" max="{{$anio}}-12-31" class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md" >
                             <label id="error_fecha_aprovado" class="hidden text-base font-normal text-red-500" >Ingrese una fecha valida</label>    
                         </div>
@@ -1282,11 +1317,34 @@
                                 <label class="text-base font-bold text-gay-500" >{{$service->formatDate($prodim->fecha_convenio)}}</label>
                             </div>
                         </div>
+                        <div class="col-span-10">
+                            <label class="block text-sm font-semibold text-gray-700">Convenio del PRODIM*</label>
+                            <div id="label_fecha_convenio" class="mt-1 py-2 px-3">
+                                <label class="text-base font-bold text-gay-500" >{{$service->formatDate($prodim->fecha_convenio)}}</label>
+                            </div>
+                        </div>
                     @else
                         <div  id="div_convenio" class="{{$prodim->aprovado == 1?'':'hidden'}} col-span-5">
                             <label id="label_fecha_convenio" class="block text-sm font-semibold text-gray-700">Firma de convenio*</label>
                             <input type="date" name="fecha_convenio" id="fecha_convenio" min="{{$prodim->fecha_aprovado?$prodim->fecha_aprovado:$anio.'-02-01'}}" max="{{$anio}}-12-31" class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md" >
                             <label id="error_fecha_convenio" class="hidden text-base font-normal text-red-500" >Ingrese una fecha valida</label>    
+                        </div>
+                        <div  id="div_convenio_archivo" class="{{$prodim->aprovado == 1?'':'hidden'}} col-span-10">
+                            <label id="label_convenio_archivo" class="block text-sm font-semibold text-gray-700">Convenio del PRODIM*</label>
+                            <div class="grid grid-cols-10 gap-4">
+                          
+                              <div class="col-span-10">
+                                <div class="container-input flex justify-center items-center">
+                                  <input type="file" name="convenio_archivo" id="convenio_archivo" class="inputfile inputfile-2" multiple accept="application/pdf"/>
+                                  <label for="convenio_archivo" class="flex justify-center items-center" style="border: 1px solid #D1D5DB; border-radius: 0.375rem; margin-top: 0.25rem; font-size: 0.875rem; line-height: 1.25rem; max-width: 100%; min-width: 100%">
+                                      <svg xmlns="http://www.w3.org/2000/svg" class="iborrainputfile" width="20" height="17" viewBox="0 0 20 17"><path d="M10 0l-5.2 4.9h3.3v5.1h3.8v-5.1h3.3l-5.2-4.9zm9.3 11.5l-3.2-2.1h-2l3.4 2.6h-3.5c-.1 0-.2.1-.2.1l-.8 2.3h-6l-.8-2.2c-.1-.1-.1-.2-.2-.2h-3.6l3.4-2.6h-2l-3.2 2.1c-.4.3-.7 1-.6 1.5l.6 3.1c.1.5.7.9 1.2.9h16.3c.6 0 1.1-.4 1.3-.9l.6-3.1c.1-.5-.2-1.2-.7-1.5z"></path></svg>
+                                      <span class="iborrainputfile aux-arch" id="aux-arch-ca">Seleccionar archivo</span>
+                                  </label>
+                                </div>
+                                <label id="label_convenio" class="block text-xs font-semibold text-gray-700 text-center">Archivo*</label>
+                                <label id="error_convenio_archivo" name="error_convenio_archivo" class="hidden text-base font-normal text-red-500" >Ingrese un archivo valido</label>  
+                              </div>
+                            </div>
                         </div>
                     @endif
                 </div>
@@ -1347,7 +1405,7 @@
                   </div>
                   <div class="col-span-10 sm:col-span-3">
                     <p class="block text-sm font-semibold text-center">Monto asignado</p>
-                    <p class="text-base font-semibold bg-gray-100 p-1 text-center">{{$service->formatNumber($fuentes_cliente->where('fuente_financiamiento_id', 2)->first()->monto_gastos)}}</p>
+                    <p class="text-base font-semibold bg-gray-100 p-1 text-center" id="label_monto_asignado_gi">{{$service->formatNumber($fuentes_cliente->where('fuente_financiamiento_id', 2)->first()->monto_gastos)}}</p>
                   </div>
                   <div class="col-span-10 select2_modificado">
                     <label for="gi_catalogo_id" class="block text-sm font-bold text-gray-700">Programa*</label>
@@ -2161,7 +2219,7 @@
 
         porcentaje_gastos_num = ($("#monto_proyectado" + edit).val()).replaceAll(",", "") * ($("#porcentaje_gastos" + edit).val() * 0.01);
         porcentaje_gastos = parseFloat(porcentaje_gastos_num).toFixed(2);
-        $("#label_porcentaje_gi_tex" + edit).html("Monto del porcentaje de PRODIM:<br> $ " + ("" + porcentaje_gastos).replace(/\D/g, "").replace(/([0-9])([0-9]{2})$/, '$1.$2').replace(/\B(?=(\d{3})+(?!\d)\.?)/g, ","));
+        $("#label_porcentaje_gi_tex" + edit).html("Monto del porcentaje de Gastos Indirectos:<br> $ " + ("" + porcentaje_gastos).replace(/\D/g, "").replace(/([0-9])([0-9]{2})$/, '$1.$2').replace(/\B(?=(\d{3})+(?!\d)\.?)/g, ","));
         
         total_porcentajes = porcentaje_prodim_num + porcentaje_gastos_num;
         total_porcentajes = parseFloat(total_porcentajes).toFixed(2);
@@ -2180,7 +2238,7 @@
       $(this).attr('id');
       console.log(id);
     }
-  
+  5543444833
   
   //validacion de campos del modal
   $(document).ready(function() {
@@ -2609,6 +2667,19 @@
         return mensaje;
     });
 
+    $("#guardar_proceso").click(function (){
+      fecha_convenio = new Date($("#fecha_convenio").val());
+      valor = true;
+      if($('#div_convenio').length && fecha_convenio != "Invalid Date" && $("#convenio_archivo").val().length == 0){
+          valor = false;
+          $("#error_convenio_archivo").removeClass("hidden");
+      }else{
+        $("#error_convenio_archivo").addClass("hidden");
+      }
+      
+      return valor;
+    });
+
     $("#formulario_concepto").validate({
       onfocusout: false,
       onclick: false,
@@ -2635,14 +2706,17 @@
     $("#formulario_proceso input").on({
         'change': function(event){
           fecha = new Date($(this).val());
-          if(fecha != "Invalid Date"){
-              $('#error_'+$(this).attr('id')).addClass('hidden');
-              $("#label_"+$(this).attr('id')).removeClass('text-red-500');
-              $("#label_"+$(this).attr('id')).addClass('text-gray-700');
-          }else{
-              $('#error_'+$(this).attr('id')).removeClass('hidden');
-              $("#label_"+$(this).attr('id')).addClass('text-red-500');
-              $("#label_"+$(this).attr('id')).removeClass('text-gray-700');
+          tipo = $(this).attr('type');
+          if(tipo == "date"){
+            if(fecha != "Invalid Date"){
+                $('#error_'+$(this).attr('id')).addClass('hidden');
+                $("#label_"+$(this).attr('id')).removeClass('text-red-500');
+                $("#label_"+$(this).attr('id')).addClass('text-gray-700');
+            }else{
+                $('#error_'+$(this).attr('id')).removeClass('hidden');
+                $("#label_"+$(this).attr('id')).addClass('text-red-500');
+                $("#label_"+$(this).attr('id')).removeClass('text-gray-700');
+            }
           }
         }
     })
@@ -2685,10 +2759,13 @@
     $("#fecha_aprovado").on({
         'change': function(event){
           fecha = new Date($(this).val());
+          $("#convenio_archivo").val('');
+          $("#aux-arch-ca").html("Seleccionar archivo");
           if(fecha != "Invalid Date"){
               $("#fecha_convenio").attr('min', $(this).val());
               $("#fecha_revisado").attr('max', $(this).val());
               $("#div_convenio").removeClass('hidden');
+              $("#div_convenio_archivo").removeClass('hidden');
               
           }else{
               $("#div_convenio").addClass('hidden');
@@ -2703,6 +2780,9 @@
           fecha = new Date($(this).val());
           if(fecha != "Invalid Date"){
               $("#fecha_aprovado").attr('max', $(this).val());
+          }else{
+              $("#convenio_archivo").val('');
+              $("#aux-arch-ca").html("Seleccionar archivo");
           }
         }
     });
@@ -2944,7 +3024,7 @@
           $("#porcentaje_t_trimestre").text($(this).val()+"%")
           $("#ptt_rft").text($(this).val()+"%")
         },
-        "click": function(event) {
+        "click": function(event) {archivo_pt
           $("#porcentaje_t_trimestre").text($(this).val()+"%")
           $("#ptt_rft").text($(this).val()+"%")
         },

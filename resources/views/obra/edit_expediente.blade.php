@@ -5,12 +5,38 @@
 <link rel="stylesheet" href="{{ asset('css/style_alert.css') }}">
 <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
 
-<div class="flex flex-row mb-4">
-    <svg class="h-7 w-7" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" />
-    </svg>
-    <h1 class="font-bold text-xl ml-2">Modificar expediente tecnico de obra</h1>
-</div>
+    <div class="flex flex-row items-center ">
+        <img class="block h-24 w-24 rounded-full shadow-2xl" src="{{$obj_obra->get('obra')->logo}}" alt="cmr">
+        <div class="ml-4 grid grid-col-1">
+            <p class="block font-black text-xl">Modificar expediente técnico de obra</p>
+            <p class="block font-black text-xl">{{$obj_obra->get('obra')->id_municipio}} - {{$obj_obra->get('obra')->nombre_municipio}}</p>
+            <p class="text-gray-600">{{$obj_obra->get('obra')->id_distrito}} {{$obj_obra->get('obra')->nombre_distrito}} - {{$obj_obra->get('obra')->id_region}} {{$obj_obra->get('obra')->nombre_region}}</p>
+        </div>
+    </div>
+
+    <div class="mt-7 mb-7">
+        <div class="w-full  px-3">
+            <p class="text-gray-600">
+                <a href="/inicio" class="text-blue-500">
+                    <i class="fas fa-home" aria-hidden="true"></i> Inicio
+                </a>
+                - 
+                <a href="/cliente/ver/{{$obj_obra->get('obra')->id_cliente}}" class="text-blue-500">
+                    <i class="fas fa-user" aria-hidden="true"></i> Cliente
+                </a> 
+                -
+                <a href="/cliente/ejercicio/{{$obj_obra->get('obra')->id_cliente}},{{$obj_obra->get('obra')->ejercicio}}" class="text-blue-500">
+                    <i class="fas fa-calendar" aria-hidden="true"></i> {{$obj_obra->get('obra')->ejercicio}}
+                </a> 
+                - 
+                <a href="/obra/ver/{{$obj_obra->get('obra')->id_obra}}" class="text-blue-500">
+                    <i class="fas fa-calendar" aria-hidden="true"></i> Obra
+                </a> 
+                -                 
+                <i class="fas fa-pen-to-square" aria-hidden="true"></i> Modificar expediente técnico
+            </p>
+        </div>
+    </div>
 
     @if ($errors->any())
       <div class="alert flex flex-row items-center bg-yellow-200 p-2 rounded-lg border-b-2 border-yellow-300 mb-4 shadow">
