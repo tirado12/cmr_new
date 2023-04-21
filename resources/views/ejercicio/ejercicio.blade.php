@@ -2238,7 +2238,6 @@
       $(this).attr('id');
       console.log(id);
     }
-  5543444833
   
   //validacion de campos del modal
   $(document).ready(function() {
@@ -2581,7 +2580,6 @@
         monto_prodim: { required: true},        
       },
       errorPlacement: function(error, element) {
-        alert("HOLA MUNDO JAJA");
         if(error != null){
             $('#error_'+element.attr('id')).fadeIn();
             $("#label_"+element.attr('id')).addClass('text-red-500');

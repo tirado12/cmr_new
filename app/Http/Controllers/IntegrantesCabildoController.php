@@ -7,6 +7,7 @@ use App\Models\Municipio;
 use App\Models\Cliente;
 use Illuminate\Http\Request;
 use Illuminate\Validation\Rules\In;
+use Illuminate\Support\Facades\DB;
 
 class IntegrantesCabildoController extends Controller
 {
@@ -55,18 +56,32 @@ class IntegrantesCabildoController extends Controller
             'rfc' => 'required',
             'cliente' => 'required'
         ]);
-        IntegrantesCabildo::create([
-            'nombre' => $request->nombre,
-            'cargo' => $request->cargo,
-            'telefono' => $request->telefono,
-            'correo' => $request->correo,
-            'rfc' => $request->rfc,
-            'cliente_id' => $request->cliente
-        ]);
-        if(auth()->user()->getRoleNames()[0] == 'Administrador')
+
+        $mensaje = 'ok';
+        $datos = ['success', '¡PROCESO EXITOSO!', 'Se guardo correctamente la información del Integrante del Cabildo'];
+        
+        DB::beginTransaction();
+        try {
+
+            IntegrantesCabildo::create([
+                'nombre' => $request->nombre,
+                'cargo' => $request->cargo,
+                'telefono' => $request->telefono,
+                'correo' => $request->correo,
+                'rfc' => strtoupper($request->rfc),
+                'cliente_id' => $request->cliente
+            ]);
+
+            DB::commit();
+        } catch (\Exception $e) {
+            DB::rollback();
+            $datos = ['error', '¡ERROR!', 'La información no se actualizó correctamente'];
+        }
+        /*if(auth()->user()->getRoleNames()[0] == 'Administrador')
             return redirect()->route('cabildo.index');
-        else
-            return redirect()->route('cliente.ver', ['id' => $request->cliente]);
+        else*/
+
+        return redirect()->route('cliente.ver', ['id' => $request->cliente])->with('mensaje', 'ok')->with('datos', $datos);
         
     }
     /**
@@ -114,6 +129,8 @@ class IntegrantesCabildoController extends Controller
      */
     public function update(Request $request, IntegrantesCabildo $integrante)
     {
+
+        return $integrante;
         $request->validate([
             'nombre' => 'required',
             'cargo' => 'required',

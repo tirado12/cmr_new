@@ -33,6 +33,7 @@ use App\Models\GastosIndirectos;
 use App\Models\Sisplade;
 use App\Models\Rft;
 use App\Models\Mids;
+use App\Models\IntegrantesCabildo;
 use Illuminate\Support\Facades\DB;
 
 use Illuminate\Http\Request;
@@ -2060,6 +2061,41 @@ class GeneralController extends Controller
         //return $request;
     }
 
+    public function update_cliente(Request $request){
+
+        
+        $request->validate([
+            "id_cliente_edit" => 'required',
+            "direccion" => 'required',
+            "rfc_actualizar" => 'required',
+            "correo_act" => 'required',
+        ]);
+
+        $mensaje = 'ok';
+        $datos = ['success', '¡PROCESO EXITOSO!', 'Se actualizó la información del municipio'];
+        
+        DB::beginTransaction();
+        try {
+
+            $cliente = Cliente::find($request->id_cliente_edit);
+            $municipio = Municipio::find($cliente->municipio_id);
+
+            $cliente->email = $request->correo_act;
+
+            $municipio->rfc = strtoupper($request->rfc_actualizar);
+            $municipio->direccion = $request->direccion;
+
+            $cliente->update();
+            $municipio->update();
+
+            DB::commit();
+        } catch (\Exception $e) {
+            DB::rollback();
+            $datos = ['error', '¡ERROR!', 'La información no se actualizó correctamente'];
+        }
+        return redirect()->route('cliente.ver', ['id' => $request->id_cliente_edit])->with('mensaje', 'ok')->with('datos', $datos);
+    }
+
     public function imprimir($id){
         $obra = Obra::where('id_obra', $id)
         ->join('obras_fuentes', 'obras_fuentes.obra_id', '=', 'id_obra')
@@ -2282,6 +2318,46 @@ class GeneralController extends Controller
         
         return redirect()->route('obra.ver', ['id' => $request->id_obra])->with('mensaje', 'ok')->with('datos', $datos);
         
+    }
+
+    public function update_cabildo(Request $request)
+    {
+
+        $request->validate([
+            "id_cabildo_edit" => 'required',
+            "nombre" => 'required',
+            "rfc" => 'required',
+            "cargo" => 'required',
+            "telefono" => 'required',
+            "correo" => 'required',
+        ]);
+
+        $mensaje = 'ok';
+        $datos = ['success', '¡PROCESO EXITOSO!', 'Se actualizó correctamente la información del cabildo'];
+        
+        DB::beginTransaction();
+        try {
+
+            $integrante = IntegrantesCabildo::find($request->id_cabildo_edit);
+
+            
+            
+            $integrante->nombre = $request->nombre;
+            $integrante->cargo = $request->cargo;
+            $integrante->telefono = $request->telefono;
+            $integrante->correo = $request->correo;
+            $integrante->rfc = strtoupper($request->rfc);
+
+            $integrante->update();
+
+            DB::commit();
+        } catch (\Exception $e) {
+            DB::rollback();
+            $datos = ['error', '¡ERROR!', 'Problemas al actualizar la información'];
+        }
+
+        return redirect()->route('cliente.ver', ['id' => $integrante->cliente_id])->with('mensaje', 'ok')->with('datos', $datos);
+
     }
 
 }
