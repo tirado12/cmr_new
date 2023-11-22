@@ -16,7 +16,12 @@ class CreateProveedoresTable extends Migration
         Schema::create('proveedores', function (Blueprint $table) {
             $table->id('id_proveedor');
             $table->string('rfc',13);
-            $table->text('razon_social');
+            $table->text('razon_social')->nullable();
+            $table->string('nombre')->nullable();
+            $table->string('apellidos')->nullable();
+            $table->text('domicilio')->nullable();
+            $table->string('telefono',10)->nullable();
+            $table->string('correo',255)->nullable();
             $table->unsignedBigInteger('municipio_id');
             $table->foreign('municipio_id')->references('id_municipio')->on('municipios');
             $table->timestamps();

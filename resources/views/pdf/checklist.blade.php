@@ -278,7 +278,14 @@
                     <tr>
                         <td class="w-50"  colspan="2">
                             <p class="font-semibold text-xs uppercase">Contratista</p>
-                            <p class="ml-5 text-sm uppercase">{{ $obj_obra->get('contrato')->razon_social }}</p>
+                            <p class="ml-5 text-sm uppercase">
+                                {{$obj_obra->get('contrato')->rfc}} - 
+                                @if ($obj_obra->get('contrato')->razon_social != null)
+                                    $obj_obra->get('contrato')->razon_social
+                                @else
+                                    {{$obj_obra->get('contrato')->nombre}} {{$obj_obra->get('contrato')->apellidos}}
+                                @endif
+                            </p>
                         </td>
                     </tr>
                 @endif

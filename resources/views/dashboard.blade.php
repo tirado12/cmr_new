@@ -26,77 +26,66 @@
 
 <!-- fin tabla tailwind, inicio data table -->
 
-<div class="mt-6 contenedor px-8 py-2 shadow-2xl bg-white rounded-lg text-sm">
-    <div class="border-b p-4">
-        <h2 class="text-xl font-bold">Listado de clientes</h2>
+<div class="mt-6 shadow-2xl bg-white rounded-lg">
+    <div class="bg-blue-cmr1 rounded-t-lg">
+        <div class="p-4">
+            <h2 class="font-semibold text-lg text-center text-white uppercase">
+                Listado de clientes
+            </h2>
+        </div>
     </div>
-    <table id="example"
-        class="table table-striped bg-white"
-        style="width:100%;">
-        <thead>
-            <tr>
-                <th>Cliente</th>
-                <th>Distrito</th>
-                <th>RFC</th>
-                <th>Periodo</th>
-                <th class="flex justify-center">Acción</th>
-            </tr>
-        </thead>
-        <tbody>
-            @foreach ($clientes as $key => $cliente)
+    <div class="contenedor pb-8 px-8 pt-3">
+        <table id="example" class="table-simple table-striped bg-white table-modificada" style="width:100%;">
+            <thead>
                 <tr>
-                    <td>
-                        <div class="text-sm leading-5 font-medium text-gray-900">
-                            {{ $cliente->nombre_municipio }}
-                        </div>
-                    </div>
-                </td>
-                
-                <td>
-                    <div class="text-sm leading-5 font-medium text-gray-900">
-                        {{$cliente->nombre_distrito}}
-                    </div>
-                
-                </td>                
-                <td>
-                    <div class="text-sm leading-5 font-medium text-gray-900">
-                        {{$cliente->rfc}}
-                    </div>
-                
-                </td>
-                <td>
-                    <div class="text-sm leading-5 font-medium text-gray-900">
-                        {{ $cliente->anio_inicio }}@if ($cliente->anio_fin != null) - {{ $cliente->anio_fin }}@endif
-                    </div>
-                
-                </td>            
-                <td>
-                    <div class="flex justify-center">
-                        <form action="{{ route('clientes.destroy', $cliente->id_cliente) }}"
-                            method="POST"
-                            class="form-eliminar">
-                            <div>
-                                <a type="button"  href="{{ route('cliente.ver', $cliente->id_cliente)}}" class="bg-white text-sm text-blue-500 font-normal text-ms p-2 rounded rounded-lg">Ver</a>
-                                <!--@csrf
-                                                          @method('DELETE')
-                                                      <button type="submit" class="bg-white text-red-500 p-2 rounded rounded-lg">Eliminar</button>
-                                                          </div>-->
-                
-                        </form>
-                    </div>
-                </td>
+                    <th class="text-sm text-center bg-gray-100">Cliente</th>
+                    <th class="text-sm text-center">Distrito</th>
+                    <th class="text-sm text-center">RFC</th>
+                    <th class="text-sm text-center">Periodo</th>
+                    <th class="text-sm text-center">Acción</th>
                 </tr>
+            </thead>
+            <tbody>
+                @foreach ($clientes as $key => $cliente)
+                    <tr>
+                        <td>
+                            <div class="text-sm leading-5 font-medium text-gray-900">
+                                {{ $cliente->nombre_municipio }}
+                            </div>
+                        </td>
+                    
+                        <td>
+                            <div class="text-sm leading-5 font-medium text-gray-900">
+                                {{$cliente->nombre_distrito}}
+                            </div>
+                        
+                        </td>                
+                        <td>
+                            <div class="text-sm leading-5 font-medium text-gray-900">
+                                {{$cliente->rfc}}
+                            </div>
+                        
+                        </td>
+                        <td>
+                            <div class="text-sm leading-5 font-medium text-gray-900">
+                                {{ $cliente->anio_inicio }}@if ($cliente->anio_fin != null) - {{ $cliente->anio_fin }}@endif
+                            </div>
+                        
+                        </td>            
+                        <td>
+                            <div class="flex justify-center">
+                                <form action="{{ route('clientes.destroy', $cliente->id_cliente) }}" method="POST" class="form-eliminar">
+                                    <div>
+                                        <a type="button"  href="{{ route('cliente.ver', $cliente->id_cliente)}}" class="bg-white text-sm text-blue-500 font-normal text-ms p-2 rounded rounded-lg">Ver</a>
+                                    </div>
+                                </form>
+                            </div>
+                        </td>
+                    </tr>
                 @endforeach
-                </tbody>
-                <!--<tfoot>
-                                            <tr>
-                                              <th>Usuario</th>
-                                              <th>Rol</th>
-                                              <th></th>
-                                            </tr>
-                                        </tfoot>-->
-                </table>
-                </div>
+            </tbody>
+        </table>
+    </div>
 </div>
 
 <script src="//cdn.jsdelivr.net/npm/sweetalert2@10"></script>

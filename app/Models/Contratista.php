@@ -15,10 +15,12 @@ class Contratista extends Model
     protected $fillable = [
         'rfc',
         'razon_social',
-        'representante_legal',
+        'nombre',
+        'apellidos',
         'domicilio',
         'telefono',
         'correo',
-        'numero_padron_contratista'
+        'numero_padron_contratista',
+        'municipio_id',
     ];
 }

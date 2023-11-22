@@ -4,6 +4,7 @@
     <link rel="stylesheet" href="{{ asset('css/datatable.css') }}">
     <link rel="stylesheet" href="{{ asset('css/jquery.dataTables.min.css') }}">
     <link rel="stylesheet" href="{{ asset('css/swalfire.css')}}">
+    <link rel="stylesheet" href="{{ asset('css/styles_personalizados_general.css')}}">
 
     <!--Responsive Extension Datatables CSS-->
     <link href="https://cdn.datatables.net/responsive/2.2.3/css/responsive.dataTables.min.css" rel="stylesheet">
@@ -11,7 +12,7 @@
 
 
     <div class="flex flex-row items-center ">
-        <img class="block ml-8 h-24 w-24 rounded-full shadow-2xl" src="{{$cliente->logo}}" alt="cmr">
+        <img class="block ml-8 h-24 w-24 rounded-full shadow-2xl" src="{{$cliente->icono}}" alt="cmr">
         <div class="ml-4 grid grid-col-1">
             <p class="block font-black text-xl">{{$cliente->id_municipio}} - {{$cliente->nombre_municipio}}</p>
             <p class="text-gray-600">{{$cliente->id_distrito}} {{$cliente->nombre_distrito}} - {{$cliente->id_region}} {{$cliente->nombre_region}}</p>
@@ -36,41 +37,44 @@
         
 
         <div class="mt-6 sm:col-span-3 shadow-xl bg-white rounded-lg">
-            <div class="border-b p-4">
-                <label for="first_name" class="text-xl font-medium font-semibold">Información general</label>
+            <div class="border-b p-4 bg-blue-cmr1 rounded-t-lg">
+                <h2 class="font-semibold text-lg text-center text-white uppercase">Información general</h2>
             </div>
             <div class="p-4 grid grid-cols-8 gap-4 ">
                 <div class="col-span-8 sm:col-span-4">
-                    <p for="first_name" class="text-xs text-center">Correo: </p>
-                    <p for="first_name" class="text-base font-semibold bg-gray-100 p-1 text-center">{{$cliente->email}}</p>
+                    <p for="first_name" class="text-xs text-center">Correo</p>
+                    <p for="first_name" class="text-base font-semibold bg-gray-100 p-1 text-center min-h-32">{{$cliente->email}}</p>
                 </div>
                 
                 <div class="col-span-8 sm:col-span-2">
-                    <p for="first_name" class="text-xs text-center">RFC </p>
-                    <p for="first_name" class="text-base font-semibold bg-gray-100 p-1 text-center">{{$cliente->rfc}}</p>
+                    <p for="first_name" class="text-xs text-center">RFC</p>
+                    <p for="first_name" class="text-base font-semibold bg-gray-100 p-1 text-center min-h-32">{{$cliente->rfc}}</p>
                 </div>
                 <div class="col-span-8 sm:col-span-2">
-                    <p for="first_name" class="text-xs text-center">Periodo: </p>
-                    <p for="first_name" class="text-base font-semibold bg-gray-100 p-1 text-center">{{ $cliente->anio_inicio }}@if ($cliente->anio_fin != $cliente->anio_inicio) - {{ $cliente->anio_fin }}@endif</p>
+                    <p for="first_name" class="text-xs text-center">Periodo</p>
+                    <p for="first_name" class="text-base font-semibold bg-gray-100 p-1 text-center min-h-32">{{ $cliente->anio_inicio }}@if ($cliente->anio_fin != $cliente->anio_inicio) - {{ $cliente->anio_fin }}@endif</p>
                 </div>                 
                 
                 <div class="col-span-8">
-                    <p for="first_name" class="text-xs text-center">Dirección </p>
-                    <p for="first_name" class="text-base font-semibold bg-gray-100 p-1 text-center">{{$cliente->direccion}}</p>
+                    <p for="first_name" class="text-xs text-center">Dirección</p>
+                    <p for="first_name" class="text-base font-semibold bg-gray-100 p-1 text-center min-h-32">{{$cliente->direccion}}</p>
                 </div>
                 
             </div>
             <div class=" p-4 border-t border-solid border-blueGray-200 rounded-b">
                 <div class="flex justify-between items-center">
-                    <a type="button"  href="{{ route('contratistas.index') }}" class="bg-transparent text-sm text-blue-500 font-semibold text-base py-2 rounded rounded-lg underline">Listado de Contratistas </a>
+                    <div>
+                        <a type="button"  href="{{ route('contratistas_list', 1) }}" class="bg-transparent text-sm text-blue-500 font-semibold text-base py-2 rounded rounded-lg">Contratistas </a>
+                        <a type="button"  href="{{ route('proveedores_list', 1) }}" class="ml-5 bg-transparent text-sm text-blue-500 font-semibold text-base py-2 rounded rounded-lg">Proveedores </a>
+                    </div>
                     <button type="button"  href="#" class="text-base text-white bg-blue-500 px-2 py-1 rounded-lg px-6" onclick="toggleModalCliente('modal-edit')">Editar</button>
                 </div>
             </div>
         </div>
         
         <div class="mt-6 sm:col-span-1 bg-white rounded-lg">
-            <div class="border-b p-4">
-                <label for="first_name" class="text-xl font-medium font-semibold">Ejercicios</label>
+            <div class="border-b p-4 bg-blue-cmr1 rounded-t-lg">
+                <h2 class="font-semibold text-lg text-center text-white uppercase">Ejercicios</h2>
             </div>
             <div class="p-4">
                 <div class="">
@@ -84,7 +88,7 @@
 
                 </div>
                 <div class="mt-4 flex justify-center">
-                    <a href="{{route('cliente.ejercicio', [$cliente->id_cliente, $cliente->anio_inicio])}}" id="btn_acceder" type="button" class="text-base text-white bg-green-500 p-2 rounded-lg px-6">Acceder</a>
+                    <a href="{{route('cliente.ejercicio', [$cliente->id_cliente, $cliente->anio_inicio])}}" id="btn_acceder" type="button" class="text-base text-white bg-green-500 px-2 py-1 rounded-lg px-6">Acceder</a>
                     
                 </div>
             </div>
@@ -93,10 +97,10 @@
     <div class="">
 
         <div class="text-base mt-6 shadow-xl bg-white rounded-lg">
-            <div class="border-b p-4 flex justify-between items-center">
-                <span class="inline-block text-xl font-medium font-semibold">Datos del cabildo</span>
-
-                <button href="#" class="bg-green-500 text-white active:bg-white text-base px-6 py-2 rounded-lg outline-none focus:outline-none ml-1 ease-linear transition-all duration-150" type="button" onclick="toggleModal('modal-id')">
+            <div class="border-b p-4 flex justify-between items-center bg-blue-cmr1 rounded-t-lg">
+                <span class="inline-block font-semibold text-lg text-center text-white uppercase">Datos del cabildo</span>
++
+                <button href="#" class="text-base text-white bg-blue-600 px-2 py-1 rounded-lg px-6" type="button" onclick="toggleModal('modal-id')">
                     Agregar
                 </button>
             </div>
@@ -176,225 +180,222 @@
     <!-- inicio modal -->
     <div class="hidden overflow-x-hidden overflow-y-auto fixed inset-0 z-50 outline-none focus:outline-none justify-center items-center" id="modal-id">
         <div class="relative w-auto my-28 mx-auto max-w-3xl">
-        <!--content-->
-        <div class="border-0 rounded-lg shadow-lg relative flex flex-col w-full bg-white outline-none focus:outline-none">
-            <!--header-->
-            <div class="flex items-center justify-between px-5 py-3 border-b border-solid border-blueGray-200 rounded-t bg-blue-cmr1">
-                <h4 class="text-base font-normal uppercase text-white">
-                    Agregar nuevo integrante del cabildo
-                </h4>
-            
-                <button class="p-1 ml-auto bg-transparent border-0 text-white float-right text-2xl leading-none font-semibold outline-none focus:outline-none" onclick="toggleModal('modal-id')">
-                    <span>
-                        <i class="fas fa-xmark"></i>
-                    </span>
-                </button>
-            </div>
-            <!--body-->
-            <form action="{{ route('cabildo.store') }}" method="POST" id="formulario" name="formulario">
-            @csrf
-            @method('POST')
-            <div class="relative p-6 flex-auto">
-                <div class="grid grid-cols-8 gap-4">
-                <div class="col-span-8 sm:col-span-6 ">
-                    <label id="label_nombre" for="first_name" class="text-sm font-semibold text-center pb-2">Nombre completo *</label>
-                    <input type="text" name="nombre" id="nombre" class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md" required maxlength="200">
-                    <label id="error_nombre" name="error_nombre" class="hidden text-sm font-normal text-red-500" >Ingresa un nombre</label>
-                </div>
-                <div class="col-span-8 sm:col-span-2">
-                    <label id="label_rfc" for="rfc" class="text-sm font-semibold text-center pb-2">RFC *</label>
-                    <input type="text" name="rfc" id="rfc" class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md" required maxlength="13" minlength="13">
-                    <label id="error_rfc" name="error_rfc" class="hidden text-sm font-normal text-red-500" >Ingresa al menos un RFC genérico (XXXX000000XXX)</label>
-                </div>
-                <div class="col-span-8 sm:col-span-6">
-                    <label id="label_cargo" for="cargo" class="text-sm font-semibold text-center pb-2">Cargo *</label>
-                    <input type="text" name="cargo" id="cargo" class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md" required>
-                    <label id="error_cargo" name="error_cargo" class="hidden text-sm font-normal text-red-500" >Ingresa un cargo</label>
-                </div>
-                <div class="col-span-8 sm:col-span-2">
-                    <label id="label_telefono" for="telefono" class="text-sm font-semibold text-center pb-2">Teléfono *</label>
-                    <input type="tel" name="telefono" id="telefono" class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md" required maxlength="10" minlength="10">
-                    <label id="error_telefono" name="error_telefono" class="hidden text-sm font-normal text-red-500" >Ingresar un teléfono</label>
-                    </div>
+            <!--content-->
+            <div class="border-0 rounded-lg shadow-lg relative flex flex-col w-full bg-white outline-none focus:outline-none">
+                <!--header-->
+                <div class="flex items-center justify-between px-5 py-3 border-b border-solid border-blueGray-200 rounded-t bg-blue-cmr1">
+                    <h4 class="text-base font-normal uppercase text-white">
+                        Agregar nuevo integrante del cabildo
+                    </h4>
                 
-                <div class="col-span-8 sm:col-span-4">
-                    <label id="label_correo" for="correo" class="text-sm font-semibold text-center pb-2">Correo electrónico *</label>
-                    <input type="email" name="correo" id="correo" class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md px-3 py-2" required>
-                    <label id="error_correo" name="error_correo" class="hidden text-sm font-normal text-red-500" >Ingresar un correo electrónico</label>
-                    </div>
-                <div class="col-span-8 sm:col-span-4" >
-                    <label id="label_municipio" for="municipio" class="text-sm font-semibold text-center pb-2">Municipio *</label>
-                    <p class="mt-1 text-base font-semibold px-3 py-2 border border-gray-300 text-center rounded-md ">{{$cliente->nombre_municipio}}</p>
-                    <select id="cliente" name="cliente" onchange="validarCliente()" class="hidden mt-1 block w-full py-3 px-2 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
-                        <option value="{{$cliente->id_cliente}}">{{$cliente->nombre_municipio}}</option>
-                    </select>
-                    <label id="error_municipio" name="error_municipio" class="hidden text-sm font-normal text-red-500" >Seleccione una opción</label>
-            </div>
+                    <button class="p-1 ml-auto bg-transparent border-0 text-white float-right text-2xl leading-none font-semibold outline-none focus:outline-none" onclick="toggleModal('modal-id')">
+                        <span>
+                            <i class="fas fa-xmark"></i>
+                        </span>
+                    </button>
                 </div>
-            
+                <!--body-->
+                <form action="{{ route('cabildo.store') }}" method="POST" id="formulario" name="formulario">
+                    @csrf
+                    @method('POST')
+                    <div class="relative p-6 flex-auto">
+                        <div class="grid grid-cols-8 gap-4">
+                            <div class="col-span-8 sm:col-span-6 ">
+                                <label id="label_nombre" for="first_name" class="text-sm font-semibold text-center pb-2">Nombre completo *</label>
+                                <input type="text" name="nombre" id="nombre" class="mt-1 focus:ring-blue-800 focus:border-blue-800 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md" required maxlength="200">
+                                <label id="error_nombre" name="error_nombre" class="hidden text-sm font-normal text-red-500" >Ingresa un nombre</label>
+                            </div>
+                            <div class="col-span-8 sm:col-span-2">
+                                <label id="label_rfc" for="rfc" class="text-sm font-semibold text-center pb-2">RFC *</label>
+                                <input type="text" name="rfc" id="rfc" class="mt-1 focus:ring-blue-800 focus:border-blue-800 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md" required maxlength="13" minlength="13">
+                                <label id="error_rfc" name="error_rfc" class="hidden text-sm font-normal text-red-500" >Ingresa al menos un RFC genérico (XXXX000000XXX)</label>
+                            </div>
+                            <div class="col-span-8 sm:col-span-6">
+                                <label id="label_cargo" for="cargo" class="text-sm font-semibold text-center pb-2">Cargo *</label>
+                                <input type="text" name="cargo" id="cargo" class="mt-1 focus:ring-blue-800 focus:border-blue-800 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md" required>
+                                <label id="error_cargo" name="error_cargo" class="hidden text-sm font-normal text-red-500" >Ingresa un cargo</label>
+                            </div>
+                            <div class="col-span-8 sm:col-span-2">
+                                <label id="label_telefono" for="telefono" class="text-sm font-semibold text-center pb-2">Teléfono *</label>
+                                <input type="tel" name="telefono" id="telefono" class="mt-1 focus:ring-blue-800 focus:border-blue-800 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md" required maxlength="10" minlength="10">
+                                <label id="error_telefono" name="error_telefono" class="hidden text-sm font-normal text-red-500" >Ingresar un teléfono</label>
+                            </div>
+                        
+                            <div class="col-span-8 sm:col-span-4">
+                                <label id="label_correo" for="correo" class="text-sm font-semibold text-center pb-2">Correo electrónico *</label>
+                                <input type="email" name="correo" id="correo" class="mt-1 focus:ring-blue-800 focus:border-blue-800 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md px-3 py-2" required>
+                                <label id="error_correo" name="error_correo" class="hidden text-sm font-normal text-red-500" >Ingresar un correo electrónico</label>
+                            </div>
+                            <div class="col-span-8 sm:col-span-4" >
+                                <label id="label_municipio" for="municipio" class="text-sm font-semibold text-center pb-2">Municipio *</label>
+                                <p class="mt-1 text-base font-semibold px-3 py-2 border border-gray-300 text-center rounded-md ">{{$cliente->nombre_municipio}}</p>
+                                <select id="cliente" name="cliente" onchange="validarCliente()" class="hidden mt-1 block w-full py-3 px-2 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-blue-800 focus:border-blue-800 sm:text-sm">
+                                    <option value="{{$cliente->id_cliente}}">{{$cliente->nombre_municipio}}</option>
+                                </select>
+                                <label id="error_municipio" name="error_municipio" class="hidden text-sm font-normal text-red-500" >Seleccione una opción</label>
+                            </div>
+                        </div>
+                        <div class="mt-8">
+                            <span class="block text-xs">Verifique los campos obligatorios marcados con un ( * ) </span>
+                        </div>
+                    </div>
+                    <!--footer-->
+                    <div class=" p-4 border-t border-solid border-blueGray-200 rounded-b">
+                        <div class="text-right">
+                            <button class="text-red-500 background-transparent font-bold uppercase px-6 text-sm outline-none focus:outline-none ease-linear transition-all duration-150" type="button" onclick="toggleModal('modal-id')">
+                                Cancelar
+                            </button>
+                            <button id="guardar_cabildo" type="submit" class="text-blue-500 font-bold uppercase text-sm px-6 rounded outline-none focus:outline-none ease-linear transition-all duration-150" >
+                                Guardar
+                            </button>  
+                        </div>
+                    </div>
+                </form>
             </div>
-            <!--footer-->
-            <div class=" p-4 border-t border-solid border-blueGray-200 rounded-b">
-            
-            <span class="block text-xs">Verifique los campos obligatorios marcados con un ( * )</span>
-            <div class="text-right">
-            <button class="text-red-500 background-transparent font-bold uppercase px-4 py-1 text-sm outline-none focus:outline-none ease-linear transition-all duration-150" type="button" onclick="toggleModal('modal-id')">
-                Cancelar
-            </button>
-            <button id="guardar_cabildo" type="submit" class="bg-green-500 text-white active:bg-green-600 font-bold uppercase text-sm px-4 py-1 rounded shadow hover:shadow-lg outline-none focus:outline-none ease-linear transition-all duration-150" >
-                Guardar
-            </button>
-            </div>
-            </div>
-            </form>
-        </div>
         </div>
     </div>
 
     <!-- inicio modal -->
     <div class="hidden overflow-x-hidden overflow-y-auto fixed inset-0 z-50 outline-none focus:outline-none justify-center items-center" id="modal-cabildo">
         <div class="relative w-auto my-28 mx-auto max-w-3xl">
-        <!--content-->
-        <div class="border-0 rounded-lg shadow-lg relative flex flex-col w-full bg-white outline-none focus:outline-none">
-            <!--header-->
-            <div class="flex items-center justify-between px-5 py-3 border-b border-solid border-blueGray-200 rounded-t bg-blue-cmr1">
-                <h4 class="text-base font-normal uppercase text-white">
-                    Editar integrante del cabildo
-                </h4>
-            
-                <button class="p-1 ml-auto bg-transparent border-0 text-white float-right text-2xl leading-none font-semibold outline-none focus:outline-none" onclick="toggleModal('modal-cabildo')">
-                    <span>
-                        <i class="fas fa-xmark"></i>
-                    </span>
-                </button>
-            </div>
-            <!--body-->
-            <form action="{{ route('update_cabildo') }}" method="POST" id="formulario" name="formulario">
-            @csrf
-            @method('POST')
-            <div class="relative p-6 flex-auto">
-                <div class="grid grid-cols-8 gap-4">
-                    <div class="col-span-8 hidden">
-                        <input type="text" name="id_cabildo_edit" id="id_cabildo_edit" class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md" value="{{$cliente->id_cliente}}">
-                    </div>
-                    <div class="col-span-8 sm:col-span-6 ">
-                        <label id="label_nombre_cabildo" for="first_name" class="text-sm font-semibold text-center pb-2">Nombre completo *</label>
-                        <input type="text" name="nombre" id="nombre_cabildo" class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md" required maxlength="200">
-                        <label id="error_nombre_cabildo" name="error_nombre_cabildo" class="hidden text-sm font-normal text-red-500" >Ingresa un nombre</label>
-                    </div>
-                    <div class="col-span-8 sm:col-span-2">
-                        <label id="label_rfc_cabildo" for="rfc" class="text-sm font-semibold text-center pb-2">RFC *</label>
-                        <input type="text" name="rfc" id="rfc_cabildo" class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md" required maxlength="13" minlength="13">
-                        <label id="error_rfc_cabildo" name="error_rfc_cabildo" class="hidden text-sm font-normal text-red-500" >Ingresa al menos un RFC genérico (XXXX000000XXX)</label>
-                    </div>
-                    <div class="col-span-8 sm:col-span-6">
-                        <label id="label_cargo" for="cargo" class="text-sm font-semibold text-center pb-2">Cargo *</label>
-                        <input type="text" name="cargo" id="cargo_cabildo" class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md" required>
-                        <label id="error_cargo_cabildo" name="error_cargo_cabildo" class="hidden text-sm font-normal text-red-500" >Ingresa un cargo</label>
-                    </div>
-                    <div class="col-span-8 sm:col-span-2">
-                        <label id="label_telefono_cabildo" for="telefono" class="text-sm font-semibold text-center pb-2">Teléfono *</label>
-                        <input type="tel" name="telefono" id="telefono_cabildo" class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md" required maxlength="10" minlength="10">
-                        <label id="error_telefono_cabildo" name="error_telefono_cabildo" class="hidden text-sm font-normal text-red-500" >Ingresar un teléfono</label>
-                        </div>
-                    
-                    <div class="col-span-8 sm:col-span-4">
-                        <label id="label_correo_cabildo" for="correo" class="text-sm font-semibold text-center pb-2">Correo electrónico *</label>
-                        <input type="email" name="correo" id="correo_cabildo" class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md px-3 py-2" required>
-                        <label id="error_correo_cabildo" name="error_correo_cabildo" class="hidden text-sm font-normal text-red-500" >Ingresar un correo electrónico</label>
-                        </div>
-                    <div class="col-span-8 sm:col-span-4" >
-                        <label id="label_municipio_cabildo" for="municipio" class="text-sm font-semibold text-center pb-2">Municipio *</label>
-                        <p class="mt-1 text-sm font-semibold px-3 py-2 border border-gray-300 text-center rounded-md ">{{$cliente->nombre_municipio}}</p>
-                    </div>
+            <!--content-->
+            <div class="border-0 rounded-lg shadow-lg relative flex flex-col w-full bg-white outline-none focus:outline-none">
+                <!--header-->
+                <div class="flex items-center justify-between px-5 py-3 border-b border-solid border-blueGray-200 rounded-t bg-blue-cmr1">
+                    <h4 class="text-base font-normal uppercase text-white">
+                        Editar integrante del cabildo
+                    </h4>
+                
+                    <button class="p-1 ml-auto bg-transparent border-0 text-white float-right text-2xl leading-none font-semibold outline-none focus:outline-none" onclick="toggleModal('modal-cabildo')">
+                        <span>
+                            <i class="fas fa-xmark"></i>
+                        </span>
+                    </button>
                 </div>
-            
+                <!--body-->
+                <form action="{{ route('update_cabildo') }}" method="POST" id="formulario" name="formulario">
+                @csrf
+                @method('POST')
+                    <div class="relative p-6 flex-auto">
+                        <div class="grid grid-cols-8 gap-4">
+                            <div class="col-span-8 hidden">
+                                <input type="text" name="id_cabildo_edit" id="id_cabildo_edit" class="mt-1 focus:ring-blue-800 focus:border-blue-800 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md" value="{{$cliente->id_cliente}}">
+                            </div>
+                            <div class="col-span-8 sm:col-span-6 ">
+                                <label id="label_nombre_cabildo" for="first_name" class="text-sm font-semibold text-center pb-2">Nombre completo *</label>
+                                <input type="text" name="nombre" id="nombre_cabildo" class="mt-1 focus:ring-blue-800 focus:border-blue-800 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md" required maxlength="200">
+                                <label id="error_nombre_cabildo" name="error_nombre_cabildo" class="hidden text-sm font-normal text-red-500" >Ingresa un nombre</label>
+                            </div>
+                            <div class="col-span-8 sm:col-span-2">
+                                <label id="label_rfc_cabildo" for="rfc" class="text-sm font-semibold text-center pb-2">RFC *</label>
+                                <input type="text" name="rfc" id="rfc_cabildo" class="mt-1 focus:ring-blue-800 focus:border-blue-800 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md" required maxlength="13" minlength="13">
+                                <label id="error_rfc_cabildo" name="error_rfc_cabildo" class="hidden text-sm font-normal text-red-500" >Ingresa al menos un RFC genérico (XXXX000000XXX)</label>
+                            </div>
+                            <div class="col-span-8 sm:col-span-6">
+                                <label id="label_cargo" for="cargo" class="text-sm font-semibold text-center pb-2">Cargo *</label>
+                                <input type="text" name="cargo" id="cargo_cabildo" class="mt-1 focus:ring-blue-800 focus:border-blue-800 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md" required>
+                                <label id="error_cargo_cabildo" name="error_cargo_cabildo" class="hidden text-sm font-normal text-red-500" >Ingresa un cargo</label>
+                            </div>
+                            <div class="col-span-8 sm:col-span-2">
+                                <label id="label_telefono_cabildo" for="telefono" class="text-sm font-semibold text-center pb-2">Teléfono *</label>
+                                <input type="tel" name="telefono" id="telefono_cabildo" class="mt-1 focus:ring-blue-800 focus:border-blue-800 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md" required maxlength="10" minlength="10">
+                                <label id="error_telefono_cabildo" name="error_telefono_cabildo" class="hidden text-sm font-normal text-red-500" >Ingresar un teléfono</label>
+                            </div>
+                            
+                            <div class="col-span-8 sm:col-span-4">
+                                <label id="label_correo_cabildo" for="correo" class="text-sm font-semibold text-center pb-2">Correo electrónico *</label>
+                                <input type="email" name="correo" id="correo_cabildo" class="mt-1 focus:ring-blue-800 focus:border-blue-800 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md px-3 py-2" required>
+                                <label id="error_correo_cabildo" name="error_correo_cabildo" class="hidden text-sm font-normal text-red-500" >Ingresar un correo electrónico</label>
+                            </div>
+
+                            <div class="col-span-8 sm:col-span-4" >
+                                <label id="label_municipio_cabildo" for="municipio" class="text-sm font-semibold text-center pb-2">Municipio *</label>
+                                <p class="mt-1 text-sm font-semibold px-3 py-2 border border-gray-300 text-center rounded-md ">{{$cliente->nombre_municipio}}</p>
+                            </div>
+                        </div>
+                        <div class="mt-8">
+                            <span class="block text-xs">Verifique los campos obligatorios marcados con un ( * ) </span>
+                        </div>
+                    </div>
+                    <!--footer-->
+                    <div class=" p-4 border-t border-solid border-blueGray-200 rounded-b">
+                        <div class="text-right">
+                            <button class="text-red-500 background-transparent font-bold uppercase px-6 text-sm outline-none focus:outline-none ease-linear transition-all duration-150" type="button" onclick="toggleModal('modal-cabildo')">
+                                Cancelar
+                            </button>
+                            <button id="actualizar_cabildo" type="submit" class="text-blue-500 font-bold uppercase text-sm px-6 rounded outline-none focus:outline-none ease-linear transition-all duration-150" >
+                                Guardar
+                            </button>
+                        </div>
+                    </div>
+                </form>
             </div>
-            <!--footer-->
-            <div class=" p-4 border-t border-solid border-blueGray-200 rounded-b">
-            
-            <span class="block text-xs">Verifique los campos obligatorios marcados con un ( * )</span>
-            <div class="text-right">
-            <button class="text-red-500 background-transparent font-bold uppercase px-4 py-1 text-sm outline-none focus:outline-none ease-linear transition-all duration-150" type="button" onclick="toggleModal('modal-cabildo')">
-                Cancelar
-            </button>
-            <button id="actualizar_cabildo" type="submit" class="bg-green-500 text-white active:bg-green-600 font-bold uppercase text-sm px-4 py-1 rounded shadow hover:shadow-lg outline-none focus:outline-none ease-linear transition-all duration-150" >
-                Guardar
-            </button>
-            </div>
-            </div>
-            </form>
-        </div>
         </div>
     </div>
 
 
     <div class="hidden overflow-x-hidden overflow-y-auto fixed inset-0 z-50 outline-none focus:outline-none justify-center items-center" id="modal-edit">
         <div class="relative w-auto my-28 mx-auto max-w-3xl">
-        <!--content-->
-        <div class="border-0 rounded-lg shadow-lg relative flex flex-col w-full bg-white outline-none focus:outline-none">
-            <!--header-->
-            <div class="flex items-center justify-between px-5 py-3 border-b border-solid border-blueGray-200 rounded-t bg-blue-cmr1">
-            <h4 class="text-base font-normal uppercase text-white">
-                Editar datos del Municipio
-            </h4>
-            
-            <button class="p-1 ml-auto bg-transparent border-0 text-white float-right text-2xl leading-none font-semibold outline-none focus:outline-none" onclick="toggleModal('modal-edit')">
-                <span>
-                    <i class="fas fa-xmark"></i>
-                </span>
-                </button>
-            </div>
+            <!--content-->
+            <div class="border-0 rounded-lg shadow-lg relative flex flex-col w-full bg-white outline-none focus:outline-none">
+                <!--header-->
+                <div class="flex items-center justify-between px-5 py-3 border-b border-solid border-blueGray-200 rounded-t bg-blue-cmr1">
+                    <h4 class="text-base font-normal uppercase text-white">
+                        Editar datos del Municipio
+                    </h4>
+                
+                    <button class="p-1 ml-auto bg-transparent border-0 text-white float-right text-2xl leading-none font-semibold outline-none focus:outline-none" onclick="toggleModal('modal-edit')">
+                        <span>
+                            <i class="fas fa-xmark"></i>
+                        </span>
+                    </button>
+                </div>
             <!--body-->
             <form action="{{ route('update_cliente') }}" method="POST" id="formulario_edit" name="formulario_edit">
             @csrf
             @method('POST')
-            <div class="relative p-6 flex-auto">
-                <div class="grid grid-cols-8 gap-4">
-                    <div class="col-span-8 hidden">
-                        <input type="text" name="id_cliente_edit" id="id_cliente_edit" class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md" value="{{$cliente->id_cliente}}">
-                        <label id="error_direccion" name="error_direccion" class="hidden text-base font-normal text-red-500" >Ingresa una dirección</label>
+                <div class="relative p-6 flex-auto">
+                    <div class="grid grid-cols-8 gap-4">
+                        <div class="col-span-8 hidden">
+                            <input type="text" name="id_cliente_edit" id="id_cliente_edit" class="mt-1 focus:ring-blue-800 focus:border-blue-800 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md" value="{{$cliente->id_cliente}}">
+                            <label id="error_direccion" name="error_direccion" class="hidden text-base font-normal text-red-500" >Ingresa una dirección</label>
+                        </div>
+                        <div class="col-span-8">
+                            <label id="label_direccion" for="first_name" class="text-sm font-bold text-center">Dirección *</label>
+                            <input type="text" name="direccion" id="direccion" class="mt-1 focus:ring-blue-800 focus:border-blue-800 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md">
+                            <label id="error_direccion" name="error_direccion" class="hidden text-base font-normal text-red-500" >Ingresa una dirección</label>
+                        </div>
+                        <div class="col-span-8 sm:col-span-4">
+                            <label id="label_rfc_actualizar" for="rfc_actualizar" class="text-sm font-bold text-center">RFC *</label>
+                            <input type="text" name="rfc_actualizar" id="rfc_actualizar" class="mt-1 focus:ring-blue-800 focus:border-blue-800 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md" maxlength="12" minlength="12">
+                            <label id="error_rfc_actualizar" class="hidden text-sm font-normal text-red-500" >Ingresa al menos un RFC genérico (XXX000000XXX)</label>
+                        </div>
+                        
+                        <div class="col-span-8 sm:col-span-4">
+                            <label id="label_correo_act" for="correo_act" class="text-sm font-bold text-center">Correo electrónico *</label>
+                            <input type="email" name="correo_act" id="correo_act" class="mt-1 focus:ring-blue-800 focus:border-blue-800 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md px-3 py-2" >
+                            <label id="error_correo_act" name="error_correo_act" class="hidden text-base font-normal text-red-500" >Ingresar un correo electrónico</label>
+                        </div>
+                        <div class="col-span-8 sm:col-span-2" >
+                            <label id="label_periodo" class="text-sm font-bold text-center">Periodo *</label>
+                            <p class="mt-1 text-sm font-semibold px-3 py-2 border border-gray-300 text-center rounded-md ">{{ $cliente->anio_inicio }}@if ($cliente->anio_fin != $cliente->anio_inicio) - {{ $cliente->anio_fin }}@endif</p>
+                        </div> 
                     </div>
-                    <div class="col-span-8">
-                        <label id="label_direccion" for="first_name" class="text-sm font-bold text-center">Dirección *</label>
-                        <input type="text" name="direccion" id="direccion" class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md">
-                        <label id="error_direccion" name="error_direccion" class="hidden text-base font-normal text-red-500" >Ingresa una dirección</label>
+                    <div class="mt-10">
+                        <span class="block text-xs">Verifique los campos obligatorios marcados con un ( * ) </span>
                     </div>
-                    <div class="col-span-8 sm:col-span-4">
-                        <label id="label_rfc_actualizar" for="rfc_actualizar" class="text-sm font-bold text-center">RFC *</label>
-                        <input type="text" name="rfc_actualizar" id="rfc_actualizar" class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md" maxlength="12" minlength="12">
-                        <label id="error_rfc_actualizar" class="hidden text-sm font-normal text-red-500" >Ingresa al menos un RFC genérico (XXX000000XXX)</label>
-                    </div>
-                    
-                    <div class="col-span-8 sm:col-span-4">
-                        <label id="label_correo_act" for="correo_act" class="text-sm font-bold text-center">Correo electrónico *</label>
-                        <input type="email" name="correo_act" id="correo_act" class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md px-3 py-2" >
-                        <label id="error_correo_act" name="error_correo_act" class="hidden text-base font-normal text-red-500" >Ingresar un correo electrónico</label>
-                    </div>
-                    <div class="col-span-8 sm:col-span-2" >
-                        <label id="label_periodo" class="text-sm font-bold text-center">Periodo *</label>
-                        <p class="mt-1 text-sm font-semibold px-3 py-2 border border-gray-300 text-center rounded-md ">{{ $cliente->anio_inicio }}@if ($cliente->anio_fin != $cliente->anio_inicio) - {{ $cliente->anio_fin }}@endif</p>
-                    </div>
-                    <div class="col-span-8">
-                        <span class="block text-xs">Verifique los campos obligatorios marcados con un ( * )</span>
-                    </div>
-                    
                 </div>
-            
-            </div>
-            <!--footer-->
-            <div class=" p-4 border-t border-solid border-blueGray-200 rounded-b">
-            
-            
-            <div class="text-right">
-            <button class="text-red-500 background-transparent font-bold uppercase px-4 py-1 text-sm outline-none focus:outline-none ease-linear transition-all duration-150" type="button" onclick="toggleModal('modal-edit')">
-                Cancelar
-            </button>
-            <button id="btn_actualizar" type="submit" class="bg-green-500 text-white active:bg-green-600 font-bold uppercase text-sm px-4 py-1 rounded shadow hover:shadow-lg outline-none focus:outline-none ease-linear transition-all duration-150" >
-                Guardar
-            </button>
-            </div>
-            </div>
+                <!--footer-->
+                <div class=" p-4 border-t border-solid border-blueGray-200 rounded-b">
+                    <div class="text-right">
+                        <button class="text-red-500 background-transparent font-bold uppercase px-6 text-sm outline-none focus:outline-none ease-linear transition-all duration-150" type="button" onclick="toggleModal('modal-edit')">
+                            Cancelar
+                        </button>
+                        <button id="btn_actualizar" type="submit" class="text-blue-500 font-bold uppercase text-sm px-6 rounded outline-none focus:outline-none ease-linear transition-all duration-150" >
+                            Guardar
+                        </button>
+                    </div>
+                </div>
             </form>
         </div>
         </div>
@@ -460,10 +461,10 @@
     @if(session('mensaje')=='ok')
         <script>
             Swal.fire({  
-            title: '{{session('datos')[1]}}',
-            text: '{{session('datos')[2]}}',
-            icon: '{{session('datos')[0]}}',
-            button: "Ok",
+                title: '{{session('datos')[1]}}',
+                text: '{{session('datos')[2]}}',
+                icon: '{{session('datos')[0]}}',
+                confirmButtonText: 'Ok'
 
             })
         </script>
@@ -667,6 +668,7 @@
         "(([A-ZÑ&]{4})([0-9]{2})([0][13456789]|[1][012])(([0][1-9]|[12][\\d])|[3][0])([A-Z0-9]{3}))|" +
         "(([A-ZÑ&]{4})([02468][048]|[13579][26])[0][2]([0][1-9]|[12][\\d])([A-Z0-9]{3}))|" +
         "(([A-ZÑ&]{4})([0-9]{2})[0][2]([0][1-9]|[1][0-9]|[2][0-8])([A-Z0-9]{3}))$";
+        
         valido = true;
         rfc_value = $("#rfc_cabildo").val();
         let rfc = rfc_value;

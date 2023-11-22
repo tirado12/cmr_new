@@ -97,6 +97,12 @@
 .mkc_circle { 
     animation: mck_progress 1000ms ease-in-out; 
 }
+
+.min-h-32{
+    min-height: 32px;
+}
+
+
 @keyframes 
     mck_progress { 
         0% { stroke-dasharray: 0, 100; }

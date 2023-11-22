@@ -133,7 +133,7 @@
             <span class="block text-xs">Por favor verifique que todos los campos marcados con ( * ) no estén vacios.</span>
             <div class="text-right">
                 <button type="submit"
-                    class="inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-orange-800 hover:bg-orange-800 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+                    class="inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-orange-800 hover:bg-orange-800 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-800">
                     Guardar
                 </button>
 

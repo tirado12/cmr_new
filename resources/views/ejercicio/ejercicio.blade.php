@@ -20,7 +20,7 @@
         href="https://cdn.datatables.net/buttons/1.6.4/css/buttons.dataTables.min.css">
     <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
     <div class="flex flex-row items-center ">
-        <img class="block h-24 w-24 rounded-full shadow-2xl" src="{{$cliente->logo}}" alt="cmr">
+        <img class="block h-24 w-24 rounded-full shadow-2xl" src="{{$cliente->icono}}" alt="cmr">
         <div class="ml-4 grid grid-col-1">
             <p class="block font-black text-xl">Ejercicio {{$anio}}</p>
             <p class="block font-black text-xl">{{$cliente->id_municipio}} - {{$cliente->nombre_municipio}}</p>
@@ -501,7 +501,7 @@
 
                       <div class="col-span-8">
                         <div class="bg-gray-300">
-                          <div class="px-4 py-2">
+                          <div class="px-4 py-2 ">
                               <p class="font-semibold text-base text-center uppercase">Matriz de Inversión para el Desarrollo Social <span class="font-bold">(MIDS)</span></p>
                               <p class="font-semibold text-base text-center uppercase">y Sistema de Recursos Federales Transferidos <span class="font-bold">(SRFT)</span></p>
                           </div>
@@ -545,11 +545,11 @@
                                             @endif
                                         </p>
 
-                                        @if(strftime("%m") > 1 && strftime("%Y") == ($anio + 1))
+                                        <!--@if(strftime("%m") > 1 && strftime("%Y") == ($anio + 1))
                                             <div class="flex justify-center max-h-8">
                                                 <img src="{{ asset('image/Bien.svg') }}" alt="Workflow" >
                                             </div>
-                                        @endif
+                                        @endif-->
 
                                       
                                     </div>
@@ -762,11 +762,13 @@
         @endif
         @foreach ($fuentes_cliente as $fuente_cliente)
                 <div class="mt-6 shadow-xl bg-white rounded-lg pb-10">
-                    <div class="border-b p-4 flex justify-between items-center">
-                        <span class="inline-block text-xl font-medium font-semibold">{{$fuente_cliente->nombre_corto}}</span>
-                        <button type="button"
-                          href=""
-                          class="text-base text-white bg-blue-500 p-2 rounded-lg px-6" onclick="toggleModal_1('modal-edit', {{$fuente_cliente}}, '{{$service->formatNumber($fuente_cliente->monto_proyectado)}}', '{{$service->formatNumber($fuente_cliente->monto_comprometido)}}')">{{$fuente_cliente->fuente_financiamiento_id == 2?'Editar':'Detalles'}}</button>
+                    <div class="border-b p-4 flex justify-between items-center bg-blue-cmr1 rounded-t-lg">
+                        <span class="inline-block font-semibold text-lg text-center text-white uppercase">
+                            {{$fuente_cliente->nombre_corto}}
+                        </span>
+                        <button type="button" href="" class="text-base text-white bg-blue-600 px-2 py-1 rounded-lg px-6" onclick="toggleModal_1('modal-edit', {{$fuente_cliente}}, '{{$service->formatNumber($fuente_cliente->monto_proyectado)}}', '{{$service->formatNumber($fuente_cliente->monto_comprometido)}}')">
+                            {{$fuente_cliente->fuente_financiamiento_id == 2?'Editar':'Detalles'}}
+                        </button>
                         
                     </div>
                     <div class="px-6 py-4">
@@ -883,97 +885,94 @@
         <form action="{{ route('fuenteCliente.store') }}" method="POST" id="formulario" name="formulario">
           @csrf
           @method('POST')
-          <div class="relative p-6 flex-auto">
-              <div class="grid grid-cols-10 gap-4">
-                <div class="col-span-5 sm:col-span-5 ">
-                  <label  id="label_cliente_id" for="cliente_id" class="block text-sm font-semibold text-center">Municipio</label>
-                  <p class="text-base font-semibold bg-gray-100 p-1 text-center">{{$cliente->nombre_municipio}}</p>
-                  <input type="text" name="cliente_id" id="cliente_id" class="hidden border-none block text-base font-medium text-gray-700 py-3 px-2" value="{{$cliente->id_cliente}}">
-                </div>
-                <div class="col-span-3 sm:col-span-2">
-                  <label id="label_ejercicio" for="label_ejercicio" class="block text-sm font-semibold text-center">Ejercicio</label>
-                  <p class="text-base font-semibold bg-gray-100 p-1 text-center">{{$anio}}</p>
-                  <input type="text" name="ejercicio" id="ejercicio" class="hidden border-none block text-base font-medium text-gray-700 py-3 px-2" value="{{$anio}}">
-                </div>
-                <div class="col-span-8 sm:col-span-3">
-                  <label id="label_monto_comprometido" for="label_monto_comprometido" class="block text-sm font-semibold text-center">Monto comprometido</label>
-                  <p class="text-base font-semibold bg-gray-100 p-1 text-center">$0.00</p>
-                  <input type="text" name="monto_comprometido" id="monto_comprometido" class="hidden border-none block text-base font-medium text-gray-700 py-3 px-2" value="0.00">
-                </div>
-                <div class="col-span-8 sm:col-span-5">
-                  <label id="label_monto_proyectado" for="label_monto_proyectado" class="block text-sm font-bold text-gray-700">Monto proyectado *</label>
-                  <div class="relative ">
-                    <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                      <span class="text-gray-700 text-base">
-                        $
-                      </span>
+            <div class="relative p-6 flex-auto">
+                <div class="grid grid-cols-10 gap-4">
+                    <div class="col-span-5 sm:col-span-5 ">
+                        <label  id="label_cliente_id" for="cliente_id" class="block text-sm font-semibold text-center">Municipio</label>
+                        <p class="text-base font-semibold bg-gray-100 p-1 text-center">{{$cliente->nombre_municipio}}</p>
+                        <input type="text" name="cliente_id" id="cliente_id" class="hidden border-none block text-base font-medium text-gray-700 py-3 px-2" value="{{$cliente->id_cliente}}">
                     </div>
-                    <input type="text" name="monto_proyectado" id="monto_proyectado" maxlength="20" class="pl-7  mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md" placeholder="0.00">
-                  </div>
-                    <label id="error_monto_proyectado" name="error_monto_proyectado" class="hidden text-base font-normal text-red-500" >Ingrese una cantidad valida</label>
-                </div>
+                    <div class="col-span-3 sm:col-span-2">
+                        <label id="label_ejercicio" for="label_ejercicio" class="block text-sm font-semibold text-center">Ejercicio</label>
+                        <p class="text-base font-semibold bg-gray-100 p-1 text-center">{{$anio}}</p>
+                        <input type="text" name="ejercicio" id="ejercicio" class="hidden border-none block text-base font-medium text-gray-700 py-3 px-2" value="{{$anio}}">
+                    </div>
+                    <div class="col-span-8 sm:col-span-3">
+                        <label id="label_monto_comprometido" for="label_monto_comprometido" class="block text-sm font-semibold text-center">Monto comprometido</label>
+                        <p class="text-base font-semibold bg-gray-100 p-1 text-center">$0.00</p>
+                        <input type="text" name="monto_comprometido" id="monto_comprometido" class="hidden border-none block text-base font-medium text-gray-700 py-3 px-2" value="0.00">
+                    </div>
+                    <div class="col-span-8 sm:col-span-5">
+                        <label id="label_monto_proyectado" for="label_monto_proyectado" class="block text-sm font-bold text-gray-700">Monto proyectado *</label>
+                        <div class="relative ">
+                            <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                                <span class="text-gray-700 text-base">
+                                    $
+                                </span>
+                            </div>
+                            <input type="text" name="monto_proyectado" id="monto_proyectado" maxlength="20" class="pl-7  mt-1 focus:ring-blue-800 focus:border-blue-800 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md" placeholder="0.00">
+                        </div>
+                        <label id="error_monto_proyectado" name="error_monto_proyectado" class="hidden text-base font-normal text-red-500" >Ingrese una cantidad valida</label>
+                    </div>
                 
-                <div class="col-span-5">
-                  <label for="fuente_financiamiento_id" class="block text-sm font-bold text-gray-700">Fuente de financiamiento *</label>
-                  <select id="fuente_financiamiento_id" name="fuente_financiamiento_id" class="mt-1 block w-full py-2 px-3 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">                
-                    @foreach($fuentes as $fuente)
-                    <option value="{{ $fuente->id_fuente_financiamiento }}"> {{ $fuente->nombre_corto }} </option>
-                    @endforeach
-                  </select>
-              </div>
+                    <div class="col-span-5">
+                        <label for="fuente_financiamiento_id" class="block text-sm font-bold text-gray-700">Fuente de financiamiento *</label>
+                        <select id="fuente_financiamiento_id" name="fuente_financiamiento_id" class="mt-1 block w-full py-2 px-3 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-blue-800 focus:border-blue-800 sm:text-sm">                
+                            @foreach($fuentes as $fuente)
+                                <option value="{{ $fuente->id_fuente_financiamiento }}"> {{ $fuente->nombre_corto }} </option>
+                            @endforeach
+                        </select>
+                    </div>
     
-                <div class="col-span-5 fondoIII">
-                    <label id="label_acta_integracion_consejo" for="acta_integracion_consejo" class="block text-sm font-bold text-gray-700">Acta integracion *</label>
-                    <input type="date" name="acta_integracion_consejo" id="acta_integracion_consejo" min="{{$anio}}-02-01" max="{{$anio}}-12-31" class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md" >
-                    <label id="error_acta_integracion_consejo" name="error_acta_integracion_consejo" class="hidden text-base font-normal text-red-500" >Ingrese una fecha valida</label>  
-                </div>
-                <div class="col-span-5 fondoIII">
-                    <label id="label_acta_priorizacion" for="acta_priorizacion" class="block text-sm font-bold text-gray-700">Acta priorización *</label>
-                    <input type="date" name="acta_priorizacion" id="acta_priorizacion" min="{{$anio}}-02-01" max="{{$anio}}-12-31" class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md">
-                    <label id="error_acta_priorizacion" name="error_acta_priorizacion" class="hidden text-base font-normal text-red-500" >Ingrese una fecha valida</label>  
-                </div>
-                <div class="col-span-5 fondoIII">
-                    <label for="adendum_priorizacion" class="block text-sm font-bold text-gray-700">Adendum priorización</label>
-                    <input type="date" name="adendum_priorizacion" id="adendum_priorizacion" min="{{$anio}}-02-01" max="{{$anio}}-12-31" class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md" >
-                    <label id="error_adendum_priorizacion" name="error_adendum_priorizacion" class="hidden text-base font-normal text-red-500" >Ingrese una fecha valida</label>  
-                </div>
-              <div class="col-span-5 lg:col-span-5 fondoIII">
-                  <div>
-                    <label for="cbox2" class="text-sm font-medium text-gray-700"><input type="checkbox" id="prodim" name="prodim" > PRODIMDF</label><br>
-                    <div id="div_prodim" class="hidden mt-5 mb-5">
-                      <label  class="text-sm font-bold text-gray-700">Porcentaje PRODIM</label>
-                      <input type="text" name="porcentaje_prodim" id="porcentaje_prodim" step="any" class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md" value="0.00">
-                      <label id="label_porcentaje_p_tex" class="block text-sm font-bold text-gray-700" >Monto del porcentaje de PRODIM:<br>$ 0.00</label>  
-                      <label id="error_porcentaje_prodim" name="error_porcentaje_prodim" class="block hidden text-base font-normal text-red-500" >Ingrese un porcentaje valido, máximo 2.</label>  
+                    <div class="col-span-5 fondoIII">
+                        <label id="label_acta_integracion_consejo" for="acta_integracion_consejo" class="block text-sm font-bold text-gray-700">Acta integracion *</label>
+                        <input type="date" name="acta_integracion_consejo" id="acta_integracion_consejo" min="{{$anio}}-02-01" max="{{$anio}}-12-31" class="mt-1 focus:ring-blue-800 focus:border-blue-800 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md" >
+                        <label id="error_acta_integracion_consejo" name="error_acta_integracion_consejo" class="hidden text-base font-normal text-red-500" >Ingrese una fecha valida</label>  
                     </div>
-                    <label for="cbox2" class="text-sm font-medium text-gray-700"><input type="checkbox" id="gastos_indirectos" name="gastos_indirectos" > Gastos indirectos</label>
-                    <div id="div_gastos_indirectos" class="hidden mt-5 mb-5">
-                      <label  class="text-sm font-bold text-gray-700">Porcentaje Gastos Indirectos</label>
-                      <input type="text" name="porcentaje_gastos" id="porcentaje_gastos"  min="0" max="3" class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md" value="0.00">
-                      <label id="label_porcentaje_gi_tex" class="block text-sm font-bold" >Monto del porcentaje de Gastos Indirectos:<br>$ 0.00</label> 
-                      <label id="error_porcentaje_gastos" name="error_porcentaje_gastos" class="block mb-5 hidden text-base font-normal text-red-500" >Ingrese un porcentaje valido, máximo 3.</label>  
+                    <div class="col-span-5 fondoIII">
+                        <label id="label_acta_priorizacion" for="acta_priorizacion" class="block text-sm font-bold text-gray-700">Acta priorización *</label>
+                        <input type="date" name="acta_priorizacion" id="acta_priorizacion" min="{{$anio}}-02-01" max="{{$anio}}-12-31" class="mt-1 focus:ring-blue-800 focus:border-blue-800 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md">
+                        <label id="error_acta_priorizacion" name="error_acta_priorizacion" class="hidden text-base font-normal text-red-500" >Ingrese una fecha valida</label>  
                     </div>
-                  </div>
-              </div>
-
-              
-            </div>
+                    <div class="col-span-5 fondoIII">
+                        <label for="adendum_priorizacion" class="block text-sm font-bold text-gray-700">Adendum priorización</label>
+                        <input type="date" name="adendum_priorizacion" id="adendum_priorizacion" min="{{$anio}}-02-01" max="{{$anio}}-12-31" class="mt-1 focus:ring-blue-800 focus:border-blue-800 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md" >
+                        <label id="error_adendum_priorizacion" name="error_adendum_priorizacion" class="hidden text-base font-normal text-red-500" >Ingrese una fecha valida</label>  
+                    </div>
+                    <div class="col-span-5 lg:col-span-5 fondoIII">
+                        <div>
+                            <label for="cbox2" class="text-sm font-medium text-gray-700"><input type="checkbox" id="prodim" name="prodim" > PRODIMDF</label><br>
+                            <div id="div_prodim" class="hidden mt-5 mb-5">
+                                <label  class="text-sm font-bold text-gray-700">Porcentaje PRODIM</label>
+                                <input type="text" name="porcentaje_prodim" id="porcentaje_prodim" step="any" class="mt-1 focus:ring-blue-800 focus:border-blue-800 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md" value="0.00">
+                                <label id="label_porcentaje_p_tex" class="block text-sm font-bold text-gray-700" >Monto del porcentaje de PRODIM:<br>$ 0.00</label>  
+                                <label id="error_porcentaje_prodim" name="error_porcentaje_prodim" class="block hidden text-base font-normal text-red-500" >Ingrese un porcentaje valido, máximo 2.</label>  
+                            </div>
+                            <label for="cbox2" class="text-sm font-medium text-gray-700"><input type="checkbox" id="gastos_indirectos" name="gastos_indirectos" > Gastos indirectos</label>
+                            <div id="div_gastos_indirectos" class="hidden mt-5 mb-5">
+                                <label  class="text-sm font-bold text-gray-700">Porcentaje Gastos Indirectos</label>
+                                <input type="text" name="porcentaje_gastos" id="porcentaje_gastos"  min="0" max="3" class="mt-1 focus:ring-blue-800 focus:border-blue-800 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md" value="0.00">
+                                <label id="label_porcentaje_gi_tex" class="block text-sm font-bold" >Monto del porcentaje de Gastos Indirectos:<br>$ 0.00</label> 
+                                <label id="error_porcentaje_gastos" name="error_porcentaje_gastos" class="block mb-5 hidden text-base font-normal text-red-500" >Ingrese un porcentaje valido, máximo 3.</label>  
+                            </div>
+                        </div>
+                    </div>
+                </div>
             <div class="mt-10">
-              <span class="block text-xs">Verifique los campos obligatorios marcados con un ( * ) </span>
+                <span class="block text-xs">Verifique los campos obligatorios marcados con un ( * ) </span>
             </div>
             
-          </div>
+        </div>
         <!--footer-->
         <div class=" p-4 border-t border-solid border-blueGray-200 rounded-b">
-          
-          <div class="text-right">
-          <button class="text-red-500 background-transparent font-bold uppercase px-6 text-sm outline-none focus:outline-none ease-linear transition-all duration-150" type="button" onclick="toggleModal('modal')">
-            Cancelar
-          </button>
-          <button type="submit" id="guardar" class="text-blue-500 font-bold uppercase text-sm px-6 rounded outline-none focus:outline-none ease-linear transition-all duration-150" >
-            Guardar
-          </button>
-          </div>
+            <div class="text-right">
+                <button class="text-red-500 background-transparent font-bold uppercase px-6 text-sm outline-none focus:outline-none ease-linear transition-all duration-150" type="button" onclick="toggleModal('modal')">
+                    Cancelar
+                </button>
+                <button type="submit" id="guardar" class="text-blue-500 font-bold uppercase text-sm px-6 rounded outline-none focus:outline-none ease-linear transition-all duration-150" >
+                    Guardar
+                </button>
+            </div>
         </div>
         </form>
       </div>
@@ -1005,59 +1004,55 @@
         <div class="relative p-6 flex-auto">
             <div class="grid grid-cols-10 gap-4">
               <div class="col-span-5 sm:col-span-5 ">
-                <label  id="label_cliente_id" for="cliente_id_edit" class="block text-sm font-bold text-gray-700">Municipio</label>
-                <label class="block text-base font-medium text-gray-700 py-3 px-2">{{$cliente->nombre_municipio}}</label>
+                <p id="label_cliente_id" for="cliente_id_edit" class="text-sm font-semibold text-center">Municipio</p>
+                <p class="text-base font-semibold px-3 py-2 bg-gray-100 text-center mt-1 rounded-md">{{$cliente->nombre_municipio}}</p>
                 <input type="text" name="fuente_id_edit" id="fuente_id_edit" class="hidden border-none block text-base font-medium text-gray-700 py-3 px-2" value="{{$cliente->id_cliente}}">
               </div>
               <div class="col-span-3 sm:col-span-2">
-                <label id="label_ejercicio_edit" for="label_ejercicio" class="block text-sm font-bold text-gray-700">Ejercicio</label>
-                <label class="block text-base font-medium text-gray-700 py-3 px-2">{{$anio}}</label>
+                <p id="label_ejercicio_edit" for="label_ejercicio" class="text-sm font-semibold text-center">Ejercicio</p>
+                <p class="text-base font-semibold px-3 py-2 bg-gray-100 text-center mt-1 rounded-md">{{$anio}}</p>
                 <input type="text" name="ejercicio_edit" id="ejercicio_edit" class="hidden border-none block text-base font-medium text-gray-700 py-3 px-2" value="{{$anio}}">
               </div>
               <div class="col-span-8 sm:col-span-3">
-                <label for="label_monto_comprometido_edit" class="block text-sm font-bold text-gray-700">Monto comprometido</label>
-                <label id="label_monto_comprometido_edit" for="monto-comprometido" class="block text-base font-medium text-gray-700 py-3 px-2">$ 0.00</label>
+                <p for="label_monto_comprometido_edit" class="text-sm font-semibold text-center">Monto comprometido</p>
+                <p id="label_monto_comprometido_edit" for="monto-comprometido" class="text-base font-semibold px-3 py-2 bg-gray-100 text-center mt-1 rounded-md">$ 0.00</p>
               </div>
                 <div class="col-span-8 sm:col-span-5">
-                  <label for="label_monto_proyectado_edit" class="block text-sm font-bold text-gray-700">Monto proyectado *</label>
-                  <label id="label_monto_proyectado_edit" class="block text-base font-medium text-gray-700 py-3 px-2">$ 0.00</label>
+                  <p for="label_monto_proyectado_edit" class="text-sm font-semibold text-center">Monto proyectado</p>
+                  <p id="label_monto_proyectado_edit" class="text-base font-semibold px-3 py-2 bg-gray-100 text-center mt-1 rounded-md">$ 0.00</p>
               </div>
               
               <div class="col-span-5">
-                <label for="fuente_financiamiento_id" class="block text-sm font-bold text-gray-700">Fuente de financiamiento *</label>
-                <label id="fuente_financiamiento_edit" for="fuente_financiemiento_id_edit" class="block text-base font-medium text-gray-700 py-3 px-2">$0.00</label>
+                <p for="fuente_financiamiento_id" class="text-sm font-semibold text-center">Fuente de financiamiento</p>
+                <p id="fuente_financiamiento_edit" for="fuente_financiemiento_id_edit" class="text-base font-semibold px-3 py-2 bg-gray-100 text-center mt-1 rounded-md">$0.00</p>
               </div>
   
               <div class="col-span-5 fondo_3">
-                  <label id="label_acta_integracion_consejo" for="acta_integracion_consejo" class="block text-sm font-bold text-gray-700">Acta integracion *</label>
-                  <input type="date" name="acta_integracion_consejo_edit" id="acta_integracion_consejo_edit"  min="{{$anio}}-02-01" max="{{$anio}}-12-31" class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md" >
+                  <p id="label_acta_integracion_consejo" for="acta_integracion_consejo" class="text-sm font-semibold">Acta integracion *</p>
+                  <input type="date" name="acta_integracion_consejo_edit" id="acta_integracion_consejo_edit"  min="{{$anio}}-02-01" max="{{$anio}}-12-31" class="mt-1 focus:ring-blue-800 focus:border-blue-800 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md" >
                   <label id="error_acta_integracion_consejo" name="error_acta_integracion_consejo" class="hidden text-base font-normal text-red-500" >Por favor ingresar una Fecha</label>  
               </div>
               <div class="col-span-5 fondo_3">
-                  <label id="label_acta_priorizacion" for="acta_priorizacion" class="block text-sm font-bold text-gray-700">Acta priorización *</label>
-                  <input type="date" name="acta_priorizacion_edit" id="acta_priorizacion_edit"  min="{{$anio}}-02-01" max="{{$anio}}-12-31" class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md" >
+                  <p id="label_acta_priorizacion" for="acta_priorizacion" class="text-sm font-semibold">Acta priorización *</p>
+                  <input type="date" name="acta_priorizacion_edit" id="acta_priorizacion_edit"  min="{{$anio}}-02-01" max="{{$anio}}-12-31" class="mt-1 focus:ring-blue-800 focus:border-blue-800 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md" >
                   <label id="error_acta_priorizacion_edit" name="error_acta_priorizacion_edit" class="hidden text-base font-normal text-red-500" >Por favor ingresar una Fecha</label>  
               </div>
               <div class="col-span-5 fondo_3">
-                  <label for="adendum_priorizacion" class="block text-sm font-bold text-gray-700">Adendum priorización *</label>
-                  <input type="date" name="adendum_priorizacion_edit" id="adendum_priorizacion_edit"  min="{{$anio}}-02-01" max="{{$anio}}-12-31" class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md" >
+                  <p for="adendum_priorizacion" class="text-sm font-semibold">Adendum priorización *</p>
+                  <input type="date" name="adendum_priorizacion_edit" id="adendum_priorizacion_edit"  min="{{$anio}}-02-01" max="{{$anio}}-12-31" class="mt-1 focus:ring-blue-800 focus:border-blue-800 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md" >
                   <label id="error_adendum_priorizacion_edit" name="error_adendum_priorizacion_edit" class="hidden text-base font-normal text-red-500" >Por favor ingresar una Fecha</label>  
               </div>
               <div class="col-span-5 lg:col-span-5 fondo_3">
                   <div id="div_prodim_edit" class="mb-5">
-                    <label id="label_prodim" class="block text-sm font-bold text-gray-700" ></label>  
+                    <p id="label_prodim" class="text-sm font-semibold" ></p>  
                   </div>
-                  <div id="div_gastos_edit" class="mt-5 mb-5">
-                    <label id="label_gastos" class="block text-sm font-bold text-gray-700" ></label>  
+                  <div id="div_gastos_edit" class="mt-5">
+                    <p id="label_gastos" class="text-sm font-semibold" ></p>  
                   </div>
                   
               </div>
-
-            
-
-            
             </div>
-            <div class="mt-10">
+            <div class="mt-5">
               <span class="block text-xs">Verifique los campos obligatorios marcados con un ( * ) </span>
             </div>
           
@@ -1118,7 +1113,7 @@
                   </div>
                   <div class="col-span-10 select2_modificado">
                     <label for="fuente_financiamiento_id" class="block text-sm font-bold text-gray-700">Programa*</label>
-                    <select class="js-example-basic-single mt-1 block w-full py-2 px-3 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm" name="programa_id">
+                    <select class="js-example-basic-single mt-1 block w-full py-2 px-3 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-blue-800 focus:border-blue-800 sm:text-sm" name="programa_id">
                       @foreach($catalogo_prodim as $concepto)
                           <option value="{{ $concepto->id_prodim_catalogo }}" class="whitespace-normal w-full bg-green-500 overflow-hidden"><p class="w-full">{{ $concepto->nombre }}</p> </option>
                       @endforeach
@@ -1126,7 +1121,7 @@
                   </div>
                   <div class="col-span-10 sm:col-span-5">
                     <label id="label_fecha_asignacion" for="fecha_asignacion" class="block text-sm font-bold text-gray-700">Fecha asignación*</label>
-                    <input type="date" name="fecha_asignacion" id="fecha_asignacion" min="{{$anio}}-02-01" max="{{$anio}}-12-31" class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md" >
+                    <input type="date" name="fecha_asignacion" id="fecha_asignacion" min="{{$anio}}-02-01" max="{{$anio}}-12-31" class="mt-1 focus:ring-blue-800 focus:border-blue-800 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md" >
                     <label id="error_fecha_asignacion" name="error_fecha_asignacion" class="hidden text-base font-normal text-red-500" >Ingrese una fecha valida</label>  
                   </div>
                   <div class="col-span-10 sm:col-span-5">
@@ -1137,7 +1132,7 @@
                           $
                         </span>
                       </div>
-                      <input type="text" name="monto_prodim" id="monto_prodim" maxlength="20" class="pl-7  mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md" placeholder="0.00">
+                      <input type="text" name="monto_prodim" id="monto_prodim" maxlength="20" class="pl-7  mt-1 focus:ring-blue-800 focus:border-blue-800 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md" placeholder="0.00">
                     </div>
                       <label id="error_monto_prodim_superior" name="error_monto_prodim" class="hidden block text-base font-normal text-red-500" >El monto es mayor que el monto restante del PRODIM {{$service->formatNumber($fuentes_cliente->where('fuente_financiamiento_id', 2)->first()->monto_prodim - $total_prodim?$fuentes_cliente->where('fuente_financiamiento_id', 2)->first()->monto_prodim - $total_prodim:0)}}.</label>
                       <label id="error_monto_prodim" name="error_monto_prodim" class="hidden block text-base font-normal text-red-500" >Ingrese una cantidad valida</label>
@@ -1208,14 +1203,14 @@
                           $
                         </span>
                       </div>
-                      <input type="text" name="monto_concepto" id="monto_concepto" maxlength="20" class="pl-7  mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md" placeholder="0.00">
+                      <input type="text" name="monto_concepto" id="monto_concepto" maxlength="20" class="pl-7  mt-1 focus:ring-blue-800 focus:border-blue-800 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md" placeholder="0.00">
                     </div>
                       <label id="error_monto_concepto_superior" name="error_monto_concepto" class="hidden text-base font-normal text-red-500" >El monto es mayor que el monto restante del programa <span id="total_restante_programa"></span>.</label>
                       <label id="error_monto_concepto" name="error_monto_concepto" class="hidden text-base font-normal text-red-500" >Ingrese una cantidad valida</label>
                   </div>
                   <div class="col-span-10 select2_modificado">
                     <label for="label_concepto_prodim" id="label_concepto_prodim" class="block text-sm font-bold text-gray-700">Concepto:*</label>
-                    <input type="text" name="concepto_prodim" id="concepto_prodim" class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md" value="">
+                    <input type="text" name="concepto_prodim" id="concepto_prodim" class="mt-1 focus:ring-blue-800 focus:border-blue-800 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md" value="">
                     <label id="error_concepto_prodim" name="error_concepto_prodim" class="hidden text-base font-normal text-red-500" >Ingrese un concepto valido</label>
                   </div>
               </div>
@@ -1277,7 +1272,7 @@
                     @else
                         <div  id="div_presentado" class="col-span-5">
                             <label class="block text-sm font-semibold text-gray-700">Fecha de presentación*</label>
-                            <input type="date" name="fecha_presentado" id="fecha_presentado" min="{{$anio}}-02-01" max="{{$anio}}-12-31" class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md" >
+                            <input type="date" name="fecha_presentado" id="fecha_presentado" min="{{$anio}}-02-01" max="{{$anio}}-12-31" class="mt-1 focus:ring-blue-800 focus:border-blue-800 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md" >
                             <label id="error_fecha_presentado" class="hidden text-base font-normal text-red-500" >Ingrese una fecha valida</label>    
                         </div>
                     @endif
@@ -1291,7 +1286,7 @@
                     @else
                         <div  id="div_revisado" class="{{$prodim->presentado == 1?'':'hidden'}} col-span-5">
                             <label id="label_fecha_revisado" class="block text-sm font-semibold text-gray-700">Fecha de revisión*</label>
-                            <input type="date" name="fecha_revisado" id="fecha_revisado" min="{{$prodim->fecha_presentado?$prodim->fecha_presentado:$anio.'-02-01'}}" max="{{$anio}}-12-31" class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md" >
+                            <input type="date" name="fecha_revisado" id="fecha_revisado" min="{{$prodim->fecha_presentado?$prodim->fecha_presentado:$anio.'-02-01'}}" max="{{$anio}}-12-31" class="mt-1 focus:ring-blue-800 focus:border-blue-800 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md" >
                             <label id="error_fecha_revisado" class="hidden text-base font-normal text-red-500" >Ingrese una fecha valida</label>    
                         </div>
                     @endif
@@ -1305,7 +1300,7 @@
                     @else
                         <div  id="div_aprovado" class="{{$prodim->revisado == 1?'':'hidden'}} col-span-5">
                             <label id="label_fecha_aprovado" class="block text-sm font-semibold text-gray-700">Fecha de aprobación * </label>
-                            <input type="date" name="fecha_aprovado" id="fecha_aprovado" min="{{$prodim->fecha_revisado?$prodim->fecha_revisado:$anio.'-02-01'}}" max="{{$anio}}-12-31" class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md" >
+                            <input type="date" name="fecha_aprovado" id="fecha_aprovado" min="{{$prodim->fecha_revisado?$prodim->fecha_revisado:$anio.'-02-01'}}" max="{{$anio}}-12-31" class="mt-1 focus:ring-blue-800 focus:border-blue-800 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md" >
                             <label id="error_fecha_aprovado" class="hidden text-base font-normal text-red-500" >Ingrese una fecha valida</label>    
                         </div>
                     @endif
@@ -1326,7 +1321,7 @@
                     @else
                         <div  id="div_convenio" class="{{$prodim->aprovado == 1?'':'hidden'}} col-span-5">
                             <label id="label_fecha_convenio" class="block text-sm font-semibold text-gray-700">Firma de convenio*</label>
-                            <input type="date" name="fecha_convenio" id="fecha_convenio" min="{{$prodim->fecha_aprovado?$prodim->fecha_aprovado:$anio.'-02-01'}}" max="{{$anio}}-12-31" class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md" >
+                            <input type="date" name="fecha_convenio" id="fecha_convenio" min="{{$prodim->fecha_aprovado?$prodim->fecha_aprovado:$anio.'-02-01'}}" max="{{$anio}}-12-31" class="mt-1 focus:ring-blue-800 focus:border-blue-800 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md" >
                             <label id="error_fecha_convenio" class="hidden text-base font-normal text-red-500" >Ingrese una fecha valida</label>    
                         </div>
                         <div  id="div_convenio_archivo" class="{{$prodim->aprovado == 1?'':'hidden'}} col-span-10">
@@ -1409,7 +1404,7 @@
                   </div>
                   <div class="col-span-10 select2_modificado">
                     <label for="gi_catalogo_id" class="block text-sm font-bold text-gray-700">Programa*</label>
-                    <select class="js-example-basic-single mt-1 block w-full py-2 px-3 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm" name="gi_catalogo_id">
+                    <select class="js-example-basic-single mt-1 block w-full py-2 px-3 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-blue-800 focus:border-blue-800 sm:text-sm" name="gi_catalogo_id">
                       @foreach($catalogo_gi as $concepto)
                           <option value="{{ $concepto->id_indirectos }}" class="whitespace-normal w-full bg-green-500 overflow-hidden"><p class="w-full">{{ $concepto->nombre }}</p> </option>
                       @endforeach
@@ -1417,7 +1412,7 @@
                   </div>
                   <div class="col-span-10 sm:col-span-5">
                     <label id="label_fecha_asignacion_gi" for="fecha_asignacion" class="block text-sm font-bold text-gray-700">Fecha asignación*</label>
-                    <input type="date" name="fecha_asignacion_gi" id="fecha_asignacion_gi" min="{{$anio}}-02-01" max="{{$anio}}-12-31" class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md" >
+                    <input type="date" name="fecha_asignacion_gi" id="fecha_asignacion_gi" min="{{$anio}}-02-01" max="{{$anio}}-12-31" class="mt-1 focus:ring-blue-800 focus:border-blue-800block w-full shadow-sm sm:text-sm border-gray-300 rounded-md" >
                     <label id="error_fecha_asignacion_gi" name="error_fecha_asignacion_gi" class="hidden text-base font-normal text-red-500" >Ingrese una fecha valida</label>  
                   </div>
                   <div class="col-span-10 sm:col-span-5">
@@ -1428,7 +1423,7 @@
                           $
                         </span>
                       </div>
-                      <input type="text" name="monto_gi" id="monto_gi" maxlength="20" class="pl-7  mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md" placeholder="0.00">
+                      <input type="text" name="monto_gi" id="monto_gi" maxlength="20" class="pl-7  mt-1 focus:ring-blue-800 focus:border-blue-800 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md" placeholder="0.00">
                     </div>
                       <label id="error_monto_gi_superior" name="error_monto_gi_superior" class="hidden block text-base font-normal text-red-500" >El monto es mayor que el total restante de Gastos Indirectos {{$service->formatNumber($fuentes_cliente->where('fuente_financiamiento_id', 2)->first()->monto_gastos -$total_gi )}}.</label>
                       <label id="error_monto_gi" name="error_monto_gi" class="hidden block text-base font-normal text-red-500" >Ingrese una cantidad valida</label>
@@ -1484,12 +1479,12 @@
                   </div>
                   <div class="col-span-10 sm:col-span-5">
                     <label id="label_fecha_capturado" for="fecha_capturado" class="block text-sm font-bold text-gray-700">Fecha de captura*</label>
-                    <input type="date" name="fecha_capturado" id="fecha_capturado" min="{{$fuente_f3->acta_priorizacion}}" max="{{$anio}}-12-31" class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md" value="{{$sisplade->fecha_capturado}}">
+                    <input type="date" name="fecha_capturado" id="fecha_capturado" min="{{$fuente_f3->acta_priorizacion}}" max="{{$anio}}-12-31" class="mt-1 focus:ring-blue-800 focus:border-blue-800 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md" value="{{$sisplade->fecha_capturado}}">
                     <label id="error_fecha_capturado" name="error_fecha_capturado" class="hidden text-base font-normal text-red-500" >Ingrese una fecha valida</label>  
                   </div>
                   <div class="col-span-10 sm:col-span-5">
                     <label id="label_fecha_validacion" for="fecha_validacion" class="block text-sm font-bold text-gray-700">Fecha de validación</label>
-                    <input type="date" name="fecha_validacion" id="fecha_validacion" min="{{$sisplade->capturado==2?$fuente_f3->acta_priorizacion:$sisplade->fecha_capturado}}" max="{{$anio}}-12-31" class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md" value="{{$sisplade->fecha_validado}}">
+                    <input type="date" name="fecha_validacion" id="fecha_validacion" min="{{$sisplade->capturado==2?$fuente_f3->acta_priorizacion:$sisplade->fecha_capturado}}" max="{{$anio}}-12-31" class="mt-1 focus:ring-blue-800 focus:border-blue-800 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md" value="{{$sisplade->fecha_validado}}">
                     <label id="error_fecha_validacion" name="error_fecha_validacion" class="hidden text-base font-normal text-red-500" >Ingrese una fecha valida</label>  
                   </div>
                 </div>
@@ -1549,7 +1544,7 @@
                         <p class="text-sm font-semibold text-center pb-2"> Proceso de captura</p>
                         <div class="grid grid-cols-10 gap-4">
                           <div class="col-span-10 sm:col-span-5">
-                            <input type="date" name="fecha_planeacion" id="fecha_planeacion" min="{{$fuente_f3->acta_priorizacion}}" max="{{$anio}}-12-31" class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md" value="{{$sisplade->fecha_capturado}}">
+                            <input type="date" name="fecha_planeacion" id="fecha_planeacion" min="{{$fuente_f3->acta_priorizacion}}" max="{{$anio}}-12-31" class="mt-1 focus:ring-blue-800 focus:border-blue-800 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md" value="{{$sisplade->fecha_capturado}}">
                             <label id="label_fecha_planeacion" for="fecha_planeacion" class="block text-xs font-semibold text-gray-700 text-center">Fecha*</label>
                             <label id="error_fecha_planeacion" name="error_fecha_planeacion" class="hidden text-base font-normal text-red-500" >Ingrese una fecha valida</label>  
                           </div>
@@ -1594,7 +1589,7 @@
                         <p class="text-sm font-semibold text-center pb-2"> Proceso de firma</p>
                         <div class="grid grid-cols-10 gap-4">
                           <div class="col-span-10 sm:col-span-5">
-                            <input type="date" name="fecha_firma" id="fecha_firma" min="{{$fuente_f3->acta_priorizacion}}" max="{{$anio}}-12-31" class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md" value="{{$sisplade->fecha_capturado}}">
+                            <input type="date" name="fecha_firma" id="fecha_firma" min="{{$fuente_f3->acta_priorizacion}}" max="{{$anio}}-12-31" class="mt-1 focus:ring-blue-800 focus:border-blue-800 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md" value="{{$sisplade->fecha_capturado}}">
                             <label id="label_fecha_firma" for="fecha_firma" class="block text-xs font-semibold text-gray-700 text-center">Fecha*</label>
                             <label id="error_fecha_firma" name="error_fecha_firma" class="hidden text-base font-normal text-red-500" >Ingrese una fecha valida</label>  
                           </div>
@@ -1639,7 +1634,7 @@
                         <p class="text-sm font-semibold text-center pb-2"> Proceso de revisión</p>
                         <div class="grid grid-cols-10 gap-4">
                           <div class="col-span-10 sm:col-span-5">
-                            <input type="date" name="fecha_revision" id="fecha_revision" min="{{$fuente_f3->acta_priorizacion}}" max="{{$anio}}-12-31" class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md" value="{{$sisplade->fecha_capturado}}">
+                            <input type="date" name="fecha_revision" id="fecha_revision" min="{{$fuente_f3->acta_priorizacion}}" max="{{$anio}}-12-31" class="mt-1 focus:ring-blue-800 focus:border-blue-800 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md" value="{{$sisplade->fecha_capturado}}">
                             <label id="label_fecha_revision" for="fecha_revision" class="block text-xs font-semibold text-gray-700 text-center">Fecha*</label>
                             <label id="error_fecha_revision" name="error_fecha_revision" class="hidden text-base font-normal text-red-500" >Ingrese una fecha valida</label>  
                           </div>
@@ -1994,10 +1989,10 @@
     @if(session('mensaje')=='ok')
         <script>
             Swal.fire({  
-            title: '{{session('datos')[1]}}',
-            text: '{{session('datos')[2]}}',
-            icon: '{{session('datos')[0]}}',
-            button: "Ok",
+              title: '{{session('datos')[1]}}',
+              text: '{{session('datos')[2]}}',
+              icon: '{{session('datos')[0]}}',
+              confirmButtonText: 'Ok'
 
             })
         </script>
@@ -2147,8 +2142,8 @@
     }
 
     function mostrarTabla(modalID){
-      document.getElementById(modalID).classList.toggle("hidden");
-      document.getElementById(modalID + '-titulo').classList.toggle("hidden");
+        document.getElementById(modalID).classList.toggle("hidden");
+        document.getElementById(modalID + '-titulo').classList.toggle("hidden");
     }
 
     //Modal agregar nuevo concepto al programa
@@ -2165,50 +2160,50 @@
     }
 
     function toggleModal_1(modalID, fuente, mp, mc){
-      $("#label_monto_proyectado_edit").html("$ " + mp.replaceAll("$",""));
-      $("#fuente_financiamiento_edit").html(fuente.nombre_corto);
-      $("#fuente_id_edit").val(fuente.id_fuente_financ_cliente);
-      $("#acta_integracion_consejo_edit").val(fuente.acta_integracion_consejo);
-      $("#acta_integracion_consejo_edit").attr("max", fuente.acta_priorizacion);
-      $("#acta_priorizacion_edit").val(fuente.acta_priorizacion);
-      $("#acta_priorizacion_edit").attr("min", fuente.acta_integracion_consejo);
-      $("#adendum_priorizacion_edit").val(fuente.adendum_priorizacion);
-      $("#adendum_priorizacion_edit").attr("min", fuente.acta_priorizacion);
-      $("#label_monto_comprometido_edit").html("$ "+ mc.replaceAll("$",""));      
-      $("#div_prodim_edit").removeClass("hidden");
-      $("#div_prodim_edit").addClass(fuente.prodim == 1?'':'hidden');
-      $("#div_gastos_edit").removeClass("hidden");
-      $("#div_gastos_edit").addClass(fuente.gastos_indirectos == 1?'':'hidden');
-      porcentaje_prodim = parseFloat(fuente.porcentaje_prodim).toFixed(2);
-      porcentaje_gastos = parseFloat(fuente.porcentaje_gastos).toFixed(2);
-      total_prodim = parseFloat(fuente.monto_proyectado * (fuente.porcentaje_prodim * 0.01)).toFixed(2);
-      total_gastos = parseFloat(fuente.monto_proyectado * (fuente.porcentaje_gastos * 0.01)).toFixed(2);
-      $("#label_prodim").html("PRODIM<br><span class='ml-5'>Porcentaje: "+porcentaje_prodim+" %</span> <br> <span class='ml-5'>Monto: $ "+("" + total_prodim).replace(/\D/g, "").replace(/([0-9])([0-9]{2})$/, '$1.$2').replace(/\B(?=(\d{3})+(?!\d)\.?)/g, ",")+"</span>");
-      $("#label_gastos").html("Gastos Indirectos<br><span class='ml-5'>Porcentaje: "+porcentaje_gastos+" %</span> <br> <span class='ml-5'>Monto: $ "+("" + total_gastos).replace(/\D/g, "").replace(/([0-9])([0-9]{2})$/, '$1.$2').replace(/\B(?=(\d{3})+(?!\d)\.?)/g, ",")+"</span>");
-      $("#div_button_edit").removeClass("hidden");
-      $("#div_button_edit").addClass(fuente.fuente_financiamiento_id == 2?'block':'hidden');
-      
+        $("#label_monto_proyectado_edit").html("$ " + mp.replaceAll("$",""));
+        $("#fuente_financiamiento_edit").html(fuente.nombre_corto);
+        $("#fuente_id_edit").val(fuente.id_fuente_financ_cliente);
+        $("#acta_integracion_consejo_edit").val(fuente.acta_integracion_consejo);
+        $("#acta_integracion_consejo_edit").attr("max", fuente.acta_priorizacion);
+        $("#acta_priorizacion_edit").val(fuente.acta_priorizacion);
+        $("#acta_priorizacion_edit").attr("min", fuente.acta_integracion_consejo);
+        $("#adendum_priorizacion_edit").val(fuente.adendum_priorizacion);
+        $("#adendum_priorizacion_edit").attr("min", fuente.acta_priorizacion);
+        $("#label_monto_comprometido_edit").html("$ "+ mc.replaceAll("$",""));      
+        $("#div_prodim_edit").removeClass("hidden");
+        $("#div_prodim_edit").addClass(fuente.prodim == 1?'':'hidden');
+        $("#div_gastos_edit").removeClass("hidden");
+        $("#div_gastos_edit").addClass(fuente.gastos_indirectos == 1?'':'hidden');
+        porcentaje_prodim = parseFloat(fuente.porcentaje_prodim).toFixed(2);
+        porcentaje_gastos = parseFloat(fuente.porcentaje_gastos).toFixed(2);
+        total_prodim = parseFloat(fuente.monto_proyectado * (fuente.porcentaje_prodim * 0.01)).toFixed(2);
+        total_gastos = parseFloat(fuente.monto_proyectado * (fuente.porcentaje_gastos * 0.01)).toFixed(2);
+        $("#label_prodim").html("PRODIM<br><span class='ml-5'>Porcentaje: "+porcentaje_prodim+" %</span> <br> <span class='ml-5'>Monto: $ "+("" + total_prodim).replace(/\D/g, "").replace(/([0-9])([0-9]{2})$/, '$1.$2').replace(/\B(?=(\d{3})+(?!\d)\.?)/g, ",")+"</span>");
+        $("#label_gastos").html("Gastos Indirectos<br><span class='ml-5'>Porcentaje: "+porcentaje_gastos+" %</span> <br> <span class='ml-5'>Monto: $ "+("" + total_gastos).replace(/\D/g, "").replace(/([0-9])([0-9]{2})$/, '$1.$2').replace(/\B(?=(\d{3})+(?!\d)\.?)/g, ",")+"</span>");
+        $("#div_button_edit").removeClass("hidden");
+        $("#div_button_edit").addClass(fuente.fuente_financiamiento_id == 2?'block':'hidden');
+        
 
 
-      if(fuente.id_fuente_financiamiento == 2)
-          $(".fondo_3").removeClass("hidden");
-      else
-          $(".fondo_3").addClass("hidden");
-      document.getElementById(modalID).classList.toggle("hidden");
-      document.getElementById(modalID + "-backdrop").classList.toggle("hidden");
+        if(fuente.id_fuente_financiamiento == 2)
+            $(".fondo_3").removeClass("hidden");
+        else
+            $(".fondo_3").addClass("hidden");
+        document.getElementById(modalID).classList.toggle("hidden");
+        document.getElementById(modalID + "-backdrop").classList.toggle("hidden");
       
     }
 
     function validarCliente() {
         var valor = document.getElementById("municipio").value;
         if(valor != ''){
-          $('#error_municipio').fadeOut();
-          $("#label_municipio").removeClass('text-red-500');
-          $("#label_municipio").addClass('text-gray-700');
+            $('#error_municipio').fadeOut();
+            $("#label_municipio").removeClass('text-red-500');
+            $("#label_municipio").addClass('text-gray-700');
         }else{
-          $('#error_municipio').fadeIn();
-          $("#label_municipio").addClass('text-red-500');
-          $("#label_municipio").removeClass('text-gray-700');
+            $('#error_municipio').fadeIn();
+            $("#label_municipio").addClass('text-red-500');
+            $("#label_municipio").removeClass('text-gray-700');
         }
     }
 

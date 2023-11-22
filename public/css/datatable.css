@@ -26,17 +26,24 @@ div.dt-buttons {
 }
 
 .dataTables_filter, .dataTables_info {
-    padding: 1rem
+    padding: 1rem;
+    font-size: 0.875rem;
 }
 
 .dataTables_wrapper .dataTables_paginate {
-    padding: 1rem
+    padding: 1rem;
+    font-size: 0.875rem;
 }
 
 .dataTables_filter label input {
-    padding: 0.5rem;
+    padding-left: 0.5rem;
+    padding-right: 0.5rem;
+    padding-top: 0.3rem;
+    padding-bottom: 0.3rem;
     border-width: 2px;
-    border-radius: 0.5rem
+    border-radius: 0.5rem;
+    font-size: 0.9rem;
+    line-height: 1;
 }
 
 .dataTables_filter label input:focus {
@@ -53,9 +60,10 @@ table.dataTable thead tr th:not(.text-center) {
 }
 
 table.dataTable thead tr th {
-    background-color: #E5E7EB;
+    background-color: #F3F4F6;
     border-bottom-width: 2px;
-    border-top-width: 1px;
+    
+
     border-color: #d2d6dc
 }
 
@@ -115,9 +123,21 @@ table.dataTable tfoot tr th {
 
 .dataTables_length select {
     border-radius: .25rem;
-    background-color: #edf2f7;
+    background-color: #F3F4F6;
+    padding-top: 0.25rem;
+    padding-bottom: 0.2rem;
+    font-size: 0.875rem;
 }
 
 .dataTables_length {
     padding-top: 1.25rem;
+    font-size: 0.875rem;
+}
+
+.dataTables_filter{
+    font-size: 0.875rem;
+}
+
+.dataTables_empty{
+    font-size: 0.875rem;
 }

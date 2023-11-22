@@ -11,7 +11,7 @@
     <link rel="stylesheet" href="https://cdn.datatables.net/buttons/1.6.4/css/buttons.dataTables.min.css">
 
     <div class="flex flex-row items-center ">
-        <img class="block h-24 w-24 rounded-full shadow-2xl" src="{{$obra->logo}}" alt="cmr">
+        <img class="block h-24 w-24 rounded-full shadow-2xl" src="{{$obra->icono}}" alt="cmr">
         <div class="ml-4 grid grid-col-1">
             <p class="block font-black text-xl">Detalles de la obra</p>
             <p class="block font-black text-xl">{{$obra->id_municipio}} - {{$obra->nombre_municipio}}</p>
@@ -435,39 +435,38 @@
                             <input type="text" name="id_observacion" id="id_observacion" maxlength="40" class="hidden mt-1 focus:ring-blue-800 focus:border-blue-800 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md" value="">
                             <div id="validado" class="col-span-10 text-center">
                                 <input type="checkbox" id="validado" name="validado" >
-                                <label for="validado" class="text-base font-semibold text-gray-700"> La documentación ha sido validada</label>
+                                <label for="validado" class="text-sm font-semibold"> La documentación ha sido validada</label>
                             </div> 
                             <div id="div-obs-solv" class="col-span-10">
                                 <div class="grid grid-cols-10 gab-4">
                                     <div  id="div_observacion" class=" col-span-5">
-                                        <label for="fecha_observacion" class="block text-sm font-semibold text-gray-700">Fecha de observación*</label>
+                                        <p class="text-sm">Fecha de observación*</p>
                                         <div id="label_fecha_observacion" class="mt-1 py-2 px-3">
-                                            <label class="text-base font-bold text-gay-500" ></label>
+                                            <label class="text-sm font-bold text-gay-500" ></label>
                                         </div>
-                                        <input type="date" name="fecha_observacion" id="fecha_observacion" min="" max="{{$obra->ejercicio + 1}}-03-31" class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md" >
-                                        <label id="error_fecha_observacion" class="hidden text-base font-normal text-red-500" >Ingrese una fecha valida</label>
+                                        <input type="date" name="fecha_observacion" id="fecha_observacion" min="" max="{{$obra->ejercicio + 1}}-03-31" class="mt-1 focus:ring-blue-800 focus:border-blue-800 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md" >
+                                        <label id="error_fecha_observacion" class="hidden text-sm font-normal text-red-500" >Ingrese una fecha valida</label>
                                     </div>
                                     <div id="div_solventacion" class="hidden col-span-5">
-                                        <label for="fecha_convenio" class="block text-sm font-semibold text-gray-700">Fecha de solventación*</label>
+                                        <p class="text-sm">Fecha de solventación*</p>
                                         <div id="label_fecha_solventacion" class="mt-1 py-2 px-3">
-                                            <label class="text-base font-bold text-gay-500" ></label>
+                                            <p class="text-sm font-semibold" ></p>
                                         </div>
-                                        <input type="date" name="fecha_solventacion" id="fecha_solventacion" min="" max="{{$obra->ejercicio + 1}}-03-31" class="hidden mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md" >
-                                        <label id="error_fecha_solventacion" class="hidden text-base font-normal text-red-500" >Ingrese una fecha valida</label>
+                                        <input type="date" name="fecha_solventacion" id="fecha_solventacion" min="" max="{{$obra->ejercicio + 1}}-03-31" class="hidden mt-1 focus:ring-blue-800 focus:border-blue-800 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md" >
+                                        <p id="error_fecha_solventacion" class="hidden text-sm text-red-500" >Ingrese una fecha valida</p>
                                     </div>
                                 </div>
                                 
                             </div>
                             <div id="div_validacion" class="hidden col-span-5">
-                                <label for="fecha_validacion" class="block text-sm font-semibold text-gray-700">Fecha de validación*</label>
-                                <input type="date" name="fecha_validacion" id="fecha_validacion" min="" max="{{$obra->ejercicio + 1}}-03-31" class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md" >
-                                <label id="error_fecha_validacion" class="hidden text-base font-normal text-red-500" >Ingrese una fecha valida</label>
+                                <p for="fecha_validacion" class="text-sm">Fecha de validación*</p>
+                                <input type="date" name="fecha_validacion" id="fecha_validacion" min="" max="{{$obra->ejercicio + 1}}-03-31" class="mt-1 focus:ring-blue-800 focus:border-blue-800 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md" >
+                                <label id="error_fecha_validacion" class="hidden text-sm text-red-500" >Ingrese una fecha valida</label>
+                            </div>
+                            <div class="col-span-10">
+                                <span class="block text-xs">Verifique los campos obligatorios marcados con un ( * ) </span>
                             </div>
                         </div>
-                        <div class="mt-10">
-                            <span class="block text-xs">Verifique los campos obligatorios marcados con un ( * ) </span>
-                        </div>
-                    
                     </div>
                     <!--footer-->
                     <div id="div_acciones" class=" p-4 border-t border-solid border-blueGray-200 rounded-b">
@@ -511,74 +510,74 @@
                     @if($pagos_obra->fecha_validacion == null && $pagos_obra->fecha_pago == null)
                         <div id="validado" class="col-span-10 text-center">
                             <input type="checkbox" id="pagado" name="pagado" >
-                            <label for="pagado" class="text-base font-semibold text-red-500"> {{$pagos_obra->nombre == 'Anticipo'?'El': 'La'}} {{$pagos_obra->nombre}} ha sido {{$pagos_obra->nombre == 'Anticipo'?'pagado': 'pagada'}} sin validación de documentos.</label>
+                            <label for="pagado" class="text-sm font-semibold text-red-500"> {{$pagos_obra->nombre == 'Anticipo'?'El': 'La'}} {{$pagos_obra->nombre}} ha sido {{$pagos_obra->nombre == 'Anticipo'?'pagado': 'pagada'}} sin validación de documentos.</label>
                         </div> 
                     @endif
 
                     @if($pagos_obra->fecha_recepcion != null)
                         <div class="col-span-5">
-                            <label class="block text-sm font-semibold text-gray-700">Fecha de recepción de documentos*</label>
-                            <div id="label_fecha_recepcion" class="mt-1 py-2 px-3">
-                                <label class="text-base font-bold text-gay-500" >{{$service->formatDate($pagos_obra->fecha_recepcion)}}</label>
+                            <p class="text-sm  text-center">Fecha de recepción de documentos</p>
+                            <div id="label_fecha_recepcion" class="mt-1">
+                                <p class="text-base font-semibold px-3 py-2 bg-gray-100 text-center mt-1 rounded-md" >{{$service->formatDate($pagos_obra->fecha_recepcion)}}</p>
                             </div>
                         </div>
                     @else
                         <div  id="div_recepcion" class="col-span-5">
-                            <label class="block text-sm font-semibold text-gray-700">Fecha de recepción de documentos*</label>
-                            <input type="date" name="fecha_recepcion" id="fecha_recepcion" min="{{$obra->fecha_inicio_programada}}" max="{{$obra->ejercicio + 1}}-03-31" class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md" >
+                            <p class="text-sm">Fecha de recepción de documentos*</p>
+                            <input type="date" name="fecha_recepcion" id="fecha_recepcion" min="{{$obra->fecha_inicio_programada}}" max="{{$obra->ejercicio + 1}}-03-31" class="mt-1 focus:ring-blue-800 focus:border-blue-800 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md" >
                             <label id="error_fecha_recepcion" class="hidden text-base font-normal text-red-500" >Ingrese una fecha valida</label>    
                         </div>
                     @endif
 
                     @if($pagos_obra->fecha_validacion != null)
                         <div class="col-span-5">
-                            <label for="fecha_validacion" class="block text-sm font-semibold text-gray-700">Fecha de validación de documentos*</label>
-                            <div id="label_fecha_validacion" class="mt-1 py-2 px-3">
-                                <label class="text-base font-bold text-gay-500" >{{$service->formatDate($pagos_obra->fecha_validacion)}}</label>
+                            <p class="text-sm text-center">Fecha de validación de documentos</p>
+                            <div id="label_fecha_validacion" class="mt-1">
+                                <p class="text-base font-semibold px-3 py-2 bg-gray-100 text-center mt-1 rounded-md" >{{$service->formatDate($pagos_obra->fecha_validacion)}}</p>
                             </div>
                         </div>
                     @else
                         <div  id="div_validacion_edit" class="{{$pagos_obra->fecha_recepcion == null?'hidden':''}} col-span-5">
-                            <label for="fecha_pago" class="block text-sm font-semibold text-gray-700">Fecha de pago {{$pagos_obra->nombre == 'Anticipo'?'del': 'de la'}} {{$pagos_obra->nombre}}*</label>
-                            <input type="date" name="fecha_validacion_edit" id="fecha_validacion_edit" min="{{$pagos_obra->fecha_recepcion}}" max="{{$obra->ejercicio + 1}}-03-31" class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md" >
+                            <p class="text-sm">Fecha de validación de documentos {{$pagos_obra->nombre == 'Anticipo'?'del': 'de la'}} {{$pagos_obra->nombre}}*</p>
+                            <input type="date" name="fecha_validacion_edit" id="fecha_validacion_edit" min="{{$pagos_obra->fecha_recepcion}}" max="{{$obra->ejercicio + 1}}-03-31" class="mt-1 focus:ring-blue-800 focus:border-blue-800 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md" >
                             <label id="error_fecha_validacion_edit" class="hidden text-base font-normal text-red-500" >Ingrese una fecha valida</label>    
                         </div>
                     @endif
 
                     @if($pagos_obra->fecha_pago != null)
                         <div class="col-span-5">
-                            <label for="fecha_validacion" class="block text-sm font-semibold text-gray-700">Fecha de validación de documentos*</label>
+                            <p class="text-sm text-center">Fecha de validación de documentos</p>
                             <div id="label_fecha_pago" class="mt-1 py-2 px-3">
-                                <label class="text-base font-bold text-gay-500" >{{$service->formatDate($pagos_obra->fecha_pago)}}</label>
+                                <p class="text-base font-semibold px-3 py-2 bg-gray-100 text-center mt-1 rounded-md" >{{$service->formatDate($pagos_obra->fecha_pago)}}</p>
                             </div>
                         </div>
                     @else
                         <div  class="{{$pagos_obra->fecha_validacion == null?'hidden':''}} col-span-10 sm:col-span-5 div_pago">
-                            <label for="fecha_pago" class="block text-sm font-semibold text-gray-700">Fecha de pago {{$pagos_obra->nombre == 'Anticipo'?'del': 'de la'}} {{$pagos_obra->nombre}}*</label>
-                            <input type="date" name="fecha_pago" id="fecha_pago" min="{{$pagos_obra->fecha_recepcion}}" max="{{$obra->ejercicio + 1}}-03-31" class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md" >
+                            <p class="text-sm">Fecha de pago {{$pagos_obra->nombre == 'Anticipo'?'del': 'de la'}} {{$pagos_obra->nombre}}*</p>
+                            <input type="date" name="fecha_pago" id="fecha_pago" min="{{$pagos_obra->fecha_recepcion}}" max="{{$obra->ejercicio + 1}}-03-31" class="mt-1 focus:ring-blue-800 focus:border-blue-800 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md" >
                             <label id="error_fecha_pago" class="hidden text-base font-normal text-red-500" >Ingrese una fecha valida</label>    
                         </div>
 
                         @if($estimacion != null)
                             <div class="{{$pagos_obra->fecha_validacion == null?'hidden':''}} col-span-10 sm:col-span-5 div_pago">
-                                <label id="label_monto_modificado" for="label_monto_modificado" class="block text-sm font-bold text-gray-700">Total de la estimación*</label>
+                                <p id="label_monto_modificado" class="text-sm">Total de la estimación*</p>
                                 <div class="relative ">
                                 <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
                                     <span class="text-gray-700 text-base">
                                     $
                                     </span>
                                 </div>
-                                <input type="text" name="total_estimacion" id="total_estimacion" maxlength="20" class="pl-7  mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md" placeholder="0.00">
+                                <input type="text" name="total_estimacion" id="total_estimacion" maxlength="20" class="pl-7  mt-1 focus:ring-blue-800 focus:border-blue-800 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md" placeholder="0.00">
                                 </div>
-                                <label id="monto_iva" name="monto_iva" class="text-base font-semibold text-gray-700" ></label><br>
-                                <label id="error_total_estimacion" name="error_total_estimacion" class="hidden text-base font-normal text-red-500" >El monto de la estimación es mayor al monto restante de la obra.</label>
-                                <label id="error_total_estimacion_1" name="error_total_estimacion_1" class="hidden text-base font-normal text-red-500" >Ingrese un monto de la estimación valido.</label>
+                                <p id="monto_iva" name="monto_iva" class="text-sm font-semibold" ></p>
+                                <label id="error_total_estimacion" name="error_total_estimacion" class="hidden text-sm font-normal text-red-500" >El monto de la estimación es mayor al monto restante de la obra.</label>
+                                <label id="error_total_estimacion_1" name="error_total_estimacion_1" class="hidden text-sm font-normal text-red-500" >Ingrese un monto de la estimación valido.</label>
                             </div>
                             <div class="{{$pagos_obra->fecha_validacion == null?'hidden':''}} col-span-10 div_pago">
-                                <div class="mb-5 text-center">
-                                    <label id="error_retenciones" name="error_retenciones" class="hidden text-base font-normal text-red-500 text-center font-bold" >El total de rentenciones es mayor que el monto de la estimación.</label>
+                                <div id="error_retenciones" class="hidden mb-5 text-center">
+                                    <label  name="error_retenciones" class="text-sm font-normal text-red-500 text-center font-bold" >El total de rentenciones es mayor que el monto de la estimación.</label>
                                 </div>
-                                <label for="ejecucion" class="block text-sm font-bold text-gray-700 text-center">Retenciones</label>
+                                <p class="text-sm text-center">Retenciones</p>
                                 <div class="grid grid-cols-4 gap-4">
                                     <div class="col-span-4 sm:col-span-2">
                                         <div class="relative ">
@@ -587,9 +586,9 @@
                                                 $
                                                 </span>
                                             </div>
-                                            <input type="text" name="supervicion_obra" id="supervicion_obra" maxlength="20" class="pl-7  mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md" placeholder="0.00">
+                                            <input type="text" name="supervicion_obra" id="supervicion_obra" maxlength="20" class="pl-7  mt-1 focus:ring-blue-800 focus:border-blue-800 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md" placeholder="0.00">
                                         </div>
-                                        <label for="supervicion_obra" class="block text-sm font-semibold text-gray-700 text-center">Supervición de obra</label>
+                                        <p for="supervicion_obra" class="text-xs text-center">Supervición de obra</p>
                                         <label id="error_supervicion_obra" name="error_supervicion_obra" class="hidden text-base font-normal text-red-500" >El total de la retención es mayor que el monto de la estimación.</label>
                                         <label id="error_supervicion_obra_1" name="error_supervicion_obra_1" class="hidden text-base font-normal text-red-500" >Ingrese un monto de supervisión de obra valido.</label>
                                     </div>
@@ -601,9 +600,9 @@
                                                 $
                                                 </span>
                                             </div>
-                                            <input type="text" name="mano_obra" id="mano_obra" maxlength="20" class="pl-7  mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md" placeholder="0.00">
+                                            <input type="text" name="mano_obra" id="mano_obra" maxlength="20" class="pl-7  mt-1 focus:ring-blue-800 focus:border-blue-800 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md" placeholder="0.00">
                                         </div>
-                                        <label for="mano_obra" class="block text-sm font-semibold text-gray-700 text-center">Mano de obra</label>
+                                        <p for="mano_obra" class="block text-xs text-center">Mano de obra</p>
                                         <label id="error_mano_obra" name="error_mano_obra" class="hidden text-base font-normal text-red-500" >El total de la retención es mayor que el monto de la estimación.</label>
                                         <label id="error_mano_obra_1" name="error_mano_obra_1" class="hidden text-base font-normal text-red-500" >Ingrese un monto de mano de obra valido.</label>
                                     </div>
@@ -614,9 +613,9 @@
                                                 $
                                                 </span>
                                             </div>
-                                            <input type="text" name="cinco_millar" id="cinco_millar" maxlength="20" class="pl-7  mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md" placeholder="0.00">
+                                            <input type="text" name="cinco_millar" id="cinco_millar" maxlength="20" class="pl-7  mt-1 focus:ring-blue-800 focus:border-blue-800 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md" placeholder="0.00">
                                         </div>
-                                        <label for="cinco_millar" class="block text-sm font-semibold text-gray-700 text-center">Cinco al millar</label>
+                                        <p for="cinco_millar" class="text-xs text-center">Cinco al millar</p>
                                         <label id="error_cinco_millar" name="error_cinco_millar" class="hidden text-base font-normal text-red-500" >El monto a modificar es mayor que el ejercicido</label>
                                         <label id="error_cinco_millar_1" name="error_cinco_millar_1" class="hidden text-base font-normal text-red-500" >Ingrese un monto de cinco al millar valido.</label>
                                     </div>
@@ -627,9 +626,9 @@
                                                 $
                                                 </span>
                                             </div>
-                                            <input type="text" name="dos_millar" id="dos_millar" maxlength="20" class="pl-7  mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md" placeholder="0.00">
+                                            <input type="text" name="dos_millar" id="dos_millar" maxlength="20" class="pl-7  mt-1 focus:ring-blue-800 focus:border-blue-800 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md" placeholder="0.00">
                                         </div>
-                                        <label for="dos_millar" class="block text-sm font-semibold text-gray-700 text-center">Dos al millar</label>
+                                        <p for="dos_millar" class="text-xs text-center">Dos al millar</p>
                                         <label id="error_dos_millar" name="error_dos_millar" class="hidden text-base font-normal text-red-500" >El monto a modificar es mayor que el ejercicido</label>
                                         <label id="error_dos_millar_1" name="error_dos_millar_1" class="hidden text-base font-normal text-red-500" >Ingrese un monto de dos al millar valido.</label>
                                     </div>
@@ -638,14 +637,14 @@
 
                             @if($obra->anticipo_monto > 0)
                                 <div class="{{$pagos_obra->fecha_validacion == null?'hidden':''}} col-span-10 sm:col-span-5 div_pago">  
-                                    <label id="label_monto_modificado" for="label_monto_modificado" class="block text-sm font-bold text-gray-700">Amortización del anticipo*</label>
+                                    <p id="label_monto_modificado" class="text-sm">Amortización del anticipo*</p>
                                     <div class="relative ">
                                         <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
                                             <span class="text-gray-700 text-base">
                                             $
                                             </span>
                                         </div>
-                                        <input type="text" name="amortizacion_anticipo" id="amortizacion_anticipo" maxlength="20" class="pl-7  mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md" placeholder="0.00">
+                                        <input type="text" name="amortizacion_anticipo" id="amortizacion_anticipo" maxlength="20" class="pl-7  mt-1 focus:ring-blue-800 focus:border-blue-800 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md" placeholder="0.00">
                                     </div>
                                     <label id="error_amortizacion_anticipo" name="error_amortizacion_anticipo" class="hidden text-base font-normal text-red-500" >El monto a modificar es mayor que el ejercicido</label>
                                     <label id="error_amortizacion_anticipo_so" name="error_amortizacion_anticipo_so" class="hidden text-base font-normal text-red-500" >El monto excede el restante por amortizar {{$service->formatNumber( $obra->anticipo_monto-$total_pagado->total_anticipo)}}.</label>
@@ -654,19 +653,19 @@
                             @endif
                             @if($obra->anticipo_monto == 0 && $estimacion->numero_estimacion == 1)
                                 <div class="{{$pagos_obra->fecha_validacion == null?'hidden':''}} col-span-10 sm:col-span-5 div_pago">
-                                    <label  id="label_folio_fianza_cumplimiento" class="block text-sm font-bold text-gray-700">Folio de fianza de cumplimiento:</label>
+                                    <p id="label_folio_fianza_cumplimiento" class="text-sm">Folio de fianza de cumplimiento:</p>
                                     <input type="text" name="folio_fianza_cumplimiento" id="folio_fianza_cumplimiento" maxlength="36" class="mt-1 focus:ring-blue-800 focus:border-blue-800 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md" value="{{ old('oficio_notificacion') }}">
                                     <label id="error_folio_fianza_cumplimiento" name="error_folio_fianza_cumplimiento" class="hidden text-base font-normal text-red-500" >Ingrese un folio de fianza valido.</label>
                                 </div>
                             @endif
                             <div class="{{$pagos_obra->fecha_validacion == null?'hidden':''}} col-span-10 sm:col-span-5 div_pago">
-                                <label  id="label_folio_factura" for="cliente_id" class="block text-sm font-bold text-gray-700">Folio de factura de la estimación:</label>
+                                <p id="label_folio_factura" class="text-sm">Folio de factura de la estimación:</p>
                                 <input type="text" name="folio_factura" id="folio_factura" maxlength="36" class="mt-1 focus:ring-blue-800 focus:border-blue-800 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md" value="{{ old('oficio_notificacion') }}">
                                 <label id="error_folio_factura" name="error_folio_factura" class="hidden text-base font-normal text-red-500" >Ingrese un folio de factura valido.</label>
                             </div>
 
                             <div class="{{$pagos_obra->fecha_validacion == null?'hidden':''}} col-span-10 div_pago">
-                                <label for="ejecucion" class="block text-sm font-bold text-gray-700 text-center">Neto a pagar</label>
+                                <p for="ejecucion" class="text-sm text-center">Neto a pagar</p>
                                 <label id="label_monto_neto" class="block text-base font-medium text-gray-700 py-3 px-2 text-center">$ 0.00</label>
                                 <div id="div_error_guardar" class="hidden mx-10 text-center">
                                     <label  class="text-base font-normal text-red-500 text-center font-bold" >El neto a pagar no puede ser menos a cero.</label>
@@ -675,25 +674,26 @@
                         @endif
                         @if($pagos_obra->nombre == 'Anticipo')
                             <div class="{{$pagos_obra->fecha_validacion == null?'hidden':''}} col-span-10 sm:col-span-5 div_pago">
-                                <label  id="label_folio_factura_anticipo" class="block text-sm font-bold text-gray-700">Folio de factura del anticipo:</label>
+                                <p id="label_folio_factura_anticipo" class="text-sm">Folio de factura del anticipo:</p>
                                 <input type="text" name="folio_factura_anticipo" id="folio_factura_anticipo" maxlength="36" class="mt-1 focus:ring-blue-800 focus:border-blue-800 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md" value="{{ old('oficio_notificacion') }}">
                                 <label id="error_folio_factura_anticipo" name="error_folio_factura_anticipo" class="hidden text-base font-normal text-red-500" >Ingrese un folio de factura valido.</label>
                             </div>
                             <div class="{{$pagos_obra->fecha_validacion == null?'hidden':''}} col-span-10 sm:col-span-5 div_pago">
-                                <label  id="label_folio_fianza_anticipo" for="cliente_id" class="block text-sm font-bold text-gray-700">Folio de fianza del anticipo:</label>
+                                <p id="label_folio_fianza_anticipo" class="text-sm">Folio de fianza del anticipo:</p>
                                 <input type="text" name="folio_fianza_anticipo" id="folio_fianza_anticipo" maxlength="36" class="mt-1 focus:ring-blue-800 focus:border-blue-800 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md" value="{{ old('oficio_notificacion') }}">
                                 <label id="error_folio_fianza_anticipo" name="error_folio_fianza_anticipo" class="hidden text-base font-normal text-red-500" >Ingrese un folio de fianza valido.</label>
                             </div>
                             <div class="{{$pagos_obra->fecha_validacion == null?'hidden':''}} col-span-10 sm:col-span-5 div_pago">
-                                <label  id="label_folio_fianza_cumplimiento" class="block text-sm font-bold text-gray-700">Folio de fianza de cumplimiento:</label>
+                                <p id="label_folio_fianza_cumplimiento" class="text-sm">Folio de fianza de cumplimiento:</p>
                                 <input type="text" name="folio_fianza_cumplimiento" id="folio_fianza_cumplimiento" maxlength="36" class="mt-1 focus:ring-blue-800 focus:border-blue-800 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md" value="{{ old('oficio_notificacion') }}">
                                 <label id="error_folio_fianza_cumplimiento" name="error_folio_fianza_cumplimiento" class="hidden text-base font-normal text-red-500" >Ingrese un folio de fianza valido.</label>
                             </div>
                         @endif
                     @endif
-                </div>
-                <div class="mt-10">
-                    <span class="block text-xs">Verifique los campos obligatorios marcados con un ( * ) </span>
+
+                    <div class="col-span-5">
+                        <span class="block text-xs">Verifique los campos obligatorios marcados con un ( * ) </span>
+                    </div>
                 </div>
             </div>
         <!--footer-->
@@ -726,10 +726,10 @@
   @if(session('mensaje')=='ok')
   <script>
       Swal.fire({  
-      title: '{{session('datos')[1]}}',
-      text: '{{session('datos')[2]}}',
-      icon: '{{session('datos')[0]}}',
-      button: "Ok",
+        title: '{{session('datos')[1]}}',
+        text: '{{session('datos')[2]}}',
+        icon: '{{session('datos')[0]}}',
+        confirmButtonText: 'Ok'
 
       })
   </script>

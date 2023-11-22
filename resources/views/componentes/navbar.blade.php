@@ -1,4 +1,4 @@
-<nav class="sticky top-0 bg-blue-cmr1 ">
+<nav class="sticky top-0 bg-blue-02 ">
     <div class="max-w-7xl mx-auto px-2 sm:px-6 lg:px-8">
     <div class="relative flex items-center justify-between h-20">
     <div  class="absolute inset-y-0 left-0 flex items-center " style="z-index: 1000;">
@@ -16,8 +16,8 @@
     </div>
 
     <div class="flex-shrink-0 flex items-center justify-center w-full">
-        <img class="block lg:hidden h-10 w-auto" src="{{asset('image/Icono CMR White.png')}}" alt="Workflow">
-        <img class="hidden lg:block h-14 w-auto" src="{{asset('image/CMR logo blanco.png')}}" alt="Workflow">
+        <img class="block lg:hidden h-9 w-auto" src="{{asset('image/Icono CMR White.png')}}" alt="Workflow">
+        <img class="hidden lg:block h-11 w-auto" src="{{asset('image/CMR logo blanco nuevo.png')}}" alt="Workflow">
     </div>
     
     

@@ -65,7 +65,7 @@
                         $
                       </span>
                     </div>
-                    <input type="text" name="monto_proyectado" id="monto_proyectado" class="pl-7 mt-1 text-base focus:ring-indigo-500 focus:border-indigo-500 block text-gray-700 w-full shadow-sm border-gray-300 rounded-md myDIV" value="{{$service->formatNumber($fuenteCliente->monto_proyectado)}}" onclick="">
+                    <input type="text" name="monto_proyectado" id="monto_proyectado" class="pl-7 mt-1 text-base focus:ring-blue-800 focus:border-blue-800 block text-gray-700 w-full shadow-sm border-gray-300 rounded-md myDIV" value="{{$service->formatNumber($fuenteCliente->monto_proyectado)}}" onclick="">
                   </div>
                   <label id="error_monto_proyectado" name="error_monto_proyectado" class="hidden text-base font-normal text-red-500" >Introduzca un monto proyectado</label>
                 </div>
@@ -78,33 +78,33 @@
                           $
                         </span>
                       </div>
-                      <input type="text" name="monto_comprometido" id="monto_comprometido" class="pl-7 mt-1 text-base focus:ring-indigo-500 focus:border-indigo-500 block text-gray-700 w-full border-none myDIV" disabled value="{{$service->formatNumber($fuenteCliente->monto_comprometido)}}" onclick="">
+                      <input type="text" name="monto_comprometido" id="monto_comprometido" class="pl-7 mt-1 text-base focus:ring-blue-800 focus:border-blue-800 block text-gray-700 w-full border-none myDIV" disabled value="{{$service->formatNumber($fuenteCliente->monto_comprometido)}}" onclick="">
                     </div>
                 </div>
                 
                 @if($fuenteCliente->fuente_financiamiento_id == 2)
                 <div class="col-span-10 lg:col-span-2">
                     <label id="label_acta_integracion_consejo" for="acta_integracion_consejo" class="block text-sm font-medium text-gray-700">Acta de integracion de consejo *</label>
-                    <input type="date" name="acta_integracion_consejo" id="acta_integracion_consejo" class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md" value="{{ $fuenteCliente->acta_integracion_consejo }}">
+                    <input type="date" name="acta_integracion_consejo" id="acta_integracion_consejo" class="mt-1 focus:ring-blue-800 focus:border-blue-800 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md" value="{{ $fuenteCliente->acta_integracion_consejo }}">
                     <label id="error_acta_integracion_consejo" name="error_acta_integracion_consejo" class="hidden text-base font-normal text-red-500" >Introduzca una fecha</label>
                 </div>
                 
                 <div class="col-span-10 lg:col-span-2">
                     <label id="label_acta_priorizacion" for="acta_priorizacion" class="block text-sm font-medium text-gray-700">Acta priorización *</label>
-                    <input type="date" name="acta_priorizacion" id="acta_priorizacion" class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md" value="{{ $fuenteCliente->acta_priorizacion }}">
+                    <input type="date" name="acta_priorizacion" id="acta_priorizacion" class="mt-1 focus:ring-blue-800 focus:border-blue-800 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md" value="{{ $fuenteCliente->acta_priorizacion }}">
                     <label id="error_acta_priorizacion" name="error_acta_priorizacion" class="hidden text-base font-normal text-red-500" >Introduzca una fecha</label>
                 </div>
 
                 <div class="col-span-10 lg:col-span-2">
                     <label id="label_adendum_priorizacion" for="adendum_priorizacion" class="block text-sm font-medium text-gray-700">Adendum priorización *</label>
-                    <input type="date" name="adendum_priorizacion" id="adendum_priorizacion" class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md" value="{{ $fuenteCliente->adendum_priorizacion }}">
+                    <input type="date" name="adendum_priorizacion" id="adendum_priorizacion" class="mt-1 focus:ring-blue-800 focus:border-blue-800 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md" value="{{ $fuenteCliente->adendum_priorizacion }}">
                     <label id="error_adendum_priorizacion" name="error_adendum_priorizacion" class="hidden text-base font-normal text-red-500" >Introduzca una fecha</label>
                 </div>
                 @endif
 
                 <div class="col-span-10 lg:col-span-2">
                     <label id="label_fuente_financiamiento_id" for="fuente_financiamiento_id" class="block text-sm font-medium text-gray-700">Fuente de financiamiento *</label>
-                    <select id="fuente_financiamiento_id" name="fuente_financiamiento_id" class="clickable mt-1 block w-full py-2 px-3 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm" >                
+                    <select id="fuente_financiamiento_id" name="fuente_financiamiento_id" class="clickable mt-1 block w-full py-2 px-3 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-blue-800 focus:border-blue-800 sm:text-sm" >                
                       @role('Administrador')
                         @foreach($fuentes as $fuente)
                           <option value="{{ $fuente->id_fuente_financiamiento }}" {{ ($fuente->id_fuente_financiamiento == $fuenteCliente->fuente_financiamiento_id) ? 'selected' : '' }}> {{ $fuente->nombre_corto }} </option>
@@ -136,10 +136,10 @@
             <div class="px-4 py-3 bg-gray-100 sm:px-6">
               <span class="block text-xs">Porfavor verifique que todos los campos marcados con ( * ) esten rellenados</span>
               <div class="text-right">
-                <a type="button" href="{{redirect()->getUrlGenerator()->previous()}}" class="inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-gray-500 hover:bg-gray-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+                <a type="button" href="{{redirect()->getUrlGenerator()->previous()}}" class="inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-gray-500 hover:bg-gray-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-800">
                   Regresar
                 </a>
-              <button type="submit" id="enviar_datos" class="ml-4 inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-orange-800 hover:bg-orange-800 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+              <button type="submit" id="enviar_datos" class="ml-4 inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-orange-800 hover:bg-orange-800 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-800">
                 Guardar
               </button>
               

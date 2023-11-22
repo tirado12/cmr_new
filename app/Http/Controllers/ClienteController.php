@@ -248,7 +248,7 @@ class ClienteController extends Controller
         ->join('municipios', 'municipios.id_municipio', '=', 'municipio_id')
         ->join('distritos', 'distritos.id_distrito', '=', 'distrito_id')
         ->join('regiones', 'regiones.id_region', '=', 'region_id')
-        ->select('municipios.nombre as nombre_municipio', 'distritos.nombre as nombre_distrito', 'regiones.nombre as nombre_region', 'logo', 'rfc', 'direccion', 'email', 'anio_inicio', 'anio_fin', 'id_municipio', 'id_distrito', 'id_region', 'id_cliente')
+        ->select('municipios.nombre as nombre_municipio', 'distritos.nombre as nombre_distrito', 'regiones.nombre as nombre_region', 'logo', 'icono', 'rfc', 'direccion', 'email', 'anio_inicio', 'anio_fin', 'id_municipio', 'id_distrito', 'id_region', 'id_cliente')
         ->first();
 
         $cabildo = IntegrantesCabildo::where('cliente_id', $id)->get();

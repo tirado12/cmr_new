@@ -22,38 +22,38 @@
               <div class="grid grid-cols-6 gap-6">
                 <div class="col-span-6 sm:col-span-3">
                   <label for="first_name" class="block text-normal font-base text-gray-500">Nombre *</label>
-                  <input type="text" name="nombre" id="nombre" autocomplete="given-name" class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md" value="{{ $integrante->nombre }}">
+                  <input type="text" name="nombre" id="nombre" autocomplete="given-name" class="mt-1 focus:ring-blue-800 focus:border-blue-800 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md" value="{{ $integrante->nombre }}">
                   <label id="error_nombre" name="error_nombre" class="hidden text-base font-normal text-red-500" >Introduzca un nombre</label>
                 </div>
   
                 <div class="col-span-6 sm:col-span-3">
                   <label for="cargo" class="block text-sm font-medium text-gray-700">Cargo *</label>
-                  <input type="text" name="cargo" id="cargo" autocomplete="email" class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md" value="{{ $integrante->cargo }}">
+                  <input type="text" name="cargo" id="cargo" autocomplete="email" class="mt-1 focus:ring-blue-800 focus:border-blue-800 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md" value="{{ $integrante->cargo }}">
                   <label id="error_cargo" name="error_cargo" class="hidden text-base font-normal text-red-500" >Introduzca un cargo</label>
                 </div>
 
                 <div class="col-span-6 sm:col-span-3">
                     <label for="telefono" class="block text-sm font-medium text-gray-700">Telefono *</label>
-                    <input type="tel" name="telefono" id="telefono"  class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md" value="{{ $integrante->telefono }}">
+                    <input type="tel" name="telefono" id="telefono"  class="mt-1 focus:ring-blue-800 focus:border-blue-800 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md" value="{{ $integrante->telefono }}">
                     <label id="error_telefono" name="error_telefono" class="hidden text-base font-normal text-red-500" >Introduzca un telefono</label>
                 </div>
 
                 <div class="col-span-6 sm:col-span-3">
                     <label for="Correo" class="block text-sm font-medium text-gray-700">Correo *</label>
-                    <input type="email" name="correo" id="correo" autocomplete="email" class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md" value="{{ $integrante->correo }}">
+                    <input type="email" name="correo" id="correo" autocomplete="email" class="mt-1 focus:ring-blue-800 focus:border-blue-800 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md" value="{{ $integrante->correo }}">
                     <label id="error_correo" name="error_correo" class="hidden text-base font-normal text-red-500" >Introduzca un correo valido</label>
                 </div>
 
                   <div class="col-span-6 sm:col-span-3">
                     <label for="rfc" class="block text-sm font-medium text-gray-700">RFC *</label>
-                    <input type="text" name="rfc" id="rfc"  class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md" value="{{ $integrante->rfc }}">
+                    <input type="text" name="rfc" id="rfc"  class="mt-1 focus:ring-blue-800 focus:border-blue-800 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md" value="{{ $integrante->rfc }}">
                     <label id="error_rfc" name="error_rfc" class="hidden text-base font-normal text-red-500" >Introduzca al menos un RFC generico de 5 caracteres</label>
                   </div>
                 
                 
                 <div class="col-span-6 sm:col-span-3">
                   <label for="cliente" class="block text-sm font-medium text-gray-700">Municipio *</label>
-                  <select id="cliente" name="cliente" onchange="validarMunicipio()" class="mt-1 block w-full py-2 px-3 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
+                  <select id="cliente" name="cliente" onchange="validarMunicipio()" class="mt-1 block w-full py-2 px-3 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-blue-800 focus:border-blue-800 sm:text-sm">
                     @role('Administrador')
                     @foreach($clientes as $cliente)
                       <option value="{{ $cliente->id_cliente }}" {{ ($cliente->id_cliente == $integrante->cliente_id) ? 'selected' : '' }}> {{ $cliente->municipio->nombre }}</option>
@@ -74,10 +74,10 @@
             <div class="px-4 py-3 bg-gray-100 sm:px-6">
               <span class="block text-xs">Porfavor verifique que todos los campos marcados con ( * ) esten rellenados</span>
               <div class="text-right">
-                <a type="button" href="{{redirect()->getUrlGenerator()->previous()}}" class="inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-gray-500 hover:bg-gray-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+                <a type="button" href="{{redirect()->getUrlGenerator()->previous()}}" class="inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-gray-500 hover:bg-gray-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-800">
                   Regresar
                 </a>
-              <button type="submit" class="ml-4 inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-orange-800 hover:bg-orange-800 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+              <button type="submit" class="ml-4 inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-orange-800 hover:bg-orange-800 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-800">
                 Guardar
               </button>
               

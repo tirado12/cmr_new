@@ -36,6 +36,8 @@ use App\Models\Mids;
 use App\Models\IntegrantesCabildo;
 use Illuminate\Support\Facades\DB;
 
+use Response;
+
 use Illuminate\Http\Request;
 use Barryvdh\DomPDF\Facade\Pdf;
 
@@ -95,7 +97,7 @@ class GeneralController extends Controller
         ->join('municipios', 'municipios.id_municipio', '=', 'municipio_id')
         ->join('distritos', 'distritos.id_distrito', '=', 'distrito_id')
         ->join('regiones', 'regiones.id_region', '=', 'region_id')
-        ->select('municipios.nombre as nombre_municipio', 'distritos.nombre as nombre_distrito', 'regiones.nombre as nombre_region', 'logo', 'rfc', 'direccion', 'email', 'anio_inicio', 'anio_fin', 'id_municipio', 'id_distrito', 'id_region', 'id_cliente')
+        ->select('municipios.nombre as nombre_municipio', 'distritos.nombre as nombre_distrito', 'regiones.nombre as nombre_region', 'logo', 'icono', 'rfc', 'direccion', 'email', 'anio_inicio', 'anio_fin', 'id_municipio', 'id_distrito', 'id_region', 'id_cliente')
         ->first();
         
         $comprometido_prodim = null;
@@ -220,7 +222,7 @@ class GeneralController extends Controller
         ->join('municipios','municipios.id_municipio','=','municipio_id')
         ->join('distritos','distritos.id_distrito', '=', 'distrito_id')
         ->join('regiones','regiones.id_region', '=', 'region_id')
-        ->select('id_cliente', 'anio_inicio', 'anio_fin', 'logo', 'id_municipio', 'id_distrito', 'id_region', 'municipios.nombre as nombre_municipio', 'regiones.nombre as nombre_region', 'distritos.nombre as nombre_distrito')
+        ->select('id_cliente', 'anio_inicio', 'anio_fin', 'logo', 'icono','id_municipio', 'id_distrito', 'id_region', 'municipios.nombre as nombre_municipio', 'regiones.nombre as nombre_region', 'distritos.nombre as nombre_distrito')
         ->first();
 
         
@@ -236,9 +238,10 @@ class GeneralController extends Controller
         ->join('fuentes_financiamientos', 'fuentes_financiamientos.id_fuente_financiamiento', '=', 'fuentes_clientes.fuente_financiamiento_id')
         ->join('anexos_fondo3', 'anexos_fondo3.fuente_financiamiento_cliente_id', '=', 'id_fuente_financ_cliente')
         ->first();
-        
 
-        $contratistas = Contratista::all();
+        $contratistas = Contratista::where('municipio_id', $cliente->id_municipio)
+            ->get();
+
 
         //return $fuentes_cliente;
 
@@ -475,9 +478,8 @@ class GeneralController extends Controller
         ->join('distritos', 'distritos.id_distrito', '=', 'distrito_id')
         ->join('regiones', 'regiones.id_region', '=', 'region_id')
         ->join('estados', 'estados.id_estado', '=', 'estado_id')
-        ->select('id_obra','nombre_localidad','municipios.nombre as nombre_municipio', 'distritos.nombre as nombre_distrito', 'regiones.nombre as nombre_region', 'estados.nombre as nombre_estado', 'oficio_notificacion', 'monto_contratado', 'monto_modificado', 'nombre_obra', 'fecha_inicio_programada', 'fecha_final_programada', 'id_obra', 'anticipo_porcentaje', 'modalidad_ejecucion', 'obras.nombre_corto as nombre_corto_obra', 'ejercicio', 'id_municipio', 'id_region', 'id_distrito')
-        ->first();
-
+        ->select('id_obra', 'icono', 'nombre_localidad', 'numero_obra','municipios.nombre as nombre_municipio', 'distritos.nombre as nombre_distrito', 'regiones.nombre as nombre_region', 'estados.nombre as nombre_estado', 'oficio_notificacion', 'monto_contratado', 'monto_modificado', 'nombre_obra', 'fecha_inicio_programada', 'fecha_final_programada', 'id_obra', 'anticipo_porcentaje', 'modalidad_ejecucion', 'obras.nombre_corto as nombre_corto_obra', 'ejercicio', 'id_municipio', 'id_region', 'id_distrito')
+        ->first();        
 
         $observaciones = ObraObservaciones::where('obra_id', $obra->id_obra)->first();
 
@@ -631,7 +633,7 @@ class GeneralController extends Controller
         ->join('distritos', 'distritos.id_distrito', '=', 'distrito_id')
         ->join('regiones', 'regiones.id_region', '=', 'region_id')
         ->join('estados', 'estados.id_estado', '=', 'estado_id')
-        ->select('id_cliente', 'logo', 'id_obra', 'numero_obra', 'nombre_localidad','municipios.nombre as nombre_municipio', 'distritos.nombre as nombre_distrito', 'regiones.nombre as nombre_region', 'estados.nombre as nombre_estado', 'oficio_notificacion', 'monto_contratado', 'monto_modificado', 'nombre_obra', 'fecha_inicio_programada', 'fecha_final_programada', 'fecha_final_real', 'id_obra', 'anticipo_porcentaje', 'modalidad_ejecucion', 'obras.nombre_corto as nombre_corto_obra', 'ejercicio', 'anticipo_monto', 'id_municipio', 'avance_fisico', 'avance_economico', 'avance_tecnico', 'nombre_archivo', 'fecha_oficio_notificacion')
+        ->select('id_cliente', 'icono', 'id_obra', 'numero_obra', 'nombre_localidad','municipios.nombre as nombre_municipio', 'distritos.nombre as nombre_distrito', 'regiones.nombre as nombre_region', 'estados.nombre as nombre_estado', 'oficio_notificacion', 'monto_contratado', 'monto_modificado', 'nombre_obra', 'fecha_inicio_programada', 'fecha_final_programada', 'fecha_final_real', 'id_obra', 'anticipo_porcentaje', 'modalidad_ejecucion', 'obras.nombre_corto as nombre_corto_obra', 'ejercicio', 'anticipo_monto', 'id_municipio', 'avance_fisico', 'avance_economico', 'avance_tecnico', 'nombre_archivo', 'fecha_oficio_notificacion')
         ->first();
 
 
@@ -786,10 +788,12 @@ class GeneralController extends Controller
         
         if($obra_admin != null) {
             $proveedores = Proveedor::where('municipio_id', $obra->id_municipio)
-            ->select('id_proveedor', 'razon_social', 'rfc')
+            ->select('id_proveedor', 'razon_social', 'nombre', 'apellidos', 'rfc')
             ->get();
         }        
         //return $obra;
+
+        //return $obra_contrato;
 
         $obj_obra = collect(
             ['obra' => $obra,
@@ -1165,7 +1169,7 @@ class GeneralController extends Controller
         ->join('distritos', 'distritos.id_distrito', '=', 'distrito_id')
         ->join('regiones', 'regiones.id_region', '=', 'region_id')
         ->join('estados', 'estados.id_estado', '=', 'estado_id')
-        ->select('id_cliente' ,'id_obra', 'logo', 'avance_fisico','nombre_localidad','municipios.nombre as nombre_municipio', 'distritos.nombre as nombre_distrito', 'regiones.nombre as nombre_region', 'estados.nombre as nombre_estado', 'oficio_notificacion', 'monto_contratado', 'monto_modificado', 'nombre_obra', 'fecha_inicio_programada', 'fecha_final_programada', 'id_obra', 'anticipo_porcentaje', 'anticipo_monto', 'modalidad_ejecucion', 'obras.nombre_corto as nombre_corto_obra', 'ejercicio', 'numero_obra', 'id_municipio', 'id_distrito', 'id_region')
+        ->select('id_cliente' ,'id_obra', 'icono', 'avance_fisico','nombre_localidad','municipios.nombre as nombre_municipio', 'distritos.nombre as nombre_distrito', 'regiones.nombre as nombre_region', 'estados.nombre as nombre_estado', 'oficio_notificacion', 'monto_contratado', 'monto_modificado', 'nombre_obra', 'fecha_inicio_programada', 'fecha_final_programada', 'id_obra', 'anticipo_porcentaje', 'anticipo_monto', 'modalidad_ejecucion', 'obras.nombre_corto as nombre_corto_obra', 'ejercicio', 'numero_obra', 'id_municipio', 'id_distrito', 'id_region')
         ->first();
 
         
@@ -1690,13 +1694,12 @@ class GeneralController extends Controller
         ->join('distritos', 'distritos.id_distrito', '=', 'distrito_id')
         ->join('regiones', 'regiones.id_region', '=', 'region_id')
         ->join('estados', 'estados.id_estado', '=', 'estado_id')
-        ->select('id_obra','avance_fisico','nombre_localidad','municipios.nombre as nombre_municipio', 'distritos.nombre as nombre_distrito', 'regiones.nombre as nombre_region', 'estados.nombre as nombre_estado', 'oficio_notificacion', 'monto_contratado', 'monto_modificado', 'nombre_obra', 'fecha_inicio_programada', 'fecha_final_programada', 'id_obra', 'anticipo_porcentaje', 'anticipo_monto', 'modalidad_ejecucion', 'obras.nombre_corto as nombre_corto_obra', 'ejercicio', 'municipio_id', 'fecha_final_real', 'numero_obra')
+        ->select('id_obra','avance_fisico','nombre_localidad','municipios.nombre as nombre_municipio', 'distritos.nombre as nombre_distrito', 'regiones.nombre as nombre_region', 'estados.nombre as nombre_estado', 'oficio_notificacion', 'monto_contratado', 'monto_modificado', 'nombre_obra', 'fecha_inicio_programada', 'fecha_final_programada', 'icono', 'id_municipio', 'id_region', 'id_distrito', 'anticipo_porcentaje', 'anticipo_monto', 'modalidad_ejecucion', 'obras.nombre_corto as nombre_corto_obra', 'ejercicio', 'municipio_id', 'fecha_final_real', 'numero_obra', 'id_cliente')
         ->first();
 
         $contrato = ContratosArrendamiento::where('id_contrato_arrendamiento',$id)
         ->join('proveedores', 'proveedores.id_proveedor', '=', 'proveedor_id')
         ->first();
-        
 
         $facturas = ContratoFactura::where('contrato_arrendamiento_id', $id)
         ->join("facturas", "facturas.id_factura", "=", "factura_id")
@@ -1982,7 +1985,8 @@ class GeneralController extends Controller
         return redirect()->route('cliente.ejercicio', ['id' => $request->cliente_id, 'anio' => $request->ejercicio])->with('mensaje', 'ok')->with('datos', $datos);
     }
 
-    public function update_rft(Request $request){
+    public function update_rft(Request $request)
+    {
         $mensaje = 'ok';
         $datos = ['success', '¡PROCESO EXITOSO!', 'Se actualizó la información de RFT'];
         
@@ -2061,7 +2065,8 @@ class GeneralController extends Controller
         //return $request;
     }
 
-    public function update_cliente(Request $request){
+    public function update_cliente(Request $request)
+    {
 
         
         $request->validate([
@@ -2096,7 +2101,8 @@ class GeneralController extends Controller
         return redirect()->route('cliente.ver', ['id' => $request->id_cliente_edit])->with('mensaje', 'ok')->with('datos', $datos);
     }
 
-    public function imprimir($id){
+    public function imprimir($id)
+    {
         $obra = Obra::where('id_obra', $id)
         ->join('obras_fuentes', 'obras_fuentes.obra_id', '=', 'id_obra')
         ->join('fuentes_clientes', 'fuentes_clientes.id_fuente_financ_cliente', '=', 'fuente_financiamiento_cliente_id')
@@ -2283,12 +2289,15 @@ class GeneralController extends Controller
             'licitacion'=>$obra_licitacion,
             ]
         );
-        
-        $pdf = Pdf::loadView('pdf.ejemplo', compact('obj_obra', 'convenios', 'estimaciones', 'fuentes_financiamiento', 'acta_priorizacion', 'facturas', 'listas_raya', 'contratos_arrendamiento', 'total_pagado', 'pagos_obra', 'total_admin', 'proveedores', 'observaciones', 'total_anticipo'));
-        return $pdf->download('ejemplo.pdf');
+
+        //return $obra_contrato;
+        //return view('pdf.checklist', compact('obj_obra', 'convenios', 'estimaciones', 'fuentes_financiamiento', 'acta_priorizacion', 'facturas', 'listas_raya', 'contratos_arrendamiento', 'total_pagado', 'pagos_obra', 'total_admin', 'proveedores', 'observaciones', 'total_anticipo'));
+        $pdf = Pdf::loadView('pdf.checklist', compact('obj_obra', 'convenios', 'estimaciones', 'fuentes_financiamiento', 'acta_priorizacion', 'facturas', 'listas_raya', 'contratos_arrendamiento', 'total_pagado', 'pagos_obra', 'total_admin', 'proveedores', 'observaciones', 'total_anticipo'));
+        return $pdf->download('checklist de obra.pdf');
     }
 
-    public function upload_checklist(Request $request){
+    public function upload_checklist(Request $request)
+    {
 
         $mensaje = 'ok';
         $datos = ['success', '¡PROCESO EXITOSO!', 'El archivo se subio correctamente'];
@@ -2360,4 +2369,297 @@ class GeneralController extends Controller
 
     }
 
+
+    public function contratista_list ($id)
+    {
+
+        $cliente = Cliente::find($id)
+        ->join('municipios', 'municipios.id_municipio', '=', 'municipio_id')
+        ->join('distritos', 'distritos.id_distrito', '=', 'distrito_id')
+        ->join('regiones', 'regiones.id_region', '=', 'region_id')
+        ->join('estados', 'estados.id_estado', '=', 'estado_id')
+        ->select('id_cliente', 'municipios.nombre as nombre_municipio', 'distritos.nombre as nombre_distrito', 'regiones.nombre as nombre_region', 'estados.nombre as nombre_estado', 'icono','id_municipio', 'id_region', 'id_estado', 'id_distrito' )
+        ->first();
+
+
+        $contratistas = Contratista::where('municipio_id', $cliente->id_municipio)
+        ->get();
+
+        //return $cliente;
+        
+        return view('contratistas.list', 
+        compact(
+            'cliente',
+            'contratistas'
+        ));
+
+    }
+
+    public function contratista_update (Request $request)
+    {
+
+        $request->validate([
+            "id_contratista" => 'required',
+            "pc" => 'required',
+            "nombre" => 'required',
+            "apellidos" => 'required',
+            "telefono" => 'required',
+            "correo" => 'required',
+            "domicilio" => 'required',
+        ]);
+
+        $mensaje = 'ok';
+        $datos = ['success', '¡PROCESO EXITOSO!', 'Se actualizó correctamente la información del contratista'];
+        
+        DB::beginTransaction();
+        try {
+        
+            $contratista = Contratista::find($request->id_contratista);
+
+
+            $contratista->nombre = $request->nombre;
+            $contratista->apellidos = $request->apellidos;
+            $contratista->telefono = $request->telefono;
+            $contratista->correo = $request->correo;
+            $contratista->domicilio = $request->domicilio;
+            $contratista->numero_padron_contratista = $request->pc;
+            $contratista->razon_social = $request->razon_social;
+
+            $contratista->update();
+            DB::commit();
+        } catch (\Exception $e) {
+            DB::rollback();
+            $datos = ['error', '¡ERROR!', 'Problemas al actualizar la información'];
+        }
+
+        return redirect()->route('contratistas_list', ['id' => $request->id_cliente])->with('mensaje', 'ok')->with('datos', $datos);
+    }
+
+    public function contratista_create (Request $request){
+
+        //return $request;
+        /*$cliente = Cliente::find($request->id_cliente);
+        return $cliente;*/
+        
+        $request->validate([
+            "id_cliente" => 'required',
+            "pc" => 'required',
+            "rfc" => 'required',
+            "nombre" => 'required',
+            "apellidos" => 'required',
+            "telefono" => 'required',
+            "correo" => 'required',
+            "domicilio" => 'required',
+        ]);
+
+        $mensaje = 'ok';
+        $datos = ['success', '¡PROCESO EXITOSO!', 'Se guardo correctamente el contratista'];
+        
+        DB::beginTransaction();
+        try {
+        
+
+            $cliente = Cliente::find($request->id_cliente);
+
+            $contratista = Contratista::create([
+                'rfc' => strtoupper($request->rfc),
+                'razon_social'=>$request->razon_social,
+                'nombre' => $request->nombre,
+                'apellidos' => $request->apellidos,
+                'domicilio' => $request->domicilio,
+                'telefono' => $request->telefono,
+                'correo' => $request->correo,
+                'numero_padron_contratista' => $request->pc,
+                'municipio_id' => $cliente->municipio_id,
+            ]);
+
+            DB::commit();
+        } catch (\Exception $e) {
+            DB::rollback();
+            $datos = ['error', '¡ERROR!', 'Problemas al guardar el contratista'];
+        }
+
+        return redirect()->route('contratistas_list', ['id' => $request->id_cliente])->with('mensaje', 'ok')->with('datos', $datos);
+
+    }
+
+    public function existeContratista (Request $request){
+
+        $contratista = Contratista::where("rfc", $request->rfc)
+        ->where('municipio_id', $request->municipio)
+        ->select(DB::raw('count(id_contratista) as total'))
+        ->first();
+
+        $rfc = strtoupper($request->rfc);
+
+        $tamanio = strlen($rfc);
+
+        if($tamanio == 12 || $tamanio == 13){
+            $regex = '/^([A-ZÑ\x26]{3,4}([0-9]{2})(0[1-9]|1[0-2])(0[1-9]|1[0-9]|2[0-9]|3[0-1])[A-Z|\d]{3})$/';
+            $valido = preg_match($regex, $rfc);
+            if($valido == 1){
+                $contratista->valido = true;    
+            }else{
+                $contratista->valido = false;
+            }
+        }else{
+            $contratista->valido = false;
+        }
+
+        if($rfc == "XXXX000000XXX" || $rfc == "XXX000000XXX"){
+            $contratista->valido = true;
+            $contratista->total = 0;
+        }
+            
+
+        return Response::json($contratista);
+    }
+
+    public function existeProveedor (Request $request){
+
+        $proveedor = Proveedor::where("rfc", $request->rfc)
+        ->where('municipio_id', $request->municipio)
+        ->select(DB::raw('count(id_proveedor) as total'))
+        ->first();
+
+        $rfc = strtoupper($request->rfc);
+
+        $tamanio = strlen($rfc);
+
+        if($tamanio == 12 || $tamanio == 13){
+            $regex = '/^([A-ZÑ\x26]{3,4}([0-9]{2})(0[1-9]|1[0-2])(0[1-9]|1[0-9]|2[0-9]|3[0-1])[A-Z|\d]{3})$/';
+            $valido = preg_match($regex, $rfc);
+            if($valido == 1){
+                $proveedor->valido = true;    
+            }else{
+                $proveedor->valido = false;
+            }
+        }else{
+            $proveedor->valido = false;
+        }
+
+        if($rfc == "XXXX000000XXX" || $rfc == "XXX000000XXX"){
+            $proveedor->valido = true;
+            $proveedor->total = 0;
+        }
+            
+
+        return Response::json($proveedor);
+    }
+
+    public function proveedor_create (Request $request){
+
+        //return $request;
+        /*$cliente = Cliente::find($request->id_cliente);
+        return $cliente;*/
+        
+        $request->validate([
+            "id_cliente" => 'required',
+            "rfc" => 'required',
+            "nombre" => 'required',
+            "apellidos" => 'required',
+            "telefono" => 'required',
+            "correo" => 'required',
+            "domicilio" => 'required',
+        ]);
+
+        $mensaje = 'ok';
+        $datos = ['success', '¡PROCESO EXITOSO!', 'Se guardo correctamente el proveedor'];
+        
+        DB::beginTransaction();
+        try {
+        
+
+            $cliente = Cliente::find($request->id_cliente);
+
+
+            $proveedor = Proveedor::create([
+                'rfc' => strtoupper($request->rfc),
+                'razon_social'=>$request->razon_social,
+                'nombre' => $request->nombre,
+                'apellidos' => $request->apellidos,
+                'domicilio' => $request->domicilio,
+                'telefono' => $request->telefono,
+                'correo' => $request->correo,
+                'municipio_id' => $cliente->municipio_id,
+            ]);
+
+            
+
+            DB::commit();
+        } catch (\Exception $e) {
+            DB::rollback();
+            $datos = ['error', '¡ERROR!', 'Problemas al guardar el proveedor'];
+        }
+
+        return redirect()->route('proveedores_list', ['id' => $request->id_cliente])->with('mensaje', 'ok')->with('datos', $datos);
+
+    }
+
+    public function proveedor_update (Request $request)
+    {
+        //return $request;
+        $request->validate([
+            "id_proveedor" => 'required',
+            "nombre" => 'required',
+            "apellidos" => 'required',
+            "telefono" => 'required',
+            "correo" => 'required',
+            "domicilio" => 'required',
+        ]);
+
+        $mensaje = 'ok';
+        $datos = ['success', '¡PROCESO EXITOSO!', 'Se actualizó correctamente la información del '];
+        
+        /*DB::beginTransaction();
+        try {*/
+        
+            $proveedor = Proveedor::find($request->id_proveedor);
+
+            $proveedor->nombre = $request->nombre;
+            $proveedor->apellidos = $request->apellidos;
+            $proveedor->telefono = $request->telefono;
+            $proveedor->correo = $request->correo;
+            $proveedor->domicilio = $request->domicilio;
+            $proveedor->razon_social = $request->razon_social;
+
+            $proveedor->update();
+
+            
+            /*DB::commit();
+        } catch (\Exception $e) {
+            DB::rollback();
+            $datos = ['error', '¡ERROR!', 'Problemas al actualizar la información'];
+        }*/
+
+        return redirect()->route('proveedores_list', ['id' => $request->id_cliente])->with('mensaje', 'ok')->with('datos', $datos);
+    }
+    
+
+    public function proveedor_list ($id)
+    {
+
+        $cliente = Cliente::find($id)
+        ->join('municipios', 'municipios.id_municipio', '=', 'municipio_id')
+        ->join('distritos', 'distritos.id_distrito', '=', 'distrito_id')
+        ->join('regiones', 'regiones.id_region', '=', 'region_id')
+        ->join('estados', 'estados.id_estado', '=', 'estado_id')
+        ->select('id_cliente', 'municipios.nombre as nombre_municipio', 'distritos.nombre as nombre_distrito', 'regiones.nombre as nombre_region', 'estados.nombre as nombre_estado', 'icono', 'id_municipio', 'id_region', 'id_estado', 'id_distrito' )
+        ->first();
+
+
+        $proveedores = Proveedor::where('municipio_id', $cliente->id_municipio)
+        ->get();
+
+        //return $cliente;
+        
+        return view('proveedores.list', 
+        compact(
+            'cliente',
+            'proveedores'
+        ));
+
+    }
+
+    
 }

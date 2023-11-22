@@ -201,7 +201,7 @@
           <div class="grid grid-cols-8 gap-4">
             <div class="col-span-4 ">
               <label  id="label_cliente_id" for="cliente_id" class="block text-sm font-medium text-gray-700">Cliente *</label>
-              <select id="cliente_id" name="cliente_id" onchange="validarCliente()" class="mt-1 block w-full py-2 px-3 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">                
+              <select id="cliente_id" name="cliente_id" onchange="validarCliente()" class="mt-1 block w-full py-2 px-3 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-blue-800 focus:border-blue-800 sm:text-sm">                
                 <option value=""> Elija una opción </option>
                 @foreach($cliente as $index)
                 <option value="{{ $index->id_cliente }}"> {{ $index->nombre }} </option>
@@ -211,7 +211,7 @@
             </div>
             <div class="col-span-4">
               <label id="label_ejercicio" for="label_ejercicio" class="block text-sm font-medium text-gray-700">Ejercicio *</label>
-              <input type="number" name="ejercicio" id="ejercicio" class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md" placeholder="(2020)">
+              <input type="number" name="ejercicio" id="ejercicio" class="mt-1 focus:ring-blue-800 focus:border-blue-800 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md" placeholder="(2020)">
               <label id="error_ejercicio" name="error_ejercicio" class="hidden text-base font-normal text-red-500" >Porfavor ingresar un año de ejercicio</label>  
           </div>
             <div class="col-span-4">
@@ -222,7 +222,7 @@
                     $
                   </span>
                 </div>
-                <input type="number" name="monto_proyectado" id="monto_proyectado" class="pl-7  mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md" placeholder="0.0">
+                <input type="number" name="monto_proyectado" id="monto_proyectado" class="pl-7  mt-1 focus:ring-blue-800 focus:border-blue-800 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md" placeholder="0.0">
               </div>
                 <label id="error_monto_proyectado" name="error_monto_proyectado" class="hidden text-base font-normal text-red-500" >Porfavor ingresar una cantidad</label>
             </div>
@@ -234,29 +234,29 @@
                     $
                   </span>
                 </div>
-                <input type="number" name="monto_comprometido" id="monto_comprometido" class="pl-7 mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md" placeholder="0.0" >
+                <input type="number" name="monto_comprometido" id="monto_comprometido" class="pl-7 mt-1 focus:ring-blue-800 focus:border-blue-800 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md" placeholder="0.0" >
               </div>
               <label id="error_monto_comprometido" name="error_monto_comprometido" class="hidden text-base font-normal text-red-500" >Porfavor ingresar una cantidad</label>  
               <label id="error_monto_menor" name="error_monto_menor" class="hidden text-base font-normal text-red-500" >El monto comprometido no puede ser mayor que el proyectado</label>  
             </div>
             <div class="col-span-4">
                 <label id="label_acta_integracion_consejo" for="acta_integracion_consejo" class="block text-sm font-medium text-gray-700">Acta integracion *</label>
-                <input type="date" name="acta_integracion_consejo" id="acta_integracion_consejo" class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md" >
+                <input type="date" name="acta_integracion_consejo" id="acta_integracion_consejo" class="mt-1 focus:ring-blue-800 focus:border-blue-800 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md" >
                 <label id="error_acta_integracion_consejo" name="error_acta_integracion_consejo" class="hidden text-base font-normal text-red-500" >Porfavor ingresar una Fecha</label>  
             </div>
             <div class="col-span-4">
                 <label id="label_acta_priorizacion" for="acta_priorizacion" class="block text-sm font-medium text-gray-700">Acta priorización *</label>
-                <input type="date" name="acta_priorizacion" id="acta_priorizacion" class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md" >
+                <input type="date" name="acta_priorizacion" id="acta_priorizacion" class="mt-1 focus:ring-blue-800 focus:border-blue-800 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md" >
                 <label id="error_acta_priorizacion" name="error_acta_priorizacion" class="hidden text-base font-normal text-red-500" >Porfavor ingresar una Fecha</label>  
             </div>
             <div class="col-span-4">
                 <label for="adendum_priorizacion" class="block text-sm font-medium text-gray-700">Adendum priorización *</label>
-                <input type="date" name="adendum_priorizacion" id="adendum_priorizacion" class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md" >
+                <input type="date" name="adendum_priorizacion" id="adendum_priorizacion" class="mt-1 focus:ring-blue-800 focus:border-blue-800 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md" >
                 <label id="error_adendum_priorizacion" name="error_adendum_priorizacion" class="hidden text-base font-normal text-red-500" >Porfavor ingresar una Fecha</label>  
             </div>
             <div class="col-span-4">
               <label for="fuente_financiamiento_id" class="block text-sm font-medium text-gray-700">Fuente de financiamiento *</label>
-              <select id="fuente_financiamiento_id" name="fuente_financiamiento_id" class="mt-1 block w-full py-2 px-3 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">                
+              <select id="fuente_financiamiento_id" name="fuente_financiamiento_id" class="mt-1 block w-full py-2 px-3 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-blue-800 focus:border-blue-800 sm:text-sm">                
                 <option value="0" selected> Elija una opción </option>
                 @foreach($fuentes as $fuente)
                 <option value="{{ $fuente->id_fuente_financiamiento }}"> {{ $fuente->nombre_corto }} </option>
@@ -266,7 +266,7 @@
 
             <div class="col-span-4">
                 <label for="prodim" class="block text-sm font-medium text-gray-700">Prodim *</label>
-                <select id="prodim" name="prodim" class="mt-1 block w-full py-2 px-3 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">                
+                <select id="prodim" name="prodim" class="mt-1 block w-full py-2 px-3 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-blue-800 focus:border-blue-800 sm:text-sm">                
                   <option value="0"> Elija una opción </option>
                   <option value="1"> Terminado </option>
                   <option value="2"> Pendiente </option>
@@ -274,7 +274,7 @@
             </div>
             <div class="col-span-4">
               <label for="gastos_indirectos" class="block text-sm font-medium text-gray-700">Gastos indirectos *</label>
-              <select id="gastos_indirectos" name="gastos_indirectos" class="mt-1 block w-full py-2 px-3 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">                
+              <select id="gastos_indirectos" name="gastos_indirectos" class="mt-1 block w-full py-2 px-3 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-blue-800 focus:border-blue-800 sm:text-sm">                
                 <option value="0"> Elija una opción </option>
                       <option value="1"> Terminado </option>
                       <option value="2"> Pendiente </option>
@@ -288,6 +288,10 @@
       <!--footer-->
       <div class=" p-4 border-t border-solid border-blueGray-200 rounded-b">
         
+
+
+
+      
         <span class="block text-xs">Verifique los campos obligatorios marcados con un ( * ) </span>
         <div class="text-right">
         <button class="text-red-500 background-transparent font-bold uppercase px-6 py-2 text-sm outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150" type="button" onclick="toggleMod('modal')">

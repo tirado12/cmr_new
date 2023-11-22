@@ -127,33 +127,33 @@
             <div class="grid grid-cols-8 gap-8">
               <div class="col-span-8 ">
                 <label id="label_nombre" for="first_name" class="block text-sm font-medium text-gray-700">Nombre *</label>
-                <input type="text" name="nombre" id="nombre" class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md" required maxlength="13">
+                <input type="text" name="nombre" id="nombre" class="mt-1 focus:ring-blue-800 focus:border-blue-800 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md" required maxlength="13">
                 <label id="error_nombre" name="error_nombre" class="hidden text-base font-normal text-red-500" >Porfavor ingresa un nombre</label>
               </div>
               <div class="col-span-8">
                 <label id="label_rfc" for="rfc" class="block text-sm font-medium text-gray-700">RFC *</label>
-                <input type="text" name="rfc" id="rfc" class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md" required>
+                <input type="text" name="rfc" id="rfc" class="mt-1 focus:ring-blue-800 focus:border-blue-800 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md" required>
                 <label id="error_rfc" name="error_rfc" class="hidden text-base font-normal text-red-500" >Porfavor ingresa al menos un RFC generico con 5 caracteres</label>
               </div>
               <div class="col-span-8">
                 <label id="label_cargo" for="cargo" class="block text-sm font-medium text-gray-700">Cargo *</label>
-                <input type="text" name="cargo" id="cargo" class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md" required>
+                <input type="text" name="cargo" id="cargo" class="mt-1 focus:ring-blue-800 focus:border-blue-800 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md" required>
                 <label id="error_cargo" name="error_cargo" class="hidden text-base font-normal text-red-500" >Porfavor ingresa un cargo</label>
               </div>
               <div class="col-span-8">
                   <label id="label_telefono" for="telefono" class="block text-sm font-medium text-gray-700">Telefono *</label>
-                  <input type="tel" name="telefono" id="telefono" class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md" required>
+                  <input type="tel" name="telefono" id="telefono" class="mt-1 focus:ring-blue-800 focus:border-blue-800 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md" required>
                   <label id="error_telefono" name="error_telefono" class="hidden text-base font-normal text-red-500" >Porfavor ingresar un telefono</label>
                 </div>
               
               <div class="col-span-8">
                   <label id="label_correo" for="correo" class="block text-sm font-medium text-gray-700">Correo *</label>
-                  <input type="email" name="correo" id="correo" class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md" required>
+                  <input type="email" name="correo" id="correo" class="mt-1 focus:ring-blue-800 focus:border-blue-800 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md" required>
                   <label id="error_correo" name="error_correo" class="hidden text-base font-normal text-red-500" >Porfavor ingresar un correo</label>
                 </div>
               <div class="col-span-8" >
                 <label id="label_municipio" for="municipio" class="block text-sm font-medium text-gray-700">Municipio *</label>
-                <select id="municipio" name="municipio" onchange="validarCliente()" class="mt-1 block w-full py-2 px-3 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
+                <select id="municipio" name="municipio" onchange="validarCliente()" class="mt-1 block w-full py-2 px-3 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-blue-800 focus:border-blue-800 sm:text-sm">
                     @foreach($clientes as $cliente)
                         <option value="{{ $cliente->id_cliente }}">{{ $cliente->municipio->nombre }}</option>
                      @endforeach

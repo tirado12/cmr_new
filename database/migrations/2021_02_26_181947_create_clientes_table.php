@@ -22,6 +22,7 @@ class CreateClientesTable extends Migration
             $table->string('anio_inicio',4);
             $table->string('anio_fin',4);
             $table->text('logo', 255);
+            $table->text('icono', 255);
             $table->string('id_onesignal',150)->nullable();
             
             $table->unsignedBigInteger('municipio_id');

@@ -123,6 +123,14 @@ Route::post('obra/update/mids', [GeneralController::class, 'update_mids'])->name
 Route::post('obra/update/rft', [GeneralController::class, 'update_rft'])->name('update_rft');
 Route::post('cliente/update', [GeneralController::class, 'update_cliente'])->name('update_cliente');
 Route::post('cabildo/update', [GeneralController::class, 'update_cabildo'])->name('update_cabildo');
+Route::get('lista/contratista/{id}', [GeneralController::class, 'contratista_list'])->name('contratistas_list');
+Route::post('update/contratista', [GeneralController::class, 'contratista_update'])->name('contratista_update');
+Route::get('existe/contratista', [GeneralController::class, 'existeContratista'])->name('existeContratista');
+Route::post('create/contratista', [GeneralController::class, 'contratista_create'])->name('contratista_create');
+Route::get('lista/proveedor/{id}', [GeneralController::class, 'proveedor_list'])->name('proveedores_list');
+Route::get('existe/proveedor', [GeneralController::class, 'existeProveedor'])->name('existeProveedor');
+Route::post('update/proveedor', [GeneralController::class, 'proveedor_update'])->name('proveedor_update');
+Route::post('create/proveedor', [GeneralController::class, 'proveedor_create'])->name('proveedor_create');
 
 Route::get('/imprimir/{id}', [GeneralController::class, 'imprimir'])->name('imprimir');
 Route::post('obra/upload/checklist', [GeneralController::class, 'upload_checklist'])->name('upload_checklist');

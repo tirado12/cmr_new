@@ -20,12 +20,41 @@
 
     <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
 
-<!--<div class="flex flex-row mb-4">
-    <svg class="h-7 w-7" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" />
-    </svg>
-    <h1 class="font-bold text-xl ml-2">Proceso de pago</h1>
-</div>-->
+    <div class="flex flex-row items-center ">
+        <img class="block h-24 w-24 rounded-full shadow-2xl" src="{{$obra->icono}}" alt="cmr">
+        <div class="ml-4 grid grid-col-1">
+            <p class="block font-black text-xl">Detalles del proceso de pago</p>
+            <p class="block font-black text-xl">{{$obra->id_municipio}} - {{$obra->nombre_municipio}}</p>
+            <p class="text-gray-600">{{$obra->id_distrito}} {{$obra->nombre_distrito}} - {{$obra->id_region}} {{$obra->nombre_region}}</p>
+        </div>
+    </div>
+    <div class="mt-7 mb-7">
+
+    </div>
+    <div class="mt-7 mb-7">
+        <div class="w-full  px-3">
+            <p class="text-gray-600">
+                <a href="/inicio" class="text-blue-500">
+                    <i class="fas fa-home" aria-hidden="true"></i> Inicio
+                </a>
+                - 
+                <a href="/cliente/ver/{{$obra->id_cliente}}" class="text-blue-500">
+                    <i class="fas fa-user" aria-hidden="true"></i> Cliente
+                </a> 
+                -
+                <a href="/cliente/ejercicio/{{$obra->id_cliente}},{{$obra->ejercicio}}" class="text-blue-500">
+                    <i class="fas fa-calendar" aria-hidden="true"></i> {{$obra->ejercicio}}
+                </a> 
+                - 
+                <a href="/obra/ver/{{$obra->id_obra}}" class="text-blue-500">
+                    <i class="fas fa-pen-to-square" aria-hidden="true"></i> Obra
+                </a> 
+                - 
+                <i class="fas fa-comments-dollar" aria-hidden="true"></i> Detalles del pago
+            </p>
+        </div>
+    </div>
+
 
     @if ($errors->any())
       <div class="alert flex flex-row items-center bg-yellow-200 p-2 rounded-lg border-b-2 border-yellow-300 mb-4 shadow">
@@ -120,7 +149,14 @@
             </div>
             <div class="col-span-12 sm:col-span-6">
                 <p class="text-xs text-center">Contratista</p>
-                <p class="text-base font-semibold bg-gray-100 p-1 text-center">{{$contrato->rfc}} - {{$contrato->razon_social}}</p>
+                <p class="text-base font-semibold bg-gray-100 p-1 text-center">
+                    {{$contrato->rfc}} -  
+                    @if ($contrato->razon_social != null)
+                        {{$contrato->razon_social}}
+                    @else
+                        {{$contrato->nombre}} {{$contrato->apellidos}}
+                    @endif
+                </p>
             </div>
             <div class="col-span-12 sm:col-span-6 ">
                 <p class="text-xs text-center">Periodo del contrato</p>
@@ -190,7 +226,11 @@
                                     </td>
                                     <td>
                                         <div class="text-sm leading-5 font-medium text-gray-900 text-center">
-                                            {{ $factura->razon_social}}
+                                            @if (strlen($factura->rfc) == 12)
+                                                {{$factura->razon_social}}
+                                            @else
+                                                {{$factura->nombre}} {{$factura->apellidos}}
+                                            @endif
                                         </div>
                                     </td>
                                     
@@ -217,66 +257,164 @@
 <!-- inicio modal agregar factura  -->
 <div class="hidden overflow-x-hidden overflow-y-auto fixed inset-0 z-50 outline-none focus:outline-none justify-center items-center" id="modal-agregar-factura">
     <div class="relative w-auto my-28 mx-auto max-w-3xl">
-    <!--content-->
-    <div class="border-0 rounded-lg shadow-lg relative flex flex-col w-full bg-white outline-none focus:outline-none">
-        <!--header-->
-        <div class="flex items-center justify-between px-5 py-3 border-b border-solid border-blueGray-200 rounded-t bg-blue-cmr1">
-            <h4 class="text-base font-normal uppercase text-white">
-                Agregar nueva factura
-            </h4>
-            <button class="p-1 ml-auto bg-transparent border-0 text-white float-right text-2xl leading-none font-semibold outline-none focus:outline-none" onclick="toggleModal('modal-agregar-factura')">
-                <span>
-                    <i class="fas fa-xmark"></i>
-                </span>
-            </button>
+        <!--content-->
+        <div class="border-0 rounded-lg shadow-lg relative flex flex-col w-full bg-white outline-none focus:outline-none">
+            <!--header-->
+            <div class="flex items-center justify-between px-5 py-3 border-b border-solid border-blueGray-200 rounded-t bg-blue-cmr1">
+                <h4 class="text-base font-normal uppercase text-white">
+                    Agregar nueva factura
+                </h4>
+                <button class="p-1 ml-auto bg-transparent border-0 text-white float-right text-2xl leading-none font-semibold outline-none focus:outline-none" onclick="toggleModal('modal-agregar-factura')">
+                    <span>
+                        <i class="fas fa-xmark"></i>
+                    </span>
+                </button>
+            </div>
+            <!--body-->
+            <form action="{{ route('store_factura') }}" method="POST" id="formulario_factura" name="formulario_factura">
+                @csrf
+                @method('POST')
+                <div class="relative p-6 flex-auto">
+                    <div class="grid grid-cols-10 gap-4">
+                        <input type="text" name="id_obra_admin_factura" id="id_obra_admin_factura" maxlength="40" class="hidden mt-1 focus:ring-blue-800 focus:border-blue-800 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md" value="{{ $contrato->obra_administracion_id }}">
+                        <input type="text" name="id_obra_factura" id="id_obra_factura" maxlength="40" class="hidden mt-1 focus:ring-blue-800 focus:border-blue-800 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md" value="{{ $obra->id_obra }}">
+                        <input type="text" name="id_contrato_factura" id="id_contrato_factura" maxlength="40" class="hidden mt-1 focus:ring-blue-800 focus:border-blue-800 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md" value="{{ $contrato->id_contrato_arrendamiento }}">
+                        <div class="col-span-10 sm:col-span-5">
+                            <label  id="label_folio_fiscal_factura" class="block text-sm font-semibold">Folio fiscal:</label>
+                            <input type="text" name="folio_fiscal_factura" id="folio_fiscal_factura" maxlength="36" class="mt-1 focus:ring-blue-800 focus:border-blue-800 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md" value="{{ old('oficio_notificacion') }}">
+                            <label id="error_folio_fiscal_factura" name="error_folio_fiscal_factura" class="hidden text-sm font-normal text-red-500" >Ingrese un folio de factura valido.</label>
+                        </div>
+                        <div class="col-span-10 sm:col-span-5">
+                            <label  id="label_fecha_factura" class="block text-sm font-semibold">Fecha:</label>
+                            <input type="date" name="fecha_factura" id="fecha_factura" min="{{$contrato->fecha_inicio}}" max="{{$contrato->fecha_fin}}" class="mt-1 focus:ring-blue-800 focus:border-blue-800 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md" value="{{ old('fecha_oficio_notificacion') }}">
+                            <label id="error_fecha_factura" class="hidden text-sm font-normal text-red-500" >Ingrese una fecha de factura valida.</label>
+                        </div>
+                        <div class="col-span-10 sm:col-span-5">
+                            <label for="tipo" class="block text-sm font-semibold">Monto*</label>
+                            <div class="relative ">
+                                <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                                    <span class="text-gray-700 text-base">
+                                    $
+                                    </span>
+                                </div>
+                                <input type="text" name="total_factura" id="total_factura" maxlength="20" class="pl-7  mt-1 focus:ring-blue-800 focus:border-blue-800 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md" placeholder="0.00">
+                            </div>
+                            <label id="error_monto_admin_mayor_fac" class="hidden text-sm font-normal text-red-500" >El monto es mayor que el restante de la obra: {{$service->formatNumber($contrato->monto_contratado - $total_admin)}}</label>
+                            <label id="error_total_factura" class="hidden text-sm font-normal text-red-500" >Ingrese un monto total de factura valido.</label>
+                        </div>
+                        <div class="col-span-10">
+                            <label  id="label_concepto_factura" class="block text-sm font-semibold">Concepto:</label>
+                            
+                            <textarea maxlength ="300" name="concepto_factura" id="concepto_factura" class="mt-1 focus:ring-blue-800 focus:border-blue-800 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md" value="{{ old('fecha_oficio_notificacion') }}"></textarea>
+                            <label id="error_concepto_factura" class="hidden text-sm font-normal text-red-500" >Ingrese concepto referente a la factura valido.</label>
+                        </div>
+                        <div class="col-span-10">
+                            <label  for="proveedor" class="block text-sm font-semibold">Proveedor*</label>
+                            <select class="mt-1 block w-full py-2 px-3 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-blue-800 focus:border-blue-800 sm:text-sm" name="proveedor_id" id="proveedor_id" >
+                                <option value="{{$contrato->id_proveedor}}">
+                                    {{$contrato->rfc}} - 
+                                    @if (strlen($contrato->rfc) == 12)
+                                        {{$contrato->razon_social}}
+                                    @else
+                                        {{$contrato->nombre}} {{$contrato->apellidos}}
+                                    @endif
+                                </option>
+                            </select>
+                            <label id="error_proveedor_id" class="hidden text-sm font-normal text-red-500" >Seleccione un proveedor.</label>
+                        </div>
+                    </div>
+                    <div class="mt-8">
+                        <span class="block text-xs">Verifique los campos obligatorios marcados con un ( * ) </span>
+                    </div>
+                
+                </div>
+                <!--footer-->
+                <div class=" p-4 border-t border-solid border-blueGray-200 rounded-b">
+                    <div class="text-right">
+                
+                        <button class="text-red-500 background-transparent font-bold uppercase px-6 text-sm outline-none focus:outline-none ease-linear transition-all duration-150" type="button" onclick="toggleModal('modal-agregar-factura')">
+                            Cancelar
+                        </button>
+                        <button type="submit" id="guardar_factura" class="text-blue-500 font-bold uppercase text-sm px-6 rounded outline-none focus:outline-none ease-linear transition-all duration-150" >
+                            Guardar
+                        </button>
+                    </div>
+                </div>
+            </form>
         </div>
-        <!--body-->
-        <form action="{{ route('store_factura') }}" method="POST" id="formulario_factura" name="formulario_factura">
+    </div>
+</div>
+
+<!-- inicio modal editar factura  -->
+<div class="hidden overflow-x-hidden overflow-y-auto fixed inset-0 z-50 outline-none focus:outline-none justify-center items-center" id="modal-edit-factura">
+    <div class="relative w-auto my-28 mx-auto max-w-3xl">
+        <!--content-->
+        <div class="border-0 rounded-lg shadow-lg relative flex flex-col w-full bg-white outline-none focus:outline-none">
+            <!--header-->
+            <div class="flex items-center justify-between px-5 py-3 border-b border-solid border-blueGray-200 rounded-t bg-blue-cmr1">
+                <h4 class="text-base font-normal uppercase text-white">
+                    Editar factura
+                </h4>
+                <button class="p-1 ml-auto bg-transparent border-0 text-white float-right text-2xl leading-none font-semibold outline-none focus:outline-none" onclick="toggleModal('modal-edit-factura')">
+                    <span>
+                        <i class="fas fa-xmark"></i>
+                    </span>
+                </button>
+            </div>
+            <!--body-->
+            <form action="{{ route('update_factura') }}" method="POST" id="formulario_factura_edit" name="formulario_factura_edit">
             @csrf
             @method('POST')
             <div class="relative p-6 flex-auto">
                 <div class="grid grid-cols-10 gap-4">
-                    <input type="text" name="id_obra_admin_factura" id="id_obra_admin_factura" maxlength="40" class="hidden mt-1 focus:ring-blue-800 focus:border-blue-800 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md" value="{{ $contrato->obra_administracion_id }}">
-                    <input type="text" name="id_obra_factura" id="id_obra_factura" maxlength="40" class="hidden mt-1 focus:ring-blue-800 focus:border-blue-800 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md" value="{{ $obra->id_obra }}">
-                    <input type="text" name="id_contrato_factura" id="id_contrato_factura" maxlength="40" class="hidden mt-1 focus:ring-blue-800 focus:border-blue-800 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md" value="{{ $contrato->id_contrato_arrendamiento }}">
+                    <input type="text" name="id_factura" id="id_factura" maxlength="40" class="hidden mt-1 focus:ring-blue-800 focus:border-blue-800 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md" value="">
+                    <input type="text" name="id_obra_factura_edit" id="id_obra_factura_edit" maxlength="40" class="hidden mt-1 focus:ring-blue-800 focus:border-blue-800 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md" value="{{ $obra->id_obra }}">
+                    <input type="text" name="id_contrato_factura_edit" id="id_contrato_factura_edit" maxlength="40" class="hidden mt-1 focus:ring-blue-800 focus:border-blue-800 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md" value="{{ $contrato->id_contrato_arrendamiento }}">
                     <div class="col-span-10 sm:col-span-5">
-                        <label  id="label_folio_fiscal_factura" class="block text-sm font-bold text-gray-700">Folio fiscal:</label>
-                        <input type="text" name="folio_fiscal_factura" id="folio_fiscal_factura" maxlength="36" class="mt-1 focus:ring-blue-800 focus:border-blue-800 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md" value="{{ old('oficio_notificacion') }}">
-                        <label id="error_folio_fiscal_factura" name="error_folio_fiscal_factura" class="hidden text-base font-normal text-red-500" >Ingrese un folio de factura valido.</label>
+                        <label  id="label_folio_fiscal_factura_edit" class="block text-sm font-semibold">Folio fiscal:</label>
+                        <input type="text" name="folio_fiscal_factura_edit" id="folio_fiscal_factura_edit" maxlength="36" class="mt-1 focus:ring-blue-800 focus:border-blue-800 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md" value="{{ old('oficio_notificacion') }}">
+                        <label id="error_folio_fiscal_factura_edit" name="error_folio_fiscal_factura_edit" class="hidden text-sm font-normal text-red-500" >Ingrese un folio de factura valido.</label>
                     </div>
-                    <div class="col-span-10 sm:col-span-5">
-                        <label  id="label_fecha_factura" class="block text-sm font-bold text-gray-700">Fecha:</label>
-                        <input type="date" name="fecha_factura" id="fecha_factura" min="{{$contrato->fecha_inicio}}" max="{{$contrato->fecha_fin}}" class="mt-1 focus:ring-blue-800 focus:border-blue-800 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md" value="{{ old('fecha_oficio_notificacion') }}">
-                        <label id="error_fecha_factura" class="hidden text-base font-normal text-red-500" >Ingrese una fecha de factura valida.</label>
+                    <div class="col-span-5">
+                        <label  id="label_fecha_factura_edit" class="block text-sm font-semibold">Fecha:</label>
+                        <input type="date" name="fecha_factura_edit" id="fecha_factura_edit" min="{{$contrato->fecha_inicio}}" max="{{$contrato->fecha_fin}}" class="mt-1 focus:ring-blue-800 focus:border-blue-800 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md" value="{{ old('fecha_oficio_notificacion') }}">
+                        <label id="error_fecha_factura_edit" class="hidden text-sm font-normal text-red-500" >Ingrese una fecha de factura valida.</label>
                     </div>
-                    <div class="col-span-10 sm:col-span-5">
-                        <label for="tipo" class="block text-sm font-bold text-gray-700">Monto*</label>
+                    <div class="col-span-5 sm:col-span-5">
+                        <label for="tipo" class="block text-sm font-semibold">Monto*</label>
                         <div class="relative ">
                             <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
                                 <span class="text-gray-700 text-base">
                                 $
                                 </span>
                             </div>
-                            <input type="text" name="total_factura" id="total_factura" maxlength="20" class="pl-7  mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md" placeholder="0.00">
+                            <input type="text" name="total_factura_edit" id="total_factura_edit" maxlength="20" class="pl-7  mt-1 focus:ring-blue-800 focus:border-blue-800 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md" placeholder="0.00">
                         </div>
-                        <label id="error_monto_admin_mayor_fac" class="hidden text-base font-normal text-red-500" >El monto es mayor que el restante de la obra: {{$service->formatNumber($contrato->monto_contratado - $total_admin)}}</label>
-                        <label id="error_total_factura" class="hidden text-base font-normal text-red-500" >Ingrese un monto total de factura valido.</label>
+                        <label id="error_monto_admin_mayor_fac_edit" class="hidden text-sm font-normal text-red-500" >El monto es mayor que el restante de la obra: {{$service->formatNumber($contrato->monto_contratado - $total_admin)}}</label>
+                        <label id="error_total_factura_edit" class="hidden text-sm font-normal text-red-500" >Ingrese un monto total de factura valido.</label>
                     </div>
                     <div class="col-span-10">
-                        <label  id="label_concepto_factura" class="block text-sm font-bold text-gray-700">Concepto:</label>
+                        <label  id="label_concepto_factura_edit" class="block text-sm font-semibold">Concepto:</label>
                         
-                        <textarea maxlength ="300" name="concepto_factura" id="concepto_factura" class="mt-1 focus:ring-blue-800 focus:border-blue-800 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md" value="{{ old('fecha_oficio_notificacion') }}"></textarea>
-                        <label id="error_concepto_factura" class="hidden text-base font-normal text-red-500" >Ingrese concepto referente a la factura valido.</label>
+                        <textarea maxlength ="300" name="concepto_factura_edit" id="concepto_factura_edit" class="mt-1 focus:ring-blue-800 focus:border-blue-800 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md" value="{{ old('fecha_oficio_notificacion') }}"></textarea>
+                        <label id="error_concepto_factura_edit" class="hidden text-sm font-normal text-red-500" >Ingrese concepto referente a la factura valido.</label>
                     </div>
                     <div class="col-span-10">
-                        <label  for="proveedor" class="block text-sm font-bold text-gray-700">Proveedor*</label>
-                        <select class="mt-1 block w-full py-2 px-3 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm" name="proveedor_id" id="proveedor_id" >
-                            <option value="{{$contrato->id_proveedor}}">{{$contrato->rfc}} - {{$contrato->razon_social}}</option>
+                        <label  for="proveedor" class="block text-sm font-semibold">Proveedor*</label>
+                        <select class="js-example-basic-single-1 mt-1 block w-full py-2 px-3 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-blue-800 focus:border-blue-800 sm:text-sm" name="proveedor_id_edit" id="proveedor_id_edit">
+                            <option value="{{$contrato->id_proveedor}}">
+                                {{$contrato->rfc}} - 
+                                @if (strlen($contrato->rfc) == 12)
+                                    {{$contrato->razon_social}}
+                                @else
+                                    {{$contrato->nombre}} {{$contrato->apellidos}}
+                                @endif
+                            </option>
                         </select>
-                        <label id="error_proveedor_id" class="hidden text-base font-normal text-red-500" >Seleccione un proveedor.</label>
+                        <label id="error_proveedor_id_edit" class="hidden text-sm font-normal text-red-500" >Seleccione un proveedor.</label>
                     </div>
                 </div>
-                <div class="mt-10">
+                <div class="mt-8">
                     <span class="block text-xs">Verifique los campos obligatorios marcados con un ( * ) </span>
                 </div>
             
@@ -284,100 +422,17 @@
             <!--footer-->
             <div class=" p-4 border-t border-solid border-blueGray-200 rounded-b">
                 <div class="text-right">
-            
-                    <button class="text-red-500 background-transparent font-bold uppercase px-6 text-sm outline-none focus:outline-none ease-linear transition-all duration-150" type="button" onclick="toggleModal('modal-agregar-factura')">
+                
+                    <button class="text-red-500 background-transparent font-bold uppercase px-6 text-sm outline-none focus:outline-none ease-linear transition-all duration-150" type="button" onclick="toggleModal('modal-edit-factura')">
                         Cancelar
                     </button>
-                    <button type="submit" id="guardar_factura" class="text-blue-500 font-bold uppercase text-sm px-6 rounded outline-none focus:outline-none ease-linear transition-all duration-150" >
+                    <button type="submit" id="guardar_factura_edit" class="text-blue-500 font-bold uppercase text-sm px-6 rounded outline-none focus:outline-none ease-linear transition-all duration-150" >
                         Guardar
                     </button>
                 </div>
             </div>
-        </form>
-    </div>
-    </div>
-</div>
-
-<!-- inicio modal editar factura  -->
-<div class="hidden overflow-x-hidden overflow-y-auto fixed inset-0 z-50 outline-none focus:outline-none justify-center items-center" id="modal-edit-factura">
-    <div class="relative w-auto my-6 mx-auto max-w-3xl">
-    <!--content-->
-    <div class="border-0 rounded-lg shadow-lg relative flex flex-col w-full bg-white outline-none focus:outline-none">
-        <!--header-->
-        <div class="flex items-start justify-between p-5 border-b border-solid border-blueGray-200 rounded-t">
-        <h4 class="text-xl font-semibold">
-            Editar factura
-        </h4>
-        <button class="p-1 ml-auto bg-transparent border-0 text-black opacity-5 float-right text-3xl leading-none font-semibold outline-none focus:outline-none" onclick="toggleModal('modal-edit-factura')">
-            <span class="bg-transparent text-black opacity-5 h-6 w-6 text-2xl block outline-none focus:outline-none">
-            
-            </span>
-        </button>
+            </form>
         </div>
-        <!--body-->
-        <form action="{{ route('update_factura') }}" method="POST" id="formulario_factura_edit" name="formulario_factura_edit">
-        @csrf
-        @method('POST')
-        <div class="relative p-6 flex-auto">
-            <div class="grid grid-cols-10 gap-4">
-                <input type="text" name="id_factura" id="id_factura" maxlength="40" class="hidden mt-1 focus:ring-blue-800 focus:border-blue-800 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md" value="">
-                <input type="text" name="id_obra_factura_edit" id="id_obra_factura_edit" maxlength="40" class="hidden mt-1 focus:ring-blue-800 focus:border-blue-800 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md" value="{{ $obra->id_obra }}">
-                <input type="text" name="id_contrato_factura_edit" id="id_contrato_factura_edit" maxlength="40" class="hidden mt-1 focus:ring-blue-800 focus:border-blue-800 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md" value="{{ $contrato->id_contrato_arrendamiento }}">
-                <div class="col-span-10 sm:col-span-5">
-                    <label  id="label_folio_fiscal_factura_edit" class="block text-sm font-bold text-gray-700">Folio fiscal:</label>
-                    <input type="text" name="folio_fiscal_factura_edit" id="folio_fiscal_factura_edit" maxlength="36" class="mt-1 focus:ring-blue-800 focus:border-blue-800 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md" value="{{ old('oficio_notificacion') }}">
-                    <label id="error_folio_fiscal_factura_edit" name="error_folio_fiscal_factura_edit" class="hidden text-base font-normal text-red-500" >Ingrese un folio de factura valido.</label>
-                </div>
-                <div class="col-span-5">
-                    <label  id="label_fecha_factura_edit" class="block text-sm font-bold text-gray-700">Fecha:</label>
-                    <input type="date" name="fecha_factura_edit" id="fecha_factura_edit" min="{{$contrato->fecha_inicio}}" max="{{$contrato->fecha_fin}}" class="mt-1 focus:ring-blue-800 focus:border-blue-800 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md" value="{{ old('fecha_oficio_notificacion') }}">
-                    <label id="error_fecha_factura_edit" class="hidden text-base font-normal text-red-500" >Ingrese una fecha de factura valida.</label>
-                </div>
-                <div class="col-span-5 sm:col-span-5">
-                    <label for="tipo" class="block text-sm font-bold text-gray-700">Monto*</label>
-                    <div class="relative ">
-                        <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                            <span class="text-gray-700 text-base">
-                            $
-                            </span>
-                        </div>
-                        <input type="text" name="total_factura_edit" id="total_factura_edit" maxlength="20" class="pl-7  mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md" placeholder="0.00">
-                    </div>
-                    <label id="error_monto_admin_mayor_fac_edit" class="hidden text-base font-normal text-red-500" >El monto es mayor que el restante de la obra: {{$service->formatNumber($contrato->monto_contratado - $total_admin)}}</label>
-                    <label id="error_total_factura_edit" class="hidden text-base font-normal text-red-500" >Ingrese un monto total de factura valido.</label>
-                </div>
-                <div class="col-span-10">
-                    <label  id="label_concepto_factura_edit" class="block text-sm font-bold text-gray-700">Concepto:</label>
-                    
-                    <textarea maxlength ="300" name="concepto_factura_edit" id="concepto_factura_edit" class="mt-1 focus:ring-blue-800 focus:border-blue-800 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md" value="{{ old('fecha_oficio_notificacion') }}"></textarea>
-                    <label id="error_concepto_factura_edit" class="hidden text-base font-normal text-red-500" >Ingrese concepto referente a la factura valido.</label>
-                </div>
-                <div class="col-span-10">
-                    <label  for="proveedor" class="block text-sm font-bold text-gray-700">Proveedor*</label>
-                    <select class="js-example-basic-single-1 mt-1 block w-full py-2 px-3 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm" name="proveedor_id_edit" id="proveedor_id_edit">
-                        <option value="{{$contrato->id_proveedor}}">{{$contrato->rfc}} - {{$contrato->razon_social}}</option>
-                    </select>
-                    <label id="error_proveedor_id_edit" class="hidden text-base font-normal text-red-500" >Seleccione un proveedor.</label>
-                </div>
-        </div>
-        
-        </div>
-        <!--footer-->
-        <div class=" p-4 border-t border-solid border-blueGray-200 rounded-b">
-        
-        <span class="block text-xs">Verifique los campos obligatorios marcados con un ( * ) </span>
-        <div class="text-right">
-        
-            <button class="text-red-500 background-transparent font-bold uppercase px-6 py-2 text-sm outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150" type="button" onclick="toggleModal('modal-edit-factura')">
-            Cancelar
-        </button>
-        <button type="submit" id="guardar_factura_edit" class="bg-green-500 text-white active:bg-green-600 font-bold uppercase text-sm px-6 py-3 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150" >
-            Guardar
-        </button>
-        </div>
-        </div>
-        </form>
-    </div>
     </div>
 </div>
 
@@ -396,10 +451,10 @@
     @if(session('mensaje')=='ok')
         <script>
             Swal.fire({  
-            title: '{{session('datos')[1]}}',
-            text: '{{session('datos')[2]}}',
-            icon: '{{session('datos')[0]}}',
-            button: "Ok",
+                title: '{{session('datos')[1]}}',
+                text: '{{session('datos')[2]}}',
+                icon: '{{session('datos')[0]}}',
+                confirmButtonText: 'Ok'
 
             })
         </script>

@@ -272,18 +272,22 @@ html ul.tabs li.active a, html ul.tabs li.active a:hover  {
 	width: 80%;
 }
 
-  .col-estado {
-	  width: 20%;
-  }
+.col-estado {
+  	width: 20%;
+}
 
-  .col-estado div {
-	  height: 25px;
-  }
+.col-estado div {
+	height: 25px;
+}
 
-  
+.div-estado-proceso div img{
+	height: 25px;
+}
 
-  	.div-estado-proceso div img{
-		height: 25px;
-	}
+.border-1{
+    border-width: 1px;
+}
+
+
 
 	
