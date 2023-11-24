@@ -34,6 +34,7 @@ use App\Models\Sisplade;
 use App\Models\Rft;
 use App\Models\Mids;
 use App\Models\IntegrantesCabildo;
+use App\Models\UsuarioCliente;
 use Illuminate\Support\Facades\DB;
 
 use Response;
@@ -52,7 +53,25 @@ class GeneralController extends Controller
         if($mes < 6)
             $anio = $anio - 1;
 
-        $clientes = Cliente::join('municipios', 'municipios.id_municipio', '=', 'municipio_id')
+        $idUsuario = auth()->user()->id;
+
+        $clientes = UsuarioCliente::where('usuario_id', '=', $idUsuario)
+        ->join('clientes', 'clientes.id_cliente', '=', 'cliente_id')
+        ->join('municipios', 'municipios.id_municipio', '=', 'municipio_id')
+        ->join('distritos', 'distritos.id_distrito', '=', 'distrito_id')
+        ->select(
+            'municipios.nombre as nombre_municipio',
+            'distritos.nombre as nombre_distrito',
+            'id_municipio',
+            'anio_inicio',
+            'anio_fin',
+            'id_cliente',
+            'rfc',
+        )
+        ->groupBy('id_municipio', 'nombre_municipio', 'anio_inicio', 'anio_fin', 'id_cliente','rfc', 'nombre_distrito')
+        ->get();
+
+        /*$clientes = Cliente::join('municipios', 'municipios.id_municipio', '=', 'municipio_id')
             ->join('distritos', 'distritos.id_distrito', '=', 'distrito_id')
             ->where('anio_fin','>=', $anio)
             ->select(
@@ -65,7 +84,8 @@ class GeneralController extends Controller
                 'rfc',
             )
             ->groupBy('id_municipio', 'nombre_municipio', 'anio_inicio', 'anio_fin', 'id_cliente','rfc', 'nombre_distrito')
-            ->get();
+            ->get();*/
+
      
         return view('dashboard', compact('clientes'));
     }
@@ -1155,142 +1175,160 @@ class GeneralController extends Controller
 
     public function show_pagos ($id){
     
-        $pagos_obra = DesglosePagosObra::find($id);
+            $pagos_obra = DesglosePagosObra::find($id);
 
-        $obra_relaciones = ObraModalidadEjecucion::where('obra_contrato_id', $pagos_obra->obra_contrato_id)->first();
-        
+            $obra_relaciones = ObraModalidadEjecucion::where('obra_contrato_id', $pagos_obra->obra_contrato_id)->first();
+            
 
-        $obra = Obra::where('id_obra', $obra_relaciones->obra_id)
-        ->join('obras_fuentes', 'obras_fuentes.obra_id', '=', 'id_obra')
-        ->join('fuentes_clientes', 'fuentes_clientes.id_fuente_financ_cliente', '=', 'fuente_financiamiento_cliente_id')
-        ->join('fuentes_financiamientos', 'fuentes_financiamientos.id_fuente_financiamiento', '=', 'fuente_financiamiento_id')
-        ->join('clientes', 'clientes.id_cliente', '=', 'cliente_id')
-        ->join('municipios', 'municipios.id_municipio', '=', 'municipio_id')
-        ->join('distritos', 'distritos.id_distrito', '=', 'distrito_id')
-        ->join('regiones', 'regiones.id_region', '=', 'region_id')
-        ->join('estados', 'estados.id_estado', '=', 'estado_id')
-        ->select('id_cliente' ,'id_obra', 'icono', 'avance_fisico','nombre_localidad','municipios.nombre as nombre_municipio', 'distritos.nombre as nombre_distrito', 'regiones.nombre as nombre_region', 'estados.nombre as nombre_estado', 'oficio_notificacion', 'monto_contratado', 'monto_modificado', 'nombre_obra', 'fecha_inicio_programada', 'fecha_final_programada', 'id_obra', 'anticipo_porcentaje', 'anticipo_monto', 'modalidad_ejecucion', 'obras.nombre_corto as nombre_corto_obra', 'ejercicio', 'numero_obra', 'id_municipio', 'id_distrito', 'id_region')
-        ->first();
+            $obra = Obra::where('id_obra', $obra_relaciones->obra_id)
+            ->join('obras_fuentes', 'obras_fuentes.obra_id', '=', 'id_obra')
+            ->join('fuentes_clientes', 'fuentes_clientes.id_fuente_financ_cliente', '=', 'fuente_financiamiento_cliente_id')
+            ->join('fuentes_financiamientos', 'fuentes_financiamientos.id_fuente_financiamiento', '=', 'fuente_financiamiento_id')
+            ->join('clientes', 'clientes.id_cliente', '=', 'cliente_id')
+            ->join('municipios', 'municipios.id_municipio', '=', 'municipio_id')
+            ->join('distritos', 'distritos.id_distrito', '=', 'distrito_id')
+            ->join('regiones', 'regiones.id_region', '=', 'region_id')
+            ->join('estados', 'estados.id_estado', '=', 'estado_id')
+            ->select('id_cliente' ,'id_obra', 'icono', 'avance_fisico','nombre_localidad','municipios.nombre as nombre_municipio', 'distritos.nombre as nombre_distrito', 'regiones.nombre as nombre_region', 'estados.nombre as nombre_estado', 'oficio_notificacion', 'monto_contratado', 'monto_modificado', 'nombre_obra', 'fecha_inicio_programada', 'fecha_final_programada', 'id_obra', 'anticipo_porcentaje', 'anticipo_monto', 'modalidad_ejecucion', 'obras.nombre_corto as nombre_corto_obra', 'ejercicio', 'numero_obra', 'id_municipio', 'id_distrito', 'id_region')
+            ->first();
 
-        
-        $obra_contrato = ObrasContrato::where('id_obra_contrato',$pagos_obra->obra_contrato_id)
-        ->select('fianza_anticipo', 'factura_anticipo', 'fianza_cumplimiento', 'id_obra_contrato')
-        ->first();
-        
-        $observaciones = ObservacionesDesglose::join('desglose_pagos_obra', 'desglose_pagos_obra.id_desglose_pagos', '=', 'desglose_pagos_id')
-        ->where('desglose_pagos_id', $pagos_obra->id_desglose_pagos)
-        ->orderBy('id_observaciones_desglose')
-        ->get();
+            
+            $obra_contrato = ObrasContrato::where('id_obra_contrato',$pagos_obra->obra_contrato_id)
+            ->select('fianza_anticipo', 'factura_anticipo', 'fianza_cumplimiento', 'id_obra_contrato')
+            ->first();
+            
+            $observaciones = ObservacionesDesglose::join('desglose_pagos_obra', 'desglose_pagos_obra.id_desglose_pagos', '=', 'desglose_pagos_id')
+            ->where('desglose_pagos_id', $pagos_obra->id_desglose_pagos)
+            ->orderBy('id_observaciones_desglose')
+            ->get();
 
-        $estimacion = Estimaciones::join('desglose_pagos_obra', 'desglose_pagos_obra.id_desglose_pagos', '=', 'desglose_pagos_id')
-        ->where('desglose_pagos_id', $pagos_obra->id_desglose_pagos)
-        ->first();
+            $estimacion = Estimaciones::join('desglose_pagos_obra', 'desglose_pagos_obra.id_desglose_pagos', '=', 'desglose_pagos_id')
+            ->where('desglose_pagos_id', $pagos_obra->id_desglose_pagos)
+            ->first();
 
 
-        $total_pagado = DesglosePagosObra::where('obra_contrato_id',$obra_relaciones->obra_contrato_id)
-        ->join('estimaciones', 'estimaciones.desglose_pagos_id', '=', 'desglose_pagos_obra.id_desglose_pagos')
-        ->select(
-            DB::raw('sum(total_estimacion ) as total_estimaciones'),
-            DB::raw('sum(total_estimacion - amortizacion_anticipo) as total_obra'),
-            DB::raw('sum(amortizacion_anticipo) as total_anticipo'),
-        )
-        ->first();
-        //return $total_pagado;
-        //return $obra;
-        //return $estimacion;
-        
+            $total_pagado = DesglosePagosObra::where('obra_contrato_id',$obra_relaciones->obra_contrato_id)
+            ->join('estimaciones', 'estimaciones.desglose_pagos_id', '=', 'desglose_pagos_obra.id_desglose_pagos')
+            ->select(
+                DB::raw('sum(total_estimacion ) as total_estimaciones'),
+                DB::raw('sum(total_estimacion - amortizacion_anticipo) as total_obra'),
+                DB::raw('sum(amortizacion_anticipo) as total_anticipo'),
+            )
+            ->first();
+            //return $total_pagado;
+            //return $obra;
+            //return $estimacion;
+
         return view('obra.show_pagos',compact('obra', 'observaciones', 'estimacion', 'pagos_obra', 'total_pagado', 'obra_contrato'));
 
     }
     
 
     public function update_observaciones(Request $request){
-        $observacion = ObservacionesDesglose::find($request->id_observacion);
-        $pagos_desglose = DesglosePagosObra::find($observacion->desglose_pagos_id);
-        if($request->validado == ''){
-            $observacion->fecha_observaciones = $request->fecha_observacion?$request->fecha_observacion:$observacion->fecha_observaciones;
-            $observacion->fecha_solventacion = $request->fecha_solventacion?$request->fecha_solventacion:$observacion->fecha_solventacion;
-            $observacion->update();
+        $mensaje = 'ok';
+        $datos = ['success', '¡PROCESO EXITOSO!', 'El proceso de pago se actualizó correctamente'];
+        
+        DB::beginTransaction();
+            try {
+            $observacion = ObservacionesDesglose::find($request->id_observacion);
+            $pagos_desglose = DesglosePagosObra::find($observacion->desglose_pagos_id);
+            if($request->validado == ''){
+                $observacion->fecha_observaciones = $request->fecha_observacion?$request->fecha_observacion:$observacion->fecha_observaciones;
+                $observacion->fecha_solventacion = $request->fecha_solventacion?$request->fecha_solventacion:$observacion->fecha_solventacion;
+                $observacion->update();
 
-            if($observacion->fecha_solventacion != null){
-                $observacionesAnticipo = ObservacionesDesglose::create([
-                    'desglose_pagos_id' => $observacion->desglose_pagos_id,
-                ]);
+                if($observacion->fecha_solventacion != null){
+                    $observacionesAnticipo = ObservacionesDesglose::create([
+                        'desglose_pagos_id' => $observacion->desglose_pagos_id,
+                    ]);
+                }
+            }else{
+                $pagos_desglose->fecha_validacion = $request->fecha_validacion;
+                $pagos_desglose->update();
+
+                $observacion->fecha_observaciones = $observacion->fecha_observacion?$observacion->fecha_observacion:$request->fecha_validacion;
+                $observacion->fecha_solventacion = $observacion->fecha_validacion?$observacion->fecha_validacion:$request->fecha_validacion;
+                $observacion->update();
             }
-        }else{
-            $pagos_desglose->fecha_validacion = $request->fecha_validacion;
-            $pagos_desglose->update();
-
-            $observacion->fecha_observaciones = $observacion->fecha_observacion?$observacion->fecha_observacion:$request->fecha_validacion;
-            $observacion->fecha_solventacion = $observacion->fecha_validacion?$observacion->fecha_validacion:$request->fecha_validacion;
-            $observacion->update();
+            DB::commit();
+        } catch (\Exception $e) {
+            DB::rollback();
+            $datos = ['error', '¡ERROR!', 'Problemas al actualizar el proceso de pago'];
         }
-
-        return redirect()->route('show_pagos', ['id' => $pagos_desglose->id_desglose_pagos]);
+        return redirect()->route('show_pagos', ['id' => $pagos_desglose->id_desglose_pagos])->with('mensaje', 'ok')->with('datos', $datos);
     }
 
     public function update_pagos (Request $request){
-        
-        $pagos_desglose = DesglosePagosObra::find($request->id_pago);
-        $pagos_desglose->fecha_recepcion = $pagos_desglose->fecha_recepcion == null?$request->fecha_recepcion:$pagos_desglose->fecha_recepcion;
-        $pagos_desglose->fecha_validacion = $pagos_desglose->fecha_validacion == null?$request->fecha_validacion_edit:$pagos_desglose->fecha_validacion;
-        $pagos_desglose->fecha_pago = $pagos_desglose->fecha_pago == null?$request->fecha_pago:$pagos_desglose->fecha_pago;
-        $pagos_desglose->update();
+        $mensaje = 'ok';
+        $datos = ['success', '¡PROCESO EXITOSO!', 'El proceso de pago se actualizó correctamente'];
+        DB::beginTransaction();
+        try {
+            $pagos_desglose = DesglosePagosObra::find($request->id_pago);
+            $pagos_desglose->fecha_recepcion = $pagos_desglose->fecha_recepcion == null?$request->fecha_recepcion:$pagos_desglose->fecha_recepcion;
+            $pagos_desglose->fecha_validacion = $pagos_desglose->fecha_validacion == null?$request->fecha_validacion_edit:$pagos_desglose->fecha_validacion;
+            $pagos_desglose->fecha_pago = $pagos_desglose->fecha_pago == null?$request->fecha_pago:$pagos_desglose->fecha_pago;
+            $pagos_desglose->update();
 
 
 
-        $observacion = ObservacionesDesglose::where('desglose_pagos_id', $pagos_desglose->id_desglose_pagos)
-        ->orderBy('id_observaciones_desglose', 'desc')
-        ->limit(1)
-        ->first();
-
-        $observacion->fecha_observaciones = $observacion->fecha_observaciones == null?$request->fecha_validacion_edit:$observacion->fecha_observaciones;
-        $observacion->fecha_solventacion = $observacion->fecha_solventacion == null? $request->fecha_validacion_edit:$observacion->fecha_solventacion;
-        $observacion->update();
-
-
-        
-
-        $obra = Obra::find($request->id_obra);
-
-        $monto_obra = $obra->monto_modificado != null?$obra->monto_modificado:$obra->monto_contratado;
-        
-
-        if($request->total_estimacion != ''){
-            $estimacion = Estimaciones::where('desglose_pagos_id',$pagos_desglose->id_desglose_pagos)->first();
-            $estimacion->total_estimacion = str_replace(",", '', $request->total_estimacion);
-            $estimacion->supervicion_obra = str_replace(",", '', $request->supervicion_obra);
-            $estimacion->mano_obra = str_replace(",", '', $request->mano_obra);
-            $estimacion->cinco_millar = str_replace(",", '', $request->cinco_millar);
-            $estimacion->dos_millar = str_replace(",", '', $request->dos_millar);
-            $estimacion->amortizacion_anticipo = str_replace(",", '', $request->amortizacion_anticipo);
-            $estimacion->folio_factura = $request->folio_factura;
-            $estimacion->update();
-
-            $total_pagado = DesglosePagosObra::where('obra_contrato_id',$pagos_desglose->obra_contrato_id)
-            ->join('estimaciones', 'estimaciones.desglose_pagos_id', '=', 'desglose_pagos_obra.id_desglose_pagos')
-            ->select(
-                DB::raw('sum(total_estimacion) as total_estimaciones'),
-            )
+            $observacion = ObservacionesDesglose::where('desglose_pagos_id', $pagos_desglose->id_desglose_pagos)
+            ->orderBy('id_observaciones_desglose', 'desc')
+            ->limit(1)
             ->first();
 
-            $total_pagado = $total_pagado->total_estimaciones;
+            $observacion->fecha_observaciones = $observacion->fecha_observaciones == null?$request->fecha_validacion_edit:$observacion->fecha_observaciones;
+            $observacion->fecha_solventacion = $observacion->fecha_solventacion == null? $request->fecha_validacion_edit:$observacion->fecha_solventacion;
+            $observacion->update();
 
-            $porcentaje_economico = ($total_pagado * 100)/$monto_obra;
-            $obra->avance_economico = $porcentaje_economico;
-            $obra->update();
 
-        }
+            
 
-        if($request->folio_factura_anticipo != ''){
-            $obra_contrato = ObrasContrato::find( $pagos_desglose->obra_contrato_id);
-            $obra_contrato->factura_anticipo = $request->folio_factura_anticipo;
-            $obra_contrato->fianza_anticipo = $request->folio_fianza_anticipo;
-            $obra_contrato->fianza_cumplimiento = $request->folio_fianza_cumplimiento;
-            $obra_contrato->update();
+            $obra = Obra::find($request->id_obra);
+
+            $monto_obra = $obra->monto_modificado != null?$obra->monto_modificado:$obra->monto_contratado;
+            
+
+            if($request->total_estimacion != ''){
+                $estimacion = Estimaciones::where('desglose_pagos_id',$pagos_desglose->id_desglose_pagos)->first();
+                $estimacion->total_estimacion = str_replace(",", '', $request->total_estimacion);
+                $estimacion->supervicion_obra = str_replace(",", '', $request->supervicion_obra);
+                $estimacion->mano_obra = str_replace(",", '', $request->mano_obra);
+                $estimacion->cinco_millar = str_replace(",", '', $request->cinco_millar);
+                $estimacion->dos_millar = str_replace(",", '', $request->dos_millar);
+                $estimacion->amortizacion_anticipo = str_replace(",", '', $request->amortizacion_anticipo);
+                $estimacion->folio_factura = $request->folio_factura;
+                $estimacion->update();
+
+                $total_pagado = DesglosePagosObra::where('obra_contrato_id',$pagos_desglose->obra_contrato_id)
+                ->join('estimaciones', 'estimaciones.desglose_pagos_id', '=', 'desglose_pagos_obra.id_desglose_pagos')
+                ->select(
+                    DB::raw('sum(total_estimacion) as total_estimaciones'),
+                )
+                ->first();
+
+                $total_pagado = $total_pagado->total_estimaciones;
+
+                $porcentaje_economico = ($total_pagado * 100)/$monto_obra;
+                $obra->avance_economico = $porcentaje_economico;
+                $obra->update();
+
+            }
+
+            if($request->folio_factura_anticipo != ''){
+                $obra_contrato = ObrasContrato::find( $pagos_desglose->obra_contrato_id);
+                $obra_contrato->factura_anticipo = $request->folio_factura_anticipo;
+                $obra_contrato->fianza_anticipo = $request->folio_fianza_anticipo;
+                $obra_contrato->fianza_cumplimiento = $request->folio_fianza_cumplimiento;
+                $obra_contrato->update();
+            }
+
+            DB::commit();
+        } catch (\Exception $e) {
+            DB::rollback();
+            $datos = ['error', '¡ERROR!', 'Problemas al actualizar el proceso de pago'];
         }
         
-        return redirect()->route('show_pagos', ['id' => $pagos_desglose->id_desglose_pagos]);
+        return redirect()->route('show_pagos', ['id' => $pagos_desglose->id_desglose_pagos])->with('mensaje', 'ok')->with('datos', $datos);
         //rturn $request;
     }
 

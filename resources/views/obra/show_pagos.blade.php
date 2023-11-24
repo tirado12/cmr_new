@@ -6,6 +6,7 @@
     <link rel="stylesheet" href="{{ asset('css/datatable.css') }}">
     <link rel="stylesheet" href="{{ asset('css/jquery.dataTables.min.css') }}">
     <link rel="stylesheet" href="{{ asset('css/style_alert.css') }}">
+    <link rel="stylesheet" href="{{ asset('css/swalfire.css')}}">
     <!--Responsive Extension Datatables CSS-->
     <link href="https://cdn.datatables.net/responsive/2.2.3/css/responsive.dataTables.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.datatables.net/buttons/1.6.4/css/buttons.dataTables.min.css">
@@ -723,17 +724,17 @@
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.1/jquery.validate.min.js"></script>
 
   
-  @if(session('mensaje')=='ok')
-  <script>
-      Swal.fire({  
-        title: '{{session('datos')[1]}}',
-        text: '{{session('datos')[2]}}',
-        icon: '{{session('datos')[0]}}',
-        confirmButtonText: 'Ok'
+    @if(session('mensaje')=='ok')
+        <script>
+            Swal.fire({  
+                title: '{{session('datos')[1]}}',
+                text: '{{session('datos')[2]}}',
+                icon: '{{session('datos')[0]}}',
+                confirmButtonText: 'Ok'
 
-      })
-  </script>
-@endif
+            })
+        </script>
+    @endif
 
 <script>
 
