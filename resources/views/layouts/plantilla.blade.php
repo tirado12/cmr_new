@@ -11,6 +11,8 @@
         <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700&display=swap">
         <!-- Styles -->
         <link rel="stylesheet" href="{{ asset('css/app.css') }}">
+
+        <link rel="shortcut icon" href="{{asset('image/logo.ico')}}" type="">
         
 
         <!-- Scripts -->
@@ -19,12 +21,9 @@
         
     </head>
     
-    <body class="bg-white">
-        <div class="flex h-screen bg-gray-200" x-data="{ sidebar: false }">
-            <div x-show="sidebar"  @click.away="sidebar = false" class="fixed z-40 inset-y-0 left-0 w-60 transition duration-300 transform bg-gray-900 overflow-y-auto lg:translate-x-0 lg:static lg:inset-0">
-                @include('componentes.sidebar')
-            </div>
-            <div class="flex-1 flex flex-col overflow-hidden">
+    <body class="bg-gray-100">
+             
+        <div class="flex-1 flex flex-col overflow-hidden">
                 <header class="justify-between bg-white  border-indigo-600">
                     
                     @include('componentes.navbar')
@@ -38,8 +37,7 @@
                         
                     </div>
                 </main>
-            </div>
-        </div>        
+            </div>     
        
     </body>
 </html>

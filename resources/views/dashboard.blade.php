@@ -26,7 +26,7 @@
 
 <!-- fin tabla tailwind, inicio data table -->
 
-<div class="mt-6 shadow-2xl bg-white rounded-lg">
+<div class="mt-6 shadow-xl bg-white rounded-lg">
     <div class="bg-blue-cmr1 rounded-t-lg">
         <div class="p-4">
             <h2 class="font-semibold text-lg text-center text-white uppercase">

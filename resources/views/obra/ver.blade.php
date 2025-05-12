@@ -58,29 +58,27 @@
         </div>
     </div>
 
-@if ($errors->any())
-      <div class="alert flex flex-row items-center bg-yellow-200 p-2 rounded-lg border-b-2 border-yellow-300 mb-4 shadow">
-        <div class="alert-icon flex items-center bg-yellow-100 border-2 border-yellow-500 justify-center h-10 w-10 flex-shrink-0 rounded-full">
-          <span class="text-yellow-500">
-            <svg fill="currentColor"
-              viewBox="0 0 20 20"
-              class="h-5 w-5">
-              <path fill-rule="evenodd"
-                  d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z"
-                  clip-rule="evenodd"></path>
-            </svg>
-          </span>
+    @if ($errors->any())
+        <div class="alert flex flex-row items-center bg-yellow-200 p-2 rounded-lg border-b-2 border-yellow-300 mb-4 shadow">
+            <div class="alert-icon flex items-center bg-yellow-100 border-2 border-yellow-500 justify-center h-10 w-10 flex-shrink-0 rounded-full">
+                <span class="text-yellow-500">
+                    <svg fill="currentColor" viewBox="0 0 20 20" class="h-5 w-5">
+                        <path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z" clip-rule="evenodd">
+
+                        </path>
+                    </svg>
+                </span>
+            </div>
+            <div class="alert-content ml-4">
+                <div class="alert alert-danger">
+                    <ul>
+                        @foreach ($errors->all() as $error)
+                            <li>{{ $error }}</li>
+                        @endforeach
+                    </ul>
+                </div>
+            </div>
         </div>
-        <div class="alert-content ml-4">
-          <div class="alert alert-danger">
-              <ul>
-                  @foreach ($errors->all() as $error)
-                      <li>{{ $error }}</li>
-                  @endforeach
-              </ul>
-          </div>
-        </div>
-      </div>
     @endif
 
 <div class="mt-10 sm:mt-0 shadow-2xl bg-white rounded-lg">
@@ -181,18 +179,18 @@
             @endif
             <div class="col-span-12 sm:col-span-3">
                 <p class="text-xs text-center">Monto contratado</p>
-                <p class="text-base font-semibold bg-gray-100 p-1 text-center">{{ $service->formatNumber($obj_obra->get('obra')->monto_contratado) }}</p>
+                <p class="text-base font-semibold bg-gray-100 p-1 text-center">$ {{ number_format($obj_obra->get('obra')->monto_contratado, 2) }}</p>
             </div>
             @if($obj_obra->get('obra')->monto_modificado != null)
                 <div class="col-span-12 sm:col-span-3">
                     <p class="text-xs text-center">Monto modificado</p>
-                    <p class="text-base font-semibold bg-gray-100 p-1 text-center">{{ $service->formatNumber($obj_obra->get('obra')->monto_modificado) }}</p>
+                    <p class="text-base font-semibold bg-gray-100 p-1 text-center">$ {{ number_format($obj_obra->get('obra')->monto_modificado, 2) }}</p>
                 </div>
             @endif 
             @if($obj_obra->get('obra')->modalidad_ejecucion == 1)
                 <div class="col-span-12 sm:col-span-3">
                     <p class="text-xs text-center">Monto ejercido</p>
-                    <p class="text-base font-semibold bg-gray-100 p-1 text-center">{{ $service->formatNumber($total_admin) }}</p>
+                    <p class="text-base font-semibold bg-gray-100 p-1 text-center">$ {{ number_format($total_admin, 2) }}</p>
                 </div>
             @endif
 
@@ -278,7 +276,7 @@
                                 </td>
                                 <td>
                                     <p class="text-base font-semibold p-1 text-center">
-                                        {{ $service->formatNumber($fuente->monto) }}
+                                       $ {{ number_format($fuente->monto, 2) }}
                                     </p>
                                 </td>
                             </tr>
@@ -321,13 +319,13 @@
                 <div class="col-span-12 sm:col-span-3">
                     <p class="text-xs text-center ocultar_periodo">Monto de anticipo</p>
                     <p class="text-base font-semibold bg-gray-100 p-1 text-center ocultar_periodo">
-                        {{$service->formatNumber($obj_obra->get('obra')->anticipo_monto)}}
+                        $ {{number_format($obj_obra->get('obra')->anticipo_monto,2)}}
                     </p>
                 </div>
                 <div class="col-span-12 sm:col-span-3">
                     <p class="text-xs text-center ocultar_periodo">Total amortizado</p>
                     <p class="text-base font-semibold bg-gray-100 p-1 text-center ocultar_periodo">
-                        {{$service->formatNumber($total_pagado->total_anticipo)}}
+                        $ {{number_format($total_pagado->total_anticipo,2)}}
                     </p>
                 </div>
             @endif
@@ -1807,7 +1805,7 @@
                                                             <p class="dos-lineas text-sm leading-none">
                                                                 Factura de anticipo: <span class="font-bold">{{ $obj_obra->get('contrato')->factura_anticipo }}</span>
                                                                 <br>
-                                                                Importe: <span class="font-bold">{{ $service->formatNumber($obj_obra->get('obra')->anticipo_porcentaje * 0.01 * $obj_obra->get('obra')->monto_contratado) }}</span>
+                                                                Importe: <span class="font-bold">$ {{ number_format($obj_obra->get('obra')->anticipo_porcentaje * 0.01 * $obj_obra->get('obra')->monto_contratado, 2) }}</span>
                                                             </p>
                                                         </div>
                                                         <div class="col-estado pl-2">
@@ -2707,7 +2705,7 @@
                                                     </td>
                                                     <td>
                                                         <div class="text-sm leading-5 font-medium text-gray-900 text-right">
-                                                            {{ $service->formatNumber($lista->total) }}
+                                                           $ {{ number_format($lista->total, 2) }}
                                                         </div>
                                                     </td>
                                                     <td>
@@ -2718,12 +2716,12 @@
                                                     </td>
                                                     <td>
                                                         <div class="text-sm leading-5 font-medium text-gray-900 text-right">
-                                                            {{ $service->formatNumber($lista->isr) }}
+                                                            $ {{ number_format($lista->isr, 2) }}
                                                         </div>
                                                     </td>
                                                     <td>
                                                         <div class="text-sm leading-5 font-medium text-gray-900 text-right">
-                                                            {{ $service->formatNumber($lista->mano_obra) }}
+                                                            $ {{ number_format($lista->mano_obra, 2) }}
                                                         </div>
                                                     </td>
                                                     
@@ -2787,7 +2785,7 @@
                                                     </td>
                                                     <td>
                                                         <div class="text-sm leading-5 font-medium text-gray-900 text-right">
-                                                            {{ $service->formatNumber($contrato->monto_contratado) }}
+                                                            $ {{ number_format($contrato->monto_contratado, 2) }}
                                                         </div>
                                                     </td>
                                                     <td>
@@ -2860,7 +2858,7 @@
                                                     </td>
                                                     <td>
                                                         <div class="text-sm leading-5 font-medium text-gray-900 text-right">
-                                                            {{ $service->formatNumber($factura->total) }}
+                                                            $ {{ number_format($factura->total, 2) }}
                                                         </div>
                                                     </td>
                                                     <td>
@@ -3036,22 +3034,22 @@
                                                     </td>
                                                     <td>
                                                         <div class="text-sm leading-5 font-medium text-gray-900 text-right">
-                                                            {{ $service->formatNumber($estimacion->total_estimacion) }}
+                                                            $ {{ number_format($estimacion->total_estimacion, 2) }}
                                                         </div>
                                                     </td>
                                                     <td>
                                                         <div class="text-sm leading-5 font-medium text-gray-900 text-right">
-                                                            {{ $service->formatNumber($estimacion->supervicion_obra + $estimacion->mano_obra + $estimacion->cinco_millar + $estimacion->dos_millar) }}
+                                                            $ {{ number_format($estimacion->supervicion_obra + $estimacion->mano_obra + $estimacion->cinco_millar + $estimacion->dos_millar, 2) }}
                                                         </div>
                                                     </td>
                                                     <td>
                                                         <div class="text-sm leading-5 font-medium text-gray-900 text-right">
-                                                            {{ $service->formatNumber($estimacion->amortizacion_anticipo) }}
+                                                            $ {{ number_format($estimacion->amortizacion_anticipo, 2) }}
                                                         </div>
                                                     </td>
                                                     <td>
                                                         <div class="text-sm leading-5 font-medium text-gray-900 text-right">
-                                                            <b>{{ $service->formatNumber($estimacion->total_estimacion - ($estimacion->supervicion_obra + $estimacion->mano_obra + $estimacion->cinco_millar + $estimacion->dos_millar + $estimacion->amortizacion_anticipo)) }}</b>
+                                                            <b>$ {{ number_format($estimacion->total_estimacion - ($estimacion->supervicion_obra + $estimacion->mano_obra + $estimacion->cinco_millar + $estimacion->dos_millar + $estimacion->amortizacion_anticipo), 2) }}</b>
                                                         </div>
                                                     </td>
                                                     <td>
@@ -3132,7 +3130,7 @@
                                                             <p>
                                                                 @switch($convenio->tipo)
                                                                     @case("Convenio modificatorio al monto del contrato")
-                                                                        Monto modificado: <br><b>{{ $service->formatNumber($convenio->monto_modificado) }}</b>
+                                                                        Monto modificado: <br><b>$ {{ number_format($convenio->monto_modificado, 2) }}</b>
                                                                     @break
                                                                     @case("Convenio modificatorio a la fecha del contrato")
                                                                         Fecha modificada: <br><b>{{ $service->formatDate($convenio->fecha_fin_modificada) }}</b>
@@ -3143,11 +3141,11 @@
                                                                     @break
 
                                                                     @case("Convenio modificatorio al monto y fecha de contrato")
-                                                                        Monto modificado: <br><b>{{ $service->formatNumber($convenio->monto_modificado) }}</b>
+                                                                        Monto modificado: <br><b>$ {{ number_format($convenio->monto_modificado, 2) }}</b>
                                                                     @break
 
                                                                     @case("Convenio modificatorio al monto y metas de contrato")
-                                                                        Monto modificado: <br><b>{{ $service->formatNumber($convenio->monto_modificado) }}</b>
+                                                                        Monto modificado: <br><b>$ {{ number_format($convenio->monto_modificado, 2) }}</b>
                                                                     @break
 
                                                                     @case("Convenio modificatorio a la fecha y metas de contrato")
@@ -3156,7 +3154,7 @@
 
                                                                     
                                                                     @default
-                                                                        Monto modificado: <br><b>{{ $service->formatNumber($convenio->monto_modificado) }}</b><br>
+                                                                        Monto modificado: <br><b>$ {{ number_format($convenio->monto_modificado, 2) }}</b><br>
                                                                         Fecha modificada: <br><b>{{ $service->formatDate($convenio->fecha_fin_modificada) }}</b>
                                                                 @endswitch
                                                             </p>
@@ -3213,15 +3211,15 @@
             @method('POST')
                 <div class="relative p-6 flex-auto">
                     <div class="grid grid-cols-10 gap-4">
-                        <input type="text" name="id_obra" id="id_obra" maxlength="40" class="hidden mt-1 focus:ring-blue-800 focus:border-blue-800 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md" value="{{ $obj_obra->get('obra')->id_obra }}">
+                        <input type="text" name="id_obra" id="id_obra" maxlength="40" class="hidden mt-1 focus:ring-blue-800 focus:border-blue-800 block w-full shadow-sm text-sm border-gray-300 rounded-md" value="{{ $obj_obra->get('obra')->id_obra }}">
                         <div class="col-span-5 sm:col-span-5 ">
                             <p class="text-sm">Número de convenio*</p>
-                            <input type="text" name="numero_convenio_modificatorio" id="numero_convenio_modificatorio" maxlength="40" class="mt-1 focus:ring-blue-800 focus:border-blue-800 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md" value="{{ old('oficio_notificacion') }}">
+                            <input type="text" name="numero_convenio_modificatorio" id="numero_convenio_modificatorio" maxlength="40" class="mt-1 focus:ring-blue-800 focus:border-blue-800 block w-full shadow-sm text-sm border-gray-300 rounded-md" value="{{ old('oficio_notificacion') }}">
                             <label id="error_numero_convenio_modificatorio" class="hidden text-sm font-normal text-red-500" >Ingrese un número de convenio valido</label>
                         </div>
                         <div class="col-span-3 sm:col-span-5">
-                            <p class="text-sm">Fuente de financiamiento *</p>
-                            <select id="tipo" name="tipo" class="mt-1 block w-full py-2 px-3 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-blue-800 focus:border-blue-800 sm:text-sm">                
+                            <p class="text-sm">Tipo de convenio*</p>
+                            <select id="tipo" name="tipo" class="mt-1 block w-full py-2 px-3 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-blue-800 focus:border-blue-800 text-sm">                
                                 <option value="Convenio modificatorio al monto del contrato">Al monto del contrato</option>
                                 <option value="Convenio modificatorio a la fecha del contrato">A la fecha del contrato</option>
                                 <option value="Convenio modificatorio a las metas del contrato">A las metas del contrato</option>
@@ -3233,24 +3231,38 @@
                         </div>
                         <div class="col-span-5">
                             <p class="text-sm">Fecha del convenio*</p>
-                            <input type="date" name="fecha_convenio" id="fecha_convenio" min="{{$obj_obra->get('obra')->fecha_inicio_programada}}" max="{{$obj_obra->get('obra')->fecha_final_real}}" class="mt-1 focus:ring-blue-800 focus:border-blue-800 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md" >
+                            <input type="date" name="fecha_convenio" id="fecha_convenio" min="{{$obj_obra->get('obra')->fecha_inicio_programada}}" max="{{$obj_obra->get('obra')->fecha_final_real}}" class="mt-1 focus:ring-blue-800 focus:border-blue-800 block w-full shadow-sm text-sm border-gray-300 rounded-md" >
                             <label id="error_fecha_convenio" class="hidden text-sm font-normal text-red-500" >Ingrese un número de contrato valido</label>
                         </div>
                         <div id="mod_fecha_fin" class="hidden col-span-5">
                             <p class="text-sm">Fecha final modificada*</label>
-                            <input type="date" name="fecha_fin_modificada" id="fecha_fin_modificada" min="{{$obj_obra->get('obra')->fecha_inicio_programada}}" max="{{$obj_obra->get('obra')->ejercicio +1}}-03-31" class="mt-1 focus:ring-blue-800 focus:border-blue-800 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md" >
+                            <input type="date" name="fecha_fin_modificada" id="fecha_fin_modificada" min="{{$obj_obra->get('obra')->fecha_inicio_programada}}" max="{{$obj_obra->get('obra')->ejercicio +1}}-03-31" class="mt-1 focus:ring-blue-800 focus:border-blue-800 block w-full shadow-sm text-sm border-gray-300 rounded-md" >
                             <label id="error_fecha_fin" name="error_fecha_fin" class="hidden text-sm font-normal text-red-500" >Seleccione una fecha valida</label>
                         </div>
-                        <div id="monto_modificado_div" class="col-span-8 sm:col-span-5">
-                            <p id="label_monto_modificado" class="text-sm">Monto modificado*</p>
-                            <div class="relative ">
-                            <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                                <span class="text-gray-700 text-base">
-                                $
-                                </span>
-                            </div>
-                            <input type="text" name="monto_modificado" id="monto_modificado" maxlength="20" class="pl-7  mt-1 focus:ring-blue-800 focus:border-blue-800 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md" placeholder="0.00">
-                            </div>
+                        <div id="monto_modificado_div" class="col-span-10">
+                            <p id="label_monto_modificado" class="text-sm text-center">Fuentes de financiamiento*</p>
+                            <table class="w-full mt-1">
+                                @foreach ($fuentes_financiamiento as $fuente)
+                                    <tr>
+                                        <th class="border-gray-300 border w-1/2">
+                                            <p class="text-sm">
+                                                {{$fuente->nombre_corto}}
+                                            </p>
+                                            
+                                        </th>
+                                        <th class="border-gray-300 border w-1/2">
+                                        <div class="relative ">
+                                            <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                                                <span class="text-gray-700 text-base">
+                                                $
+                                                </span>
+                                            </div>       
+                                            <input type="text" name="monto_modificado_{{$fuente->id_fuente_financiamiento}}" id="monto_modificado_{{$fuente->id_fuente_financiamiento}}" maxlength="20" class="monto_modificado pl-7 py-1 focus:ring-blue-800 focus:border-none block w-full text-sm border-none" placeholder="0.00" value="{{number_format($fuente->monto,2)}}">
+                                        </div>
+                                        </th>
+                                    </tr>
+                                @endforeach
+                            </table>
                             <label id="error_monto" name="error_monto" class="hidden text-sm font-normal text-red-500" >El monto a modificar es mayor que el ejercicido</label>
                         </div>
                     </div>
@@ -3265,7 +3277,7 @@
                         <button class="text-red-500 background-transparent font-bold uppercase px-6 text-sm outline-none focus:outline-none ease-linear transition-all duration-150" type="button" onclick="toggleModal('modal')">
                             Cancelar
                         </button>
-                        <button type="submit" id="guardar" class="text-blue-500 font-bold uppercase text-sm px-6 rounded outline-none focus:outline-none ease-linear transition-all duration-150" >
+                        <button type="submit" id="guardar_convenio" class="text-blue-500 font-bold uppercase text-sm px-6 rounded outline-none focus:outline-none ease-linear transition-all duration-150" >
                             Guardar
                         </button>
                     </div>
@@ -3303,7 +3315,7 @@
                                 <p id="error_numero_convenio_modificatorio" class="hidden text-sm font-normal text-red-500" >Ingrese un número de convenio valido</label>
                             </div>
                             <div class="col-span-3 sm:col-span-5">
-                                <p for="tipo_edit" class="text-sm">Fuente de financiamiento *</p>
+                                <p for="tipo_edit" class="text-sm">Tipo de convenio *</p>
                                 <select id="tipo_edit" name="tipo_edit" class="mt-1 block w-full py-2 px-3 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-blue-800 focus:border-blue-800 sm:text-sm">                
                                     <option value="Convenio modificatorio al monto del contrato">Al monto del contrato</option>
                                     <option value="Convenio modificatorio a la fecha del contrato">A la fecha del contrato</option>
@@ -3334,7 +3346,7 @@
                                     </div>
                                     <input type="text" name="monto_modificado_edit" id="monto_modificado_edit" maxlength="20" class="pl-7  mt-1 focus:ring-blue-800 focus:border-blue-800 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md" placeholder="0.00">
                                 </div>
-                                <label id="error_monto_edit" name="error_monto_edit" class="hidden text-base font-normal text-red-500" >El monto a modificar es mayor que el ejercicido {{$service->formatNumber($total_pagado->total_obra + $obj_obra->get('obra')->anticipo_monto)}}</label>
+                                <label id="error_monto_edit" name="error_monto_edit" class="hidden text-base font-normal text-red-500" >El monto a modificar es mayor que el ejercicido $ {{number_format($total_pagado->total_obra + $obj_obra->get('obra')->anticipo_monto, 2)}}</label>
                             </div>
                             <div class="col-span-10">
                                 <span class="block text-xs">Verifique los campos obligatorios marcados con un ( * ) </span>
@@ -4068,7 +4080,7 @@
                                 </div>
                                 <input type="text" name="total_factura" id="total_factura" maxlength="20" class="pl-7  mt-1 focus:ring-blue-800 focus:border-blue-800 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md" placeholder="0.00">
                             </div>
-                            <label id="error_monto_admin_mayor_fac" class="hidden text-base font-normal text-red-500" >El monto es mayor que el restante de la obra: {{$service->formatNumber($obj_obra->get('obra')->monto_contratado - $total_admin)}}</label>
+                            <label id="error_monto_admin_mayor_fac" class="hidden text-base font-normal text-red-500" >El monto es mayor que el restante de la obra: $ {{number_format($obj_obra->get('obra')->monto_contratado - $total_admin, 2)}}</label>
                             <label id="error_total_factura" class="hidden text-base font-normal text-red-500" >Ingrese un monto total de factura valido.</label>
                         </div>
                         <div class="col-span-10">
@@ -4159,7 +4171,7 @@
                                     </div>
                                     <input type="text" name="total_factura_edit" id="total_factura_edit" maxlength="20" class="pl-7  mt-1 focus:ring-blue-800 focus:border-blue-800 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md" placeholder="0.00">
                                 </div>
-                                <label id="error_monto_admin_mayor_fac_edit" class="hidden text-base font-normal text-red-500" >El monto es mayor que el restante de la obra: {{$service->formatNumber($obj_obra->get('obra')->monto_contratado - $total_admin)}}</label>
+                                <label id="error_monto_admin_mayor_fac_edit" class="hidden text-base font-normal text-red-500" >El monto es mayor que el restante de la obra: $ {{number_format($obj_obra->get('obra')->monto_contratado - $total_admin, 2)}}</label>
                                 <label id="error_total_factura_edit" class="hidden text-base font-normal text-red-500" >Ingrese un monto total de factura valido.</label>
                             </div>
                             <div class="col-span-10">
@@ -4249,7 +4261,7 @@
                                     </div>
                                     <input type="text" name="total_contrato" id="total_contrato" maxlength="20" class="pl-7  mt-1 focus:ring-blue-800 focus:border-blue-800 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md" placeholder="0.00">
                                 </div>
-                                <label id="error_monto_admin_mayor_contrato" class="hidden text-base font-normal text-red-500" >El monto es mayor que el restante de la obra: {{$service->formatNumber($obj_obra->get('obra')->monto_contratado - $total_admin)}}</label>
+                                <label id="error_monto_admin_mayor_contrato" class="hidden text-base font-normal text-red-500" >El monto es mayor que el restante de la obra: $ {{number_format($obj_obra->get('obra')->monto_contratado - $total_admin, 2)}}</label>
                                 <label id="error_total_contrato" class="hidden text-base font-normal text-red-500" >Ingrese un monto total de factura valido.</label>
                             </div>
                             <div class="col-span-10">
@@ -5580,7 +5592,6 @@
                     
                 },
                 errorPlacement: function(error, element) {
-                    console.log("hola mundo");
                     if(error != null){
                     $('#error_'+element.attr('id')).fadeIn();
                     }else{
@@ -5590,10 +5601,17 @@
                 },
             }); 
 
-            $("#guardar").click(function () {
-                monto_modificado = $("#monto_modificado").val().replace(",", '');
+            $("#guardar_convenio").click(function () {
+                
+                monto_modificado = 0.00;
+
+                $(".monto_modificado").each(function(index) {
+                    monto_modificado = monto_modificado + parseFloat($(this).val().replaceAll(",", ""));
+                });
+
                 monto_ejercido = {{$total_pagado->total_obra}} + {{$obj_obra->get('obra')->anticipo_monto}};
-                console.log(monto_ejercido);
+                console.log(monto_modificado < monto_ejercido);
+                alert(monto_ejercido);
                 if(monto_modificado < monto_ejercido && !$("#monto_modificado_div").hasClass("hidden")){
                     $("#error_monto").removeClass("hidden");
                     return false;
@@ -5629,14 +5647,31 @@
                 
             });
 
-            $("#monto_modificado").on({
+            $(".monto_modificado").on({
                 "keyup": function(event) {
+
                     $(event.target).val(function(index, value) {
                         return value.replace(/\D/g, "")
                             .replace(/([0-9])([0-9]{2})$/, '$1.$2')
                             .replace(/\B(?=(\d{3})+(?!\d)\.?)/g, ",");
                     });
+                    sumatoria = 0.00;
+                    $(".monto_modificado").each(function(index) {
+                        sumatoria = sumatoria + parseFloat($(this).val().replaceAll(",", ""));
+                    });
+
+                    total_pagado = {{$total_pagado->total_obra}} + {{$obj_obra->get('obra')->anticipo_monto}};
                     
+                    if(total_pagado>sumatoria){
+                        $("#error_monto").removeClass("hidden");
+                    }
+                    else{
+                        $("#error_monto").addClass("hidden");
+                    }
+                    
+                    
+                    
+
                 }
             });
 
@@ -5649,6 +5684,8 @@
                             .replace(/([0-9])([0-9]{2})$/, '$1.$2')
                             .replace(/\B(?=(\d{3})+(?!\d)\.?)/g, ",");
                     });
+
+
                     
                 }
             });

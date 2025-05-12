@@ -110,27 +110,26 @@ class ObraController extends Controller
     {
 
         $obra = DB::table('obras')
-        ->orWhere(function($query) use($id) {
-            $query->where('id_obra', $id);
-                
-        })
-        ->join('obras_fuentes', 'obras_fuentes.obra_id', '=', 'id_obra')
-        ->join('fuentes_clientes', 'fuentes_clientes.id_fuente_financ_cliente', '=', 'fuente_financiamiento_cliente_id')
-        ->join('fuentes_financiamientos', 'fuentes_financiamientos.id_fuente_financiamiento', '=', 'fuente_financiamiento_id')
-        ->join('clientes', 'clientes.id_cliente', '=', 'cliente_id')
-        ->join('municipios', 'municipios.id_municipio', '=', 'municipio_id')
-        ->join('distritos', 'distritos.id_distrito', '=', 'distrito_id')
-        ->select('nombre_localidad','municipios.nombre as nombre_municipio', 'distritos.nombre as nombre_distrito', 'oficio_notificacion', 'monto_contratado', 'monto_modificado', 'fuentes_financiamientos.nombre_corto as nombre_fuente', 'nombre_obra', 'fecha_inicio_programada', 'fecha_final_programada', 'id_obra', 'anticipo_porcentaje')
-        ->first();
+            ->orWhere(function($query) use($id) {
+                $query->where('id_obra', $id);    
+            })
+            ->join('obras_fuentes', 'obras_fuentes.obra_id', '=', 'id_obra')
+            ->join('fuentes_clientes', 'fuentes_clientes.id_fuente_financ_cliente', '=', 'fuente_financiamiento_cliente_id')
+            ->join('fuentes_financiamientos', 'fuentes_financiamientos.id_fuente_financiamiento', '=', 'fuente_financiamiento_id')
+            ->join('clientes', 'clientes.id_cliente', '=', 'cliente_id')
+            ->join('municipios', 'municipios.id_municipio', '=', 'municipio_id')
+            ->join('distritos', 'distritos.id_distrito', '=', 'distrito_id')
+            ->select('nombre_localidad','municipios.nombre as nombre_municipio', 'distritos.nombre as nombre_distrito', 'oficio_notificacion', 'monto_contratado', 'monto_modificado', 'fuentes_financiamientos.nombre_corto as nombre_fuente', 'nombre_obra', 'fecha_inicio_programada', 'fecha_final_programada', 'id_obra', 'anticipo_porcentaje')
+            ->first();
+
 
         $obra_contrato = DB::table('obra_modalidad_ejecucion')
-        ->orWhere(function($query) use($id) {
-            $query->where('obra_id', $id);
-                
-        })
-        ->join('obras_contrato', 'obras_contrato.id_obra_contrato', '=', 'obra_contrato_id')
-        ->join('contratistas', 'contratistas.id_contratista', '=', 'contratista_id')
-        ->first();
+            ->orWhere(function($query) use($id) {
+                $query->where('obra_id', $id);      
+            })
+            ->join('obras_contrato', 'obras_contrato.id_obra_contrato', '=', 'obra_contrato_id')
+            ->join('contratistas', 'contratistas.id_contratista', '=', 'contratista_id')
+            ->first();
         $obra_admin = DB::table('obra_modalidad_ejecucion')
         ->orWhere(function($query) use($id) {
             $query->where('obra_id', $id);

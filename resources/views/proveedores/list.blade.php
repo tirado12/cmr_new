@@ -40,9 +40,9 @@
     <div class="">
 
         <div class="text-base mt-6 shadow-xl bg-white rounded-lg">
-            <div class="border-b p-4 flex justify-between items-center">
-                <span class="inline-block text-xl font-medium font-semibold">Listado de proveedores</span>
-                <button href="#" id="ejemplo" class="text-base text-white bg-green-500 px-2 py-1 rounded-lg px-6" type="button" onclick="toggleModal('modal-add')">
+            <div class="border-b p-4 flex justify-between items-center bg-blue-cmr1 rounded-t-lg">
+                <span class="inline-block font-semibold text-lg text-center text-white uppercase">Listado de proveedores</span>
+                <button href="#" id="ejemplo" class="text-base text-white bg-blue-600 px-2 py-1 rounded-lg px-6" type="button" onclick="toggleModal('modal-add')">
                     Agregar
                 </button>
             </div>
@@ -110,7 +110,7 @@
                 
             </div>
             
-            <div class=" p-4 border-t border-solid border-blueGray-200 rounded-b">
+            <div class=" px-4 py-2 border-t border-solid border-blueGray-200 rounded-b">
                 <div class="text-right">
                     <a type="button"  href="{{ route('cliente.ver', $cliente->id_cliente)}}" class="text-base bg-white text-red-500 p-2 rounded-lg px-6">Regresar</a>
                 </div>

@@ -454,7 +454,7 @@
                           <button type="button" href="" class="font-semibold text-sm text-blue-500 underline px-3" onclick="toggleModal('modal-sisplade')">Modificar estatus</button>
                         </div>
                       </div>
-                      <div class="col-span-4 mt-2 m-4 mb-16">
+                      <div class="col-span-4 mt-2 m-8 mb-16">
                           <p class="font-semibold text-base text-center bg-gray-100 p-2">Capturado</p>
                           <div class="p-5 border">
                             @switch($sisplade->capturado)
@@ -507,7 +507,7 @@
                           </div>
                         </div>
                       </div>
-                      <div class="col-span-8 m-4 mt-5">
+                      <div class="col-span-8 m-8 mt-5">
                         <div class="grid grid-cols-10">
                           <div class="col-span-4 border bg-gray-100 flex justify-center items-center p-3">
                             <p class="text-sm font-semibold text-gray-900 text-center leading-none" >Nombre de la obra</p>
@@ -799,7 +799,8 @@
                                 <thead>
                                     <tr>
                                         <th class="text-sm text-center" style="background: rgb(243, 244, 246)!important; border-top-color:rgb(243, 244, 246)!important; ">Nombre</th>
-                                        <th class="text-sm text-center" style="background: rgb(243, 244, 246)!important; border-top-color:rgb(243, 244, 246)!important; ">Monto</th>
+                                        <th class="text-sm text-center" style="background: rgb(243, 244, 246)!important; border-top-color:rgb(243, 244, 246)!important; ">Monto contratado </th>
+                                        <th class="text-sm text-center" style="background: rgb(243, 244, 246)!important; border-top-color:rgb(243, 244, 246)!important; ">Importe</th>
                                         <th class="text-sm text-center" style="background: rgb(243, 244, 246)!important; border-top-color:rgb(243, 244, 246)!important; ">Modalidad de ejecución</th>
                                         <th class="text-sm text-center" style="background: rgb(243, 244, 246)!important; border-top-color:rgb(243, 244, 246)!important; ">Porcentaje de avance</th>
                                         <th class="text-sm text-center" style="background: rgb(243, 244, 246)!important; border-top-color:rgb(243, 244, 246)!important; ">Acciones</th>
@@ -808,49 +809,58 @@
                                 <tbody>
                                   @foreach ($fuente_cliente->obrasFuente as $obra_fuente)
                                       <tr>
-                                          <td>
-                                              <div>
-                                                <p  class="text-sm leading-5 font-medium">
-                                                    {{ $obras->where('id_obra', $obra_fuente->obra_id)->first()->nombre_corto }}
-                                                </p>
-                                              </div>
-                                          </td>
-                                          <td>
-                                              <div>
-                                                  <p class="text-sm leading-none font-medium text-right">
-                                                    {{ $service->formatNumber($obras->where('fuente_financiamiento_id', $fuente_cliente->fuente_financiamiento_id)->where('id_obra', $obra_fuente->obra_id)->first()->monto)}}
-                                                  </p>
-                                              </div>
-                                          </td>
-                                          <td>
-                                              <div class="">
-                                                  <p class="text-sm leading-5 font-medium ">
-                                                      @if ($obras->where('id_obra', $obra_fuente->obra_id)->first()->modalidad_ejecucion == 1)
-                                                          Administración Directa
-                                                      @else
-                                                          Contrato
-                                                      @endif                                                
-                                                  </p>
-                                              </div>
-                                          </td>
-                                          <td>
-                                              <div class="leading-none">
-                                                  <div class="flex justify-center">
-                                                      <meter min="0" max="100" low="0" high="100" optimum="100" value="{{ round(($obras->where('id_obra', $obra_fuente->obra_id)->first()->avance_fisico + $obras->where('id_obra', $obra_fuente->obra_id)->first()->avance_tecnico + $obras->where('id_obra', $obra_fuente->obra_id)->first()->avance_economico) / 3) }}" class="barra-porcentaje metter-azul"></meter>
-                                                  </div>
-                                                  <p class="text-xs leading-none font-medium text-center">{{ round(($obras->where('id_obra', $obra_fuente->obra_id)->first()->avance_fisico + $obras->where('id_obra', $obra_fuente->obra_id)->first()->avance_tecnico + $obras->where('id_obra', $obra_fuente->obra_id)->first()->avance_economico) / 3) }}%</p>
-                                              </div>
-                                          </td>
-                                          <td>
-                                              <div class="">
-                                                <a type="button"
-                                                      href="{{ route('obra.ver', $obra_fuente->obra_id) }}"
-                                                      class="bg-white text-sm text-blue-500 font-normal text-ms p-2 rounded rounded-lg">Detalles</a>
-                                                  <!--<a type="button"
-                                                      href="{{ route('cabildo.edit', 1) }}"
-                                                      class="bg-white text-sm text-blue-500 font-normal text-ms p-2 rounded rounded-lg">Editar</a>-->
-                                              </div>
-                                          </td>
+                                            <td>
+                                                <div>
+                                                    <p  class="text-sm leading-5 font-medium">
+                                                        {{ $obras->where('id_obra', $obra_fuente->obra_id)->first()->nombre_corto }}
+                                                    </p>
+                                                </div>
+                                            </td>
+                                            <td>
+                                                <div>
+                                                    <p class="text-sm leading-none font-medium text-right">
+                                                        {{number_format($obras->where('id_obra', $obra_fuente->obra_id)->first()->monto_contratado, 2)}}
+                                                    </p>
+                                                </div>
+                                            </td>
+                                            <td>
+                                                <div>
+                                                    <p class="text-sm leading-none font-medium text-right">
+                                                        {{$obras->where('fuente_financiamiento_id', $fuente_cliente->fuente_financiamiento_id)->where('id_obra', $obra_fuente->obra_id)->first()->monto_modificado == null?
+                                                            number_format($obras->where('fuente_financiamiento_id', $fuente_cliente->fuente_financiamiento_id)->where('id_obra', $obra_fuente->obra_id)->first()->monto, 2):
+                                                                number_format($obras->where('fuente_financiamiento_id', $fuente_cliente->fuente_financiamiento_id)->where('id_obra', $obra_fuente->obra_id)->first()->monto_modificado, 2)}}
+                                                    </p>
+                                                </div>
+                                            </td>
+                                            <td>
+                                                <div class="">
+                                                    <p class="text-sm leading-5 font-medium ">
+                                                        @if ($obras->where('id_obra', $obra_fuente->obra_id)->first()->modalidad_ejecucion == 1)
+                                                            Administración Directa
+                                                        @else
+                                                            Contrato
+                                                        @endif                                                
+                                                    </p>
+                                                </div>
+                                            </td>
+                                            <td>
+                                                <div class="leading-none">
+                                                    <div class="flex justify-center">
+                                                        <meter min="0" max="100" low="0" high="100" optimum="100" value="{{ round(($obras->where('id_obra', $obra_fuente->obra_id)->first()->avance_fisico + $obras->where('id_obra', $obra_fuente->obra_id)->first()->avance_tecnico + $obras->where('id_obra', $obra_fuente->obra_id)->first()->avance_economico) / 3) }}" class="barra-porcentaje metter-azul"></meter>
+                                                    </div>
+                                                    <p class="text-xs leading-none font-medium text-center">{{ round(($obras->where('id_obra', $obra_fuente->obra_id)->first()->avance_fisico + $obras->where('id_obra', $obra_fuente->obra_id)->first()->avance_tecnico + $obras->where('id_obra', $obra_fuente->obra_id)->first()->avance_economico) / 3) }}%</p>
+                                                </div>
+                                            </td>
+                                            <td>
+                                                <div class="">
+                                                    <a type="button"
+                                                        href="{{ route('obra.ver', $obra_fuente->obra_id) }}"
+                                                        class="bg-white text-sm text-blue-500 font-normal text-ms p-2 rounded rounded-lg">Detalles</a>
+                                                    <!--<a type="button"
+                                                        href="{{ route('cabildo.edit', 1) }}"
+                                                        class="bg-white text-sm text-blue-500 font-normal text-ms p-2 rounded rounded-lg">Editar</a>-->
+                                                </div>
+                                            </td>
                                           
                                       </tr>
                                   @endforeach

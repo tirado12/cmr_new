@@ -36,6 +36,7 @@ use App\Models\Mids;
 use App\Models\IntegrantesCabildo;
 use App\Models\UsuarioCliente;
 use Illuminate\Support\Facades\DB;
+use NumberFormatter;
 
 use Response;
 
@@ -93,11 +94,11 @@ class GeneralController extends Controller
     function ejercicio($id, $anio){
         
         $fuentes_cliente = FuentesCliente::with('obrasFuente', 'obras')
-        ->where("cliente_id",$id)
-        ->where('ejercicio',$anio)
-        ->join('fuentes_financiamientos', 'fuentes_financiamientos.id_fuente_financiamiento', '=', 'fuentes_clientes.fuente_financiamiento_id')
-        ->join('anexos_fondo3', 'anexos_fondo3.fuente_financiamiento_cliente_id', '=', 'id_fuente_financ_cliente', 'left outer')
-        ->get();
+            ->where('cliente_id',$id)
+            ->where('ejercicio',$anio)
+            ->join('fuentes_financiamientos', 'fuentes_financiamientos.id_fuente_financiamiento', '=', 'fuentes_clientes.fuente_financiamiento_id')
+            ->join('anexos_fondo3', 'anexos_fondo3.fuente_financiamiento_cliente_id', '=', 'id_fuente_financ_cliente', 'left outer')
+            ->get();
 
         $fuentes = FuentesFinanciamiento::whereNotIn('id_fuente_financiamiento', function($query) use($id, $anio) {
             $query->select('fuente_financiamiento_id')
@@ -107,11 +108,13 @@ class GeneralController extends Controller
         })->get();
 
         $obras = ObrasFuentes::where("cliente_id",$id)
-        ->where('ejercicio',$anio)
-        ->join('fuentes_clientes', 'fuentes_clientes.id_fuente_financ_cliente', '=', 'fuente_financiamiento_cliente_id')
-        ->join('obras', 'obras.id_obra', '=', 'obra_id')
-        ->select('nombre_corto', 'monto', 'modalidad_ejecucion', 'avance_fisico', 'avance_tecnico', 'avance_economico', 'id_obra', 'fuente_financiamiento_id')
-        ->get();
+            ->where('ejercicio',$anio)
+            ->join('fuentes_clientes', 'fuentes_clientes.id_fuente_financ_cliente', '=', 'fuente_financiamiento_cliente_id')
+            ->join('obras', 'obras.id_obra', '=', 'obra_id')
+            ->select('nombre_corto', 'monto_contratado','monto', 'monto_modificado', 'modalidad_ejecucion', 'avance_fisico', 'avance_tecnico', 'avance_economico', 'id_obra', 'fuente_financiamiento_id')
+            ->get();
+        
+        
 
         $cliente = Cliente::where('id_cliente', $id)
         ->join('municipios', 'municipios.id_municipio', '=', 'municipio_id')
@@ -196,7 +199,7 @@ class GeneralController extends Controller
         ->where("cliente_id",$id)
         ->where('ejercicio',$anio)
         ->whereIn('fuente_financiamiento_id', [2,3])
-        ->select('nombre_corto', 'nombre_obra', 'id_obra')
+        ->select('nombre_corto', 'nombre_obra', 'id_obra', 'monto_contratado')
         ->get();
         
 
@@ -641,8 +644,10 @@ class GeneralController extends Controller
         return redirect()->route('obra.ver', ['id' => $request->obra_id])->with('mensaje', 'ok')->with('datos', $datos);
     }
 
+    //Obra ver
     public function ver($id)
     {
+        
         
         $obra = Obra::where('id_obra', $id)
         ->join('obras_fuentes', 'obras_fuentes.obra_id', '=', 'id_obra')
@@ -662,7 +667,7 @@ class GeneralController extends Controller
         $fuentes_financiamiento = ObrasFuentes::where('obra_id', $id)
         ->join('fuentes_clientes', 'fuentes_clientes.id_fuente_financ_cliente', '=', 'fuente_financiamiento_cliente_id')
         ->join('fuentes_financiamientos', 'fuentes_financiamientos.id_fuente_financiamiento', '=', 'fuente_financiamiento_id')
-        ->select('nombre_corto', 'monto')
+        ->select('nombre_corto', 'monto', "id_fuente_financiamiento")
         ->get();
 
         $acta_priorizacion = ObrasFuentes::where('obra_id', $id)
@@ -1006,6 +1011,33 @@ class GeneralController extends Controller
 
             $obra_relaciones = ObraModalidadEjecucion::where('obra_id', $request->id_obra)->first();
             $obra = Obra::find($request->id_obra);
+            $obras_fuente = ObrasFuentes::where('obra_id', $request->id_obra)
+                ->join('fuentes_clientes', 'fuentes_clientes.id_fuente_financ_cliente', '=', 'fuente_financiamiento_cliente_id')
+                ->get();
+
+
+            $total_pagado = Obra::where('id_obra',$request->id_obra)
+            ->join('obra_modalidad_ejecucion', 'obra_modalidad_ejecucion.obra_id', '=', 'id_obra')
+            ->join('desglose_pagos_obra', 'desglose_pagos_obra.obra_contrato_id', '=', 'obra_modalidad_ejecucion.obra_contrato_id')
+            ->join('estimaciones', 'estimaciones.desglose_pagos_id', '=', 'desglose_pagos_obra.id_desglose_pagos')
+            ->select(
+                DB::raw('sum(total_estimacion ) as total_estimaciones'),
+                DB::raw('sum(total_estimacion - amortizacion_anticipo) as total_obra'),
+                DB::raw('sum(amortizacion_anticipo) as total_anticipo'),
+            )
+            ->first();
+
+            $suma_modificado = 0;
+            foreach($obras_fuente as $fuente_finan){
+                $id_fuente = $fuente_finan->fuente_financiamiento_id;
+                $fuente_monto = "monto_modificado_$id_fuente";
+                $monto_modificado = str_replace(",", '', $request->$fuente_monto);
+                $suma_modificado = $suma_modificado + $monto_modificado;
+            }
+            
+            return $suma_modificado;
+            
+            return count($obraFuente->get());
 
             $convenio = ConveniosModificatorio::create([
                 'numero_convenio_modificatorio' => $request->numero_convenio_modificatorio,
@@ -1021,9 +1053,30 @@ class GeneralController extends Controller
             if($request->monto_modificado != ''){
                 $obra->monto_modificado = str_replace(",", '', $request->monto_modificado);
             }
+
             if($request->fecha_fin_modificada != '') {
                 $obra->fecha_final_real = $request->fecha_fin_modificada;
             }
+            
+            
+
+            if($request->tipo == 'Convenio modificatorio al monto del contrato'){
+                $monto_obra = $obra->monto_modificado != null?$obra->monto_modificado:$obra->monto_contratado;
+                
+                $total_pagado = DesglosePagosObra::where('obra_contrato_id',$obra_relaciones->obra_contrato_id)
+                ->join('estimaciones', 'estimaciones.desglose_pagos_id', '=', 'desglose_pagos_obra.id_desglose_pagos')
+                ->select(
+                    DB::raw('sum(total_estimacion) as total'),
+                )
+                ->first();
+
+                $total_pagado = $total_pagado->total;
+
+                $porcentaje_economico = ($total_pagado * 100)/$monto_obra;
+                $obra->avance_economico = $porcentaje_economico;
+
+            }
+
 
             $obra->update();
             DB::commit();
@@ -1040,6 +1093,7 @@ class GeneralController extends Controller
         
         $mensaje = 'ok';
         $datos = ['success', '¡PROCESO EXITOSO!', 'El convenio modificatorio se actualizó correctamente'];
+        
         
         DB::beginTransaction();
         try {
@@ -1060,12 +1114,33 @@ class GeneralController extends Controller
 
             $obra_relaciones = ObraModalidadEjecucion::where('obra_contrato_id', $convenio->obra_contrato_id)->first();
             $obra = Obra::find($obra_relaciones->obra_id);
+            
+
 
             if($request->monto_modificado_edit != ''){
                 $obra->monto_modificado = str_replace(",", '', $request->monto_modificado_edit);
             }
             if($request->fecha_fin_modificada_edit != '') {
                 $obra->fecha_final_real = $request->fecha_fin_modificada_edit;
+            }
+
+            if($request->tipo_edit == 'Convenio modificatorio al monto del contrato'){
+                $monto_obra = $obra->monto_modificado != null?$obra->monto_modificado:$obra->monto_contratado;
+                
+                $total_pagado = DesglosePagosObra::where('obra_contrato_id',$obra_relaciones->obra_contrato_id)
+                ->join('estimaciones', 'estimaciones.desglose_pagos_id', '=', 'desglose_pagos_obra.id_desglose_pagos')
+                ->select(
+                    DB::raw('sum(total_estimacion) as total'),
+                )
+                ->first();
+                $obra_fuente = ObrasFuentes::where('obra_id', $obra->id_obra)
+                ->first();
+
+                $total_pagado = $total_pagado->total;
+
+                $porcentaje_economico = ($total_pagado * 100)/$monto_obra;
+                $obra->avance_economico = $porcentaje_economico;
+
             }
 
             $convenio->update();

@@ -40,7 +40,7 @@
             <div class="border-b p-4 bg-blue-cmr1 rounded-t-lg">
                 <h2 class="font-semibold text-lg text-center text-white uppercase">Información general</h2>
             </div>
-            <div class="p-4 grid grid-cols-8 gap-4 ">
+            <div class="pt-4 p-8 grid grid-cols-8 gap-4 ">
                 <div class="col-span-8 sm:col-span-4">
                     <p for="first_name" class="text-xs text-center">Correo</p>
                     <p for="first_name" class="text-base font-semibold bg-gray-100 p-1 text-center min-h-32">{{$cliente->email}}</p>
@@ -76,7 +76,7 @@
             <div class="border-b p-4 bg-blue-cmr1 rounded-t-lg">
                 <h2 class="font-semibold text-lg text-center text-white uppercase">Ejercicios</h2>
             </div>
-            <div class="p-4">
+            <div class="pt-4 p-8">
                 <div class="">
                     <select name="cliente_id" id="cliente_id" class="block w-full py-2 px-3 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-blue-800 focus:border-blue-800 sm:text-sm">
                         @for ($i = $cliente->anio_inicio; $i <= $cliente->anio_fin; $i++)
@@ -105,7 +105,7 @@
                 </button>
             </div>
             
-            <div class="p-4 ">
+            <div class="px-8  py-6">
                 <div class="">
                     <table id="example" class="table table-striped bg-white" style="width:100%;">
                         <thead>
@@ -169,7 +169,7 @@
                 
             </div>
             
-            <div class=" p-4 border-t border-solid border-blueGray-200 rounded-b">
+            <div class=" px-4 py-2 border-t border-solid border-blueGray-200 rounded-b">
                 <div class="text-right">
                     <a type="button"  href="{{ route('inicio')}}" class="text-base bg-white text-red-500 p-2 rounded-lg px-6">Regresar</a>
                 </div>
