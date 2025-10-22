@@ -800,7 +800,7 @@
                                     <tr>
                                         <th class="text-sm text-center" style="background: rgb(243, 244, 246)!important; border-top-color:rgb(243, 244, 246)!important; ">Nombre</th>
                                         <th class="text-sm text-center" style="background: rgb(243, 244, 246)!important; border-top-color:rgb(243, 244, 246)!important; ">Monto contratado </th>
-                                        <th class="text-sm text-center" style="background: rgb(243, 244, 246)!important; border-top-color:rgb(243, 244, 246)!important; ">Importe</th>
+                                        <th class="text-sm text-center" style="background: rgb(243, 244, 246)!important; border-top-color:rgb(243, 244, 246)!important; ">Importe de la fuente</th>
                                         <th class="text-sm text-center" style="background: rgb(243, 244, 246)!important; border-top-color:rgb(243, 244, 246)!important; ">Modalidad de ejecución</th>
                                         <th class="text-sm text-center" style="background: rgb(243, 244, 246)!important; border-top-color:rgb(243, 244, 246)!important; ">Porcentaje de avance</th>
                                         <th class="text-sm text-center" style="background: rgb(243, 244, 246)!important; border-top-color:rgb(243, 244, 246)!important; ">Acciones</th>
@@ -819,7 +819,9 @@
                                             <td>
                                                 <div>
                                                     <p class="text-sm leading-none font-medium text-right">
-                                                        {{number_format($obras->where('id_obra', $obra_fuente->obra_id)->first()->monto_contratado, 2)}}
+                                                        {{$obras->where('id_obra', $obra_fuente->obra_id)->first()->monto_modificado == null?
+                                                        number_format($obras->where('id_obra', $obra_fuente->obra_id)->first()->monto_contratado, 2):
+                                                        number_format($obras->where('id_obra', $obra_fuente->obra_id)->first()->monto_modificado, 2)}}
                                                     </p>
                                                 </div>
                                             </td>

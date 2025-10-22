@@ -37,8 +37,7 @@ use App\Models\IntegrantesCabildo;
 use App\Models\UsuarioCliente;
 use Illuminate\Support\Facades\DB;
 use NumberFormatter;
-
-use Response;
+use Illuminate\Support\Facades\Response;
 
 use Illuminate\Http\Request;
 use Barryvdh\DomPDF\Facade\Pdf;
@@ -113,15 +112,15 @@ class GeneralController extends Controller
             ->join('obras', 'obras.id_obra', '=', 'obra_id')
             ->select('nombre_corto', 'monto_contratado','monto', 'monto_modificado', 'modalidad_ejecucion', 'avance_fisico', 'avance_tecnico', 'avance_economico', 'id_obra', 'fuente_financiamiento_id')
             ->get();
-        
+
         
 
         $cliente = Cliente::where('id_cliente', $id)
-        ->join('municipios', 'municipios.id_municipio', '=', 'municipio_id')
-        ->join('distritos', 'distritos.id_distrito', '=', 'distrito_id')
-        ->join('regiones', 'regiones.id_region', '=', 'region_id')
-        ->select('municipios.nombre as nombre_municipio', 'distritos.nombre as nombre_distrito', 'regiones.nombre as nombre_region', 'logo', 'icono', 'rfc', 'direccion', 'email', 'anio_inicio', 'anio_fin', 'id_municipio', 'id_distrito', 'id_region', 'id_cliente')
-        ->first();
+            ->join('municipios', 'municipios.id_municipio', '=', 'municipio_id')
+            ->join('distritos', 'distritos.id_distrito', '=', 'distrito_id')
+            ->join('regiones', 'regiones.id_region', '=', 'region_id')
+            ->select('municipios.nombre as nombre_municipio', 'distritos.nombre as nombre_distrito', 'regiones.nombre as nombre_region', 'logo', 'icono', 'rfc', 'direccion', 'email', 'anio_inicio', 'anio_fin', 'id_municipio', 'id_distrito', 'id_region', 'id_cliente')
+            ->first();
         
         $comprometido_prodim = null;
         $catalogo_prodim = null;
@@ -1000,8 +999,8 @@ class GeneralController extends Controller
         $mensaje = 'ok';
         $datos = ['success', '¡PROCESO EXITOSO!', 'Se registro correctamente el convenio modificatorio'];
         
-        DB::beginTransaction();
-        try {
+        //DB::beginTransaction();
+        //try {
 
             $request->validate([
                 "numero_convenio_modificatorio" => 'required',
@@ -1009,12 +1008,20 @@ class GeneralController extends Controller
                 "tipo" => 'required',
             ]);
 
+            
+
             $obra_relaciones = ObraModalidadEjecucion::where('obra_id', $request->id_obra)->first();
             $obra = Obra::find($request->id_obra);
             $obras_fuente = ObrasFuentes::where('obra_id', $request->id_obra)
                 ->join('fuentes_clientes', 'fuentes_clientes.id_fuente_financ_cliente', '=', 'fuente_financiamiento_cliente_id')
+                ->select(
+                    DB::raw('monto_proyectado - monto_comprometido + monto as monto_restante'),
+                    'obra_id',
+                    'fuente_financiamiento_id', 
+                    'monto_comprometido'
+                )
                 ->get();
-
+            
 
             $total_pagado = Obra::where('id_obra',$request->id_obra)
             ->join('obra_modalidad_ejecucion', 'obra_modalidad_ejecucion.obra_id', '=', 'id_obra')
@@ -1027,17 +1034,18 @@ class GeneralController extends Controller
             )
             ->first();
 
-            $suma_modificado = 0;
+
+            $sumatotal_modificado = 0;
             foreach($obras_fuente as $fuente_finan){
                 $id_fuente = $fuente_finan->fuente_financiamiento_id;
                 $fuente_monto = "monto_modificado_$id_fuente";
                 $monto_modificado = str_replace(",", '', $request->$fuente_monto);
-                $suma_modificado = $suma_modificado + $monto_modificado;
+                $sumatotal_modificado = $sumatotal_modificado + $monto_modificado;
             }
+
+            return $sumatotal_modificado;
             
-            return $suma_modificado;
-            
-            return count($obraFuente->get());
+            return $sumatotal_modificado;
 
             $convenio = ConveniosModificatorio::create([
                 'numero_convenio_modificatorio' => $request->numero_convenio_modificatorio,
@@ -1080,10 +1088,10 @@ class GeneralController extends Controller
 
             $obra->update();
             DB::commit();
-        } catch (\Exception $e) {
+        /*} catch (\Exception $e) {
             DB::rollback();
             $datos = ['error', '¡ERROR!', 'Problemas al guardar convenio modificatorio'];
-        }
+        }*/
 
         return redirect()->route('obra.ver', ['id' => $request->id_obra])->with('mensaje', 'ok')->with('datos', $datos);
 
